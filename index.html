@@ -695,6 +695,93 @@ body {
 
 .btn-export:hover { border-color: var(--gold); }
 
+/* ── TOOL SELECTOR ───────────────────────────────────── */
+.tool-selector-row { margin-top: 1.2rem; }
+.tool-selector-row .form-label { margin-top: 0; }
+
+.api-key-row { display: none; }
+.api-key-row.visible { display: block; }
+.api-key-hint {
+  font-size: 0.67rem;
+  color: var(--forest-mid);
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+
+/* ── DECK LOADING ────────────────────────────────────── */
+.deck-loading {
+  display: none;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--forest-mid);
+  font-size: 0.9rem;
+  font-style: italic;
+  letter-spacing: 0.06em;
+}
+.deck-loading.visible { display: block; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+.deck-loading span { animation: blink 1.4s ease-in-out infinite; }
+
+/* ── SLIDE PREVIEW CARDS ─────────────────────────────── */
+.slides-output { display: none; }
+.slides-output.visible { display: block; }
+
+.slide-card {
+  border: 1px solid var(--parchment);
+  background: var(--ivory);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 0.7rem;
+}
+.slide-card-num {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.35rem;
+}
+.slide-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--forest);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.15rem;
+}
+.slide-card-subtitle {
+  font-size: 0.78rem;
+  color: var(--forest-mid);
+  font-style: italic;
+  margin-bottom: 0.65rem;
+}
+.slide-card-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.slide-card-bullets li {
+  font-size: 0.82rem;
+  color: var(--charcoal);
+  padding: 0.18rem 0 0.18rem 1.1rem;
+  position: relative;
+  line-height: 1.5;
+}
+.slide-card-bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+}
+.deck-error {
+  display: none;
+  color: #7A2F2F;
+  background: #F7EEEE;
+  border-left: 2px solid #B05050;
+  padding: 0.8rem 1rem;
+  font-size: 0.82rem;
+  margin-top: 0.8rem;
+}
+.deck-error.visible { display: block; }
+
 .studio-caption {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -1091,7 +1178,7 @@ body {
 
   <div class="section-eyebrow">04 — Creative Studio</div>
   <div class="section-title">Generate a Deck</div>
-  <div class="section-sub">Powered by Gamma · delivered in minutes</div>
+  <div class="section-sub">Powered by MERIDIAN AI · Canva · Gamma</div>
 
   <div class="studio-grid">
 
@@ -1135,32 +1222,51 @@ body {
       <label class="form-label">Key Message</label>
       <textarea class="form-textarea" id="gamma-message" placeholder="What is the single most important thing this deck should make the audience feel or do?"></textarea>
 
-      <button class="btn-generate" onclick="openGamma()">Generate with Gamma →</button>
+      <div class="tool-selector-row">
+        <label class="form-label">Generate With</label>
+        <select class="form-select" id="deck-tool" onchange="updateApiKeyVisibility()">
+          <option value="meridian">MERIDIAN AI</option>
+          <option value="canva">Canva</option>
+          <option value="gamma">Gamma</option>
+        </select>
+      </div>
+
+      <div class="api-key-row" id="api-key-row">
+        <label class="form-label">Anthropic API Key</label>
+        <input class="form-input" id="api-key-input" type="password" placeholder="sk-ant-...">
+        <div class="api-key-hint">Stored locally in your browser — never sent anywhere except Anthropic.</div>
+      </div>
+
+      <button class="btn-generate" onclick="generateDeck()">Generate →</button>
     </div>
 
     <div class="studio-output-col">
-      <div class="output-eyebrow">Sample Output</div>
-
-      <div class="output-card">
-        <div class="output-card-thumb">
-          <div class="output-card-thumb-text">
-            DNA Agency
-            <span class="output-card-thumb-sub">Q1 2026 · Campaign Performance Report</span>
+      <div id="studio-sample">
+        <div class="output-eyebrow">Sample Output</div>
+        <div class="output-card">
+          <div class="output-card-thumb">
+            <div class="output-card-thumb-text">
+              DNA Agency
+              <span class="output-card-thumb-sub">Q1 2026 · Campaign Performance Report</span>
+            </div>
+          </div>
+          <div class="output-card-body">
+            <div class="output-card-title">DNA Agency — Q1 2026 Campaign Report</div>
+            <div class="output-card-meta">9 slides · Gold Leaf theme · Generated via Gamma</div>
+            <div class="output-actions">
+              <a class="btn-view" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Open in Gamma</a>
+              <a class="btn-export" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Export PPTX</a>
+            </div>
           </div>
         </div>
-        <div class="output-card-body">
-          <div class="output-card-title">DNA Agency — Q1 2026 Campaign Report</div>
-          <div class="output-card-meta">9 slides · Gold Leaf theme · Generated via Gamma</div>
-          <div class="output-actions">
-            <a class="btn-view" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Open in Gamma</a>
-            <a class="btn-export" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Export PPTX</a>
-          </div>
+        <div class="studio-caption">
+          Select a tool, fill out the brief, and generate. MERIDIAN AI renders slides inline. Canva and Gamma open in a new tab with your prompt pre-filled.
         </div>
       </div>
 
-      <div class="studio-caption">
-        Fill out the brief on the left. Meridian sends it to Gamma, which generates a full presentation — layouts, imagery, and copy — in your brand voice. Open in Gamma to refine, or export directly to PowerPoint.
-      </div>
+      <div class="deck-loading" id="deck-loading">Generating your deck<span>...</span></div>
+      <div class="slides-output" id="slides-output"></div>
+      <div class="deck-error" id="deck-error"></div>
     </div>
 
   </div>
@@ -1337,16 +1443,108 @@ body {
 
   renderBoard();
 
-  // ── GAMMA DECK GENERATOR ───────────────────────────────
-  function openGamma() {
-    const company  = document.getElementById('gamma-company').value.trim() || 'My Company';
-    const purpose  = document.getElementById('gamma-purpose').value;
-    const industry = document.getElementById('gamma-industry').value;
-    const tone     = document.getElementById('gamma-tone').value;
-    const message  = document.getElementById('gamma-message').value.trim();
-    const prompt = `${company} ${purpose} for ${industry} in a ${tone} tone.${message ? ' Key message: ' + message : ''}`;
-    window.open('https://gamma.app/generate?prompt=' + encodeURIComponent(prompt), '_blank');
+  // ── DECK GENERATOR ────────────────────────────────────
+  const API_KEY_STORE = 'meridian_api_key';
+
+  function getFormValues() {
+    return {
+      company:  document.getElementById('gamma-company').value.trim() || 'My Company',
+      purpose:  document.getElementById('gamma-purpose').value,
+      industry: document.getElementById('gamma-industry').value,
+      tone:     document.getElementById('gamma-tone').value,
+      message:  document.getElementById('gamma-message').value.trim()
+    };
   }
+
+  function updateApiKeyVisibility() {
+    const isMeridian = document.getElementById('deck-tool').value === 'meridian';
+    const hasKey = !!localStorage.getItem(API_KEY_STORE);
+    document.getElementById('api-key-row').classList.toggle('visible', isMeridian && !hasKey);
+  }
+
+  async function generateDeck() {
+    const tool = document.getElementById('deck-tool').value;
+    const v = getFormValues();
+    const prompt = `${v.company} ${v.purpose} for ${v.industry} in a ${v.tone} tone.${v.message ? ' Key message: ' + v.message : ''}`;
+
+    if (tool === 'gamma') {
+      window.open('https://gamma.app/generate?prompt=' + encodeURIComponent(prompt), '_blank');
+      return;
+    }
+    if (tool === 'canva') {
+      window.open('https://www.canva.com/create/presentations/?q=' + encodeURIComponent(prompt), '_blank');
+      return;
+    }
+
+    // MERIDIAN AI
+    let apiKey = localStorage.getItem(API_KEY_STORE);
+    if (!apiKey) {
+      apiKey = document.getElementById('api-key-input').value.trim();
+      if (!apiKey) { alert('Please enter your Anthropic API key.'); return; }
+      localStorage.setItem(API_KEY_STORE, apiKey);
+      document.getElementById('api-key-row').classList.remove('visible');
+    }
+
+    document.getElementById('studio-sample').style.display = 'none';
+    document.getElementById('deck-loading').classList.add('visible');
+    document.getElementById('slides-output').classList.remove('visible');
+    document.getElementById('deck-error').classList.remove('visible');
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'content-type': 'application/json',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{
+            role: 'user',
+            content: `Generate a 5-slide presentation outline for ${v.company} — a ${v.purpose} deck for ${v.industry} in a ${v.tone} tone. Key message: ${v.message || 'Not specified'}. Return JSON only: array of 5 objects with slide_number, title, subtitle, body (2-3 bullet points as array). No markdown, no preamble.`
+          }]
+        })
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error?.message || `API error ${res.status}`);
+      }
+
+      const data = await res.json();
+      const raw = data.content[0].text.trim().replace(/^```[a-z]*\n?/, '').replace(/```$/, '').trim();
+      renderSlides(JSON.parse(raw), v.company, v.purpose);
+    } catch(err) {
+      document.getElementById('deck-loading').classList.remove('visible');
+      document.getElementById('studio-sample').style.display = '';
+      const el = document.getElementById('deck-error');
+      el.textContent = 'Error: ' + err.message;
+      el.classList.add('visible');
+    }
+  }
+
+  function renderSlides(slides, company, purpose) {
+    document.getElementById('deck-loading').classList.remove('visible');
+    const container = document.getElementById('slides-output');
+    container.innerHTML =
+      `<div class="output-eyebrow">${company} — ${purpose}</div>` +
+      slides.map(s => `
+        <div class="slide-card">
+          <div class="slide-card-num">Slide ${s.slide_number}</div>
+          <div class="slide-card-title">${s.title}</div>
+          ${s.subtitle ? `<div class="slide-card-subtitle">${s.subtitle}</div>` : ''}
+          <ul class="slide-card-bullets">
+            ${(Array.isArray(s.body) ? s.body : [s.body]).map(b => `<li>${b}</li>`).join('')}
+          </ul>
+        </div>`).join('');
+    container.classList.add('visible');
+  }
+
+  // Show API key field on load if MERIDIAN AI is default and no key stored
+  updateApiKeyVisibility();
 </script>
 </body>
 </html>
