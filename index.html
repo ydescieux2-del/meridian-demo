@@ -1339,7 +1339,7 @@ body {
       <div class="api-key-row" id="api-key-row">
         <label class="form-label">Anthropic API Key</label>
         <input class="form-input" id="api-key-input" type="password" placeholder="sk-ant-...">
-        <div class="api-key-hint">Stored locally in your browser — never sent anywhere except Anthropic.</div>
+        <div class="api-key-hint">Stored locally in your browser — never sent anywhere except Anthropic. &nbsp;<a href="#" onclick="localStorage.removeItem('meridian_api_key');document.getElementById('api-key-input').value='';document.getElementById('api-key-input').placeholder='sk-ant-…';return false" style="color:var(--gold-deep);text-decoration:underline">Clear stored key</a></div>
       </div>
 
       <button class="btn-generate" onclick="generateDeck()">Generate →</button>
@@ -2676,8 +2676,22 @@ body {
 
   function updateApiKeyVisibility() {
     const isMeridian = document.getElementById('deck-tool').value === 'meridian';
-    const hasKey = !!localStorage.getItem(API_KEY_STORE);
-    document.getElementById('api-key-row').classList.toggle('visible', isMeridian && !hasKey);
+    document.getElementById('api-key-row').classList.toggle('visible', isMeridian);
+    if (isMeridian) {
+      const stored = localStorage.getItem(API_KEY_STORE);
+      if (stored) document.getElementById('api-key-input').placeholder = 'sk-ant-… (key stored — paste to replace)';
+    }
+  }
+
+  function showExternalLink(url, toolName, opened) {
+    document.getElementById('studio-sample').style.display = 'none';
+    document.getElementById('deck-loading').classList.remove('visible');
+    document.getElementById('slides-output').classList.remove('visible');
+    const el = document.getElementById('deck-error');
+    el.style.cssText = 'display:block;background:var(--ivory);border-left:2px solid var(--gold);color:var(--forest);padding:1.2rem 1.4rem';
+    el.innerHTML = opened
+      ? `${toolName} opened in a new tab. If nothing appeared, your browser may have blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`
+      : `Your browser blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`;
   }
 
   async function generateDeck() {
@@ -2686,11 +2700,17 @@ body {
     const prompt = `${v.company} ${v.purpose} for ${v.industry} in a ${v.tone} tone.${v.message ? ' Key message: ' + v.message : ''}`;
 
     if (tool === 'gamma') {
-      window.open('https://gamma.app/generate?prompt=' + encodeURIComponent(prompt), '_blank');
+      const url = 'https://gamma.app/generate?prompt=' + encodeURIComponent(prompt);
+      const w = window.open(url, '_blank');
+      if (!w) showExternalLink(url, 'Gamma');
+      else showExternalLink(url, 'Gamma', true);
       return;
     }
     if (tool === 'canva') {
-      window.open('https://www.canva.com/create/presentations/?q=' + encodeURIComponent(prompt), '_blank');
+      const url = 'https://www.canva.com/create/presentations/?q=' + encodeURIComponent(prompt);
+      const w = window.open(url, '_blank');
+      if (!w) showExternalLink(url, 'Canva');
+      else showExternalLink(url, 'Canva', true);
       return;
     }
 
@@ -2698,9 +2718,12 @@ body {
     let apiKey = localStorage.getItem(API_KEY_STORE);
     if (!apiKey) {
       apiKey = document.getElementById('api-key-input').value.trim();
-      if (!apiKey) { alert('Please enter your Anthropic API key.'); return; }
+      if (!apiKey) {
+        document.getElementById('api-key-row').classList.add('visible');
+        document.getElementById('api-key-input').focus();
+        return;
+      }
       localStorage.setItem(API_KEY_STORE, apiKey);
-      document.getElementById('api-key-row').classList.remove('visible');
     }
 
     document.getElementById('studio-sample').style.display = 'none';
