@@ -1037,6 +1037,67 @@ body {
 }
 .btn-add-grant:hover { border-color: var(--forest); }
 
+/* ── DRILL-DOWN SYSTEM ───────────────────────────────── */
+.kpi-drill { cursor: pointer; transition: opacity 0.15s; }
+.kpi-drill:hover { opacity: 0.8; }
+.kpi-drill:hover .kpi-value { color: var(--gold-deep); text-decoration: underline; text-underline-offset: 3px; }
+
+.drill-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(245,240,232,0.95);
+  backdrop-filter: blur(5px);
+  z-index: 800;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem 3rem;
+  overflow-y: auto;
+}
+.drill-overlay.visible { display: flex; }
+.drill-panel {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem 2.5rem;
+  margin-top: 0.5rem;
+}
+.drill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid var(--gold);
+}
+.drill-title { font-size: 1.2rem; font-weight: 600; color: var(--forest); letter-spacing: 0.04em; }
+.drill-sub { font-size: 0.7rem; color: var(--forest-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem; }
+.btn-drill-close {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--forest); color: var(--ivory); border: none;
+  padding: 0.45rem 1rem; cursor: pointer; flex-shrink: 0;
+}
+.drill-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.drill-table th {
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--forest); text-align: left; padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--parchment); background: var(--ivory); white-space: nowrap;
+}
+.drill-table td { padding: 0.65rem 0.8rem; border-bottom: 0.5px solid var(--parchment); color: var(--charcoal); vertical-align: middle; }
+.drill-table tr:last-child td { border-bottom: none; }
+.drill-row-click { cursor: pointer; }
+.drill-row-click:hover td { background: var(--ivory); }
+.drill-table tfoot td {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--forest); background: var(--ivory);
+  border-top: 1px solid var(--parchment); border-bottom: none; padding: 0.6rem 0.8rem;
+}
+.drill-empty { padding: 2.5rem; text-align: center; color: var(--forest-mid); font-style: italic; }
+.card { cursor: pointer; }
+.card:hover { border-color: var(--gold); }
+
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 480px) {
   .tab { padding: 0.85rem 1rem; font-size: 0.65rem; letter-spacing: 0.12em; }
@@ -1074,22 +1135,22 @@ body {
   <div class="section-sub">DNA Agency · All Platforms</div>
 
   <div class="kpi-bar">
-    <div class="kpi">
+    <div class="kpi kpi-drill" onclick="drillCampaignSpend()">
       <div class="kpi-value" id="kpi-spend">—</div>
       <div class="kpi-label">Total Spend</div>
       <div class="kpi-delta">↑ 18% vs Q4 2025</div>
     </div>
-    <div class="kpi">
+    <div class="kpi kpi-drill" onclick="drillCampaignLeads()">
       <div class="kpi-value" id="kpi-leads">—</div>
       <div class="kpi-label">Leads Generated</div>
       <div class="kpi-delta">↑ 24% vs Q4 2025</div>
     </div>
-    <div class="kpi">
+    <div class="kpi kpi-drill" onclick="drillCampaignCPL()">
       <div class="kpi-value" id="kpi-cpl">—</div>
       <div class="kpi-label">Avg CPL</div>
       <div class="kpi-delta">↓ 5% — improving</div>
     </div>
-    <div class="kpi">
+    <div class="kpi kpi-drill" onclick="drillCampaignActive()">
       <div class="kpi-value" id="kpi-active">—</div>
       <div class="kpi-label">Active Campaigns</div>
       <div class="kpi-delta">100% client retention</div>
@@ -1116,10 +1177,10 @@ body {
   <div class="section-sub">DNA Agency · All Contacts</div>
 
   <div class="kpi-bar" style="margin-bottom:1.5rem">
-    <div class="kpi"><div class="kpi-value" id="crm-kpi-total">—</div><div class="kpi-label">Total Contacts</div></div>
-    <div class="kpi"><div class="kpi-value" id="crm-kpi-active">—</div><div class="kpi-label">Active Deals</div></div>
-    <div class="kpi"><div class="kpi-value" id="crm-kpi-value">—</div><div class="kpi-label">Pipeline Value</div></div>
-    <div class="kpi"><div class="kpi-value" id="crm-kpi-rank">—</div><div class="kpi-label">Avg Ranking</div></div>
+    <div class="kpi kpi-drill" onclick="drillCRMTotal()"><div class="kpi-value" id="crm-kpi-total">—</div><div class="kpi-label">Total Contacts</div></div>
+    <div class="kpi kpi-drill" onclick="drillCRMActive()"><div class="kpi-value" id="crm-kpi-active">—</div><div class="kpi-label">Active Deals</div></div>
+    <div class="kpi kpi-drill" onclick="drillCRMPipelineValue()"><div class="kpi-value" id="crm-kpi-value">—</div><div class="kpi-label">Pipeline Value</div></div>
+    <div class="kpi kpi-drill" onclick="drillCRMRanking()"><div class="kpi-value" id="crm-kpi-rank">—</div><div class="kpi-label">Avg Ranking</div></div>
   </div>
 
   <div class="crm-toolbar">
@@ -1161,10 +1222,10 @@ body {
   <div class="section-sub">Rebuilding California · Q1 2026</div>
 
   <div class="kpi-bar" style="margin-bottom:1.5rem">
-    <div class="kpi"><div class="kpi-value" id="fin-kpi-gifts">—</div><div class="kpi-label">YTD Gifts</div><div class="kpi-delta">↑ 31% vs prior year</div></div>
-    <div class="kpi"><div class="kpi-value" id="fin-kpi-ask">—</div><div class="kpi-label">In Ask Stage</div></div>
-    <div class="kpi"><div class="kpi-value" id="fin-kpi-grants">—</div><div class="kpi-label">Grants Pipeline</div></div>
-    <div class="kpi"><div class="kpi-value" id="fin-kpi-donors">—</div><div class="kpi-label">Total Donors</div></div>
+    <div class="kpi kpi-drill" onclick="drillFinanceGifts()"><div class="kpi-value" id="fin-kpi-gifts">—</div><div class="kpi-label">YTD Gifts</div><div class="kpi-delta">↑ 31% vs prior year</div></div>
+    <div class="kpi kpi-drill" onclick="drillFinanceAsk()"><div class="kpi-value" id="fin-kpi-ask">—</div><div class="kpi-label">In Ask Stage</div></div>
+    <div class="kpi kpi-drill" onclick="drillFinanceGrants()"><div class="kpi-value" id="fin-kpi-grants">—</div><div class="kpi-label">Grants Pipeline</div></div>
+    <div class="kpi kpi-drill" onclick="drillFinanceDonors()"><div class="kpi-value" id="fin-kpi-donors">—</div><div class="kpi-label">Total Donors</div></div>
   </div>
 
   <div class="crm-toolbar">
@@ -1300,6 +1361,11 @@ body {
 
   </div>
 </div>
+</div>
+
+<!-- ── DRILL-DOWN OVERLAY ─────────────────────────────── -->
+<div class="drill-overlay" id="drill-overlay" onclick="if(event.target===this)closeDrill()">
+  <div id="drill-body"></div>
 </div>
 
 <!-- ── DONOR DETAIL MODAL ─────────────────────────────── -->
@@ -2141,6 +2207,299 @@ body {
   }
 
   renderFinance();
+
+  // ── DRILL-DOWN SYSTEM ─────────────────────────────────
+  function openDrillOverlay(html) {
+    document.getElementById('drill-body').innerHTML = html;
+    document.getElementById('drill-overlay').classList.add('visible');
+  }
+  function closeDrill() {
+    document.getElementById('drill-overlay').classList.remove('visible');
+  }
+
+  function showDrill({ title, subtitle, columns, rows, footer, rowClickFn }) {
+    const hasClick = !!rowClickFn;
+    const tableHtml = rows.length
+      ? `<table class="drill-table">
+          <thead><tr>${columns.map(c=>`<th>${c.label}</th>`).join('')}</tr></thead>
+          <tbody>
+            ${rows.map(row=>`
+              <tr class="${hasClick?'drill-row-click':''}" ${hasClick?`onclick="closeDrill();${rowClickFn}(${row.id})"`:''}>
+                ${columns.map(c=>`<td>${c.render(row)}</td>`).join('')}
+              </tr>`).join('')}
+          </tbody>
+          ${footer?`<tfoot><tr><td colspan="${columns.length}">${footer}</td></tr></tfoot>`:''}
+        </table>`
+      : `<div class="drill-empty">No data to display.</div>`;
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">${title}</div>
+            ${subtitle?`<div class="drill-sub">${subtitle}</div>`:''}
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close ×</button>
+        </div>
+        ${tableHtml}
+      </div>`);
+  }
+
+  // ── CAMPAIGN CARD DETAIL ──────────────────────────────
+  function openCampaign(id) {
+    const c = loadCampaigns().find(x=>x.id===id);
+    if (!c) return;
+    const pct = Math.min(Math.round(c.spent/c.budget*100),100);
+    const statusMap = {active:'badge-active',paused:'badge-paused',complete:'badge-warm'};
+    const flags = getFlags(c);
+    let metric = '';
+    if (c.ctr!==undefined)     metric=`<div class="cm-field"><span class="cm-field-lbl">CTR</span><span class="cm-field-val">${c.ctr}%</span></div>`;
+    else if (c.roas!==undefined) metric=`<div class="cm-field"><span class="cm-field-lbl">ROAS</span><span class="cm-field-val">${c.roas}×</span></div>`;
+    else if (c.cvr!==undefined)  metric=`<div class="cm-field"><span class="cm-field-lbl">Form CVR</span><span class="cm-field-val">${c.cvr}%</span></div>`;
+    else if (c.revenue!==undefined) metric=`<div class="cm-field"><span class="cm-field-lbl">Revenue</span><span class="cm-field-val">$${Math.round(c.revenue/1000)}K</span></div>`;
+    openDrillOverlay(`
+      <div class="drill-panel" style="max-width:560px">
+        <div class="drill-header">
+          <div><div class="drill-title">${c.name}</div><div class="drill-sub">${c.type} · ${c.label}</div></div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close ×</button>
+        </div>
+        <div class="cm-section-lbl">Budget</div>
+        <div class="spend-bar" style="margin:0.5rem 0 0.3rem"><div class="spend-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:0.82rem;color:var(--forest-mid);margin-bottom:1rem">$${c.spent.toLocaleString()} of $${c.budget.toLocaleString()} · ${pct}% used</div>
+        <div class="cm-section-lbl">Performance</div>
+        <div class="cm-field"><span class="cm-field-lbl">Leads</span><span class="cm-field-val">${c.leads.toLocaleString()}</span></div>
+        <div class="cm-field"><span class="cm-field-lbl">CPL</span><span class="cm-field-val">$${c.cpl>0?c.cpl.toFixed(2):'—'}</span></div>
+        ${metric}
+        <div class="cm-section-lbl" style="margin-top:1.2rem">Details</div>
+        <div class="cm-field"><span class="cm-field-lbl">Client</span><span class="cm-field-val">${c.client}</span></div>
+        <div class="cm-field"><span class="cm-field-lbl">Platform</span><span class="cm-field-val">${c.type}</span></div>
+        <div class="cm-field"><span class="cm-field-lbl">Deadline</span><span class="cm-field-val">${c.deadline||'—'}</span></div>
+        <div class="cm-field"><span class="cm-field-lbl">Last Activity</span><span class="cm-field-val">${c.lastActivity||'—'}</span></div>
+        <div class="cm-field"><span class="cm-field-lbl">Status</span><span class="cm-field-val">
+          <span class="badge ${statusMap[c.status]||'badge-warm'}" style="cursor:pointer" onclick="cycleStatus(${c.id});closeDrill();renderBoard()">
+            ${c.status.charAt(0).toUpperCase()+c.status.slice(1)} — click to cycle
+          </span></span></div>
+        ${flags.length?`<div style="margin-top:1rem;display:flex;gap:0.4rem;flex-wrap:wrap">${flags.map(f=>`<span class="campaign-flag">⚠ ${f}</span>`).join('')}</div>`:''}
+      </div>`);
+  }
+
+  // Patch renderCard: card click → detail, badge click → cycle only
+  const _origRenderCard = renderCard;
+  window.renderCard = function(c) {
+    return _origRenderCard(c)
+      .replace('<div class="card">', `<div class="card" onclick="openCampaign(${c.id})"`)
+      .replace(`onclick="cycleStatus(${c.id})"`, `onclick="event.stopPropagation();cycleStatus(${c.id})"`);
+  };
+  renderBoard();
+
+  // ── CAMPAIGN DRILL HANDLERS ───────────────────────────
+  function drillCampaignSpend() {
+    const data = loadCampaigns();
+    const total = data.reduce((s,c)=>s+c.spent,0);
+    const budget = data.reduce((s,c)=>s+c.budget,0);
+    showDrill({
+      title:'Total Spend', subtitle:`$${total.toLocaleString()} across ${data.length} campaigns`,
+      columns:[
+        {label:'Campaign', render:c=>`<strong>${c.name}</strong>`},
+        {label:'Client',   render:c=>`<span style="color:var(--forest-mid)">${c.client}</span>`},
+        {label:'Budget',   render:c=>`$${c.budget.toLocaleString()}`},
+        {label:'Spent',    render:c=>`$${c.spent.toLocaleString()}`},
+        {label:'% Used',   render:c=>{const p=Math.round(c.spent/c.budget*100);return `<span style="color:${p>=90?'#7A2F2F':p>=70?'var(--gold-deep)':'var(--forest)'};font-weight:500">${p}%</span>`;}},
+        {label:'Status',   render:c=>`<span class="badge ${c.status==='active'?'badge-active':c.status==='paused'?'badge-paused':'badge-warm'}">${c.status.charAt(0).toUpperCase()+c.status.slice(1)}</span>`}
+      ],
+      rows:[...data].sort((a,b)=>b.spent-a.spent),
+      footer:`Total: $${total.toLocaleString()} of $${budget.toLocaleString()} budgeted`,
+      rowClickFn:'openCampaign'
+    });
+  }
+
+  function drillCampaignLeads() {
+    const data = loadCampaigns();
+    const total = data.reduce((s,c)=>s+c.leads,0);
+    showDrill({
+      title:'Leads Generated', subtitle:`${total.toLocaleString()} total leads`,
+      columns:[
+        {label:'Campaign',   render:c=>`<strong>${c.name}</strong>`},
+        {label:'Platform',   render:c=>c.type},
+        {label:'Leads',      render:c=>`<strong>${c.leads.toLocaleString()}</strong>`},
+        {label:'CPL',        render:c=>`$${c.cpl>0?c.cpl.toFixed(2):'—'}`},
+        {label:'% of Total', render:c=>`${total>0?Math.round(c.leads/total*100):0}%`},
+        {label:'Status',     render:c=>`<span class="badge ${c.status==='active'?'badge-active':c.status==='paused'?'badge-paused':'badge-warm'}">${c.status.charAt(0).toUpperCase()+c.status.slice(1)}</span>`}
+      ],
+      rows:[...data].sort((a,b)=>b.leads-a.leads),
+      footer:`Total: ${total.toLocaleString()} leads`,
+      rowClickFn:'openCampaign'
+    });
+  }
+
+  function drillCampaignCPL() {
+    const data = loadCampaigns().filter(c=>c.leads>0);
+    const avg = data.reduce((s,c)=>s+c.cpl,0)/(data.length||1);
+    showDrill({
+      title:'Average CPL', subtitle:`$${avg.toFixed(2)} avg · sorted lowest to highest`,
+      columns:[
+        {label:'Campaign', render:c=>`<strong>${c.name}</strong>`},
+        {label:'Leads',    render:c=>c.leads.toLocaleString()},
+        {label:'Spend',    render:c=>`$${c.spent.toLocaleString()}`},
+        {label:'CPL',      render:c=>`<strong style="color:${c.cpl<=avg?'var(--forest)':'#7A2F2F'}">$${c.cpl.toFixed(2)}</strong>`},
+        {label:'vs Avg',   render:c=>{const d=c.cpl-avg,p=Math.round(Math.abs(d)/avg*100);return d<=0?`<span style="color:var(--forest)">↓ ${p}% better</span>`:`<span style="color:#7A2F2F">↑ ${p}% higher</span>`;}}
+      ],
+      rows:[...data].sort((a,b)=>a.cpl-b.cpl),
+      rowClickFn:'openCampaign'
+    });
+  }
+
+  function drillCampaignActive() {
+    const data = loadCampaigns().filter(c=>c.status==='active');
+    showDrill({
+      title:'Active Campaigns', subtitle:`${data.length} campaigns currently running`,
+      columns:[
+        {label:'Campaign', render:c=>`<strong>${c.name}</strong>`},
+        {label:'Budget',   render:c=>`$${c.budget.toLocaleString()}`},
+        {label:'Spent',    render:c=>`$${c.spent.toLocaleString()}`},
+        {label:'Leads',    render:c=>c.leads.toLocaleString()},
+        {label:'CPL',      render:c=>`$${c.cpl>0?c.cpl.toFixed(2):'—'}`},
+        {label:'Deadline', render:c=>{const past=c.deadline&&new Date(c.deadline)<new Date();return `<span style="${past?'color:#7A2F2F;font-weight:500':''}">${c.deadline||'—'}</span>`;}}
+      ],
+      rows:data,
+      rowClickFn:'openCampaign'
+    });
+  }
+
+  // ── CRM DRILL HANDLERS ────────────────────────────────
+  function drillCRMTotal() {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    document.querySelector('[data-tab="crm"]').classList.add('active');
+    document.getElementById('crm').classList.add('active');
+    setCRMView('list');
+  }
+
+  function drillCRMActive() {
+    const data = loadContacts().filter(c=>c.stage==='active');
+    const total = data.reduce((s,c)=>s+c.value,0);
+    showDrill({
+      title:'Active Deals', subtitle:`${data.length} contacts · $${total.toLocaleString()} total`,
+      columns:[
+        {label:'Contact',        render:c=>`<strong>${c.firstName} ${c.lastName}</strong>`},
+        {label:'Organization',   render:c=>`<span style="color:var(--forest-mid);font-style:italic">${c.organization}</span>`},
+        {label:'Value',          render:c=>`<strong>$${c.value.toLocaleString()}</strong>`},
+        {label:'Ranking',        render:c=>`<span style="color:var(--gold)">${stars(c.ranking)}</span>`},
+        {label:'Last Contacted', render:c=>c.lastContacted||'—'}
+      ],
+      rows:[...data].sort((a,b)=>b.value-a.value),
+      footer:`Total active value: $${total.toLocaleString()}`,
+      rowClickFn:'openContact'
+    });
+  }
+
+  function drillCRMPipelineValue() {
+    const all = loadContacts();
+    const total = all.reduce((s,c)=>s+c.value,0);
+    const rows = ['new','warm','active','cold'].map((stage,i)=>{
+      const g = all.filter(c=>c.stage===stage);
+      const val = g.reduce((s,c)=>s+c.value,0);
+      return {id:i+1,stage,count:g.length,value:val,pct:total>0?Math.round(val/total*100):0};
+    });
+    showDrill({
+      title:'Pipeline Value', subtitle:`$${total.toLocaleString()} total across all stages`,
+      columns:[
+        {label:'Stage',      render:r=>`<span class="badge ${STAGE_BADGE[r.stage]}">${STAGE_LABEL[r.stage]}</span>`},
+        {label:'Contacts',   render:r=>r.count},
+        {label:'Value',      render:r=>`<strong>$${r.value.toLocaleString()}</strong>`},
+        {label:'% Pipeline', render:r=>`${r.pct}%`}
+      ],
+      rows,
+      footer:`Total: $${total.toLocaleString()}`
+    });
+  }
+
+  function drillCRMRanking() {
+    const data = [...loadContacts()].sort((a,b)=>b.ranking-a.ranking);
+    showDrill({
+      title:'Contact Rankings', subtitle:`${data.length} contacts sorted by ranking`,
+      columns:[
+        {label:'Contact',      render:c=>`<strong>${c.firstName} ${c.lastName}</strong>`},
+        {label:'Organization', render:c=>`<span style="color:var(--forest-mid);font-style:italic">${c.organization}</span>`},
+        {label:'Stage',        render:c=>`<span class="badge ${STAGE_BADGE[c.stage]}">${STAGE_LABEL[c.stage]}</span>`},
+        {label:'Ranking',      render:c=>`<span style="color:var(--gold)">${stars(c.ranking,true)}</span>`},
+        {label:'Value',        render:c=>`$${c.value.toLocaleString()}`}
+      ],
+      rows:data,
+      rowClickFn:'openContact'
+    });
+  }
+
+  // ── FINANCE DRILL HANDLERS ────────────────────────────
+  function drillFinanceGifts() {
+    const donors = loadDonors().filter(d=>d.stage==='thank');
+    const total = donors.reduce((s,d)=>s+d.amount,0);
+    showDrill({
+      title:'YTD Gifts', subtitle:`$${total.toLocaleString()} · ${donors.length} closed donors`,
+      columns:[
+        {label:'Donor',        render:d=>`<strong>${d.name}</strong>`},
+        {label:'Organization', render:d=>`<span style="color:var(--forest-mid);font-style:italic">${d.organization||d.type}</span>`},
+        {label:'Gift Type',    render:d=>d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1).replace('-',' ')},
+        {label:'Amount',       render:d=>`<strong>$${d.amount.toLocaleString()}</strong>`},
+        {label:'Next Step',    render:d=>`<span style="font-size:0.78rem;color:var(--forest-mid)">${d.nextAction||'—'}</span>`}
+      ],
+      rows:[...donors].sort((a,b)=>b.amount-a.amount),
+      footer:`Total YTD: $${total.toLocaleString()}`,
+      rowClickFn:'openDonor'
+    });
+  }
+
+  function drillFinanceAsk() {
+    const donors = loadDonors().filter(d=>d.stage==='ask');
+    const total = donors.reduce((s,d)=>s+d.amount,0);
+    showDrill({
+      title:'In Ask Stage', subtitle:`$${total.toLocaleString()} in outstanding asks`,
+      columns:[
+        {label:'Donor',        render:d=>`<strong>${d.name}</strong>`},
+        {label:'Organization', render:d=>`<span style="color:var(--forest-mid);font-style:italic">${d.organization||d.type}</span>`},
+        {label:'Ask Amount',   render:d=>`<strong>$${d.amount.toLocaleString()}</strong>`},
+        {label:'Gift Type',    render:d=>d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1).replace('-',' ')},
+        {label:'Next Action',  render:d=>`<span style="font-size:0.78rem">${d.nextAction||'—'}</span>`}
+      ],
+      rows:[...donors].sort((a,b)=>b.amount-a.amount),
+      footer:`Total in asks: $${total.toLocaleString()}`,
+      rowClickFn:'openDonor'
+    });
+  }
+
+  function drillFinanceGrants() {
+    const grants = loadGrants().filter(g=>['pending','in-review'].includes(g.status));
+    const total = grants.reduce((s,g)=>s+g.amount,0);
+    showDrill({
+      title:'Grants Pipeline', subtitle:`$${total.toLocaleString()} pending or in review`,
+      columns:[
+        {label:'Grant',     render:g=>`<strong>${g.name}</strong>`},
+        {label:'Funder',    render:g=>`<span style="color:var(--forest-mid);font-style:italic">${g.funder}</span>`},
+        {label:'Amount',    render:g=>`<strong>$${g.amount.toLocaleString()}</strong>`},
+        {label:'Status',    render:g=>`<span class="badge ${GRANT_STATUS_BADGE[g.status]}">${GRANT_STATUS_LABEL[g.status]}</span>`},
+        {label:'Deadline',  render:g=>g.deadline||'—'},
+        {label:'Submitted', render:g=>g.submittedDate||'—'}
+      ],
+      rows:[...grants].sort((a,b)=>b.amount-a.amount),
+      footer:`Total pipeline: $${total.toLocaleString()}`
+    });
+  }
+
+  function drillFinanceDonors() {
+    const donors = loadDonors();
+    showDrill({
+      title:'All Donors', subtitle:`${donors.length} donors across all stages`,
+      columns:[
+        {label:'Donor',        render:d=>`<strong>${d.name}</strong>`},
+        {label:'Type',         render:d=>d.type.charAt(0).toUpperCase()+d.type.slice(1)},
+        {label:'Stage',        render:d=>`<span class="badge ${DONOR_STAGE_BADGE[d.stage]}">${DONOR_STAGE_LABEL[d.stage]}</span>`},
+        {label:'Amount',       render:d=>`$${d.amount.toLocaleString()}`},
+        {label:'Gift Type',    render:d=>d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1).replace('-',' ')},
+        {label:'Last Touched', render:d=>d.lastContacted||'—'}
+      ],
+      rows:donors,
+      rowClickFn:'openDonor'
+    });
+  }
 
   // ── DECK GENERATOR ────────────────────────────────────
   const API_KEY_STORE = 'meridian_api_key';
