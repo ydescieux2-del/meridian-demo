@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MERIDIAN — DNA Agency & Rebuilding California</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ivory:       #F5F0E8;
+  --gold:        #C9A84C;
+  --gold-deep:   #A8872E;
+  --forest:      #2C4A3E;
+  --forest-mid:  #3D6357;
+  --cream:       #EDE8DC;
+  --parchment:   #D4CCBB;
+  --charcoal:    #1A1A1A;
+  --white:       #FDFCF9;
+  --ease:        cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: var(--ivory);
+  color: var(--charcoal);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--parchment);
+  padding: 1.5rem clamp(1.5rem, 5vw, 3rem) 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.wordmark {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 600;
+  color: var(--forest);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.wordmark span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  vertical-align: middle;
+  margin: 0 2px 2px;
+}
+
+.orgs {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--forest-mid);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--parchment);
+  margin: 0 calc(-1 * clamp(1.5rem, 5vw, 3rem));
+  padding: 0 clamp(1.5rem, 5vw, 3rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--forest-mid);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.9rem 1.4rem 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 300ms var(--ease), border-color 300ms var(--ease);
+}
+
+.tab:hover { color: var(--forest); }
+
+.tab.active {
+  color: var(--forest);
+  border-bottom-color: var(--gold);
+}
+
+/* ── CONTENT ─────────────────────────────────────────── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.section {
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+}
+
+.section-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 400;
+  color: var(--forest);
+  line-height: 1.15;
+  margin-bottom: 0.3rem;
+}
+
+.section-sub {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--forest-mid);
+  margin-bottom: 2.5rem;
+  font-style: italic;
+}
+
+/* ── KPI BAR ─────────────────────────────────────────── */
+.kpi-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+  margin-bottom: 2.5rem;
+}
+
+.kpi {
+  background: var(--white);
+  padding: 1.4rem 1.6rem;
+  text-align: left;
+}
+
+.kpi-value {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 300;
+  color: var(--forest);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.kpi-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--forest-mid);
+}
+
+.kpi-delta {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--gold-deep);
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* ── CAMPAIGN CARDS ───────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+}
+
+.card {
+  background: var(--white);
+  padding: 1.6rem;
+  transition: background 200ms var(--ease);
+}
+
+.card:hover { background: var(--cream); }
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--forest);
+  line-height: 1.3;
+}
+
+.card-meta {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--forest-mid);
+  margin-top: 0.15rem;
+}
+
+.badge {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  white-space: nowrap;
+}
+
+.badge-active  { color: var(--forest); border-color: var(--forest); }
+.badge-paused  { color: var(--parchment); border-color: var(--parchment); }
+.badge-warm    { color: var(--gold-deep); border-color: var(--gold); }
+.badge-new     { color: var(--forest-mid); border-color: var(--parchment); }
+.badge-cold    { color: var(--parchment); border-color: var(--parchment); }
+
+.card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--parchment);
+}
+
+.stat-item { }
+
+.stat-val {
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--forest-mid);
+  margin-top: 0.2rem;
+}
+
+.spend-bar {
+  height: 2px;
+  background: var(--parchment);
+  margin: 1rem 0 0.4rem;
+  position: relative;
+}
+
+.spend-fill {
+  height: 2px;
+  background: var(--gold);
+  transition: width 800ms var(--ease);
+}
+
+/* ── PIPELINE (CRM) ───────────────────────────────────── */
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+  overflow-x: auto;
+}
+
+.pipeline-col {
+  background: var(--ivory);
+  min-width: 200px;
+}
+
+.pipeline-col-header {
+  background: var(--white);
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pipeline-col-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+
+.pipeline-count {
+  font-size: 0.7rem;
+  color: var(--forest-mid);
+}
+
+.pipeline-cards {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.contact-card {
+  background: var(--white);
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--parchment);
+  cursor: pointer;
+  transition: border-color 200ms var(--ease);
+}
+
+.contact-card:hover { border-color: var(--gold); }
+
+.contact-name {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--forest);
+}
+
+.contact-co {
+  font-size: 0.72rem;
+  color: var(--forest-mid);
+  margin: 0.1rem 0 0.6rem;
+}
+
+.contact-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-value {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--charcoal);
+}
+
+.contact-touch {
+  font-size: 0.62rem;
+  color: var(--parchment);
+  font-style: italic;
+}
+
+/* ── DONOR PIPELINE ───────────────────────────────────── */
+.donor-pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+  margin-bottom: 2.5rem;
+  overflow-x: auto;
+}
+
+/* reuse pipeline-col styles */
+
+/* ── GRANTS TABLE ─────────────────────────────────────── */
+.grants-section {
+  margin-top: 2.5rem;
+}
+
+.grants-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--forest);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 0.5px solid var(--gold);
+}
+
+.grant-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--parchment);
+}
+
+.grant-name {
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--charcoal);
+}
+
+.grant-org {
+  font-size: 0.7rem;
+  color: var(--forest-mid);
+  font-style: italic;
+  margin-top: 0.1rem;
+}
+
+.grant-amount {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--forest);
+  white-space: nowrap;
+}
+
+/* ── CREATIVE STUDIO ──────────────────────────────────── */
+.studio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+}
+
+@media (max-width: 720px) {
+  .studio-grid { grid-template-columns: 1fr; }
+  .pipeline { grid-template-columns: repeat(4, minmax(180px, 1fr)); }
+  .donor-pipeline { grid-template-columns: repeat(4, minmax(160px, 1fr)); }
+}
+
+.studio-form-col, .studio-output-col {
+  background: var(--white);
+  padding: 2rem;
+}
+
+.form-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--forest);
+  display: block;
+  margin-bottom: 0.4rem;
+  margin-top: 1.2rem;
+}
+
+.form-label:first-child { margin-top: 0; }
+
+.form-input, .form-select, .form-textarea {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  background: var(--ivory);
+  border: 1px solid var(--parchment);
+  border-radius: 1px;
+  padding: 0.65rem 0.9rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 200ms var(--ease);
+  -webkit-appearance: none;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--gold);
+}
+
+.form-textarea { min-height: 80px; resize: vertical; }
+
+.btn-generate {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--forest);
+  border: 1px solid var(--forest);
+  border-radius: 1px;
+  padding: 0.85rem 2rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.6rem;
+  transition: background 200ms var(--ease), border-color 200ms var(--ease);
+}
+
+.btn-generate:hover {
+  background: var(--forest-mid);
+  border-color: var(--forest-mid);
+}
+
+.output-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.output-card {
+  border: 1px solid var(--parchment);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.output-card-thumb {
+  height: 140px;
+  background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.output-card-thumb-text {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 300;
+  color: var(--ivory);
+  letter-spacing: 0.08em;
+  text-align: center;
+  padding: 1rem;
+}
+
+.output-card-thumb-sub {
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 0.4rem;
+  font-weight: 400;
+}
+
+.output-card-body {
+  padding: 1rem 1.2rem;
+  border-top: 0.5px solid var(--gold);
+}
+
+.output-card-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--forest);
+  margin-bottom: 0.3rem;
+}
+
+.output-card-meta {
+  font-size: 0.7rem;
+  color: var(--forest-mid);
+  margin-bottom: 0.8rem;
+  font-style: italic;
+}
+
+.output-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn-view, .btn-export {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 1px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 200ms var(--ease);
+}
+
+.btn-view {
+  background: var(--forest);
+  color: var(--ivory);
+  border: 1px solid var(--forest);
+}
+
+.btn-view:hover { background: var(--forest-mid); }
+
+.btn-export {
+  background: none;
+  color: var(--forest);
+  border: 1px solid var(--parchment);
+}
+
+.btn-export:hover { border-color: var(--gold); }
+
+.studio-caption {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--parchment);
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--forest-mid);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ── DIVIDERS ─────────────────────────────────────────── */
+.gold-rule {
+  width: 40px;
+  height: 0.5px;
+  background: var(--gold);
+  margin: 1.2rem 0;
+}
+
+.section-divider {
+  height: 1px;
+  background: var(--parchment);
+  margin: 0 clamp(1.5rem, 5vw, 3rem);
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 480px) {
+  .tab { padding: 0.85rem 1rem; font-size: 0.65rem; letter-spacing: 0.12em; }
+  .kpi-bar { grid-template-columns: repeat(2, 1fr); }
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────── -->
+<header class="header">
+  <div class="header-top">
+    <div>
+      <div class="wordmark">Meridian<span></span></div>
+      <div class="orgs">DNA Agency · Rebuilding California</div>
+    </div>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-tab="campaign">Campaign</button>
+    <button class="tab" data-tab="crm">CRM</button>
+    <button class="tab" data-tab="finance">Finance</button>
+    <button class="tab" data-tab="studio">Creative Studio</button>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 01 — CAMPAIGN COMMAND CENTER                       -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="campaign" class="tab-content active">
+<div class="section">
+
+  <div class="section-eyebrow">01 — Campaign Command Center</div>
+  <div class="section-title">Q1 2026 Overview</div>
+  <div class="section-sub">DNA Agency · All Platforms</div>
+
+  <div class="kpi-bar">
+    <div class="kpi">
+      <div class="kpi-value">$14,650</div>
+      <div class="kpi-label">Total Spend</div>
+      <div class="kpi-delta">↑ 18% vs Q4 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">1,049</div>
+      <div class="kpi-label">Leads Generated</div>
+      <div class="kpi-delta">↑ 24% vs Q4 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">$13.97</div>
+      <div class="kpi-label">Avg CPL</div>
+      <div class="kpi-delta">↓ 5% — improving</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">4</div>
+      <div class="kpi-label">Active Campaigns</div>
+      <div class="kpi-delta">100% client retention</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Momentum Fitness</div>
+          <div class="card-meta">Meta Ads · Summer Campaign</div>
+        </div>
+        <div class="badge badge-active">Active</div>
+      </div>
+      <div class="spend-bar"><div class="spend-fill" style="width:65%"></div></div>
+      <div class="card-meta" style="margin-bottom:0.8rem">$4,200 of $6,500 budget</div>
+      <div class="card-stats">
+        <div class="stat-item">
+          <div class="stat-val">312</div>
+          <div class="stat-lbl">Leads</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">$13.46</div>
+          <div class="stat-lbl">CPL</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">4.2%</div>
+          <div class="stat-lbl">CTR</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Casa Verde Restaurant</div>
+          <div class="card-meta">Meta Ads + Google · Soft Launch</div>
+        </div>
+        <div class="badge badge-active">Active</div>
+      </div>
+      <div class="spend-bar"><div class="spend-fill" style="width:46%"></div></div>
+      <div class="card-meta" style="margin-bottom:0.8rem">$1,850 of $4,000 budget</div>
+      <div class="card-stats">
+        <div class="stat-item">
+          <div class="stat-val">89</div>
+          <div class="stat-lbl">Leads</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">$20.79</div>
+          <div class="stat-lbl">CPL</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">3.2×</div>
+          <div class="stat-lbl">ROAS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Pacific Legal Group</div>
+          <div class="card-meta">Meta Ads · Lead Generation</div>
+        </div>
+        <div class="badge badge-active">Active</div>
+      </div>
+      <div class="spend-bar"><div class="spend-fill" style="width:81%"></div></div>
+      <div class="card-meta" style="margin-bottom:0.8rem">$6,500 of $8,000 budget</div>
+      <div class="card-stats">
+        <div class="stat-item">
+          <div class="stat-val">203</div>
+          <div class="stat-lbl">Leads</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">$32.02</div>
+          <div class="stat-lbl">CPL</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">51%</div>
+          <div class="stat-lbl">Form CVR</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Solara Skincare</div>
+          <div class="card-meta">Meta Ads · Reactivation</div>
+        </div>
+        <div class="badge badge-paused">Paused</div>
+      </div>
+      <div class="spend-bar"><div class="spend-fill" style="width:100%"></div></div>
+      <div class="card-meta" style="margin-bottom:0.8rem">$2,100 · Campaign complete</div>
+      <div class="card-stats">
+        <div class="stat-item">
+          <div class="stat-val">445</div>
+          <div class="stat-lbl">Leads</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">$4.72</div>
+          <div class="stat-lbl">CPL</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">$28K</div>
+          <div class="stat-lbl">Revenue</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 02 — CRM & PIPELINE                               -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="crm" class="tab-content">
+<div class="section">
+
+  <div class="section-eyebrow">02 — CRM & Pipeline</div>
+  <div class="section-title">Contact Intelligence</div>
+  <div class="section-sub">DNA Agency · 7,241 contacts enriched</div>
+
+  <div class="kpi-bar" style="margin-bottom:2rem">
+    <div class="kpi">
+      <div class="kpi-value">7,241</div>
+      <div class="kpi-label">Total Contacts</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">12</div>
+      <div class="kpi-label">Active Deals</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">$340K</div>
+      <div class="kpi-label">Pipeline Value</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">3.2</div>
+      <div class="kpi-label">Avg Days Response</div>
+    </div>
+  </div>
+
+  <div class="pipeline">
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">New</div>
+        <div class="pipeline-count">2</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">Sarah Kim</div>
+          <div class="contact-co">Apex Realty Group</div>
+          <div class="contact-footer">
+            <div class="contact-value">$8,000</div>
+            <span class="badge badge-new">New</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Marcus Webb</div>
+          <div class="contact-co">WestCoast Boxing</div>
+          <div class="contact-footer">
+            <div class="contact-value">$5,000</div>
+            <span class="badge badge-new">New</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">Warm</div>
+        <div class="pipeline-count">2</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">Jordan Elias</div>
+          <div class="contact-co">The Vault Gym</div>
+          <div class="contact-footer">
+            <div class="contact-value">$12,000</div>
+            <span class="badge badge-warm">Warm</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Priya Mehta</div>
+          <div class="contact-co">Bloom Wellness</div>
+          <div class="contact-footer">
+            <div class="contact-value">$7,000</div>
+            <span class="badge badge-warm">Warm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">Active</div>
+        <div class="pipeline-count">2</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">David Chen</div>
+          <div class="contact-co">Pacific Legal Group</div>
+          <div class="contact-footer">
+            <div class="contact-value">$18,000</div>
+            <span class="badge badge-active">Active</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Monica Torres</div>
+          <div class="contact-co">Casa Verde Restaurant</div>
+          <div class="contact-footer">
+            <div class="contact-value">$4,500</div>
+            <span class="badge badge-active">Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">Cold</div>
+        <div class="pipeline-count">1</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">Alex Rodriguez</div>
+          <div class="contact-co">Sunset Auto Group</div>
+          <div class="contact-footer">
+            <div class="contact-value">$3,000</div>
+            <span class="badge badge-cold">Cold</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 03 — NONPROFIT FINANCE                             -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="finance" class="tab-content">
+<div class="section">
+
+  <div class="section-eyebrow">03 — Nonprofit Finance</div>
+  <div class="section-title">Donor Intelligence</div>
+  <div class="section-sub">Rebuilding California · Q1 2026</div>
+
+  <div class="kpi-bar" style="margin-bottom:2rem">
+    <div class="kpi">
+      <div class="kpi-value">$142,800</div>
+      <div class="kpi-label">YTD Gifts</div>
+      <div class="kpi-delta">↑ 31% vs prior year</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">$47,500</div>
+      <div class="kpi-label">Pledges Outstanding</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">$125,000</div>
+      <div class="kpi-label">Grants Pending</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">34</div>
+      <div class="kpi-label">Donors This Quarter</div>
+    </div>
+  </div>
+
+  <div class="donor-pipeline pipeline">
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">Education</div>
+        <div class="pipeline-count">2</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">James Whitfield</div>
+          <div class="contact-co">Corporate — potential $25K</div>
+          <div class="contact-footer">
+            <div class="contact-value">Major Gift</div>
+            <span class="badge badge-new">Prospect</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Michelle Park</div>
+          <div class="contact-co">Individual — potential $5K</div>
+          <div class="contact-footer">
+            <div class="contact-value">Mid-Level</div>
+            <span class="badge badge-new">Prospect</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">Engagement</div>
+        <div class="pipeline-count">2</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">Robert Harmon</div>
+          <div class="contact-co">Harmon Family Foundation</div>
+          <div class="contact-footer">
+            <div class="contact-value">$50,000</div>
+            <span class="badge badge-warm">Engaged</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Sandra Cruz</div>
+          <div class="contact-co">Individual donor</div>
+          <div class="contact-footer">
+            <div class="contact-value">$2,500</div>
+            <span class="badge badge-warm">Engaged</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">Ask</div>
+        <div class="pipeline-count">2</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">Parsons Family Fdn.</div>
+          <div class="contact-co">Proposal submitted</div>
+          <div class="contact-footer">
+            <div class="contact-value">$75,000</div>
+            <span class="badge badge-active">In Review</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">City Council Grant</div>
+          <div class="contact-co">Public funding round</div>
+          <div class="contact-footer">
+            <div class="contact-value">$35,000</div>
+            <span class="badge badge-active">In Review</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-col">
+      <div class="pipeline-col-header">
+        <div class="pipeline-col-label">Thank</div>
+        <div class="pipeline-count">2</div>
+      </div>
+      <div class="pipeline-cards">
+        <div class="contact-card">
+          <div class="contact-name">LA Gives Initiative</div>
+          <div class="contact-co">Gift received · soft credited</div>
+          <div class="contact-footer">
+            <div class="contact-value">$10,000</div>
+            <span class="badge badge-active">Closed</span>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-name">Anonymous</div>
+          <div class="contact-co">Individual · acknowledged</div>
+          <div class="contact-footer">
+            <div class="contact-value">$5,000</div>
+            <span class="badge badge-active">Closed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grants-section">
+    <div class="grants-label">Grant Tracker</div>
+
+    <div class="grant-row">
+      <div>
+        <div class="grant-name">Arts & Culture Education Fund</div>
+        <div class="grant-org">LA County — submitted Feb 14</div>
+      </div>
+      <div class="grant-amount">$50,000</div>
+      <span class="badge badge-warm">Pending</span>
+    </div>
+
+    <div class="grant-row">
+      <div>
+        <div class="grant-name">Community Impact Grant</div>
+        <div class="grant-org">CA Community Foundation — in review</div>
+      </div>
+      <div class="grant-amount">$35,000</div>
+      <span class="badge badge-warm">Pending</span>
+    </div>
+
+    <div class="grant-row">
+      <div>
+        <div class="grant-name">Workforce Development Program</div>
+        <div class="grant-org">Boeing Employees Community Fund — researching</div>
+      </div>
+      <div class="grant-amount">$40,000</div>
+      <span class="badge badge-new">Research</span>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 04 — CREATIVE STUDIO                              -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="studio" class="tab-content">
+<div class="section">
+
+  <div class="section-eyebrow">04 — Creative Studio</div>
+  <div class="section-title">Generate a Deck</div>
+  <div class="section-sub">Powered by Gamma · delivered in minutes</div>
+
+  <div class="studio-grid">
+
+    <div class="studio-form-col">
+      <label class="form-label">Company Name</label>
+      <input class="form-input" type="text" placeholder="e.g. DNA Agency">
+
+      <label class="form-label">Deck Purpose</label>
+      <select class="form-select">
+        <option>New Business Pitch</option>
+        <option>Campaign Performance Report</option>
+        <option>Brand Overview</option>
+        <option>Donor Deck</option>
+        <option>Grant Proposal</option>
+        <option>Investor Deck</option>
+        <option>Partnership Proposal</option>
+        <option>Case Study</option>
+      </select>
+
+      <label class="form-label">Industry</label>
+      <select class="form-select">
+        <option>Ad Agency / Media Buying</option>
+        <option>Non-Profit / Cause</option>
+        <option>Fashion & Apparel</option>
+        <option>Luxury Brand</option>
+        <option>Real Estate</option>
+        <option>Food & Beverage</option>
+        <option>Health & Wellness</option>
+        <option>Legal Services</option>
+      </select>
+
+      <label class="form-label">Tone</label>
+      <select class="form-select">
+        <option>Refined & Luxurious</option>
+        <option>Bold & Provocative</option>
+        <option>Warm & Human</option>
+        <option>Data-Driven & Authoritative</option>
+        <option>Minimal & Mysterious</option>
+      </select>
+
+      <label class="form-label">Key Message</label>
+      <textarea class="form-textarea" placeholder="What is the single most important thing this deck should make the audience feel or do?"></textarea>
+
+      <button class="btn-generate">Generate with Gamma →</button>
+    </div>
+
+    <div class="studio-output-col">
+      <div class="output-eyebrow">Sample Output</div>
+
+      <div class="output-card">
+        <div class="output-card-thumb">
+          <div class="output-card-thumb-text">
+            DNA Agency
+            <span class="output-card-thumb-sub">Q1 2026 · Campaign Performance Report</span>
+          </div>
+        </div>
+        <div class="output-card-body">
+          <div class="output-card-title">DNA Agency — Q1 2026 Campaign Report</div>
+          <div class="output-card-meta">9 slides · Gold Leaf theme · Generated via Gamma</div>
+          <div class="output-actions">
+            <a class="btn-view" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Open in Gamma</a>
+            <a class="btn-export" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Export PPTX</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="studio-caption">
+        Fill out the brief on the left. Meridian sends it to Gamma, which generates a full presentation — layouts, imagery, and copy — in your brand voice. Open in Gamma to refine, or export directly to PowerPoint.
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+
+      tab.classList.add('active');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
