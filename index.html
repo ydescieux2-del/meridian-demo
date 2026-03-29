@@ -713,17 +713,18 @@ body {
 
 .btn-export:hover { border-color: var(--gold); }
 
-/* ── TOOL SELECTOR ───────────────────────────────────── */
-.tool-selector-row { margin-top: 1.2rem; }
-.tool-selector-row .form-label { margin-top: 0; }
-
-.api-key-row { display: none; }
-.api-key-row.visible { display: block; }
-.api-key-hint {
-  font-size: 0.67rem;
-  color: var(--forest-mid);
-  margin-top: 0.3rem;
-  font-style: italic;
+/* ── TOOL CARDS ──────────────────────────────────────── */
+.tool-card {
+  border: 1px solid var(--parchment);
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: var(--white);
+}
+.tool-card:hover { border-color: var(--gold); }
+.tool-card-selected {
+  border-color: var(--forest);
+  background: var(--ivory);
 }
 
 /* ── DECK LOADING ────────────────────────────────────── */
@@ -1330,50 +1331,68 @@ body {
       <label class="form-label">Key Message</label>
       <textarea class="form-textarea" id="gamma-message" placeholder="What is the single most important thing this deck should make the audience feel or do?"></textarea>
 
-      <div class="tool-selector-row">
-        <label class="form-label">Generate With</label>
-        <select class="form-select" id="deck-tool" onchange="updateApiKeyVisibility()">
-          <option value="meridian">MERIDIAN AI</option>
-          <option value="canva">Canva</option>
-          <option value="gamma">Gamma</option>
-        </select>
+      <label class="form-label" style="margin-top:1.6rem">Choose Your Tool</label>
+      <div id="tool-cards" style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.2rem">
+        <div class="tool-card tool-card-selected" id="tool-card-gamma" onclick="selectTool('gamma')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:0.95rem;font-weight:700;color:var(--forest)">Gamma</div>
+            <div class="tool-card-check" id="check-gamma" style="width:16px;height:16px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--ivory)">✓</div>
+          </div>
+          <div style="font-size:0.82rem;color:var(--forest-mid);margin-top:0.2rem">AI-powered slides with beautiful layouts. Free account at gamma.app — sign up takes 60 seconds.</div>
+        </div>
+        <div class="tool-card" id="tool-card-canva" onclick="selectTool('canva')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:0.95rem;font-weight:700;color:var(--forest)">Canva</div>
+            <div class="tool-card-check" id="check-canva" style="width:16px;height:16px;border-radius:50%;border:1px solid var(--parchment);display:none"></div>
+          </div>
+          <div style="font-size:0.82rem;color:var(--forest-mid);margin-top:0.2rem">Drag-and-drop presentation builder with thousands of templates. Free account at canva.com.</div>
+        </div>
+      </div>
+      <input type="hidden" id="deck-tool" value="gamma">
+
+      <div id="tool-instruction" style="margin-top:1rem;padding:0.8rem 1rem;background:var(--ivory);border-left:2px solid var(--gold);font-size:0.84rem;color:var(--forest-mid);line-height:1.6">
+        Clicking Generate opens <strong style="color:var(--forest)">Gamma</strong> in a new tab with your brief already filled in. Sign in to your free Gamma account and hit generate — your deck builds itself.
       </div>
 
-      <div class="api-key-row" id="api-key-row">
-        <label class="form-label">Anthropic API Key</label>
-        <input class="form-input" id="api-key-input" type="password" placeholder="sk-ant-...">
-        <div class="api-key-hint">Stored locally in your browser — never sent anywhere except Anthropic. &nbsp;<a href="#" onclick="localStorage.removeItem('meridian_api_key');document.getElementById('api-key-input').value='';document.getElementById('api-key-input').placeholder='sk-ant-…';return false" style="color:var(--gold-deep);text-decoration:underline">Clear stored key</a></div>
-      </div>
-
-      <button class="btn-generate" onclick="generateDeck()">Generate →</button>
+      <button class="btn-generate" onclick="generateDeck()" style="margin-top:1.4rem">Generate →</button>
     </div>
 
     <div class="studio-output-col">
       <div id="studio-sample">
-        <div class="output-eyebrow">Sample Output</div>
-        <div class="output-card">
-          <div class="output-card-thumb">
-            <div class="output-card-thumb-text">
-              DNA Agency
-              <span class="output-card-thumb-sub">Q1 2026 · Campaign Performance Report</span>
+        <div class="output-eyebrow">How It Works</div>
+
+        <div style="display:flex;flex-direction:column;gap:1.2rem;margin-bottom:1.8rem">
+          <div style="display:flex;gap:1rem;align-items:flex-start">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0">1</div>
+            <div>
+              <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Fill out your brief</div>
+              <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">Enter your company name, what the deck is for, your industry, tone, and the key message you want to land.</div>
             </div>
           </div>
-          <div class="output-card-body">
-            <div class="output-card-title">DNA Agency — Q1 2026 Campaign Report</div>
-            <div class="output-card-meta">9 slides · Gold Leaf theme · Generated via Gamma</div>
-            <div class="output-actions">
-              <a class="btn-view" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Open in Gamma</a>
-              <a class="btn-export" href="https://gamma.app/generations/BfuvYd794EbIjT3wIFd2H" target="_blank" rel="noopener">Export PPTX</a>
+          <div style="display:flex;gap:1rem;align-items:flex-start">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0">2</div>
+            <div>
+              <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Choose Gamma or Canva</div>
+              <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">Both are free to sign up. Gamma builds the deck automatically with AI. Canva gives you drag-and-drop control over thousands of templates.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0">3</div>
+            <div>
+              <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Hit Generate</div>
+              <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">The tool opens in a new tab with your brief already written. Sign in, click generate, and your deck is ready in under a minute.</div>
             </div>
           </div>
         </div>
-        <div class="studio-caption">
-          Select a tool, fill out the brief, and generate. MERIDIAN AI renders slides inline. Canva and Gamma open in a new tab with your prompt pre-filled.
+
+        <div style="border-top:1px solid var(--parchment);padding-top:1.2rem">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">First time?</div>
+          <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.6">
+            Create a free account at <a href="https://gamma.app" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold);text-decoration:none">gamma.app</a> or <a href="https://canva.com" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold);text-decoration:none">canva.com</a>. It takes about 60 seconds and you won't be charged.
+          </div>
         </div>
       </div>
 
-      <div class="deck-loading" id="deck-loading">Generating your deck<span>...</span></div>
-      <div class="slides-output" id="slides-output"></div>
       <div class="deck-error" id="deck-error"></div>
     </div>
 
@@ -2665,8 +2684,6 @@ body {
   }
 
   // ── DECK GENERATOR ────────────────────────────────────
-  const API_KEY_STORE = 'meridian_api_key';
-
   function getFormValues() {
     return {
       company:  document.getElementById('gamma-company').value.trim() || 'My Company',
@@ -2677,14 +2694,30 @@ body {
     };
   }
 
-  function updateApiKeyVisibility() {
-    const isMeridian = document.getElementById('deck-tool').value === 'meridian';
-    document.getElementById('api-key-row').classList.toggle('visible', isMeridian);
-    if (isMeridian) {
-      const stored = localStorage.getItem(API_KEY_STORE);
-      if (stored) document.getElementById('api-key-input').placeholder = 'sk-ant-… (key stored — paste to replace)';
-    }
+  function selectTool(tool) {
+    document.getElementById('deck-tool').value = tool;
+    ['gamma','canva'].forEach(t => {
+      const card = document.getElementById('tool-card-' + t);
+      const check = document.getElementById('check-' + t);
+      if (t === tool) {
+        card.classList.add('tool-card-selected');
+        check.style.display = 'flex';
+        check.style.background = 'var(--forest)';
+        check.style.border = 'none';
+        check.textContent = '✓';
+      } else {
+        card.classList.remove('tool-card-selected');
+        check.style.display = 'none';
+      }
+    });
+    const instructions = {
+      gamma: 'Clicking Generate opens <strong style="color:var(--forest)">Gamma</strong> in a new tab with your brief already filled in. Sign in to your free Gamma account at gamma.app and hit generate — your deck builds itself.',
+      canva: 'Clicking Generate opens <strong style="color:var(--forest)">Canva</strong> in a new tab with your brief pre-loaded. Sign in to your free Canva account at canva.com and choose a presentation template.'
+    };
+    document.getElementById('tool-instruction').innerHTML = instructions[tool];
   }
+
+  function updateApiKeyVisibility() {} // no-op, kept for safety
 
   function showExternalLink(url, toolName, opened) {
     document.getElementById('studio-sample').style.display = 'none';
@@ -2697,98 +2730,24 @@ body {
       : `Your browser blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`;
   }
 
-  async function generateDeck() {
+  function generateDeck() {
     const tool = document.getElementById('deck-tool').value;
     const v = getFormValues();
-    const prompt = `${v.company} ${v.purpose} for ${v.industry} in a ${v.tone} tone.${v.message ? ' Key message: ' + v.message : ''}`;
+    const prompt = `${v.company} — ${v.purpose}. Industry: ${v.industry}. Tone: ${v.tone}.${v.message ? ' Key message: ' + v.message : ''}`;
 
-    if (tool === 'gamma') {
-      const url = 'https://gamma.app/generate?prompt=' + encodeURIComponent(prompt);
-      const w = window.open(url, '_blank');
-      if (!w) showExternalLink(url, 'Gamma');
-      else showExternalLink(url, 'Gamma', true);
-      return;
-    }
-    if (tool === 'canva') {
-      const url = 'https://www.canva.com/create/presentations/?q=' + encodeURIComponent(prompt);
-      const w = window.open(url, '_blank');
-      if (!w) showExternalLink(url, 'Canva');
-      else showExternalLink(url, 'Canva', true);
-      return;
-    }
+    const urls = {
+      gamma: 'https://gamma.app/generate?prompt=' + encodeURIComponent(prompt),
+      canva: 'https://www.canva.com/create/presentations/?q=' + encodeURIComponent(prompt)
+    };
+    const url = urls[tool];
+    if (!url) return;
 
-    // MERIDIAN AI
-    let apiKey = localStorage.getItem(API_KEY_STORE);
-    if (!apiKey) {
-      apiKey = document.getElementById('api-key-input').value.trim();
-      if (!apiKey) {
-        document.getElementById('api-key-row').classList.add('visible');
-        document.getElementById('api-key-input').focus();
-        return;
-      }
-      localStorage.setItem(API_KEY_STORE, apiKey);
-    }
-
-    document.getElementById('studio-sample').style.display = 'none';
-    document.getElementById('deck-loading').classList.add('visible');
-    document.getElementById('slides-output').classList.remove('visible');
-    document.getElementById('deck-error').classList.remove('visible');
-
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          messages: [{
-            role: 'user',
-            content: `Generate a 5-slide presentation outline for ${v.company} — a ${v.purpose} deck for ${v.industry} in a ${v.tone} tone. Key message: ${v.message || 'Not specified'}. Return JSON only: array of 5 objects with slide_number, title, subtitle, body (2-3 bullet points as array). No markdown, no preamble.`
-          }]
-        })
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error?.message || `API error ${res.status}`);
-      }
-
-      const data = await res.json();
-      const raw = data.content[0].text.trim().replace(/^```[a-z]*\n?/, '').replace(/```$/, '').trim();
-      renderSlides(JSON.parse(raw), v.company, v.purpose);
-    } catch(err) {
-      document.getElementById('deck-loading').classList.remove('visible');
-      document.getElementById('studio-sample').style.display = '';
-      const el = document.getElementById('deck-error');
-      el.textContent = 'Error: ' + err.message;
-      el.classList.add('visible');
-    }
+    const w = window.open(url, '_blank');
+    showExternalLink(url, tool === 'gamma' ? 'Gamma' : 'Canva', !!w);
   }
 
-  function renderSlides(slides, company, purpose) {
-    document.getElementById('deck-loading').classList.remove('visible');
-    const container = document.getElementById('slides-output');
-    container.innerHTML =
-      `<div class="output-eyebrow">${company} — ${purpose}</div>` +
-      slides.map(s => `
-        <div class="slide-card">
-          <div class="slide-card-num">Slide ${s.slide_number}</div>
-          <div class="slide-card-title">${s.title}</div>
-          ${s.subtitle ? `<div class="slide-card-subtitle">${s.subtitle}</div>` : ''}
-          <ul class="slide-card-bullets">
-            ${(Array.isArray(s.body) ? s.body : [s.body]).map(b => `<li>${b}</li>`).join('')}
-          </ul>
-        </div>`).join('');
-    container.classList.add('visible');
-  }
-
-  // Show API key field on load if MERIDIAN AI is default and no key stored
-  updateApiKeyVisibility();
+  // Initialize tool selection
+  selectTool('gamma');
 </script>
 </body>
 </html>
