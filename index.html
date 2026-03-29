@@ -807,6 +807,190 @@ body {
   margin: 0 clamp(1.5rem, 5vw, 3rem);
 }
 
+/* ── CRM TOOLBAR ─────────────────────────────────────── */
+.crm-toolbar {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.crm-search {
+  flex: 1;
+  min-width: 200px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--charcoal);
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  padding: 0.58rem 1rem;
+  outline: none;
+  transition: border-color 200ms;
+}
+.crm-search:focus { border-color: var(--gold); }
+.crm-filter {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  padding: 0.58rem 0.9rem;
+  outline: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.crm-view-toggle { display: flex; border: 1px solid var(--parchment); }
+.crm-view-btn {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--white);
+  color: var(--forest-mid);
+  border: none;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.crm-view-btn.active { background: var(--forest); color: var(--ivory); }
+.btn-add-contact {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--forest);
+  color: var(--ivory);
+  border: none;
+  padding: 0.58rem 1.4rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.btn-add-contact:hover { background: var(--forest-mid); }
+
+/* ── CONTACT LIST GRID ───────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+}
+.contact-grid-card {
+  background: var(--white);
+  padding: 1.4rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.contact-grid-card:hover { background: var(--ivory); }
+.cg-top { display: flex; gap: 0.9rem; align-items: flex-start; margin-bottom: 0.8rem; }
+.cg-avatar {
+  width: 46px; height: 46px;
+  background: var(--forest);
+  color: var(--ivory);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem; font-weight: 500; letter-spacing: 0.05em;
+  flex-shrink: 0; overflow: hidden;
+}
+.cg-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.cg-name { font-size: 0.97rem; font-weight: 600; color: var(--forest); letter-spacing: 0.03em; margin-bottom: 0.1rem; }
+.cg-sub { font-size: 0.73rem; color: var(--forest-mid); font-style: italic; margin-bottom: 0.4rem; }
+.cg-line { font-size: 0.78rem; color: var(--charcoal); margin-bottom: 0.2rem; display: flex; gap: 0.5rem; align-items: baseline; }
+.cg-lbl { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--forest-mid); flex-shrink: 0; width: 2.6rem; }
+.cg-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--parchment); }
+.cg-stars { color: var(--gold); font-size: 0.72rem; }
+.cg-val { font-size: 0.82rem; font-weight: 500; color: var(--forest); }
+.crm-empty { grid-column: 1/-1; background: var(--white); padding: 3rem; text-align: center; color: var(--forest-mid); font-style: italic; }
+
+/* ── CONTACT DETAIL MODAL ────────────────────────────── */
+.contact-detail-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(245,240,232,0.93);
+  backdrop-filter: blur(5px);
+  z-index: 700;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem 3rem;
+  overflow-y: auto;
+}
+.contact-detail-overlay.visible { display: flex; }
+.contact-modal {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  width: 100%;
+  max-width: 780px;
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  margin-top: 0.5rem;
+}
+@media (max-width: 620px) { .contact-modal { grid-template-columns: 1fr; } }
+.cm-left {
+  background: var(--ivory);
+  padding: 2rem 1.5rem;
+  border-right: 1px solid var(--parchment);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+.cm-avatar {
+  width: 84px; height: 84px;
+  background: var(--forest);
+  color: var(--ivory);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.75rem; font-weight: 300;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.6rem;
+  overflow: hidden;
+}
+.cm-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.cm-name { font-size: 1.1rem; font-weight: 600; color: var(--forest); letter-spacing: 0.04em; }
+.cm-ttl { font-size: 0.73rem; color: var(--forest-mid); font-style: italic; }
+.cm-org { font-size: 0.8rem; color: var(--charcoal); font-weight: 500; }
+.cm-stars-display { color: var(--gold); font-size: 1rem; letter-spacing: 0.1em; }
+.cm-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; justify-content: center; margin-top: 0.3rem; }
+.cm-tag { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--cream); color: var(--forest); padding: 0.2rem 0.5rem; border: 1px solid var(--parchment); }
+.cm-meta-foot { margin-top: auto; padding-top: 1.2rem; font-size: 0.67rem; color: var(--forest-mid); font-style: italic; line-height: 1.8; }
+.cm-right { padding: 2rem; display: flex; flex-direction: column; gap: 1.4rem; }
+.cm-section-lbl {
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.6rem; padding-bottom: 0.35rem;
+  border-bottom: 0.5px solid var(--gold);
+}
+.cm-field { display: grid; grid-template-columns: 86px 1fr; gap: 0.2rem 0.8rem; align-items: baseline; margin-bottom: 0.45rem; }
+.cm-field-lbl { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--forest-mid); padding-top: 0.05rem; }
+.cm-field-val { font-size: 0.85rem; color: var(--charcoal); line-height: 1.5; }
+.cm-field-val a { color: var(--forest); text-decoration: none; border-bottom: 0.5px solid var(--parchment); transition: border-color 0.15s; }
+.cm-field-val a:hover { border-color: var(--gold); }
+.cm-notes-box { font-size: 0.85rem; color: var(--charcoal); line-height: 1.65; background: var(--ivory); padding: 0.9rem 1rem; border-left: 2px solid var(--gold); font-style: italic; }
+.cm-socials { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.cm-social-btn {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--forest); background: var(--ivory); border: 1px solid var(--parchment);
+  padding: 0.3rem 0.7rem; text-decoration: none; transition: border-color 0.15s;
+}
+.cm-social-btn:hover { border-color: var(--gold); }
+.cm-actions { display: flex; gap: 0.6rem; padding-top: 1rem; border-top: 1px solid var(--parchment); margin-top: auto; flex-wrap: wrap; }
+.btn-cm-secondary {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
+  background: transparent; color: var(--forest); border: 1px solid var(--parchment);
+  padding: 0.5rem 1rem; cursor: pointer; transition: border-color 0.15s;
+}
+.btn-cm-secondary:hover { border-color: var(--forest); }
+.btn-cm-primary {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
+  background: var(--forest); color: var(--ivory); border: none;
+  padding: 0.5rem 1.2rem; cursor: pointer;
+}
+
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 480px) {
   .tab { padding: 0.85rem 1rem; font-size: 0.65rem; letter-spacing: 0.12em; }
@@ -883,122 +1067,40 @@ body {
 
   <div class="section-eyebrow">02 — CRM & Pipeline</div>
   <div class="section-title">Contact Intelligence</div>
-  <div class="section-sub">DNA Agency · 7,241 contacts enriched</div>
+  <div class="section-sub">DNA Agency · All Contacts</div>
 
-  <div class="kpi-bar" style="margin-bottom:2rem">
-    <div class="kpi">
-      <div class="kpi-value">7,241</div>
-      <div class="kpi-label">Total Contacts</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-value">12</div>
-      <div class="kpi-label">Active Deals</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-value">$340K</div>
-      <div class="kpi-label">Pipeline Value</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-value">3.2</div>
-      <div class="kpi-label">Avg Days Response</div>
-    </div>
+  <div class="kpi-bar" style="margin-bottom:1.5rem">
+    <div class="kpi"><div class="kpi-value" id="crm-kpi-total">—</div><div class="kpi-label">Total Contacts</div></div>
+    <div class="kpi"><div class="kpi-value" id="crm-kpi-active">—</div><div class="kpi-label">Active Deals</div></div>
+    <div class="kpi"><div class="kpi-value" id="crm-kpi-value">—</div><div class="kpi-label">Pipeline Value</div></div>
+    <div class="kpi"><div class="kpi-value" id="crm-kpi-rank">—</div><div class="kpi-label">Avg Ranking</div></div>
   </div>
 
-  <div class="pipeline">
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">New</div>
-        <div class="pipeline-count">2</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">Sarah Kim</div>
-          <div class="contact-co">Apex Realty Group</div>
-          <div class="contact-footer">
-            <div class="contact-value">$8,000</div>
-            <span class="badge badge-new">New</span>
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-name">Marcus Webb</div>
-          <div class="contact-co">WestCoast Boxing</div>
-          <div class="contact-footer">
-            <div class="contact-value">$5,000</div>
-            <span class="badge badge-new">New</span>
-          </div>
-        </div>
-      </div>
+  <div class="crm-toolbar">
+    <input type="text" class="crm-search" id="crm-search" placeholder="Search name, company, email, tags…" oninput="renderCRM()">
+    <select class="crm-filter" id="crm-stage-filter" onchange="renderCRM()">
+      <option value="">All Stages</option>
+      <option value="new">New</option>
+      <option value="warm">Warm</option>
+      <option value="active">Active</option>
+      <option value="cold">Cold</option>
+    </select>
+    <select class="crm-filter" id="crm-rank-filter" onchange="renderCRM()">
+      <option value="">Any Rank</option>
+      <option value="5">★★★★★ only</option>
+      <option value="4">★★★★+</option>
+      <option value="3">★★★+</option>
+    </select>
+    <div class="crm-view-toggle">
+      <button class="crm-view-btn active" id="btn-view-kanban" onclick="setCRMView('kanban')">Kanban</button>
+      <button class="crm-view-btn" id="btn-view-list" onclick="setCRMView('list')">List</button>
     </div>
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">Warm</div>
-        <div class="pipeline-count">2</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">Jordan Elias</div>
-          <div class="contact-co">The Vault Gym</div>
-          <div class="contact-footer">
-            <div class="contact-value">$12,000</div>
-            <span class="badge badge-warm">Warm</span>
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-name">Priya Mehta</div>
-          <div class="contact-co">Bloom Wellness</div>
-          <div class="contact-footer">
-            <div class="contact-value">$7,000</div>
-            <span class="badge badge-warm">Warm</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">Active</div>
-        <div class="pipeline-count">2</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">David Chen</div>
-          <div class="contact-co">Pacific Legal Group</div>
-          <div class="contact-footer">
-            <div class="contact-value">$18,000</div>
-            <span class="badge badge-active">Active</span>
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-name">Monica Torres</div>
-          <div class="contact-co">Casa Verde Restaurant</div>
-          <div class="contact-footer">
-            <div class="contact-value">$4,500</div>
-            <span class="badge badge-active">Active</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">Cold</div>
-        <div class="pipeline-count">1</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">Alex Rodriguez</div>
-          <div class="contact-co">Sunset Auto Group</div>
-          <div class="contact-footer">
-            <div class="contact-value">$3,000</div>
-            <span class="badge badge-cold">Cold</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <button class="btn-add-contact" onclick="openAddContact()">+ Add Contact</button>
   </div>
+
+  <div id="crm-kanban"></div>
+  <div id="crm-list" style="display:none"></div>
+
 </div>
 </div>
 
@@ -1273,6 +1375,85 @@ body {
 </div>
 </div>
 
+<!-- ── CONTACT DETAIL MODAL ───────────────────────────── -->
+<div class="contact-detail-overlay" id="contact-detail-overlay" onclick="if(event.target===this)closeContact()">
+  <div id="contact-detail-body"></div>
+</div>
+
+<!-- ── ADD CONTACT MODAL ──────────────────────────────── -->
+<div class="modal-overlay" id="add-contact-modal" onclick="if(event.target===this)closeAddContact()">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-title">New Contact</div>
+    <div class="modal-sub">CRM & Pipeline</div>
+    <form id="add-contact-form" onsubmit="submitContact(event)">
+      <div class="modal-row">
+        <div><label class="form-label">First Name</label><input class="form-input" name="firstName" required placeholder="Sarah"></div>
+        <div><label class="form-label">Last Name</label><input class="form-input" name="lastName" required placeholder="Kim"></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Organization</label><input class="form-input" name="organization" placeholder="Apex Realty Group"></div>
+        <div><label class="form-label">Title</label><input class="form-input" name="title" placeholder="Principal Broker"></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Email</label><input class="form-input" name="email" type="email" placeholder="sarah@company.com"></div>
+        <div><label class="form-label">Phone</label><input class="form-input" name="phone" placeholder="(310) 555-0000"></div>
+      </div>
+      <label class="form-label">Street Address</label>
+      <input class="form-input" name="address" placeholder="1234 Wilshire Blvd">
+      <div class="modal-row" style="grid-template-columns:2fr 1fr 1fr;margin-top:0.5rem">
+        <input class="form-input" name="city" placeholder="City">
+        <input class="form-input" name="state" placeholder="CA">
+        <input class="form-input" name="zip" placeholder="90210">
+      </div>
+      <div class="modal-row" style="grid-template-columns:1fr 1fr 1fr">
+        <div>
+          <label class="form-label">Stage</label>
+          <select class="form-select" name="stage">
+            <option value="new">New</option>
+            <option value="warm">Warm</option>
+            <option value="active">Active</option>
+            <option value="cold">Cold</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Deal Value ($)</label>
+          <input class="form-input" name="value" type="number" min="0" placeholder="5000">
+        </div>
+        <div>
+          <label class="form-label">Ranking</label>
+          <select class="form-select" name="ranking">
+            <option value="5">★★★★★</option>
+            <option value="4">★★★★</option>
+            <option value="3" selected>★★★</option>
+            <option value="2">★★</option>
+            <option value="1">★</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Website</label><input class="form-input" name="website" placeholder="https://"></div>
+        <div><label class="form-label">LinkedIn</label><input class="form-input" name="linkedin" placeholder="https://linkedin.com/in/…"></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Instagram</label><input class="form-input" name="instagram" placeholder="@handle"></div>
+        <div><label class="form-label">Twitter / X</label><input class="form-input" name="twitter" placeholder="@handle"></div>
+      </div>
+      <label class="form-label">Facebook</label>
+      <input class="form-input" name="facebook" placeholder="https://facebook.com/…">
+      <label class="form-label">Headshot URL</label>
+      <input class="form-input" name="headshot" type="url" placeholder="https://… (jpg, png)">
+      <label class="form-label">Tags <span style="font-weight:400;text-transform:none;letter-spacing:0">(comma-separated)</span></label>
+      <input class="form-input" name="tags" placeholder="real estate, high value, referral">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" name="notes" style="min-height:90px" placeholder="Context, conversation history, next steps…"></textarea>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Add Contact →</button>
+        <button type="button" class="btn-cancel" onclick="closeAddContact()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- ── ADD CAMPAIGN MODAL ─────────────────────────────── -->
 <div class="modal-overlay" id="campaign-modal" onclick="if(event.target===this)closeAddModal()">
   <div class="modal">
@@ -1442,6 +1623,248 @@ body {
   }
 
   renderBoard();
+
+  // ── CRM DATA ──────────────────────────────────────────
+  const CRM_KEY = 'meridian_contacts';
+  const CRM_SEED = [
+    {id:1,firstName:"Sarah",lastName:"Kim",email:"sarah.kim@apexrealty.com",phone:"(310) 555-0182",address:"1234 Wilshire Blvd",city:"Los Angeles",state:"CA",zip:"90025",organization:"Apex Realty Group",title:"Principal Broker",stage:"new",value:8000,ranking:4,headshot:"",notes:"Interested in full digital marketing package. Met at LA Real Estate Summit. Follow up after Q1 closes.",website:"https://apexrealty.com",linkedin:"https://linkedin.com/in/sarahkim",twitter:"",instagram:"@apexrealtyla",facebook:"",lastContacted:"2026-03-20",tags:["real estate","high value"],createdAt:"2026-01-15"},
+    {id:2,firstName:"Marcus",lastName:"Webb",email:"marcus@westcoastboxing.com",phone:"(213) 555-0394",address:"890 S Grand Ave",city:"Los Angeles",state:"CA",zip:"90015",organization:"WestCoast Boxing",title:"Owner & Head Coach",stage:"new",value:5000,ranking:3,headshot:"",notes:"Wants social media management + local Meta ads. Budget is flexible if we show results.",website:"https://westcoastboxing.com",linkedin:"",twitter:"@wcboxing",instagram:"@westcoastboxingla",facebook:"",lastContacted:"2026-03-18",tags:["fitness","local"],createdAt:"2026-02-01"},
+    {id:3,firstName:"Jordan",lastName:"Elias",email:"jordan@thevaultgym.com",phone:"(323) 555-0271",address:"4501 Hollywood Blvd",city:"Los Angeles",state:"CA",zip:"90027",organization:"The Vault Gym",title:"CEO",stage:"warm",value:12000,ranking:5,headshot:"",notes:"Had second call on 3/15. Very interested in full funnel — Meta ads, email, landing pages. Wants proposal by April 1.",website:"https://thevaultgym.com",linkedin:"https://linkedin.com/in/jordanelias",twitter:"",instagram:"@thevaultgym",facebook:"https://facebook.com/thevaultgym",lastContacted:"2026-03-15",tags:["fitness","proposal ready","hot"],createdAt:"2026-01-20"},
+    {id:4,firstName:"Priya",lastName:"Mehta",email:"priya@bloomwellness.co",phone:"(818) 555-0047",address:"2200 Ventura Blvd",city:"Studio City",state:"CA",zip:"91604",organization:"Bloom Wellness",title:"Founder",stage:"warm",value:7000,ranking:4,headshot:"",notes:"Wellness spa — wants Google Ads + Instagram growth. Discussed brand voice. Needs price sheet.",website:"https://bloomwellness.co",linkedin:"",twitter:"",instagram:"@bloomwellnessla",facebook:"",lastContacted:"2026-03-12",tags:["wellness","instagram"],createdAt:"2026-02-10"},
+    {id:5,firstName:"David",lastName:"Chen",email:"d.chen@pacificlegalgroup.com",phone:"(213) 555-0819",address:"633 W 5th St, Suite 2800",city:"Los Angeles",state:"CA",zip:"90071",organization:"Pacific Legal Group",title:"Managing Partner",stage:"active",value:18000,ranking:5,headshot:"",notes:"Running Meta lead gen campaign. High intent leads coming in. Monthly reporting call scheduled for Apr 3.",website:"https://pacificlegalgroup.com",linkedin:"https://linkedin.com/in/davidchenlaw",twitter:"",instagram:"",facebook:"",lastContacted:"2026-03-27",tags:["legal","active campaign","high value"],createdAt:"2025-11-01"},
+    {id:6,firstName:"Monica",lastName:"Torres",email:"monica@casaverdeLA.com",phone:"(323) 555-0562",address:"1456 Sunset Blvd",city:"Los Angeles",state:"CA",zip:"90026",organization:"Casa Verde Restaurant",title:"Owner",stage:"active",value:4500,ranking:3,headshot:"",notes:"Soft launch Meta + Google campaign live. ROAS tracking well. Monthly budget review next week.",website:"https://casaverdela.com",linkedin:"",twitter:"",instagram:"@casaverdeLA",facebook:"https://facebook.com/casaverdeLA",lastContacted:"2026-03-26",tags:["restaurant","food & bev"],createdAt:"2026-01-05"},
+    {id:7,firstName:"Alex",lastName:"Rodriguez",email:"alex@sunsetauto.com",phone:"(310) 555-0334",address:"9200 Sepulveda Blvd",city:"Los Angeles",state:"CA",zip:"90045",organization:"Sunset Auto Group",title:"General Manager",stage:"cold",value:3000,ranking:2,headshot:"",notes:"Went cold after initial quote. Follow up in Q2. May respond to a case study from a similar business.",website:"",linkedin:"",twitter:"",instagram:"",facebook:"https://facebook.com/sunsetautogroup",lastContacted:"2026-02-01",tags:["auto","re-engage Q2"],createdAt:"2025-12-10"},
+    {id:8,firstName:"Kezia",lastName:"Okafor",email:"kezia@okaforbrands.com",phone:"(323) 555-0701",address:"800 W Olympic Blvd",city:"Los Angeles",state:"CA",zip:"90015",organization:"Okafor Brands",title:"Brand Director",stage:"new",value:9500,ranking:4,headshot:"",notes:"Brand strategy + paid media inquiry. Came in via referral from David Chen. First call scheduled Apr 5.",website:"https://okaforbrands.com",linkedin:"https://linkedin.com/in/keziaokafor",twitter:"@keziaokafor",instagram:"@okaforbrands",facebook:"",lastContacted:"2026-03-25",tags:["brand","referral"],createdAt:"2026-03-20"},
+    {id:9,firstName:"Tariq",lastName:"Hasan",email:"tariq@labrickcoffee.com",phone:"(213) 555-0129",address:"1100 S Hope St",city:"Los Angeles",state:"CA",zip:"90015",organization:"LA Brick Coffee",title:"Co-Founder",stage:"warm",value:5500,ranking:3,headshot:"",notes:"Multi-location coffee brand. Wants full content strategy + Meta Ads for grand opening of 3rd location.",website:"https://labrickcoffee.com",linkedin:"",twitter:"",instagram:"@labrickcoffee",facebook:"https://facebook.com/labrickcoffee",lastContacted:"2026-03-10",tags:["food & bev","growth"],createdAt:"2026-02-25"},
+    {id:10,firstName:"Simone",lastName:"Beaumont",email:"simone@beaumontatelier.com",phone:"(310) 555-0255",address:"434 N Rodeo Dr",city:"Beverly Hills",state:"CA",zip:"90210",organization:"Beaumont Atelier",title:"Creative Director",stage:"warm",value:22000,ranking:5,headshot:"",notes:"Luxury fashion atelier. Wants luxury-tier digital ads and editorial-style content. Very brand-conscious — match the aesthetic.",website:"https://beaumontatelier.com",linkedin:"https://linkedin.com/in/simonebeaumont",twitter:"",instagram:"@beaumontatelier",facebook:"",lastContacted:"2026-03-22",tags:["luxury","fashion","editorial","high value"],createdAt:"2026-03-01"},
+    {id:11,firstName:"DeShawn",lastName:"Watkins",email:"deshawn@elevateagency.co",phone:"(323) 555-0943",address:"3535 Cahuenga Blvd W",city:"Los Angeles",state:"CA",zip:"90068",organization:"Elevate Agency",title:"Founder",stage:"cold",value:6000,ranking:2,headshot:"",notes:"Competing agency — had conversation about white-labeling. Gone quiet. Worth revisiting in Q3.",website:"https://elevateagency.co",linkedin:"https://linkedin.com/in/deshawnwatkins",twitter:"",instagram:"",facebook:"",lastContacted:"2026-01-20",tags:["agency","white-label","Q3"],createdAt:"2025-11-15"},
+    {id:12,firstName:"Nadia",lastName:"Petrov",email:"nadia@solarpeak.energy",phone:"(213) 555-0476",address:"444 S Flower St",city:"Los Angeles",state:"CA",zip:"90071",organization:"Solar Peak Energy",title:"VP Marketing",stage:"active",value:14000,ranking:4,headshot:"",notes:"Running lead gen for residential solar. Strong CPL improvements over 60 days. Wants to expand to 3 new markets.",website:"https://solarpeak.energy",linkedin:"https://linkedin.com/in/nadiapetrov",twitter:"@solarpeak",instagram:"@solarpeak.energy",facebook:"",lastContacted:"2026-03-28",tags:["energy","active campaign","expansion"],createdAt:"2025-10-01"}
+  ];
+
+  function loadContacts() {
+    try { return JSON.parse(localStorage.getItem(CRM_KEY)) || [...CRM_SEED]; }
+    catch(e) { return [...CRM_SEED]; }
+  }
+  function saveContacts(data) { localStorage.setItem(CRM_KEY, JSON.stringify(data)); }
+
+  let crmView = 'kanban';
+  function setCRMView(v) {
+    crmView = v;
+    document.getElementById('btn-view-kanban').classList.toggle('active', v === 'kanban');
+    document.getElementById('btn-view-list').classList.toggle('active', v === 'list');
+    renderCRM();
+  }
+
+  function getFilteredContacts() {
+    const q = (document.getElementById('crm-search')?.value || '').toLowerCase();
+    const stage = document.getElementById('crm-stage-filter')?.value || '';
+    const rank = parseInt(document.getElementById('crm-rank-filter')?.value) || 0;
+    return loadContacts().filter(c => {
+      const hay = `${c.firstName} ${c.lastName} ${c.organization} ${c.email} ${(c.tags||[]).join(' ')}`.toLowerCase();
+      return (!q || hay.includes(q)) && (!stage || c.stage === stage) && (!rank || c.ranking >= rank);
+    });
+  }
+
+  function stars(n, empty=false) {
+    return '★'.repeat(n) + (empty ? '☆'.repeat(5-n) : '');
+  }
+  function initials(c) { return (c.firstName[0] + c.lastName[0]).toUpperCase(); }
+  const STAGE_BADGE = {new:'badge-new',warm:'badge-warm',active:'badge-active',cold:'badge-cold'};
+  const STAGE_LABEL = {new:'New',warm:'Warm',active:'Active',cold:'Cold'};
+
+  function renderCRMKPIs() {
+    const all = loadContacts();
+    const val = all.reduce((s,c)=>s+c.value,0);
+    const avg = all.length ? (all.reduce((s,c)=>s+c.ranking,0)/all.length).toFixed(1) : '—';
+    document.getElementById('crm-kpi-total').textContent = all.length;
+    document.getElementById('crm-kpi-active').textContent = all.filter(c=>c.stage==='active').length;
+    document.getElementById('crm-kpi-value').textContent = '$' + (val >= 1000 ? Math.round(val/1000)+'K' : val);
+    document.getElementById('crm-kpi-rank').textContent = avg + ' ★';
+  }
+
+  function renderCRM() {
+    renderCRMKPIs();
+    const data = getFilteredContacts();
+    if (crmView === 'kanban') {
+      document.getElementById('crm-kanban').style.display = '';
+      document.getElementById('crm-list').style.display = 'none';
+      renderKanbanCRM(data);
+    } else {
+      document.getElementById('crm-kanban').style.display = 'none';
+      document.getElementById('crm-list').style.display = '';
+      renderListCRM(data);
+    }
+  }
+
+  function renderKanbanCRM(data) {
+    const stages = ['new','warm','active','cold'];
+    document.getElementById('crm-kanban').innerHTML = '<div class="pipeline">' +
+      stages.map(stage => {
+        const contacts = data.filter(c => c.stage === stage);
+        return `<div class="pipeline-col">
+          <div class="pipeline-col-header">
+            <div class="pipeline-col-label">${STAGE_LABEL[stage]}</div>
+            <div class="pipeline-count">${contacts.length}</div>
+          </div>
+          <div class="pipeline-cards">
+            ${contacts.length ? contacts.map(c => `
+              <div class="contact-card" onclick="openContact(${c.id})">
+                <div class="contact-name">${c.firstName} ${c.lastName}</div>
+                <div class="contact-co">${c.organization}</div>
+                <div style="font-size:0.7rem;color:var(--gold);margin:0.25rem 0 0.5rem">${stars(c.ranking)}</div>
+                <div class="contact-footer">
+                  <div class="contact-value">$${c.value.toLocaleString()}</div>
+                  <span class="badge ${STAGE_BADGE[stage]}">${STAGE_LABEL[stage]}</span>
+                </div>
+              </div>`).join('')
+            : '<div style="padding:1rem 0.8rem;font-size:0.75rem;color:var(--forest-mid);font-style:italic">No contacts</div>'}
+          </div>
+        </div>`;
+      }).join('') + '</div>';
+  }
+
+  function renderListCRM(data) {
+    if (!data.length) {
+      document.getElementById('crm-list').innerHTML = '<div class="contact-grid"><div class="crm-empty">No contacts match your search.</div></div>';
+      return;
+    }
+    document.getElementById('crm-list').innerHTML = '<div class="contact-grid">' +
+      data.map(c => `
+        <div class="contact-grid-card" onclick="openContact(${c.id})">
+          <div class="cg-top">
+            <div class="cg-avatar">${c.headshot ? `<img src="${c.headshot}" alt="">` : initials(c)}</div>
+            <div>
+              <div class="cg-name">${c.firstName} ${c.lastName}</div>
+              <div class="cg-sub">${[c.title, c.organization].filter(Boolean).join(' · ')}</div>
+              <span class="badge ${STAGE_BADGE[c.stage]}">${STAGE_LABEL[c.stage]}</span>
+            </div>
+          </div>
+          ${c.email    ? `<div class="cg-line"><span class="cg-lbl">Email</span><span>${c.email}</span></div>` : ''}
+          ${c.phone    ? `<div class="cg-line"><span class="cg-lbl">Phone</span><span>${c.phone}</span></div>` : ''}
+          ${c.city     ? `<div class="cg-line"><span class="cg-lbl">City</span><span>${c.city}, ${c.state}</span></div>` : ''}
+          ${c.tags?.length ? `<div class="cg-line"><span class="cg-lbl">Tags</span><span style="font-style:italic;color:var(--forest-mid)">${c.tags.join(', ')}</span></div>` : ''}
+          <div class="cg-footer">
+            <div class="cg-stars">${stars(c.ranking)}</div>
+            <div class="cg-val">$${c.value.toLocaleString()}</div>
+          </div>
+        </div>`).join('') + '</div>';
+  }
+
+  // ── CONTACT DETAIL ───────────────────────────────────
+  function openContact(id) {
+    const c = loadContacts().find(x => x.id === id);
+    if (!c) return;
+    const overlay = document.getElementById('contact-detail-overlay');
+    overlay.dataset.contactId = id;
+    const socialLinks = [
+      c.website  && `<a href="${c.website}" target="_blank" class="cm-social-btn">Website</a>`,
+      c.linkedin && `<a href="${c.linkedin}" target="_blank" class="cm-social-btn">LinkedIn</a>`,
+      c.twitter  && `<a href="https://twitter.com/${c.twitter.replace('@','')}" target="_blank" class="cm-social-btn">Twitter</a>`,
+      c.instagram && `<a href="https://instagram.com/${c.instagram.replace('@','')}" target="_blank" class="cm-social-btn">Instagram</a>`,
+      c.facebook && `<a href="${c.facebook}" target="_blank" class="cm-social-btn">Facebook</a>`,
+    ].filter(Boolean).join('');
+
+    document.getElementById('contact-detail-body').innerHTML = `
+      <div class="contact-modal">
+        <div class="cm-left">
+          <div class="cm-avatar">${c.headshot ? `<img src="${c.headshot}" alt="">` : initials(c)}</div>
+          <div class="cm-name">${c.firstName} ${c.lastName}</div>
+          ${c.title ? `<div class="cm-ttl">${c.title}</div>` : ''}
+          <div class="cm-org">${c.organization}</div>
+          <div class="cm-stars-display" title="Ranking">${stars(c.ranking, true)}</div>
+          <span class="badge ${STAGE_BADGE[c.stage]}">${STAGE_LABEL[c.stage]}</span>
+          ${c.tags?.length ? `<div class="cm-tags">${c.tags.map(t=>`<span class="cm-tag">${t}</span>`).join('')}</div>` : ''}
+          <div class="cm-meta-foot">
+            Last contacted<br>${c.lastContacted || '—'}<br><br>
+            Added<br>${c.createdAt || '—'}
+          </div>
+        </div>
+        <div class="cm-right">
+          <div>
+            <div class="cm-section-lbl">Contact Info</div>
+            ${c.email   ? `<div class="cm-field"><span class="cm-field-lbl">Email</span><span class="cm-field-val"><a href="mailto:${c.email}">${c.email}</a></span></div>` : ''}
+            ${c.phone   ? `<div class="cm-field"><span class="cm-field-lbl">Phone</span><span class="cm-field-val"><a href="tel:${c.phone}">${c.phone}</a></span></div>` : ''}
+            ${c.address ? `<div class="cm-field"><span class="cm-field-lbl">Address</span><span class="cm-field-val">${c.address}${c.city?', '+c.city:''}${c.state?', '+c.state:''} ${c.zip||''}</span></div>` : ''}
+            <div class="cm-field"><span class="cm-field-lbl">Value</span><span class="cm-field-val">$${c.value.toLocaleString()}</span></div>
+          </div>
+          ${socialLinks ? `<div><div class="cm-section-lbl">Links & Socials</div><div class="cm-socials">${socialLinks}</div></div>` : ''}
+          ${c.notes ? `<div><div class="cm-section-lbl">Notes</div><div class="cm-notes-box">${c.notes}</div></div>` : ''}
+          <div class="cm-actions">
+            <button class="btn-cm-secondary" onclick="cycleContactStage(${c.id})">Move Stage →</button>
+            <button class="btn-cm-secondary" onclick="deleteContact(${c.id})">Remove</button>
+            <button class="btn-cm-primary" onclick="closeContact()">Close</button>
+          </div>
+        </div>
+      </div>`;
+    overlay.classList.add('visible');
+  }
+
+  function closeContact() {
+    document.getElementById('contact-detail-overlay').classList.remove('visible');
+  }
+
+  function cycleContactStage(id) {
+    const data = loadContacts();
+    const c = data.find(x => x.id === id);
+    if (!c) return;
+    const cycle = ['new','warm','active','cold'];
+    c.stage = cycle[(cycle.indexOf(c.stage) + 1) % cycle.length];
+    saveContacts(data);
+    renderCRM();
+    openContact(id);
+  }
+
+  function deleteContact(id) {
+    if (!confirm('Remove this contact?')) return;
+    saveContacts(loadContacts().filter(c => c.id !== id));
+    closeContact();
+    renderCRM();
+  }
+
+  // ── ADD CONTACT ──────────────────────────────────────
+  function openAddContact() {
+    document.getElementById('add-contact-modal').style.display = 'flex';
+  }
+  function closeAddContact() {
+    document.getElementById('add-contact-modal').style.display = 'none';
+    document.getElementById('add-contact-form').reset();
+  }
+  function submitContact(e) {
+    e.preventDefault();
+    const f = e.target;
+    const data = loadContacts();
+    data.push({
+      id: Math.max(0, ...data.map(c=>c.id)) + 1,
+      firstName: f.firstName.value,
+      lastName:  f.lastName.value,
+      email:     f.email.value,
+      phone:     f.phone.value,
+      address:   f.address.value,
+      city:      f.city.value,
+      state:     f.state.value,
+      zip:       f.zip.value,
+      organization: f.organization.value,
+      title:     f.title.value,
+      stage:     f.stage.value,
+      value:     parseFloat(f.value.value) || 0,
+      ranking:   parseInt(f.ranking.value) || 3,
+      headshot:  f.headshot.value,
+      notes:     f.notes.value,
+      website:   f.website.value,
+      linkedin:  f.linkedin.value,
+      twitter:   f.twitter.value,
+      instagram: f.instagram.value,
+      facebook:  f.facebook.value,
+      lastContacted: new Date().toISOString().split('T')[0],
+      tags: f.tags.value.split(',').map(t=>t.trim()).filter(Boolean),
+      createdAt: new Date().toISOString().split('T')[0]
+    });
+    saveContacts(data);
+    renderCRM();
+    closeAddContact();
+  }
+
+  renderCRM();
 
   // ── DECK GENERATOR ────────────────────────────────────
   const API_KEY_STORE = 'meridian_api_key';
