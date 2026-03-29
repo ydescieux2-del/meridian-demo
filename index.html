@@ -1558,8 +1558,15 @@ body {
       </div>
       <label class="form-label">Facebook</label>
       <input class="form-input" name="facebook" placeholder="https://facebook.com/…">
-      <label class="form-label">Headshot URL</label>
-      <input class="form-input" name="headshot" type="url" placeholder="https://… (jpg, png)">
+      <label class="form-label">Headshot</label>
+      <div style="display:flex;gap:0.6rem;align-items:center">
+        <div id="add-headshot-preview" style="width:42px;height:42px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:500;flex-shrink:0;overflow:hidden">?</div>
+        <label style="flex:1;cursor:pointer">
+          <input type="file" accept="image/*" style="display:none" onchange="previewHeadshot(event,'add-headshot-preview','add-headshot-data')">
+          <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload photo</div>
+        </label>
+      </div>
+      <input type="hidden" name="headshot" id="add-headshot-data" value="">
       <label class="form-label">Tags <span style="font-weight:400;text-transform:none;letter-spacing:0">(comma-separated)</span></label>
       <input class="form-input" name="tags" placeholder="real estate, high value, referral">
       <label class="form-label">Notes</label>
@@ -1906,6 +1913,7 @@ body {
           ${socialLinks ? `<div><div class="cm-section-lbl">Links & Socials</div><div class="cm-socials">${socialLinks}</div></div>` : ''}
           ${c.notes ? `<div><div class="cm-section-lbl">Notes</div><div class="cm-notes-box">${c.notes}</div></div>` : ''}
           <div class="cm-actions">
+            <button class="btn-cm-secondary" onclick="editContact(${c.id})">Edit</button>
             <button class="btn-cm-secondary" onclick="cycleContactStage(${c.id})">Move Stage →</button>
             <button class="btn-cm-secondary" onclick="deleteContact(${c.id})">Remove</button>
             <button class="btn-cm-primary" onclick="closeContact()">Close</button>
@@ -1937,6 +1945,150 @@ body {
     renderCRM();
   }
 
+  function editContact(id) {
+    const c = loadContacts().find(x => x.id === id);
+    if (!c) return;
+    const v = val => (val || '').replace(/"/g, '&quot;');
+    document.getElementById('contact-detail-body').innerHTML = `
+      <div class="contact-modal" style="grid-template-columns:1fr;max-width:720px">
+        <div style="padding:2rem 2.5rem;overflow-y:auto;max-height:90vh">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid var(--gold)">
+            <div class="cm-name" style="margin:0">${c.firstName} ${c.lastName}</div>
+            <div style="font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Editing</div>
+          </div>
+          <form onsubmit="saveContactEdit(event,${id})">
+            <div class="cm-section-lbl">Name & Role</div>
+            <div class="modal-row">
+              <div><label class="form-label">First Name</label><input class="form-input" name="firstName" value="${v(c.firstName)}" required></div>
+              <div><label class="form-label">Last Name</label><input class="form-input" name="lastName" value="${v(c.lastName)}" required></div>
+            </div>
+            <div class="modal-row">
+              <div><label class="form-label">Organization</label><input class="form-input" name="organization" value="${v(c.organization)}"></div>
+              <div><label class="form-label">Title</label><input class="form-input" name="title" value="${v(c.title)}"></div>
+            </div>
+
+            <div class="cm-section-lbl" style="margin-top:1.4rem">Contact Info</div>
+            <div class="modal-row">
+              <div><label class="form-label">Email</label><input class="form-input" name="email" type="email" value="${v(c.email)}"></div>
+              <div><label class="form-label">Phone</label><input class="form-input" name="phone" value="${v(c.phone)}"></div>
+            </div>
+            <div class="modal-row">
+              <div><label class="form-label">Address</label><input class="form-input" name="address" value="${v(c.address)}"></div>
+              <div><label class="form-label">City</label><input class="form-input" name="city" value="${v(c.city)}"></div>
+            </div>
+            <div class="modal-row">
+              <div><label class="form-label">State</label><input class="form-input" name="state" value="${v(c.state)}"></div>
+              <div><label class="form-label">ZIP</label><input class="form-input" name="zip" value="${v(c.zip)}"></div>
+            </div>
+
+            <div class="cm-section-lbl" style="margin-top:1.4rem">Pipeline</div>
+            <div class="modal-row" style="grid-template-columns:1fr 1fr 1fr">
+              <div>
+                <label class="form-label">Stage</label>
+                <select class="form-select" name="stage">
+                  ${['new','warm','active','cold'].map(s=>`<option value="${s}"${c.stage===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+                </select>
+              </div>
+              <div><label class="form-label">Value ($)</label><input class="form-input" name="value" type="number" min="0" value="${c.value}"></div>
+              <div>
+                <label class="form-label">Ranking</label>
+                <select class="form-select" name="ranking">
+                  ${[1,2,3,4,5].map(n=>`<option value="${n}"${c.ranking===n?' selected':''}>${'★'.repeat(n)}</option>`).join('')}
+                </select>
+              </div>
+            </div>
+            <div class="modal-row">
+              <div><label class="form-label">Last Contacted</label><input class="form-input" name="lastContacted" type="date" value="${v(c.lastContacted)}"></div>
+              <div>
+                <label class="form-label">Headshot</label>
+                <div style="display:flex;gap:0.6rem;align-items:center">
+                  <div id="edit-headshot-preview" style="width:42px;height:42px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:500;flex-shrink:0;overflow:hidden">
+                    ${c.headshot ? `<img src="${c.headshot}" style="width:100%;height:100%;object-fit:cover">` : initials(c)}
+                  </div>
+                  <label style="flex:1;cursor:pointer">
+                    <input type="file" accept="image/*" style="display:none" onchange="previewHeadshot(event,'edit-headshot-preview','edit-headshot-data')">
+                    <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload photo</div>
+                  </label>
+                </div>
+                <input type="hidden" name="headshot" id="edit-headshot-data" value="${v(c.headshot)}">
+              </div>
+            </div>
+
+            <div class="cm-section-lbl" style="margin-top:1.4rem">Links & Socials</div>
+            <div class="modal-row">
+              <div><label class="form-label">Website</label><input class="form-input" name="website" value="${v(c.website)}"></div>
+              <div><label class="form-label">LinkedIn</label><input class="form-input" name="linkedin" value="${v(c.linkedin)}"></div>
+            </div>
+            <div class="modal-row" style="grid-template-columns:1fr 1fr 1fr">
+              <div><label class="form-label">Twitter / X</label><input class="form-input" name="twitter" value="${v(c.twitter)}"></div>
+              <div><label class="form-label">Instagram</label><input class="form-input" name="instagram" value="${v(c.instagram)}"></div>
+              <div><label class="form-label">Facebook</label><input class="form-input" name="facebook" value="${v(c.facebook)}"></div>
+            </div>
+
+            <div class="cm-section-lbl" style="margin-top:1.4rem">Tags & Notes</div>
+            <label class="form-label">Tags <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--forest-mid);font-size:0.65rem">(comma-separated)</span></label>
+            <input class="form-input" name="tags" value="${v((c.tags||[]).join(', '))}">
+            <label class="form-label">Notes</label>
+            <textarea class="form-textarea" name="notes" style="min-height:90px">${c.notes||''}</textarea>
+
+            <div class="cm-actions" style="margin-top:1.4rem">
+              <button type="submit" class="btn-cm-primary" style="padding:0.6rem 1.8rem">Save Changes</button>
+              <button type="button" class="btn-cm-secondary" onclick="openContact(${id})">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>`;
+  }
+
+  function previewHeadshot(event, previewId, dataId) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const data = e.target.result;
+      const preview = document.getElementById(previewId);
+      if (preview) preview.innerHTML = `<img src="${data}" style="width:100%;height:100%;object-fit:cover">`;
+      const hidden = document.getElementById(dataId);
+      if (hidden) hidden.value = data;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function saveContactEdit(e, id) {
+    e.preventDefault();
+    const f = e.target;
+    const data = loadContacts();
+    const idx = data.findIndex(x => x.id === id);
+    if (idx === -1) return;
+    Object.assign(data[idx], {
+      firstName:    f.firstName.value,
+      lastName:     f.lastName.value,
+      organization: f.organization.value,
+      title:        f.title.value,
+      email:        f.email.value,
+      phone:        f.phone.value,
+      address:      f.address.value,
+      city:         f.city.value,
+      state:        f.state.value,
+      zip:          f.zip.value,
+      stage:        f.stage.value,
+      value:        parseFloat(f.value.value) || 0,
+      ranking:      parseInt(f.ranking.value) || 3,
+      lastContacted: f.lastContacted.value,
+      headshot:     f.headshot.value,
+      website:      f.website.value,
+      linkedin:     f.linkedin.value,
+      twitter:      f.twitter.value,
+      instagram:    f.instagram.value,
+      facebook:     f.facebook.value,
+      tags:         f.tags.value.split(',').map(t=>t.trim()).filter(Boolean),
+      notes:        f.notes.value
+    });
+    saveContacts(data);
+    renderCRM();
+    openContact(id);
+  }
+
   // ── ADD CONTACT ──────────────────────────────────────
   function openAddContact() {
     document.getElementById('add-contact-modal').style.display = 'flex';
@@ -1944,6 +2096,8 @@ body {
   function closeAddContact() {
     document.getElementById('add-contact-modal').style.display = 'none';
     document.getElementById('add-contact-form').reset();
+    document.getElementById('add-headshot-data').value = '';
+    document.getElementById('add-headshot-preview').innerHTML = '?';
   }
   function submitContact(e) {
     e.preventDefault();
