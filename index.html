@@ -991,6 +991,52 @@ body {
   padding: 0.5rem 1.2rem; cursor: pointer;
 }
 
+/* ── DONOR / GRANT DETAIL ────────────────────────────── */
+.donor-detail-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(245,240,232,0.93);
+  backdrop-filter: blur(5px);
+  z-index: 700;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem 3rem;
+  overflow-y: auto;
+}
+.donor-detail-overlay.visible { display: flex; }
+.donor-modal {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  width: 100%;
+  max-width: 560px;
+  padding: 2.5rem;
+  margin-top: 0.5rem;
+}
+.donor-modal-name { font-size: 1.2rem; font-weight: 600; color: var(--forest); letter-spacing: 0.04em; margin-bottom: 0.15rem; }
+.donor-modal-org { font-size: 0.78rem; color: var(--forest-mid); font-style: italic; margin-bottom: 1.4rem; }
+
+.grant-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.grant-row:hover { background: var(--ivory); }
+.grants-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.grants-label { margin-bottom: 0 !important; }
+.btn-add-grant {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  background: transparent; color: var(--forest); border: 1px solid var(--parchment);
+  padding: 0.4rem 0.9rem; cursor: pointer; white-space: nowrap;
+  transition: border-color 0.2s;
+}
+.btn-add-grant:hover { border-color: var(--forest); }
+
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 480px) {
   .tab { padding: 0.85rem 1rem; font-size: 0.65rem; letter-spacing: 0.12em; }
@@ -1114,161 +1160,42 @@ body {
   <div class="section-title">Donor Intelligence</div>
   <div class="section-sub">Rebuilding California · Q1 2026</div>
 
-  <div class="kpi-bar" style="margin-bottom:2rem">
-    <div class="kpi">
-      <div class="kpi-value">$142,800</div>
-      <div class="kpi-label">YTD Gifts</div>
-      <div class="kpi-delta">↑ 31% vs prior year</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-value">$47,500</div>
-      <div class="kpi-label">Pledges Outstanding</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-value">$125,000</div>
-      <div class="kpi-label">Grants Pending</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-value">34</div>
-      <div class="kpi-label">Donors This Quarter</div>
-    </div>
+  <div class="kpi-bar" style="margin-bottom:1.5rem">
+    <div class="kpi"><div class="kpi-value" id="fin-kpi-gifts">—</div><div class="kpi-label">YTD Gifts</div><div class="kpi-delta">↑ 31% vs prior year</div></div>
+    <div class="kpi"><div class="kpi-value" id="fin-kpi-ask">—</div><div class="kpi-label">In Ask Stage</div></div>
+    <div class="kpi"><div class="kpi-value" id="fin-kpi-grants">—</div><div class="kpi-label">Grants Pipeline</div></div>
+    <div class="kpi"><div class="kpi-value" id="fin-kpi-donors">—</div><div class="kpi-label">Total Donors</div></div>
   </div>
 
-  <div class="donor-pipeline pipeline">
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">Education</div>
-        <div class="pipeline-count">2</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">James Whitfield</div>
-          <div class="contact-co">Corporate — potential $25K</div>
-          <div class="contact-footer">
-            <div class="contact-value">Major Gift</div>
-            <span class="badge badge-new">Prospect</span>
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-name">Michelle Park</div>
-          <div class="contact-co">Individual — potential $5K</div>
-          <div class="contact-footer">
-            <div class="contact-value">Mid-Level</div>
-            <span class="badge badge-new">Prospect</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">Engagement</div>
-        <div class="pipeline-count">2</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">Robert Harmon</div>
-          <div class="contact-co">Harmon Family Foundation</div>
-          <div class="contact-footer">
-            <div class="contact-value">$50,000</div>
-            <span class="badge badge-warm">Engaged</span>
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-name">Sandra Cruz</div>
-          <div class="contact-co">Individual donor</div>
-          <div class="contact-footer">
-            <div class="contact-value">$2,500</div>
-            <span class="badge badge-warm">Engaged</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">Ask</div>
-        <div class="pipeline-count">2</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">Parsons Family Fdn.</div>
-          <div class="contact-co">Proposal submitted</div>
-          <div class="contact-footer">
-            <div class="contact-value">$75,000</div>
-            <span class="badge badge-active">In Review</span>
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-name">City Council Grant</div>
-          <div class="contact-co">Public funding round</div>
-          <div class="contact-footer">
-            <div class="contact-value">$35,000</div>
-            <span class="badge badge-active">In Review</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pipeline-col">
-      <div class="pipeline-col-header">
-        <div class="pipeline-col-label">Thank</div>
-        <div class="pipeline-count">2</div>
-      </div>
-      <div class="pipeline-cards">
-        <div class="contact-card">
-          <div class="contact-name">LA Gives Initiative</div>
-          <div class="contact-co">Gift received · soft credited</div>
-          <div class="contact-footer">
-            <div class="contact-value">$10,000</div>
-            <span class="badge badge-active">Closed</span>
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-name">Anonymous</div>
-          <div class="contact-co">Individual · acknowledged</div>
-          <div class="contact-footer">
-            <div class="contact-value">$5,000</div>
-            <span class="badge badge-active">Closed</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <div class="crm-toolbar">
+    <input type="text" class="crm-search" id="donor-search" placeholder="Search donors, organizations…" oninput="renderFinance()">
+    <select class="crm-filter" id="donor-stage-filter" onchange="renderFinance()">
+      <option value="">All Stages</option>
+      <option value="education">Education</option>
+      <option value="engagement">Engagement</option>
+      <option value="ask">Ask</option>
+      <option value="thank">Thank</option>
+    </select>
+    <select class="crm-filter" id="donor-type-filter" onchange="renderFinance()">
+      <option value="">All Types</option>
+      <option value="individual">Individual</option>
+      <option value="corporate">Corporate</option>
+      <option value="foundation">Foundation</option>
+      <option value="public">Public</option>
+    </select>
+    <button class="btn-add-contact" onclick="openAddDonor()">+ Add Donor</button>
   </div>
+
+  <div id="donor-pipeline-board"></div>
 
   <div class="grants-section">
-    <div class="grants-label">Grant Tracker</div>
-
-    <div class="grant-row">
-      <div>
-        <div class="grant-name">Arts & Culture Education Fund</div>
-        <div class="grant-org">LA County — submitted Feb 14</div>
-      </div>
-      <div class="grant-amount">$50,000</div>
-      <span class="badge badge-warm">Pending</span>
+    <div class="grants-toolbar">
+      <div class="grants-label">Grant Tracker</div>
+      <button class="btn-add-grant" onclick="openAddGrant()">+ Add Grant</button>
     </div>
-
-    <div class="grant-row">
-      <div>
-        <div class="grant-name">Community Impact Grant</div>
-        <div class="grant-org">CA Community Foundation — in review</div>
-      </div>
-      <div class="grant-amount">$35,000</div>
-      <span class="badge badge-warm">Pending</span>
-    </div>
-
-    <div class="grant-row">
-      <div>
-        <div class="grant-name">Workforce Development Program</div>
-        <div class="grant-org">Boeing Employees Community Fund — researching</div>
-      </div>
-      <div class="grant-amount">$40,000</div>
-      <span class="badge badge-new">Research</span>
-    </div>
-
+    <div id="grant-tracker-board"></div>
   </div>
+
 </div>
 </div>
 
@@ -1373,6 +1300,116 @@ body {
 
   </div>
 </div>
+</div>
+
+<!-- ── DONOR DETAIL MODAL ─────────────────────────────── -->
+<div class="donor-detail-overlay" id="donor-detail-overlay" onclick="if(event.target===this)closeDonor()">
+  <div id="donor-detail-body"></div>
+</div>
+
+<!-- ── ADD DONOR MODAL ────────────────────────────────── -->
+<div class="modal-overlay" id="add-donor-modal" onclick="if(event.target===this)closeAddDonor()">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-title">New Donor</div>
+    <div class="modal-sub">Nonprofit Finance · Rebuilding California</div>
+    <form id="add-donor-form" onsubmit="submitDonor(event)">
+      <label class="form-label">Full Name</label>
+      <input class="form-input" name="name" required placeholder="James Whitfield">
+      <div class="modal-row">
+        <div>
+          <label class="form-label">Type</label>
+          <select class="form-select" name="type">
+            <option value="individual">Individual</option>
+            <option value="corporate">Corporate</option>
+            <option value="foundation">Foundation</option>
+            <option value="public">Public / Government</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Organization</label>
+          <input class="form-input" name="organization" placeholder="Harmon Family Foundation">
+        </div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Email</label><input class="form-input" name="email" type="email" placeholder="donor@org.com"></div>
+        <div><label class="form-label">Phone</label><input class="form-input" name="phone" placeholder="(310) 555-0000"></div>
+      </div>
+      <div class="modal-row" style="grid-template-columns:1fr 1fr 1fr">
+        <div>
+          <label class="form-label">Stage</label>
+          <select class="form-select" name="stage">
+            <option value="education">Education</option>
+            <option value="engagement">Engagement</option>
+            <option value="ask">Ask</option>
+            <option value="thank">Thank</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Gift / Ask ($)</label>
+          <input class="form-input" name="amount" type="number" min="0" placeholder="25000">
+        </div>
+        <div>
+          <label class="form-label">Gift Type</label>
+          <select class="form-select" name="giftType">
+            <option value="major">Major Gift</option>
+            <option value="mid-level">Mid-Level</option>
+            <option value="small">Small</option>
+            <option value="pledge">Pledge</option>
+          </select>
+        </div>
+      </div>
+      <label class="form-label">Next Action</label>
+      <input class="form-input" name="nextAction" placeholder="e.g. Send proposal by Apr 1">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" name="notes" style="min-height:80px" placeholder="Background, relationship history, giving capacity…"></textarea>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Add Donor →</button>
+        <button type="button" class="btn-cancel" onclick="closeAddDonor()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── ADD GRANT MODAL ────────────────────────────────── -->
+<div class="modal-overlay" id="add-grant-modal" onclick="if(event.target===this)closeAddGrant()">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-title">New Grant</div>
+    <div class="modal-sub">Grant Tracker · Rebuilding California</div>
+    <form id="add-grant-form" onsubmit="submitGrant(event)">
+      <label class="form-label">Grant Name</label>
+      <input class="form-input" name="name" required placeholder="Arts & Culture Education Fund">
+      <label class="form-label">Funder / Organization</label>
+      <input class="form-input" name="funder" required placeholder="LA County Arts Commission">
+      <div class="modal-row">
+        <div>
+          <label class="form-label">Amount ($)</label>
+          <input class="form-input" name="amount" type="number" min="0" required placeholder="50000">
+        </div>
+        <div>
+          <label class="form-label">Status</label>
+          <select class="form-select" name="status">
+            <option value="research">Research</option>
+            <option value="pending">Pending</option>
+            <option value="in-review">In Review</option>
+            <option value="awarded">Awarded</option>
+            <option value="declined">Declined</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Deadline</label><input class="form-input" name="deadline" type="date"></div>
+        <div><label class="form-label">Submitted</label><input class="form-input" name="submittedDate" type="date"></div>
+      </div>
+      <label class="form-label">Grant URL / Portal</label>
+      <input class="form-input" name="link" type="url" placeholder="https://…">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" name="notes" style="min-height:70px" placeholder="Requirements, contacts, reporting obligations…"></textarea>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Add Grant →</button>
+        <button type="button" class="btn-cancel" onclick="closeAddGrant()">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- ── CONTACT DETAIL MODAL ───────────────────────────── -->
@@ -1865,6 +1902,245 @@ body {
   }
 
   renderCRM();
+
+  // ── FINANCE DATA ──────────────────────────────────────
+  const DONORS_KEY = 'meridian_donors';
+  const GRANTS_KEY = 'meridian_grants';
+
+  const DONORS_SEED = [
+    {id:1,name:"James Whitfield",type:"corporate",organization:"Whitfield Capital Group",email:"j.whitfield@whitfieldcap.com",phone:"(213) 555-0340",stage:"education",amount:25000,giftType:"major",notes:"Met at LA Philanthropy Summit. Expressed interest in workforce programs. Schedule intro call in April.",nextAction:"Send intro packet + schedule call",lastContacted:"2026-03-10",tags:["corporate","major gift prospect"],createdAt:"2026-03-01"},
+    {id:2,name:"Michelle Park",type:"individual",organization:"",email:"michelle.park@gmail.com",phone:"(310) 555-0874",stage:"education",amount:5000,giftType:"mid-level",notes:"Attended March community event. Lives in district. Interested in education programs.",nextAction:"Send impact report",lastContacted:"2026-03-15",tags:["individual","community"],createdAt:"2026-03-10"},
+    {id:3,name:"Maya Johnson",type:"individual",organization:"",email:"maya.j@outlook.com",phone:"",stage:"education",amount:1000,giftType:"small",notes:"Newsletter subscriber — opened last 4 emails. Warm lead for first-time giving.",nextAction:"Personal outreach email",lastContacted:"2026-02-28",tags:["individual","newsletter"],createdAt:"2026-02-15"},
+    {id:4,name:"Robert Harmon",type:"foundation",organization:"Harmon Family Foundation",email:"grants@harmonfdn.org",phone:"(323) 555-0210",stage:"engagement",amount:50000,giftType:"major",notes:"Had two cultivation calls. Very aligned with Rebuilding California mission. Wants to see 3-year impact data before committing.",nextAction:"Send 3-year data report by Apr 5",lastContacted:"2026-03-20",tags:["foundation","high priority"],createdAt:"2026-01-10"},
+    {id:5,name:"TechCorp LA",type:"corporate",organization:"TechCorp LA",email:"csr@techcorpla.com",phone:"(213) 555-0655",stage:"engagement",amount:100000,giftType:"major",notes:"CSR team connected via board member intro. Evaluating 3 nonprofits. Decision by May 1.",nextAction:"Submit formal proposal by Apr 15",lastContacted:"2026-03-22",tags:["corporate","major gift","competitive"],createdAt:"2026-02-20"},
+    {id:6,name:"Sandra Cruz",type:"individual",organization:"",email:"scruz@aol.com",phone:"(818) 555-0093",stage:"engagement",amount:2500,giftType:"mid-level",notes:"Repeat donor — gave $2K last year. Upgraded ask this cycle. Attended gala.",nextAction:"Invite to April site visit",lastContacted:"2026-03-18",tags:["individual","repeat donor"],createdAt:"2025-09-01"},
+    {id:7,name:"Parsons Family Foundation",type:"foundation",organization:"Parsons Family Foundation",email:"info@parsonsfdn.org",phone:"(310) 555-0011",stage:"ask",amount:75000,giftType:"major",notes:"Proposal submitted Feb 28. Decision expected by end of April. Strong match with education pillar.",nextAction:"Follow up Apr 10 if no response",lastContacted:"2026-02-28",tags:["foundation","proposal submitted"],createdAt:"2025-12-01"},
+    {id:8,name:"Maria Elena Reyes",type:"individual",organization:"",email:"mariareyes@yahoo.com",phone:"(323) 555-0487",stage:"ask",amount:15000,giftType:"major",notes:"Legacy giving prospect. Met with ED last month. Considering planned gift + annual contribution.",nextAction:"ED follow-up call scheduled Apr 3",lastContacted:"2026-03-05",tags:["individual","legacy","major gift"],createdAt:"2026-01-20"},
+    {id:9,name:"LA Gives Initiative",type:"foundation",organization:"LA Gives Initiative",email:"awards@lagivesinitiative.org",phone:"",stage:"thank",amount:10000,giftType:"major",notes:"Gift received and acknowledged. Soft credit posted. Send formal thank-you letter + impact update in 90 days.",nextAction:"90-day impact update — due Jun 28",lastContacted:"2026-03-28",tags:["foundation","closed","stewardship"],createdAt:"2025-11-15"},
+    {id:10,name:"Anonymous Donor",type:"individual",organization:"",email:"",phone:"",stage:"thank",amount:5000,giftType:"mid-level",notes:"Anonymous gift received via online portal. Acknowledged per policy. No further contact.",nextAction:"None",lastContacted:"2026-03-01",tags:["individual","anonymous","closed"],createdAt:"2026-03-01"},
+    {id:11,name:"Pacific Community Foundation",type:"foundation",organization:"Pacific Community Foundation",email:"grants@paccomfdn.org",phone:"(415) 555-0302",stage:"thank",amount:30000,giftType:"major",notes:"Awarded Q4 2025. Stewardship report due June 30. Relationship manager: Nicole.",nextAction:"Stewardship report — due Jun 30",lastContacted:"2026-01-15",tags:["foundation","awarded","stewardship"],createdAt:"2025-09-01"}
+  ];
+
+  const GRANTS_SEED = [
+    {id:1,name:"Arts & Culture Education Fund",funder:"LA County Arts Commission",amount:50000,status:"pending",deadline:"2026-04-30",submittedDate:"2026-02-14",link:"",notes:"Letter of inquiry approved. Full proposal submitted Feb 14. Awaiting review panel."},
+    {id:2,name:"Community Impact Grant",funder:"California Community Foundation",amount:35000,status:"in-review",deadline:"2026-05-15",submittedDate:"2026-01-30",link:"",notes:"In second-round review. Program officer contacted Mar 10 — positive signal."},
+    {id:3,name:"Workforce Development Program",funder:"Boeing Employees Community Fund",amount:40000,status:"research",deadline:"2026-06-01",submittedDate:"",link:"",notes:"Eligibility confirmed. LOI due May 1. Need workforce outcome data from Q1."},
+    {id:4,name:"Education Access Initiative",funder:"Gates Foundation",amount:75000,status:"research",deadline:"2026-07-15",submittedDate:"",link:"",notes:"Highly competitive. Reviewing guidelines — need program alignment doc. Assign to grants manager."},
+    {id:5,name:"Environmental Justice Fund",funder:"California EPA",amount:25000,status:"pending",deadline:"2026-05-01",submittedDate:"2026-03-01",link:"",notes:"Submitted on time. Strong fit with community health pillar. Decision expected May."},
+    {id:6,name:"Community Health Initiative",funder:"Kaiser Permanente Foundation",amount:30000,status:"awarded",deadline:"",submittedDate:"2025-11-15",link:"",notes:"Awarded Jan 2026. First disbursement received. Reporting due quarterly. Next report: Jun 30."}
+  ];
+
+  function loadDonors() {
+    try { return JSON.parse(localStorage.getItem(DONORS_KEY)) || [...DONORS_SEED]; }
+    catch(e) { return [...DONORS_SEED]; }
+  }
+  function saveDonors(data) { localStorage.setItem(DONORS_KEY, JSON.stringify(data)); }
+  function loadGrants() {
+    try { return JSON.parse(localStorage.getItem(GRANTS_KEY)) || [...GRANTS_SEED]; }
+    catch(e) { return [...GRANTS_SEED]; }
+  }
+  function saveGrants(data) { localStorage.setItem(GRANTS_KEY, JSON.stringify(data)); }
+
+  const DONOR_STAGE_LABEL = {education:'Education',engagement:'Engagement',ask:'Ask',thank:'Thank'};
+  const DONOR_STAGE_BADGE = {education:'badge-new',engagement:'badge-warm',ask:'badge-active',thank:'badge-active'};
+  const GRANT_STATUS_LABEL = {research:'Research',pending:'Pending','in-review':'In Review',awarded:'Awarded',declined:'Declined'};
+  const GRANT_STATUS_BADGE = {research:'badge-new',pending:'badge-warm','in-review':'badge-active',awarded:'badge-active',declined:'badge-cold'};
+
+  function getFilteredDonors() {
+    const q = (document.getElementById('donor-search')?.value || '').toLowerCase();
+    const stage = document.getElementById('donor-stage-filter')?.value || '';
+    const type = document.getElementById('donor-type-filter')?.value || '';
+    return loadDonors().filter(d => {
+      const hay = `${d.name} ${d.organization} ${d.email} ${(d.tags||[]).join(' ')}`.toLowerCase();
+      return (!q || hay.includes(q)) && (!stage || d.stage === stage) && (!type || d.type === type);
+    });
+  }
+
+  function renderFinanceKPIs() {
+    const donors = loadDonors();
+    const grants = loadGrants();
+    const ytd = donors.filter(d => d.stage === 'thank').reduce((s,d) => s+d.amount, 0);
+    const ask  = donors.filter(d => d.stage === 'ask').reduce((s,d) => s+d.amount, 0);
+    const grantsPipeline = grants.filter(g => ['pending','in-review'].includes(g.status)).reduce((s,g) => s+g.amount, 0);
+    document.getElementById('fin-kpi-gifts').textContent  = '$' + (ytd >= 1000 ? Math.round(ytd/1000)+'K' : ytd);
+    document.getElementById('fin-kpi-ask').textContent    = '$' + (ask >= 1000 ? Math.round(ask/1000)+'K' : ask);
+    document.getElementById('fin-kpi-grants').textContent = '$' + (grantsPipeline >= 1000 ? Math.round(grantsPipeline/1000)+'K' : grantsPipeline);
+    document.getElementById('fin-kpi-donors').textContent = donors.length;
+  }
+
+  function renderFinance() {
+    renderFinanceKPIs();
+    renderDonorPipeline(getFilteredDonors());
+    renderGrantTracker(loadGrants());
+  }
+
+  function renderDonorPipeline(data) {
+    const stages = ['education','engagement','ask','thank'];
+    document.getElementById('donor-pipeline-board').innerHTML =
+      '<div class="donor-pipeline pipeline">' +
+      stages.map(stage => {
+        const items = data.filter(d => d.stage === stage);
+        return `<div class="pipeline-col">
+          <div class="pipeline-col-header">
+            <div class="pipeline-col-label">${DONOR_STAGE_LABEL[stage]}</div>
+            <div class="pipeline-count">${items.length}</div>
+          </div>
+          <div class="pipeline-cards">
+            ${items.length ? items.map(d => `
+              <div class="contact-card" onclick="openDonor(${d.id})">
+                <div class="contact-name">${d.name}</div>
+                <div class="contact-co">${d.organization || d.type.charAt(0).toUpperCase()+d.type.slice(1)}</div>
+                <div class="contact-footer">
+                  <div class="contact-value">$${d.amount.toLocaleString()}</div>
+                  <span class="badge ${DONOR_STAGE_BADGE[stage]}">${d.giftType === 'major' ? 'Major' : d.giftType === 'mid-level' ? 'Mid' : d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1)}</span>
+                </div>
+              </div>`).join('')
+            : '<div style="padding:1rem 0.8rem;font-size:0.75rem;color:var(--forest-mid);font-style:italic">No donors</div>'}
+          </div>
+        </div>`;
+      }).join('') + '</div>';
+  }
+
+  function renderGrantTracker(grants) {
+    document.getElementById('grant-tracker-board').innerHTML = grants.length ? grants.map(g => `
+      <div class="grant-row" onclick="cycleGrantStatus(${g.id})">
+        <div>
+          <div class="grant-name">${g.name}</div>
+          <div class="grant-org">${g.funder}${g.submittedDate ? ' — submitted ' + g.submittedDate : ''}${g.deadline ? ' · due ' + g.deadline : ''}</div>
+        </div>
+        <div class="grant-amount">$${g.amount.toLocaleString()}</div>
+        <span class="badge ${GRANT_STATUS_BADGE[g.status]}" title="Click to advance status">${GRANT_STATUS_LABEL[g.status]}</span>
+      </div>`).join('')
+    : '<div style="padding:1.5rem 0;font-size:0.82rem;color:var(--forest-mid);font-style:italic">No grants tracked yet.</div>';
+  }
+
+  // ── DONOR DETAIL ─────────────────────────────────────
+  function openDonor(id) {
+    const d = loadDonors().find(x => x.id === id);
+    if (!d) return;
+    const overlay = document.getElementById('donor-detail-overlay');
+    overlay.dataset.donorId = id;
+    const stageCycle = ['education','engagement','ask','thank'];
+    document.getElementById('donor-detail-body').innerHTML = `
+      <div class="donor-modal">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem">
+          <div class="donor-modal-name">${d.name}</div>
+          <span class="badge ${DONOR_STAGE_BADGE[d.stage]}">${DONOR_STAGE_LABEL[d.stage]}</span>
+        </div>
+        <div class="donor-modal-org">${[d.organization, d.type.charAt(0).toUpperCase()+d.type.slice(1)].filter(Boolean).join(' · ')}</div>
+
+        <div class="cm-section-lbl">Gift Details</div>
+        <div class="cm-field"><span class="cm-field-lbl">Ask / Gift</span><span class="cm-field-val">$${d.amount.toLocaleString()} · ${d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1).replace('-',' ')}</span></div>
+        ${d.nextAction ? `<div class="cm-field"><span class="cm-field-lbl">Next Step</span><span class="cm-field-val">${d.nextAction}</span></div>` : ''}
+        ${d.lastContacted ? `<div class="cm-field"><span class="cm-field-lbl">Last Touch</span><span class="cm-field-val">${d.lastContacted}</span></div>` : ''}
+
+        ${(d.email || d.phone) ? `
+        <div class="cm-section-lbl" style="margin-top:1.2rem">Contact</div>
+        ${d.email ? `<div class="cm-field"><span class="cm-field-lbl">Email</span><span class="cm-field-val"><a href="mailto:${d.email}">${d.email}</a></span></div>` : ''}
+        ${d.phone ? `<div class="cm-field"><span class="cm-field-lbl">Phone</span><span class="cm-field-val"><a href="tel:${d.phone}">${d.phone}</a></span></div>` : ''}
+        ` : ''}
+
+        ${d.notes ? `<div class="cm-section-lbl" style="margin-top:1.2rem">Notes</div><div class="cm-notes-box">${d.notes}</div>` : ''}
+
+        ${d.tags?.length ? `<div class="cm-tags" style="margin-top:1rem">${d.tags.map(t=>`<span class="cm-tag">${t}</span>`).join('')}</div>` : ''}
+
+        <div class="cm-actions" style="margin-top:1.5rem">
+          <button class="btn-cm-secondary" onclick="cycleDonorStage(${d.id})">Move Stage →</button>
+          <button class="btn-cm-secondary" onclick="deleteDonor(${d.id})">Remove</button>
+          <button class="btn-cm-primary" onclick="closeDonor()">Close</button>
+        </div>
+      </div>`;
+    overlay.classList.add('visible');
+  }
+
+  function closeDonor() { document.getElementById('donor-detail-overlay').classList.remove('visible'); }
+
+  function cycleDonorStage(id) {
+    const data = loadDonors();
+    const d = data.find(x => x.id === id);
+    if (!d) return;
+    const cycle = ['education','engagement','ask','thank'];
+    d.stage = cycle[(cycle.indexOf(d.stage)+1) % cycle.length];
+    saveDonors(data);
+    renderFinance();
+    openDonor(id);
+  }
+
+  function deleteDonor(id) {
+    if (!confirm('Remove this donor?')) return;
+    saveDonors(loadDonors().filter(d => d.id !== id));
+    closeDonor();
+    renderFinance();
+  }
+
+  function cycleGrantStatus(id) {
+    const data = loadGrants();
+    const g = data.find(x => x.id === id);
+    if (!g) return;
+    const cycle = ['research','pending','in-review','awarded','declined'];
+    g.status = cycle[(cycle.indexOf(g.status)+1) % cycle.length];
+    saveGrants(data);
+    renderFinance();
+  }
+
+  // ── ADD DONOR ────────────────────────────────────────
+  function openAddDonor() { document.getElementById('add-donor-modal').style.display = 'flex'; }
+  function closeAddDonor() {
+    document.getElementById('add-donor-modal').style.display = 'none';
+    document.getElementById('add-donor-form').reset();
+  }
+  function submitDonor(e) {
+    e.preventDefault();
+    const f = e.target;
+    const data = loadDonors();
+    data.push({
+      id: Math.max(0, ...data.map(d=>d.id)) + 1,
+      name:         f.name.value,
+      type:         f.type.value,
+      organization: f.organization.value,
+      email:        f.email.value,
+      phone:        f.phone.value,
+      stage:        f.stage.value,
+      amount:       parseFloat(f.amount.value) || 0,
+      giftType:     f.giftType.value,
+      nextAction:   f.nextAction.value,
+      notes:        f.notes.value,
+      lastContacted: new Date().toISOString().split('T')[0],
+      tags: [],
+      createdAt: new Date().toISOString().split('T')[0]
+    });
+    saveDonors(data);
+    renderFinance();
+    closeAddDonor();
+  }
+
+  // ── ADD GRANT ────────────────────────────────────────
+  function openAddGrant() { document.getElementById('add-grant-modal').style.display = 'flex'; }
+  function closeAddGrant() {
+    document.getElementById('add-grant-modal').style.display = 'none';
+    document.getElementById('add-grant-form').reset();
+  }
+  function submitGrant(e) {
+    e.preventDefault();
+    const f = e.target;
+    const data = loadGrants();
+    data.push({
+      id: Math.max(0, ...data.map(g=>g.id)) + 1,
+      name:          f.name.value,
+      funder:        f.funder.value,
+      amount:        parseFloat(f.amount.value) || 0,
+      status:        f.status.value,
+      deadline:      f.deadline.value,
+      submittedDate: f.submittedDate.value,
+      link:          f.link.value,
+      notes:         f.notes.value
+    });
+    saveGrants(data);
+    renderFinance();
+    closeAddGrant();
+  }
+
+  renderFinance();
 
   // ── DECK GENERATOR ────────────────────────────────────
   const API_KEY_STORE = 'meridian_api_key';
