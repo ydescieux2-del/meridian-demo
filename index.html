@@ -186,8 +186,8 @@ body {
 
 /* ── CAMPAIGN CARDS ───────────────────────────────────── */
 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1px;
   background: var(--parchment);
   border: 1px solid var(--parchment);
@@ -195,17 +195,32 @@ body {
 
 .card {
   background: var(--white);
-  padding: 1.6rem;
+  padding: 1.2rem 1.8rem;
+  display: grid;
+  grid-template-columns: 1fr auto minmax(180px, 220px) auto;
+  gap: 2rem;
+  align-items: center;
   transition: background 200ms var(--ease);
 }
 
-.card:hover { background: var(--cream); }
+.card:hover { background: var(--ivory); }
+
+.card-info { min-width: 0; }
 
 .card-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1rem;
+}
+
+.card-budget { min-width: 0; }
+.card-budget-label {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--forest-mid);
+  margin-top: 0.35rem;
+  letter-spacing: 0.02em;
 }
 
 .card-title {
@@ -1653,23 +1668,21 @@ body {
     else if (c.roas !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.roas}×</div><div class="stat-lbl">ROAS</div></div>`;
     else if (c.cvr !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.cvr}%</div><div class="stat-lbl">Form CVR</div></div>`;
     else if (c.revenue !== undefined) extra = `<div class="stat-item"><div class="stat-val">$${Math.round(c.revenue/1000)}K</div><div class="stat-lbl">Revenue</div></div>`;
-    const flags = getFlags(c);
-    const flagsHtml = flags.length ? `<div class="campaign-flags">${flags.map(f=>`<span class="campaign-flag">⚠ ${f}</span>`).join('')}</div>` : '';
-    return `<div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">${c.name}</div>
-          <div class="card-meta">${c.type} · ${c.label}</div>
-        </div>
-        <div class="badge ${statusMap[c.status]||'badge-warm'}" style="cursor:pointer" title="Click to cycle status" onclick="cycleStatus(${c.id})">${statusLabel[c.status]||c.status}</div>
+    return `<div class="card" onclick="openCampaign(${c.id})">
+      <div class="card-info">
+        <div class="card-title">${c.name}</div>
+        <div class="card-meta">${c.type} · ${c.label}</div>
       </div>
-      <div class="spend-bar"><div class="spend-fill" style="width:${pct}%"></div></div>
-      <div class="card-meta" style="margin-bottom:0.8rem">$${c.spent.toLocaleString()} of $${c.budget.toLocaleString()} budget</div>
+      <div class="badge ${statusMap[c.status]||'badge-warm'}" style="cursor:pointer;flex-shrink:0" title="Click to cycle status" onclick="event.stopPropagation();cycleStatus(${c.id})">${statusLabel[c.status]||c.status}</div>
+      <div class="card-budget">
+        <div class="spend-bar"><div class="spend-fill" style="width:${pct}%"></div></div>
+        <div class="card-budget-label">$${c.spent.toLocaleString()} of $${c.budget.toLocaleString()} budget</div>
+      </div>
       <div class="card-stats">
         <div class="stat-item"><div class="stat-val">${c.leads.toLocaleString()}</div><div class="stat-lbl">Leads</div></div>
         <div class="stat-item"><div class="stat-val">$${c.cpl > 0 ? c.cpl.toFixed(2) : '—'}</div><div class="stat-lbl">CPL</div></div>
         ${extra}
-      </div>${flagsHtml}</div>`;
+      </div></div>`;
   }
 
   function renderKPIs(data) {
@@ -2282,13 +2295,6 @@ body {
       </div>`);
   }
 
-  // Patch renderCard: card click → detail, badge click → cycle only
-  const _origRenderCard = renderCard;
-  window.renderCard = function(c) {
-    return _origRenderCard(c)
-      .replace('<div class="card">', `<div class="card" onclick="openCampaign(${c.id})"`)
-      .replace(`onclick="cycleStatus(${c.id})"`, `onclick="event.stopPropagation();cycleStatus(${c.id})"`);
-  };
   renderBoard();
 
   // ── CAMPAIGN DRILL HANDLERS ───────────────────────────
