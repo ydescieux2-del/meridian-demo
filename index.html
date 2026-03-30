@@ -1123,9 +1123,163 @@ body {
   .kpi-bar { grid-template-columns: repeat(2, 1fr); }
   .card-grid { grid-template-columns: 1fr; }
 }
+
+/* ── LOGIN SCREEN ───────────────────────────────────── */
+#login-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.4s var(--ease);
+}
+#login-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.login-box {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  padding: 3rem 3.5rem 2.8rem;
+  width: min(420px, 92vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.login-wordmark {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--forest);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+.login-wordmark span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  vertical-align: middle;
+  margin: 0 2px 3px;
+}
+.login-sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--forest-mid);
+  margin-bottom: 2.4rem;
+}
+.login-divider {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin-bottom: 2.4rem;
+}
+.login-field {
+  width: 100%;
+  margin-bottom: 1.1rem;
+}
+.login-field label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--forest);
+  margin-bottom: 0.45rem;
+}
+.login-field input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.05rem;
+  border: 1px solid var(--parchment);
+  background: var(--ivory);
+  color: var(--charcoal);
+  outline: none;
+  transition: border-color 160ms var(--ease);
+}
+.login-field input:focus {
+  border-color: var(--forest-mid);
+}
+.login-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--forest);
+  color: var(--ivory);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 180ms var(--ease);
+}
+.login-btn:hover { background: var(--forest-mid); }
+.login-error {
+  font-size: 0.82rem;
+  color: #b94a48;
+  letter-spacing: 0.04em;
+  margin-top: 0.8rem;
+  min-height: 1.2rem;
+  text-align: center;
+}
+.login-footer {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--parchment);
+  margin-top: 1rem;
+}
+/* Logout button in header */
+.logout-btn {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--forest-mid);
+  background: none;
+  border: 1px solid var(--parchment);
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+  transition: all 160ms var(--ease);
+}
+.logout-btn:hover {
+  background: var(--forest);
+  color: var(--ivory);
+  border-color: var(--forest);
+}
 </style>
 </head>
 <body>
+
+<!-- ── LOGIN SCREEN ──────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-wordmark">Meridian<span></span></div>
+    <div class="login-sub">DNA Agency · Rebuilding California</div>
+    <div class="login-divider"></div>
+    <form id="login-form" onsubmit="handleLogin(event)" style="width:100%">
+      <div class="login-field">
+        <label for="login-user">Username</label>
+        <input type="text" id="login-user" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      </div>
+      <div class="login-field">
+        <label for="login-pass">Password</label>
+        <input type="password" id="login-pass" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="login-btn">Sign In</button>
+      <div class="login-error" id="login-error"></div>
+    </form>
+  </div>
+</div>
 
 <!-- ── HEADER ─────────────────────────────────────── -->
 <header class="header">
@@ -1134,6 +1288,7 @@ body {
       <div class="wordmark">Meridian<span></span></div>
       <div class="orgs">DNA Agency · Rebuilding California</div>
     </div>
+    <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
   </div>
   <nav class="tabs">
     <button class="tab active" data-tab="campaign">Campaign</button>
@@ -1652,6 +1807,53 @@ body {
 </div>
 
 <script>
+  // ── AUTH ───────────────────────────────────────────────
+  const AUTH_KEY  = 'meridian_auth';
+  // Credentials — change these to update access
+  const USERS = {
+    'nicole': 'meridian2026',
+    'admin':  'apex2026'
+  };
+
+  function checkAuth() {
+    const ok = sessionStorage.getItem(AUTH_KEY) === 'true';
+    const screen = document.getElementById('login-screen');
+    if (ok) {
+      screen.classList.add('hidden');
+    } else {
+      screen.classList.remove('hidden');
+      setTimeout(() => document.getElementById('login-user').focus(), 80);
+    }
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    const user = document.getElementById('login-user').value.trim().toLowerCase();
+    const pass = document.getElementById('login-pass').value;
+    const err  = document.getElementById('login-error');
+    if (USERS[user] && USERS[user] === pass) {
+      sessionStorage.setItem(AUTH_KEY, 'true');
+      err.textContent = '';
+      document.getElementById('login-screen').classList.add('hidden');
+    } else {
+      err.textContent = 'Incorrect username or password.';
+      document.getElementById('login-pass').value = '';
+      document.getElementById('login-pass').focus();
+    }
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem(AUTH_KEY);
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-error').textContent = '';
+    document.getElementById('login-screen').classList.remove('hidden');
+    setTimeout(() => document.getElementById('login-user').focus(), 80);
+  }
+
+  // Run auth check on load
+  checkAuth();
+
   // ── TAB SWITCHING ──────────────────────────────────────
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
