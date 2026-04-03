@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERIDIAN — Product Guide Slide Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .presentation-container {
+            width: 100%;
+            max-width: 1000px;
+            aspect-ratio: 16 / 9;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 60px 80px;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.5s ease-in;
+            overflow-y: auto;
+            background: white;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide h1 {
+            font-size: 3.5rem;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .slide h2 {
+            font-size: 2.8rem;
+            color: #1a1a2e;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #4a90e2;
+            padding-bottom: 15px;
+        }
+        
+        .slide h3 {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .slide p {
+            font-size: 1.3rem;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .slide ul {
+            font-size: 1.2rem;
+            color: #4a5568;
+            line-height: 1.9;
+            margin-left: 30px;
+        }
+        
+        .slide li {
+            margin-bottom: 12px;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: #718096;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            color: #4a90e2;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+        
+        table th {
+            background: #f7fafc;
+            color: #1a1a2e;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #cbd5e0;
+        }
+        
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2e5c8a;
+        }
+        
+        .slide-counter {
+            color: #718096;
+            font-weight: 600;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .feature-box {
+            background: #f7fafc;
+            padding: 20px;
+            border-left: 4px solid #4a90e2;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .cost-box {
+            background: #edf2f7;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 1.1rem;
+        }
+        
+        code {
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide active">
+            <h1>MERIDIAN</h1>
+            <p class="subtitle">Product Guide</p>
+            <div style="margin-top: 60px;">
+                <p style="font-size: 1.4rem; margin-bottom: 40px;"><span class="highlight">DNA Agency · Rebuilding California</span></p>
+                <p style="font-size: 1.2rem; color: #718096;">Prepared by Von Descieux · Descieux Digital</p>
+            </div>
+        </div>
+        
+        <div class="slide">
+            <h2>What MERIDIAN Is</h2>
+            <p>A private, branded operations dashboard built specifically for Nicole Feenstra.</p>
+            <p style="margin-top: 30px; font-weight: 600;">Four Core Functions:</p>
+            <ul style="margin-top: 20px;">
+                <li><span class="highlight">Campaign Command Center</span> — Track all active ad campaigns</li>
+                <li><span class="highlight">CRM & Pipeline</span> — Full contact management</li>
+                <li><span class="highlight">Nonprofit Finance</span> — Donor pipeline & grant tracker</li>
+                <li><span class="highlight">Creative Studio</span> — AI-powered deck generation</li>
+            </ul>
+            <p style="margin-top: 40px; font-size: 1.1rem; color: #718096;">Built on a single <code>index.html</code> file · No app installations · No login required</p>
+        </div>
+        
+        <div class="slide">
+            <h2>Where It Lives & Why It Matters</h2>
+            <h3>Current Location</h3>
+            <p>Hosted on <span class="highlight">GitHub Pages</span> at:</p>
+            <p style="font-size: 1.2rem; margin: 20px 0;"><code>https://ydescieux2-del.github.io/meridian-demo/</code></p>
+            
+            <h3>Key Benefits</h3>
+            <ul>
+                <li>Accessible from any browser, any device, anywhere</li>
+                <li>Nicole never installs anything</li>
+                <li>You maintain full control of the codebase</li>
+                <li>Updates deploy automatically when you push to GitHub</li>
+            </ul>
+        </div>
+        
+        <div class="slide">
+            <h2>Current Limitation</h2>
+            <h3>Browser LocalStorage</h3>
+            <p>All data (campaigns, contacts, donors, grants) is stored in <span class="highlight">browser localStorage</span>.</p>
+            
+            <div class="feature-box" style="margin-top: 40px;">
+                <p><strong>What This Means:</strong></p>
+                <p style="margin-top: 15px;">Data lives in whichever browser on whichever device Nicole uses. If she switches browsers or devices, it starts fresh.</p>
+            </div>
+            
+            <p style="margin-top: 40px; font-size: 1.2rem;"><span class="highlight">Guidance:</span> Always open MERIDIAN from the same browser on the same device until Phase 2 upgrades to a real database backend.</p>
+        </div>
+        
+        <div class="slide">
+            <h2>Connecting Real Financial Data</h2>
+            <h3>QuickBooks Online</h3>
+            <div class="feature-box">
+                <p><strong>What it gives:</strong> Live income/expense data, invoices, cash flow, payroll</p>
+            </div>
+            <p><strong>Nicole does:</strong> Authorize through a standard login popup (no credentials shared)</p>
+            <p><strong>You do:</strong> Register a developer app at <code>developer.intuit.com</code> (~4–6 hrs Phase 2)</p>
+            <p><strong>Cost:</strong> Free (included with existing QB subscription)</p>
+        </div>
+        
+        <div class="slide">
+            <h2>Connecting Real Financial Data</h2>
+            <h3>Bank Accounts & Credit Cards (Plaid)</h3>
+            <div class="feature-box">
+                <p><strong>What it gives:</strong> Live transactions from 12,000+ institutions</p>
+            </div>
+            <p><strong>Security:</strong> Nicole logs in directly with her bank (you never see credentials)</p>
+            <p><strong>Nicole does:</strong> Click "Connect Account" and authorize through Plaid Link</p>
+            <p><strong>You do:</strong> Create free Plaid developer account, add Plaid Link to frontend (~3–5 hrs Phase 2)</p>
+            <p><strong>Cost:</strong> ~$0–$15/mo (See Section 4)</p>
+        </div>
+        
+        <div class="slide">
+            <h2>What Nicole Provides (The Short List)</h2>
+            <p style="margin-bottom: 30px;"><strong>She provides NOTHING sensitive.</strong></p>
+            <ul style="font-size: 1.15rem;">
+                <li>✓ QuickBooks company ID</li>
+                <li>✓ Confirmation she's authorized QB connection</li>
+                <li>✓ Confirmation she's connected her bank via Plaid</li>
+                <li>✓ Preferred domain name (e.g., meridian.dnaagency.com)</li>
+            </ul>
+            <p style="margin-top: 40px; font-size: 1.1rem;"><strong style="color: #e74c3c;">She NEVER gives:</strong> Bank logins, passwords, credit card numbers, SSNs</p>
+        </div>
+        
+        <div class="slide">
+            <h2>Monthly Connector Costs</h2>
+            <table style="font-size: 1r;">
+                <tr>
+                    <th>Service</th>
+                    <th>What It Connects</th>
+                    <th>Cost</th>
+                </tr>
+                <tr>
+                    <td><strong>Plaid</strong></td>
+                    <td>Banks, credit cards</td>
+                    <td>~$0–$15/mo</td>
+                </tr>
+                <tr>
+                    <td><strong>QuickBooks API</strong></td>
+                    <td>P&L, invoices, payroll</td>
+                    <td>Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Gamma AI</strong></td>
+                    <td>Deck generation</td>
+                    <td>Free tier or $8/mo</td>
+                </tr>
+                <tr>
+                    <td><strong>Anthropic API</strong></td>
+                    <td>MERIDIAN AI inline decks</td>
+                    <td>~$5–20/mo</td>
+                </tr>
+                <tr>
+                    <td><strong>Custom domain</strong></td>
+                    <td>Branding</td>
+                    <td>~$15/year</td>
+                </tr>
+                <tr>
+                    <td><strong>Hosting upgrade</strong></td>
+                    <td>Database & backend</td>
+                    <td>Free tier or $20/mo</td>
+                </tr>
+            </table>
+            <p style="margin-top: 30px; font-size: 1.15rem;"><span class="highlight">Phase 2 realistic total:</span> $30–80/mo<br><span class="highlight">Phase 1 (now):</span> $0/mo</p>
+        </div>
+        
+        <div class="slide">
+            <h2>The Data Flow</h2>
+            <p style="font-size: 1.1rem; color: #718096; margin-bottom: 20px;">How everything connects:</p>
+            <ul style="font-size: 1.2rem;">
+                <li><strong>Finance Tab:</strong> QuickBooks + Plaid → Live totals, pipeline, drill-down</li>
+                <li><strong>Campaign Tab:</strong> Meta API + Google Ads API → Live spend, leads, CPL</li>
+                <li><strong>CRM Tab:</strong> Manual + CSV import → Pipeline, edit, search</li>
+                <li><strong>Creative Studio:</strong> MERIDIAN AI + Gamma + Canva → On-demand decks</li>
+            </ul>
+            <p style="margin-top: 40px; font-size: 1.1rem; color: #4a90e2;"><strong>All feeding into one elegant dashboard</strong></p>
+        </div>
+        
+        <div class="slide">
+            <h2>Creative Studio — Current State</h2>
+            <h3>What Works Now</h3>
+            <div class="feature-box">
+                <p><strong>Gamma</strong> — Opens in new tab with brief pre-filled</p>
+            </div>
+            <div class="feature-box">
+                <p><strong>Canva</strong> — Same pattern, opens Canva with prompt pre-filled</p>
+            </div>
+            <div class="feature-box">
+                <p><strong>MERIDIAN AI</strong> — Generates 5-slide outline inline using Claude API</p>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Phase 2 Additions</h3>
+            <ul style="font-size: 1.15rem;">
+                <li>More Gamma templates & visual themes</li>
+                <li>Auto-pull campaign data into decks</li>
+                <li>Export to Google Slides</li>
+            </ul>
+        </div>
+        
+        <div class="slide">
+            <h2>Why Monthly Maintenance Is Essential</h2>
+            <h3>What It Covers</h3>
+            <ul style="font-size: 1.15rem;">
+                <li><strong>Data Integrity:</strong> API tokens expire, connections drift</li>
+                <li><strong>Platform Updates:</strong> Meta, Google, QuickBooks APIs change constantly</li>
+                <li><strong>Security Monitoring:</strong> Key rotation, access logs, backups</li>
+                <li><strong>Campaign Accuracy:</strong> Spot-check that numbers match ad platforms</li>
+                <li><strong>Feature Deployment:</strong> New capabilities added on rolling basis</li>
+            </ul>
+        </div>
+        
+        <div class="slide">
+            <h2>What Monthly Oversight Provides</h2>
+            <ul style="font-size: 1.2rem;">
+                <li><span class="highlight">Strategic Interpretation</span> — What do the numbers mean? What should Nicole do?</li>
+                <li><span class="highlight">Priority Calls</span> — When three things need attention, what's urgent?</li>
+                <li><span class="highlight">Proactive Catch</span> — See problems before they happen</li>
+                <li><span class="highlight">Institutional Memory</span> — History of every campaign, donor, grant inside the platform</li>
+                <li><span class="highlight">Single Point of Contact</span> — One person owns the entire stack</li>
+            </ul>
+        </div>
+        
+        <div class="slide">
+            <h2>The Cost of NOT Having It</h2>
+            <div class="feature-box" style="margin-top: 30px;">
+                <p>❌ Broken API connection = stale financial data (no one notices)</p>
+                <p style="margin-top: 15px;">❌ Campaign overspends (pacing problem not caught)</p>
+                <p style="margin-top: 15px;">❌ Donor goes cold (wrong contact date in CRM)</p>
+                <p style="margin-top: 15px;">❌ Grant deadline missed (no one watching tracker)</p>
+                <p style="margin-top: 15px;">❌ Platform becomes shelfware within 90 days</p>
+            </div>
+            
+            <p style="margin-top: 40px; font-size: 1.3rem;"><span class="highlight">MERIDIAN is infrastructure.</span></p>
+            <p style="font-size: 1.1rem; color: #718096;">Infrastructure without maintenance fails.</p>
+        </div>
+        
+        <div class="slide">
+            <h1 style="text-align: center; margin: auto;">Ready to Launch</h1>
+            <p style="text-align: center; margin-top: 20px; color: #718096; font-size: 1.3rem;">MERIDIAN v1.0 · March 2026 · Descieux Digital</p>
+        </div>
+        
+        <div class="footer">
+            <span class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">17</span></span>
+            <div class="controls">
+                <button onclick="previousSlide()">← Previous</button>
+                <button onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+    </script>
+</body>
+</html>

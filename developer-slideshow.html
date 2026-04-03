@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERIDIAN — Developer Operations Guide Slide Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .presentation-container {
+            width: 100%;
+            max-width: 1000px;
+            aspect-ratio: 16 / 9;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 40px 60px;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 30px;
+            animation: fadeIn 0.5s ease-in;
+            overflow-y: auto;
+            background: white;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide h1 {
+            font-size: 2.8rem;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+        
+        .slide h2 {
+            font-size: 2.2rem;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            border-bottom: 4px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        
+        .slide h3 {
+            font-size: 1.4rem;
+            color: #2d3748;
+            margin-top: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .slide p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .slide ul {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-left: 25px;
+        }
+        
+        .slide li {
+            margin-bottom: 6px;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: #718096;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.85rem;
+        }
+        
+        table th {
+            background: #f7fafc;
+            color: #1a1a2e;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #cbd5e0;
+        }
+        
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 60px;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #c0392b;
+        }
+        
+        .slide-counter {
+            color: #718096;
+            font-weight: 600;
+        }
+        
+        .feature-box {
+            background: #fef5f5;
+            padding: 20px;
+            border-left: 4px solid #e74c3c;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #c0392b;
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>MERIDIAN</h1>
+            <p class="subtitle">Developer Operations Guide</p>
+            <div style="margin-top: 60px;">
+                <p style="font-size: 1.4rem;"><span class="highlight">Technical Architecture, Setup, Monitoring & Maintenance</span></p>
+                <p style="margin-top: 40px; font-size: 1.2rem; color: #718096;">Descieux Digital · Von Descieux</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: What You Built -->
+        <div class="slide">
+            <h2>What You Built</h2>
+            <p style="margin-top: 20px;"><strong>MERIDIAN:</strong> Unified operations dashboard for Nicole Feenstra (DNA Agency)</p>
+            <ul style="margin-top: 30px;">
+                <li>Single-page application (SPA) built with vanilla JavaScript</li>
+                <li>Hosted on GitHub Pages (Phase 1), upgrade to Vercel/Railway (Phase 2)</li>
+                <li>Browser localStorage (Phase 1), PostgreSQL (Phase 2)</li>
+                <li>Git push to production — zero downtime deployments</li>
+                <li>URL-only access — no installation or authentication required</li>
+            </ul>
+            <div class="feature-box" style="margin-top: 30px;">
+                <strong>Key Advantage:</strong> You control the entire codebase; updates deploy instantly without touching Nicole's computer
+            </div>
+        </div>
+
+        <!-- Slide 3: Technical Stack -->
+        <div class="slide">
+            <h2>Tech Stack</h2>
+            <table>
+                <tr>
+                    <th>Layer</th>
+                    <th>Technology</th>
+                    <th>Why</th>
+                </tr>
+                <tr>
+                    <td><strong>Frontend</strong></td>
+                    <td>HTML5 + CSS3 + Vanilla JS</td>
+                    <td>Minimal dependencies, maximum control</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Layer</strong></td>
+                    <td>Browser localStorage (Phase 1)</td>
+                    <td>Instant MVP, no backend needed</td>
+                </tr>
+                <tr>
+                    <td><strong>External APIs</strong></td>
+                    <td>Plaid, QB, Meta, Google, Gamma, Anthropic</td>
+                    <td>Live data, no duplication</td>
+                </tr>
+                <tr>
+                    <td><strong>Hosting</strong></td>
+                    <td>GitHub Pages (Phase 1)</td>
+                    <td>Free, instant deploy</td>
+                </tr>
+                <tr>
+                    <td><strong>Backend</strong></td>
+                    <td>Node.js/Express + PostgreSQL (Phase 2)</td>
+                    <td>Persistent data, real-time sync</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Slide 4: Tab 1 - Campaign Command Center -->
+        <div class="slide">
+            <h2>Tab 1: Campaign Command Center</h2>
+            <h3>Current Functionality</h3>
+            <ul>
+                <li>Campaign list with key metrics (spend, leads, CPL, ROAS, CTR)</li>
+                <li>Drill-down: Click campaign → daily breakdown, audience targeting, creative rotation</li>
+                <li>Performance trending (week-over-week, month-over-month)</li>
+                <li>Budget threshold alerts</li>
+            </ul>
+            <h3 style="margin-top: 20px;">Data Source & Updates</h3>
+            <p><strong>Phase 2:</strong> Meta Ads API + Google Ads API (real-time or 5-min polling)</p>
+            <h3 style="margin-top: 20px;">Phase 2 Enhancements</h3>
+            <ul style="font-size: 1.1rem;">
+                <li>Automated bid adjustments</li>
+                <li>A/B test statistical significance</li>
+                <li>Attribution modeling</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Tab 2 - CRM & Pipeline -->
+        <div class="slide">
+            <h2>Tab 2: CRM & Pipeline</h2>
+            <h3>Current Functionality</h3>
+            <ul>
+                <li>Kanban board: New → Qualified → Proposal → Negotiation → Closed</li>
+                <li>Contact directory with search/filter</li>
+                <li>Drag-drop contact movement between stages</li>
+                <li>Headshot upload (base64 encoded in localStorage)</li>
+                <li>Tag system, notes with timestamps, social links</li>
+                <li>Last contact date tracking & stale prospect flagging</li>
+            </ul>
+            <h3 style="margin-top: 20px;">Phase 2 Enhancements</h3>
+            <ul style="font-size: 1.1rem;">
+                <li>Gmail/Outlook integration for auto-captured emails</li>
+                <li>LinkedIn data pull</li>
+                <li>Automated follow-up task creation</li>
+                <li>SMS integration (Twilio)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Tab 3 - Nonprofit Finance -->
+        <div class="slide">
+            <h2>Tab 3: Nonprofit Finance</h2>
+            <h3>Current Functionality</h3>
+            <ul>
+                <li>Donor Pipeline: Education → Engagement → Ask → Thank (visual funnel)</li>
+                <li>Donor records with gift history & capacity estimates</li>
+                <li>Grant tracker with due dates, status, award amounts</li>
+                <li>YTD totals (by month) — <span class="highlight">drill-down to see contributing donations/grants</span></li>
+                <li>Pipeline conversion rates between stages</li>
+            </ul>
+            <h3 style="margin-top: 20px;">Phase 2 Data Sources</h3>
+            <p>Plaid (bank transactions) + QuickBooks (incoming funds) + manual entry → auto-sync</p>
+        </div>
+
+        <!-- Slide 7: Tab 4 - Creative Studio -->
+        <div class="slide">
+            <h2>Tab 4: Creative Studio</h2>
+            <h3>Current Functionality</h3>
+            <ul>
+                <li>Brief builder form (topic, audience, tone, key message, slide count)</li>
+                <li>Gamma integration: Pre-fill brief → launch in new tab</li>
+                <li>Canva integration: Same pattern</li>
+                <li>MERIDIAN AI (Claude): Generate 5-slide outline inline</li>
+            </ul>
+            <h3 style="margin-top: 20px;">Phase 2 Enhancements</h3>
+            <ul style="font-size: 1.1rem;">
+                <li>Campaign data auto-injection (real numbers, not placeholders)</li>
+                <li>Donor impact report decks (auto-generate thank-you slides)</li>
+                <li>Google Slides export & auto-share</li>
+                <li>Template library (board reports, campaign recaps, donor reports)</li>
+                <li>Brand kit integration (lock in colors, fonts, logo)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 8: Account Linking - Plaid -->
+        <div class="slide">
+            <h2>Account Setup: Plaid (Banks & Credit Cards)</h2>
+            <h3>Your Setup (~2 hours)</h3>
+            <ol style="font-size: 1.15rem;">
+                <li>Go to plaid.com → create developer account</li>
+                <li>Get Client ID + Secret</li>
+                <li>Implement Plaid Link on frontend</li>
+                <li>Backend: Exchange public token for permanent access token</li>
+                <li>Implement 5-min polling + token refresh logic</li>
+            </ol>
+            <h3 style="margin-top: 20px;">Nicole's Setup</h3>
+            <p>Clicks "Connect Account" → Plaid window → searches bank → logs in directly → selects accounts → done</p>
+            <p style="margin-top: 15px; font-size: 1.1rem;"><strong>Cost:</strong> ~$1–2/mo (2–3 accounts)</p>
+        </div>
+
+        <!-- Slide 9: Account Linking - QuickBooks -->
+        <div class="slide">
+            <h2>Account Setup: QuickBooks</h2>
+            <h3>Your Setup (~4 hours)</h3>
+            <ol style="font-size: 1.15rem;">
+                <li>Go to developer.intuit.com → create app</li>
+                <li>Get Client ID, Client Secret, Redirect URI</li>
+                <li>Implement OAuth 2.0 flow</li>
+                <li>Store tokens securely in backend (encrypted)</li>
+                <li>Implement token refresh (QB tokens expire in 60 days)</li>
+                <li>Periodic API calls for P&L, invoices, payroll</li>
+            </ol>
+            <h3 style="margin-top: 20px;">Nicole's Setup</h3>
+            <p>Clicks "Connect QuickBooks" → logs into QB → approves permissions → connection live</p>
+            <p style="margin-top: 15px; font-size: 1.1rem;"><strong>Cost:</strong> Free (included in her QB subscription)</p>
+        </div>
+
+        <!-- Slide 10: Account Linking - Meta & Google -->
+        <div class="slide">
+            <h2>Account Setup: Meta & Google Ads</h2>
+            <div class="two-col">
+                <div>
+                    <h3>Meta Ads Setup (~3 hours)</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>developers.facebook.com → create app</li>
+                        <li>Add "Marketing API" product</li>
+                        <li>Get App ID + Secret</li>
+                        <li>Implement OAuth</li>
+                        <li>Fetch campaigns & insights</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 1.1rem;"><strong>Cost:</strong> Free</p>
+                </div>
+                <div>
+                    <h3>Google Ads Setup (~3 hours)</h3>
+                    <ul style="font-size: 1.1rem;">
+                        <li>developers.google.com → create project</li>
+                        <li>Enable Google Ads API</li>
+                        <li>Create OAuth credentials</li>
+                        <li>Implement OAuth</li>
+                        <li>Fetch campaign metrics</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 1.1rem;"><strong>Cost:</strong> Free</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Account Linking - Anthropic -->
+        <div class="slide">
+            <h2>Account Setup: Anthropic API (Claude)</h2>
+            <h3>Your Setup (~1 hour)</h3>
+            <ol style="font-size: 1.15rem;">
+                <li>Go to console.anthropic.com → create account</li>
+                <li>Get API key</li>
+                <li>Create backend endpoint to handle Claude requests</li>
+                <li><strong style="color: #e74c3c;">IMPORTANT:</strong> Never expose API key to frontend — always proxy through backend</li>
+            </ol>
+            <h3 style="margin-top: 20px;">Nicole's Workflow (Phase 1)</h3>
+            <p>MERIDIAN → Creative Studio → fill in brief → click "Generate Outline" → Claude returns 5-slide outline inline</p>
+            <h3 style="margin-top: 20px;">Phase 2</h3>
+            <p>Your backend manages API key — Nicole doesn't handle it</p>
+            <p style="margin-top: 15px; font-size: 1.1rem;"><strong>Cost:</strong> ~$5–20/mo (usage-based, ~$0.003 per 1K tokens)</p>
+        </div>
+
+        <!-- Slide 12: Monthly Costs - Nicole's Side -->
+        <div class="slide">
+            <h2>Monthly Costs: Nicole's Stack</h2>
+            <table>
+                <tr>
+                    <th>Service</th>
+                    <th>Use</th>
+                    <th>Nicole's Cost</th>
+                </tr>
+                <tr>
+                    <td>Plaid</td>
+                    <td>Bank connections</td>
+                    <td>$0–3/mo</td>
+                </tr>
+                <tr>
+                    <td>QuickBooks API</td>
+                    <td>P&L sync</td>
+                    <td>$0</td>
+                </tr>
+                <tr>
+                    <td>Meta API</td>
+                    <td>Campaign data</td>
+                    <td>$0</td>
+                </tr>
+                <tr>
+                    <td>Google Ads API</td>
+                    <td>Campaign data</td>
+                    <td>$0</td>
+                </tr>
+                <tr>
+                    <td>Gamma</td>
+                    <td>Deck generation</td>
+                    <td>$0–8/mo</td>
+                </tr>
+                <tr>
+                    <td>Anthropic</td>
+                    <td>Claude AI</td>
+                    <td>$5–20/mo</td>
+                </tr>
+            </table>
+            <p style="margin-top: 20px;"><span class="highlight">Phase 1 Total: $5–50/mo (Nicole's costs)</span></p>
+            <p><span class="highlight">Phase 2 Total: $30–80/mo (Nicole) + Your Retainer</span></p>
+        </div>
+
+        <!-- Slide 13: Your Infrastructure Costs -->
+        <div class="slide">
+            <h2>Monthly Costs: Your Infrastructure</h2>
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Cost</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td>Domain hosting</td>
+                    <td>~$1.25/mo</td>
+                    <td>Or bill to Nicole</td>
+                </tr>
+                <tr>
+                    <td>Backend server (Phase 2)</td>
+                    <td>$0–50/mo</td>
+                    <td>Vercel, Railway, Heroku</td>
+                </tr>
+                <tr>
+                    <td>Database (Phase 2)</td>
+                    <td>$0–30/mo</td>
+                    <td>PostgreSQL managed</td>
+                </tr>
+                <tr>
+                    <td>Email service (Phase 2)</td>
+                    <td>$0–20/mo</td>
+                    <td>SendGrid, Postmark</td>
+                </tr>
+                <tr>
+                    <td>Logging/monitoring</td>
+                    <td>$0–10/mo</td>
+                    <td>LogRocket, Sentry</td>
+                </tr>
+            </table>
+            <p style="margin-top: 20px;"><strong>Phase 1 your costs:</strong> ~$1–2/mo</p>
+            <p><strong>Phase 2 your costs:</strong> ~$20–80/mo</p>
+        </div>
+
+        <!-- Slide 14: Pricing Models -->
+        <div class="slide">
+            <h2>How to Price Your Retainer</h2>
+            <h3>Option A: Hourly</h3>
+            <p>Maintenance 5–10 hrs/mo × your rate</p>
+            
+            <h3>Option B: Monthly Retainer</h3>
+            <ul>
+                <li><strong>Tier 1 (Monitoring):</strong> $800/mo — daily monitoring, bug fixes, API triage</li>
+                <li><strong>Tier 2 (+ Strategy):</strong> $1,500/mo — includes monthly strategy call</li>
+                <li><strong>Tier 3 (+ Development):</strong> $2,500/mo — includes 10 hrs/mo feature development</li>
+            </ul>
+            
+            <div class="feature-box" style="margin-top: 30px;">
+                <strong>Pitch:</strong> "MERIDIAN costs ~$10–30/mo to run. The real value is integration, data accuracy, and strategy oversight. Without monthly maintenance, the platform breaks silently. Think of me as the ops person watching these pipes 24/7."
+            </div>
+        </div>
+
+        <!-- Slide 15: Monitoring Checklist -->
+        <div class="slide">
+            <h2>Monitoring & Maintenance</h2>
+            <h3>Daily</h3>
+            <ul>
+                <li>Check GitHub Actions deploy log</li>
+                <li>Glance at API error dashboards</li>
+            </ul>
+            <h3>Weekly</h3>
+            <ul>
+                <li>Spot-check one Campaign metric vs. Meta Ads Manager</li>
+                <li>Test Plaid connection (pull latest transactions)</li>
+                <li>Test Creative Studio (generate one outline)</li>
+            </ul>
+            <h3>Monthly</h3>
+            <ul>
+                <li>Full system test (all four tabs, all APIs)</li>
+                <li>Review client feedback</li>
+                <li>Check API token expiration dates</li>
+                <li>Monitor costs (Anthropic usage, Plaid pulls)</li>
+            </ul>
+            <h3>Quarterly</h3>
+            <ul>
+                <li>Security audit • Performance audit • Plan Phase 2/3</li>
+            </ul>
+        </div>
+
+        <!-- Slide 16: Phase 2 Roadmap -->
+        <div class="slide">
+            <h2>Phase 2 Roadmap: Backend Upgrade</h2>
+            <h3>From → To</h3>
+            <p><strong>GitHub Pages + localStorage</strong> → <strong>Vercel (frontend) + Railway (backend) + PostgreSQL</strong></p>
+            
+            <h3 style="margin-top: 20px;">Benefits</h3>
+            <ul>
+                <li>Persistent data (no more "same device only")</li>
+                <li>Real-time sync across devices</li>
+                <li>Multi-device access</li>
+                <li>Scalability for future features</li>
+            </ul>
+            
+            <h3 style="margin-top: 20px;">Timeline & Effort</h3>
+            <p><strong>Est. Dev Time:</strong> 80–120 hours</p>
+            <p><strong>Est. Monthly Cost:</strong> $20–50/mo (you absorb or pass to Nicole)</p>
+        </div>
+
+        <!-- Slide 17: Phase 2 Features -->
+        <div class="slide">
+            <h2>Phase 2 New Capabilities</h2>
+            <ul style="font-size: 1.15rem;">
+                <li><strong>Multi-device sync</strong> — Nicole's changes on iPhone appear on Mac automatically</li>
+                <li><strong>Email notifications</strong> — Grant deadlines, donation alerts, campaign issues</li>
+                <li><strong>Audit log</strong> — See who changed what and when</li>
+                <li><strong>Data export</strong> — CSV/PDF reports for board meetings or accountant</li>
+                <li><strong>API webhooks</strong> — Real-time updates from Plaid, QB instead of polling</li>
+                <li><strong>Multi-user support</strong> — Team members accessing MERIDIAN (optional)</li>
+                <li><strong>Authentication</strong> — Email + password or OAuth via Google/Microsoft</li>
+            </ul>
+        </div>
+
+        <!-- Slide 18: Security Best Practices -->
+        <div class="slide">
+            <h2>Security Considerations</h2>
+            <h3>API Key Management</h3>
+            <ul style="font-size: 1.1rem;">
+                <li>Never store API keys in frontend code</li>
+                <li>Always proxy API calls through backend</li>
+                <li>Rotate keys quarterly</li>
+                <li>Use environment variables (never hardcode)</li>
+            </ul>
+            
+            <h3 style="margin-top: 20px;">Phase 2 Data Security</h3>
+            <ul style="font-size: 1.1rem;">
+                <li>Database encryption for sensitive fields</li>
+                <li>HTTPS only (no HTTP)</li>
+                <li>Audit logs for all data access</li>
+            </ul>
+            
+            <h3 style="margin-top: 20px;">OAuth Best Practices</h3>
+            <ul style="font-size: 1.1rem;">
+                <li>State parameter to prevent CSRF attacks</li>
+                <li>Scope minimization (only request needed permissions)</li>
+                <li>Token expiration + refresh logic</li>
+            </ul>
+        </div>
+
+        <!-- Slide 19: FAQ -->
+        <div class="slide">
+            <h2>Common Developer Questions</h2>
+            <p><strong>Q: How do I test locally?</strong><br>A: <code>python3 -m http.server 8000</code> then open <code>localhost:8000</code></p>
+            
+            <p style="margin-top: 15px;"><strong>Q: Can I use a custom domain?</strong><br>A: Yes. Repo Settings → Pages → Custom domain. Add CNAME record to registrar.</p>
+            
+            <p style="margin-top: 15px;"><strong>Q: What if localStorage quota is exceeded?</strong><br>A: Safari ~50MB, Chrome ~10MB. If 500+ contacts, implement Phase 2 or aggressive archiving.</p>
+            
+            <p style="margin-top: 15px;"><strong>Q: Can Nicole use MERIDIAN on multiple devices in Phase 1?</strong><br>A: Not recommended. Data won't sync. Use Phase 2 for multi-device.</p>
+        </div>
+
+        <!-- Slide 20: Summary -->
+        <div class="slide">
+            <h1 style="text-align: center; margin-bottom: 40px;">Summary</h1>
+            <ul style="font-size: 1.25rem;">
+                <li>💰 <strong>Nicole's costs:</strong> $5–50/mo Phase 1, $30–80/mo Phase 2</li>
+                <li>💰 <strong>Your costs:</strong> ~$1–2/mo Phase 1, ~$20–80/mo Phase 2</li>
+                <li>💼 <strong>Your retainer:</strong> $800–2,500/mo (monitoring, maintenance, strategy)</li>
+                <li>🔧 <strong>Setup time:</strong> Plaid ~2h, QB ~4h, Meta/Google ~3h each, Anthropic ~1h</li>
+                <li>📋 <strong>Maintenance:</strong> Daily monitor, weekly test, monthly audit, quarterly plan</li>
+                <li>🚀 <strong>Phase 2:</strong> 80–120 hours, $20–50/mo, persistent data + multi-device</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <span class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">20</span></span>
+            <div class="controls">
+                <button onclick="previousSlide()">← Previous</button>
+                <button onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+    </script>
+</body>
+</html>

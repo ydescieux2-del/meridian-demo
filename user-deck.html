@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERIDIAN — User Guide Slide Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f3460 0%, #1a5276 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .presentation-container {
+            width: 100%;
+            max-width: 1100px;
+            max-height: 85vh;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            width: 100%;
+            flex: 1;
+            padding: 40px 65px;
+            animation: fadeIn 0.5s ease-in;
+            overflow-y: auto;
+            background: white;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide h1 {
+            font-size: 2.9rem;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            line-height: 1.15;
+        }
+        
+        .slide h2 {
+            font-size: 2.3rem;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #2ecc71;
+            padding-bottom: 10px;
+        }
+        
+        .slide h3 {
+            font-size: 1.4rem;
+            color: #2d3748;
+            margin-top: 12px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .slide p {
+            font-size: 1.05rem;
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .slide ul {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-left: 20px;
+        }
+        
+        .slide li {
+            margin-bottom: 8px;
+        }
+        
+        .slide ol {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-left: 20px;
+        }
+        
+        .slide ol li {
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #718096;
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 14px;
+            border-radius: 3px;
+            margin: 10px 0;
+            font-size: 0.98rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.9rem;
+        }
+        
+        table th {
+            background: #f0f9ff;
+            color: #1a1a2e;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #cbd5e0;
+        }
+        
+        table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 65px;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            color: #718096;
+            flex-shrink: 0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        button {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #27ae60;
+        }
+        
+        .feature-box {
+            background: #f0fdf4;
+            padding: 14px;
+            border-left: 3px solid #2ecc71;
+            border-radius: 3px;
+            margin: 10px 0;
+            font-size: 0.98rem;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #22863a;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <h1>MERIDIAN</h1>
+            <p class="subtitle">User Guide for DNA Agency</p>
+            <p style="margin-top: 15px; font-size: 1rem;"><span class="highlight">Your Operations Dashboard</span></p>
+            <p style="margin-top: 20px; font-size: 0.95rem; color: #718096;">For Nicole Feenstra and the DNA Agency team · March 2026</p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <h2>Welcome to MERIDIAN</h2>
+            <p>Your private dashboard for:</p>
+            <ul style="margin-top: 10px;">
+                <li>📊 <strong>Campaigns</strong> — All your ad spend and performance</li>
+                <li>👥 <strong>Contacts</strong> — Prospects and partners in a pipeline</li>
+                <li>💰 <strong>Fundraising</strong> — Donor pipeline and grant tracking</li>
+                <li>🎨 <strong>Creative</strong> — AI-powered deck generation</li>
+            </ul>
+            <h3 style="margin-top: 15px;">Access</h3>
+            <p style="font-size: 0.95rem;">Bookmark: <code>https://ydescieux2-del.github.io/meridian-demo/</code><br>No login • No installation</p>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <h2>⚠️ Important: Same Device & Browser</h2>
+            <div class="warning">
+                ⚠️ <strong>Until Phase 2:</strong> Your data lives on the device you use. If you open MERIDIAN in Chrome on your Mac, your data is there. Switch to Safari or a different computer = empty dashboard.
+            </div>
+            <h3>Best Practice</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>✓ Always use same browser on same device</li>
+                <li>✗ Don't switch browsers or computers</li>
+                <li>✗ Don't use incognito (data won't save)</li>
+            </ul>
+            <p style="margin-top: 12px; font-size: 0.9rem; color: #718096;"><em>Phase 2 (Summer 2026) will sync everywhere.</em></p>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <h2>The Four Tabs Overview</h2>
+            <p><strong>1. Campaign Command Center</strong><br>See all ad campaigns (Meta & Google). Track spend, leads, CPL, CTR, ROAS. <span class="highlight">Drill-down for details.</span></p>
+            <p style="margin-top: 8px;"><strong>2. CRM & Pipeline</strong><br>Manage contacts. Organize by stage in kanban board. Track last contact date.</p>
+            <p style="margin-top: 8px;"><strong>3. Nonprofit Finance</strong><br>Monitor fundraising. See donor pipeline and YTD totals. <span class="highlight">Drill-down for breakdown.</span></p>
+            <p style="margin-top: 8px;"><strong>4. Creative Studio</strong><br>Generate presentations. Use Claude AI, Gamma, or Canva. On-demand.</p>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide">
+            <h2>Campaign Tab: View & Drill-Down</h2>
+            <h3>What You See</h3>
+            <p style="font-size: 0.9rem;">Table with: Campaign Name • Platform • Spend • Leads • CPL • CTR • ROAS</p>
+            <h3>Drill-Down Feature</h3>
+            <ol style="font-size: 0.9rem;">
+                <li>Click any campaign name</li>
+                <li>See: daily spend/leads • audience targeting • creative performance • trends</li>
+            </ol>
+            <p style="margin-top: 10px; font-size: 0.85rem;"><strong>Why it matters:</strong> Spot which day campaign went flat • know which audience converts best • see lowest-CPL creative • know when to pause ads</p>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide">
+            <h2>Campaign Tab: Connect Your Data</h2>
+            <h3>Connect Meta Ads (Step 1)</h3>
+            <ol style="font-size: 0.9rem;">
+                <li>MERIDIAN → Campaign tab → "Connect Meta Ads"</li>
+                <li>Redirected to Facebook</li>
+                <li>Log in • Click Approve → campaigns appear</li>
+            </ol>
+            <h3>Connect Google Ads (Step 2)</h3>
+            <ol style="font-size: 0.9rem;">
+                <li>MERIDIAN → Campaign tab → "Connect Google Ads"</li>
+                <li>Redirected to Google</li>
+                <li>Log in • Click Approve → campaigns appear</li>
+            </ol>
+            <p style="margin-top: 10px; font-size: 0.85rem;"><span class="highlight">Security:</span> You never give Von your passwords. You log into Facebook/Google directly.</p>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide">
+            <h2>CRM Tab: Manage Your Contacts</h2>
+            <h3>Kanban Stages</h3>
+            <p style="font-size: 0.9rem;">New → Qualified → Proposal → Negotiation → Closed</p>
+            <h3>Add a Contact</h3>
+            <p style="font-size: 0.9rem;">Click "+ Add Contact" • Fill in name, email, phone, company, title, tags, notes, headshot • Pick stage • Save</p>
+            <h3>Move Between Stages</h3>
+            <p style="font-size: 0.9rem;"><strong>Drag & drop:</strong> Click contact → drag to new stage • Saved automatically</p>
+            <h3>Track Follow-Ups</h3>
+            <p style="font-size: 0.9rem;">Use tags ("needs-call-this-week") • See "Last Contact: [date]"</p>
+        </div>
+
+        <!-- Slide 8 -->
+        <div class="slide">
+            <h2>Finance Tab: Donor Pipeline</h2>
+            <h3>Four Stages</h3>
+            <table style="font-size: 0.85rem;">
+                <tr><th>Stage</th><th>What It Means</th></tr>
+                <tr><td><strong>Education</strong></td><td>Prospects who know about you</td></tr>
+                <tr><td><strong>Engagement</strong></td><td>They've engaged (attended event, emails)</td></tr>
+                <tr><td><strong>Ask</strong></td><td>You've made funding request</td></tr>
+                <tr><td><strong>Thank</strong></td><td>Donors who've given</td></tr>
+            </table>
+            <p style="margin-top: 10px; font-size: 0.9rem;"><span class="highlight">Why it matters:</span> See conversion rates • know where to focus effort</p>
+        </div>
+
+        <!-- Slide 9 -->
+        <div class="slide">
+            <h2>Finance Tab: YTD Totals & Drill-Down</h2>
+            <h3>Dashboard Shows</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>Total gifts received this year (by month)</li>
+                <li>Number of donors</li>
+                <li>Average gift size</li>
+                <li>Grant awards received</li>
+            </ul>
+            <h3>Drill-Down Example</h3>
+            <p style="font-size: 0.9rem;"><strong>Dashboard:</strong> "$127,000 raised in March"</p>
+            <p style="font-size: 0.9rem; margin-top: 5px;"><strong>Click March:</strong> See $25K from Alice Chen • $15K matching gift • $60K grant award • plus smaller gifts</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">Know which donors/grants drove the month • send personalized thank-yous</p>
+        </div>
+
+        <!-- Slide 10 -->
+        <div class="slide">
+            <h2>Finance Tab: Tracking Grants</h2>
+            <h3>Add a Grant</h3>
+            <ol style="font-size: 0.9rem;">
+                <li>MERIDIAN → Nonprofit Finance → "+ Add Grant"</li>
+                <li>Fill in: Name • Funder • Amount • Deadline • Status • Notes</li>
+                <li>Save</li>
+            </ol>
+            <h3>Update Status</h3>
+            <p style="font-size: 0.9rem;">Find grant → click → change Status → Save</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;"><strong>Note:</strong> Auto-reminders are Phase 2. For now, check Grant Tracker monthly.</p>
+        </div>
+
+        <!-- Slide 11 -->
+        <div class="slide">
+            <h2>Creative Studio: Generate Decks</h2>
+            <h3>Using Gamma (Most Common)</h3>
+            <ol style="font-size: 0.9rem;">
+                <li>Creative Studio tab → Fill in brief (topic, audience, tone, key message)</li>
+                <li>Click "Generate with Gamma"</li>
+                <li>Gamma opens in new tab (brief pre-filled)</li>
+                <li>Click Generate → Gamma creates slides</li>
+                <li>Edit in Gamma → download or share</li>
+            </ol>
+            <h3>Using Claude (Quick Outline)</h3>
+            <p style="font-size: 0.9rem;">Fill in brief → Click "Generate Outline" → 5-slide outline appears inline</p>
+        </div>
+
+        <!-- Slide 12 -->
+        <div class="slide">
+            <h2>Creative Studio: Phase 2 Features (Coming)</h2>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Campaign Data Auto-Injection</strong><br>Write brief → MERIDIAN pulls real Q1 spend, leads, CPL, ROAS → Gamma generates with REAL numbers
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Donor Impact Decks</strong><br>Click "Generate Donor Report" → deck shows contribution and impact
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Google Slides Export</strong><br>Generate in Gamma → Export to Google Slides → auto-shared
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Template Library & Brand Kit</strong><br>Pre-built templates + set colors/fonts/logo once → used everywhere
+            </div>
+        </div>
+
+        <!-- Slide 13 -->
+        <div class="slide">
+            <h2>Account Setup: Data Connections</h2>
+            <h3>Phase 1 (Now)</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>✓ Connect Meta Ads → see campaigns</li>
+                <li>✓ Connect Google Ads → see campaigns</li>
+                <li>Manual entry for contacts & donors</li>
+            </ul>
+            <h3>Phase 2 (Coming)</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>✓ Plaid (banks & credit cards) → donations auto-appear</li>
+                <li>✓ QuickBooks → P&L automatically syncs</li>
+                <li>✓ Email notifications for deadlines</li>
+            </ul>
+            <p style="margin-top: 10px; font-size: 0.85rem;"><span class="highlight">Key:</span> Your data goes directly to those services. Von never sees your passwords.</p>
+        </div>
+
+        <!-- Slide 14 -->
+        <div class="slide">
+            <h2>Best Practices: Weekly Routine</h2>
+            <ul>
+                <li><strong>Monday morning:</strong> Open Campaign tab • review weekend spend & leads</li>
+                <li><strong>Wednesday:</strong> Check CRM • see who needs follow-ups</li>
+                <li><strong>Friday:</strong> Review Nonprofit Finance • see how week's fundraising looks</li>
+            </ul>
+        </div>
+
+        <!-- Slide 15 -->
+        <div class="slide">
+            <h2>Best Practices: Monthly Routine</h2>
+            <ul>
+                <li><strong>First week:</strong> Export campaign performance data</li>
+                <li><strong>Second week:</strong> Review donor pipeline • move donors to next stage</li>
+                <li><strong>Third week:</strong> Check grant tracker for upcoming deadlines</li>
+                <li><strong>Fourth week:</strong> Build monthly board report using MERIDIAN data</li>
+            </ul>
+        </div>
+
+        <!-- Slide 16 -->
+        <div class="slide">
+            <h2>Data Entry Tips</h2>
+            <ul style="font-size: 0.9rem;">
+                <li>When adding contact: always include note on where you met them</li>
+                <li>Use consistent tags (don't mix "hot-prospect" and "priority")</li>
+                <li>Update "Last Contact" date after every conversation</li>
+                <li>Upload professional headshot (helps you remember faces)</li>
+                <li>Check MERIDIAN weekly instead of ad platforms daily</li>
+            </ul>
+        </div>
+
+        <!-- Slide 17 -->
+        <div class="slide">
+            <h2>Troubleshooting FAQ</h2>
+            <p style="font-size: 0.9rem;"><strong>Q: I lost all my data!</strong><br>A: You cleared browser cache or switched devices. Until Phase 2, always use same browser/device.</p>
+            <p style="font-size: 0.9rem;"><strong>Q: Campaign numbers look wrong.</strong><br>A: Data updates every 5 minutes. Wait 10 min and refresh. If still wrong, check Meta Ads Manager.</p>
+            <p style="font-size: 0.9rem;"><strong>Q: No grant deadline reminder.</strong><br>A: Auto-reminders are Phase 2. Check Grant Tracker monthly yourself.</p>
+            <p style="font-size: 0.9rem;"><strong>Q: Can I use MERIDIAN on iPhone?</strong><br>A: Yes, it's mobile-friendly! But data won't sync to Mac until Phase 2.</p>
+        </div>
+
+        <!-- Slide 18 -->
+        <div class="slide">
+            <h2>Getting Help</h2>
+            <h3>Minor Issues</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>Refresh browser (Cmd+Shift+R on Mac)</li>
+                <li>Check you're using same browser/device</li>
+                <li>Verify all connections set up (Meta, Google)</li>
+            </ul>
+            <h3>Technical Problems</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>Contact Von Descieux (Descieux Digital)</li>
+                <li>Describe what happened + screenshot error</li>
+                <li>Let him know if urgent</li>
+            </ul>
+        </div>
+
+        <!-- Slide 19 -->
+        <div class="slide">
+            <h2>Security: How Your Data Is Protected</h2>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ OAuth 2.0:</strong> You log into Meta/Google/QB directly — not through MERIDIAN
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Secure Connections:</strong> All data sent over HTTPS (locked)
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Data on Your Device:</strong> Phase 1 stores data only on your computer (localStorage)
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Plaid Security:</strong> Bank login goes directly to your bank — Von never sees it
+            </div>
+        </div>
+
+        <!-- Slide 20 -->
+        <div class="slide">
+            <h2>Security: Phase 2 Enhancements</h2>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Database Encryption:</strong> Sensitive info encrypted in database
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Authentication:</strong> Email + password or login via Google/Microsoft
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Audit Logs:</strong> Full record of who accessed/changed what and when
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Automatic Backups:</strong> Your data backed up automatically — never lose it
+            </div>
+            <div class="feature-box" style="font-size: 0.9rem;">
+                <strong>✓ Quarterly Key Rotation:</strong> API keys refreshed automatically
+            </div>
+        </div>
+
+        <!-- Slide 21 -->
+        <div class="slide">
+            <h2>Phase 2 Release (Summer 2026)</h2>
+            <h3>What's Changing</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>✓ Multi-device sync — access from any device</li>
+                <li>✓ Persistent backup — never lose data</li>
+                <li>✓ Real-time data — banks, QB, campaigns auto-sync</li>
+                <li>✓ Email alerts — deadline & budget notifications</li>
+                <li>✓ Automated reports — monthly data export</li>
+            </ul>
+            <h3>What Stays the Same</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>URL access • Four familiar tabs • Clean interface</li>
+            </ul>
+        </div>
+
+        <!-- Slide 22 -->
+        <div class="slide">
+            <h2>Get Ready for Phase 2</h2>
+            <h3>Action Items</h3>
+            <ol style="font-size: 0.9rem;">
+                <li><strong>Get comfortable:</strong> Use MERIDIAN daily in Phase 1</li>
+                <li><strong>Clean up data:</strong> Organize contacts, campaigns, donors</li>
+                <li><strong>Pick timezone:</strong> For backup reporting</li>
+                <li><strong>Decide on multi-user:</strong> Want team members accessing MERIDIAN?</li>
+            </ol>
+            <p style="margin-top: 12px; font-size: 0.85rem; color: #718096;"><em>We'll give you plenty of notice before Phase 2 transition.</em></p>
+        </div>
+
+        <!-- Slide 23 -->
+        <div class="slide">
+            <h1 style="text-align: center;">You're Ready!</h1>
+            <ul style="font-size: 1rem;">
+                <li>✓ Always use same device & browser</li>
+                <li>✓ Four tabs: Campaigns • Contacts • Fundraising • Creative</li>
+                <li>✓ Drill-down into campaign & fundraising details</li>
+                <li>✓ Connect Meta & Google for live data</li>
+                <li>✓ Weekly/monthly routines for organization</li>
+                <li>✓ Secure: OAuth 2.0 + encrypted Phase 2 backend</li>
+                <li>✓ Phase 2 Summer 2026 with multi-device sync</li>
+                <li>✓ Contact Von anytime with questions</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <span><span id="current-slide">1</span> / <span id="total-slides">23</span></span>
+            <div class="controls">
+                <button onclick="previousSlide()">← Previous</button>
+                <button onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+    </script>
+</body>
+</html>
