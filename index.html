@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MERIDIAN — DNA Agency & Rebuilding California</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -25,11 +25,14 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--ivory);
   color: var(--charcoal);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── HEADER ─────────────────────────────────────────── */
@@ -52,10 +55,11 @@ body {
 }
 
 .wordmark {
-  font-size: clamp(1.4rem, 3vw, 1.8rem);
-  font-weight: 700;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
   color: var(--forest);
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -70,7 +74,7 @@ body {
 }
 
 .orgs {
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--forest-mid);
   letter-spacing: 0.12em;
@@ -89,10 +93,10 @@ body {
 .tabs::-webkit-scrollbar { display: none; }
 
 .tab {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--forest-mid);
   background: none;
@@ -120,25 +124,26 @@ body {
 }
 
 .section-eyebrow {
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .section-title {
+  font-family: 'DM Serif Display', Georgia, serif;
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--forest);
-  line-height: 1.15;
-  margin-bottom: 0.3rem;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
 }
 
 .section-sub {
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 500;
   color: var(--forest-mid);
   margin-bottom: 2.5rem;
   font-style: italic;
@@ -166,10 +171,12 @@ body {
   color: var(--forest);
   line-height: 1;
   margin-bottom: 0.3rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
 }
 
 .kpi-label {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -177,7 +184,7 @@ body {
 }
 
 .kpi-delta {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--gold-deep);
   margin-top: 0.25rem;
@@ -216,7 +223,7 @@ body {
 
 .card-budget { min-width: 0; }
 .card-budget-label {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--forest-mid);
   margin-top: 0.35rem;
@@ -231,7 +238,7 @@ body {
 }
 
 .card-meta {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--forest-mid);
@@ -239,11 +246,11 @@ body {
 }
 
 .badge {
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
+  padding: 0.25rem 0.6rem;
   border: 1px solid currentColor;
   border-radius: 1px;
   white-space: nowrap;
@@ -270,10 +277,11 @@ body {
   font-weight: 700;
   color: var(--charcoal);
   line-height: 1;
+  letter-spacing: 0.02em;
 }
 
 .stat-lbl {
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -319,7 +327,7 @@ body {
 }
 
 .pipeline-col-label {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -327,7 +335,7 @@ body {
 }
 
 .pipeline-count {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--forest-mid);
 }
@@ -356,7 +364,7 @@ body {
 }
 
 .contact-co {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--forest-mid);
   margin: 0.1rem 0 0.6rem;
@@ -366,16 +374,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.6rem;
 }
 
 .contact-value {
-  font-size: 0.92rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--charcoal);
+  letter-spacing: 0.03em;
 }
 
 .contact-touch {
-  font-size: 0.62rem;
+  font-size: 0.95rem;
   color: var(--parchment);
   font-style: italic;
 }
@@ -399,7 +409,7 @@ body {
 }
 
 .grants-label {
-  font-size: 0.84rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -425,7 +435,7 @@ body {
 }
 
 .grant-org {
-  font-size: 0.84rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--forest-mid);
   font-style: italic;
@@ -446,8 +456,8 @@ body {
   margin-bottom: 1.5rem;
 }
 .btn-add-campaign {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -468,7 +478,7 @@ body {
   flex-wrap: wrap;
 }
 .campaign-flag {
-  font-size: 0.63rem;
+  font-size: 0.95rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #7A2F2F;
@@ -506,7 +516,7 @@ body {
   margin-bottom: 0.25rem;
 }
 .modal-sub {
-  font-size: 0.7rem;
+  font-size: 0.92rem;
   color: var(--forest-mid);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -524,8 +534,8 @@ body {
   margin-top: 1.6rem;
 }
 .btn-cancel {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -560,7 +570,7 @@ body {
 }
 
 .form-label {
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -573,7 +583,7 @@ body {
 .form-label:first-child { margin-top: 0; }
 
 .form-input, .form-select, .form-textarea {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--charcoal);
@@ -594,8 +604,8 @@ body {
 .form-textarea { min-height: 80px; resize: vertical; }
 
 .btn-generate {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -616,7 +626,7 @@ body {
 }
 
 .output-eyebrow {
-  font-size: 0.65rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -650,7 +660,7 @@ body {
 }
 
 .output-card-thumb-sub {
-  font-size: 0.7rem;
+  font-size: 0.92rem;
   color: var(--gold);
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -665,14 +675,14 @@ body {
 }
 
 .output-card-title {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--forest);
   margin-bottom: 0.3rem;
 }
 
 .output-card-meta {
-  font-size: 0.7rem;
+  font-size: 0.92rem;
   color: var(--forest-mid);
   margin-bottom: 0.8rem;
   font-style: italic;
@@ -684,8 +694,8 @@ body {
 }
 
 .btn-view, .btn-export {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.68rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -752,7 +762,7 @@ body {
   margin-bottom: 0.7rem;
 }
 .slide-card-num {
-  font-size: 0.62rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -767,7 +777,7 @@ body {
   margin-bottom: 0.15rem;
 }
 .slide-card-subtitle {
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   color: var(--forest-mid);
   font-style: italic;
   margin-bottom: 0.65rem;
@@ -778,7 +788,7 @@ body {
   margin: 0;
 }
 .slide-card-bullets li {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   color: var(--charcoal);
   padding: 0.18rem 0 0.18rem 1.1rem;
   position: relative;
@@ -796,7 +806,7 @@ body {
   background: #F7EEEE;
   border-left: 2px solid #B05050;
   padding: 0.8rem 1rem;
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   margin-top: 0.8rem;
 }
 .deck-error.visible { display: block; }
@@ -805,7 +815,7 @@ body {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--parchment);
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--forest-mid);
   font-style: italic;
@@ -837,7 +847,7 @@ body {
 .crm-search {
   flex: 1;
   min-width: 200px;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.95rem;
   color: var(--charcoal);
   background: var(--white);
@@ -848,8 +858,8 @@ body {
 }
 .crm-search:focus { border-color: var(--gold); }
 .crm-filter {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
   color: var(--charcoal);
   background: var(--white);
   border: 1px solid var(--parchment);
@@ -860,8 +870,8 @@ body {
 }
 .crm-view-toggle { display: flex; border: 1px solid var(--parchment); }
 .crm-view-btn {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.7rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -874,8 +884,8 @@ body {
 }
 .crm-view-btn.active { background: var(--forest); color: var(--ivory); }
 .btn-add-contact {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -915,11 +925,11 @@ body {
 }
 .cg-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .cg-name { font-size: 1.05rem; font-weight: 700; color: var(--forest); letter-spacing: 0.02em; margin-bottom: 0.1rem; }
-.cg-sub { font-size: 0.85rem; font-weight: 700; color: var(--forest-mid); font-style: italic; margin-bottom: 0.4rem; }
-.cg-line { font-size: 0.88rem; color: var(--charcoal); margin-bottom: 0.2rem; display: flex; gap: 0.5rem; align-items: baseline; }
-.cg-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest-mid); flex-shrink: 0; width: 2.8rem; }
+.cg-sub { font-size: 0.95rem; font-weight: 700; color: var(--forest-mid); font-style: italic; margin-bottom: 0.4rem; }
+.cg-line { font-size: 0.92rem; color: var(--charcoal); margin-bottom: 0.2rem; display: flex; gap: 0.5rem; align-items: baseline; }
+.cg-lbl { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest-mid); flex-shrink: 0; width: 2.8rem; }
 .cg-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--parchment); }
-.cg-stars { color: var(--gold); font-size: 0.88rem; }
+.cg-stars { color: var(--gold); font-size: 0.92rem; }
 .cg-val { font-size: 0.92rem; font-weight: 700; color: var(--forest); }
 .crm-empty { grid-column: 1/-1; background: var(--white); padding: 3rem; text-align: center; color: var(--forest-mid); font-style: italic; }
 
@@ -969,15 +979,15 @@ body {
 }
 .cm-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .cm-name { font-size: 1.25rem; font-weight: 700; color: var(--forest); letter-spacing: 0.03em; }
-.cm-ttl { font-size: 0.88rem; font-weight: 700; color: var(--forest-mid); font-style: italic; }
+.cm-ttl { font-size: 0.92rem; font-weight: 700; color: var(--forest-mid); font-style: italic; }
 .cm-org { font-size: 0.95rem; color: var(--charcoal); font-weight: 700; }
 .cm-stars-display { color: var(--gold); font-size: 1.1rem; letter-spacing: 0.1em; }
 .cm-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; justify-content: center; margin-top: 0.3rem; }
-.cm-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--cream); color: var(--forest); padding: 0.2rem 0.5rem; border: 1px solid var(--parchment); }
-.cm-meta-foot { margin-top: auto; padding-top: 1.2rem; font-size: 0.8rem; font-weight: 700; color: var(--forest-mid); font-style: italic; line-height: 1.8; }
+.cm-tag { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--cream); color: var(--forest); padding: 0.2rem 0.5rem; border: 1px solid var(--parchment); }
+.cm-meta-foot { margin-top: auto; padding-top: 1.2rem; font-size: 0.92rem; font-weight: 700; color: var(--forest-mid); font-style: italic; line-height: 1.8; }
 .cm-right { padding: 2rem; display: flex; flex-direction: column; gap: 1.4rem; }
 .cm-section-lbl {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 0.6rem; padding-bottom: 0.35rem;
   border-bottom: 0.5px solid var(--gold);
 }
@@ -989,23 +999,23 @@ body {
 .cm-notes-box { font-size: 0.95rem; color: var(--charcoal); line-height: 1.65; background: var(--ivory); padding: 0.9rem 1rem; border-left: 2px solid var(--gold); font-style: italic; }
 .cm-socials { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .cm-social-btn {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--forest); background: var(--ivory); border: 1px solid var(--parchment);
   padding: 0.4rem 0.9rem; text-decoration: none; transition: border-color 0.15s;
 }
 .cm-social-btn:hover { border-color: var(--gold); }
 .cm-actions { display: flex; gap: 0.6rem; padding-top: 1rem; border-top: 1px solid var(--parchment); margin-top: auto; flex-wrap: wrap; }
 .btn-cm-secondary {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase;
   background: transparent; color: var(--forest); border: 1px solid var(--parchment);
   padding: 0.5rem 1rem; cursor: pointer; transition: border-color 0.15s;
 }
 .btn-cm-secondary:hover { border-color: var(--forest); }
 .btn-cm-primary {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
   background: var(--forest); color: var(--ivory); border: none;
   padding: 0.5rem 1.2rem; cursor: pointer;
 }
@@ -1048,8 +1058,8 @@ body {
 }
 .grants-label { margin-bottom: 0 !important; }
 .btn-add-grant {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
   background: transparent; color: var(--forest); border: 1px solid var(--parchment);
   padding: 0.4rem 0.9rem; cursor: pointer; white-space: nowrap;
   transition: border-color 0.2s;
@@ -1091,10 +1101,10 @@ body {
   border-bottom: 0.5px solid var(--gold);
 }
 .drill-title { font-size: 1.2rem; font-weight: 700; color: var(--forest); letter-spacing: 0.04em; }
-.drill-sub { font-size: 0.7rem; color: var(--forest-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem; }
+.drill-sub { font-size: 0.92rem; color: var(--forest-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem; }
 .btn-drill-close {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
   background: var(--forest); color: var(--ivory); border: none;
   padding: 0.45rem 1rem; cursor: pointer; flex-shrink: 0;
 }
@@ -1109,7 +1119,7 @@ body {
 .drill-row-click { cursor: pointer; }
 .drill-row-click:hover td { background: var(--ivory); }
 .drill-table tfoot td {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: 0.92rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--forest); background: var(--ivory);
   border-top: 1px solid var(--parchment); border-bottom: none; padding: 0.6rem 0.8rem;
 }
@@ -1119,7 +1129,7 @@ body {
 
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 480px) {
-  .tab { padding: 0.85rem 1rem; font-size: 0.65rem; letter-spacing: 0.12em; }
+  .tab { padding: 0.85rem 1rem; font-size: 0.95rem; letter-spacing: 0.12em; }
   .kpi-bar { grid-template-columns: repeat(2, 1fr); }
   .card-grid { grid-template-columns: 1fr; }
 }
@@ -1185,7 +1195,7 @@ body {
 }
 .login-field label {
   display: block;
-  font-size: 0.72rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -1195,7 +1205,7 @@ body {
 .login-field input {
   width: 100%;
   padding: 0.75rem 1rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 1.05rem;
   border: 1px solid var(--parchment);
   background: var(--ivory);
@@ -1212,7 +1222,7 @@ body {
   padding: 0.85rem 1rem;
   background: var(--forest);
   color: var(--ivory);
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1223,7 +1233,7 @@ body {
 }
 .login-btn:hover { background: var(--forest-mid); }
 .login-error {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   color: #b94a48;
   letter-spacing: 0.04em;
   margin-top: 0.8rem;
@@ -1231,7 +1241,7 @@ body {
   text-align: center;
 }
 .login-footer {
-  font-size: 0.68rem;
+  font-size: 0.95rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--parchment);
@@ -1239,8 +1249,8 @@ body {
 }
 /* Logout button in header */
 .logout-btn {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.72rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -1504,16 +1514,30 @@ body {
       <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Labor Tracking</div>
       <button class="btn-add-contact" onclick="openAddLaborModal()">+ Log Hours</button>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-      <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
-        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">This Month</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer" onclick="cycleLaborView()">
+        <div style="font-size:0.92rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem" id="labor-period-label">This Month</div>
         <div style="font-size:1.6rem;font-weight:700;color:var(--forest)" id="labor-month-hours">0</div>
-        <div style="font-size:0.75rem;color:var(--gold)">hours logged</div>
+        <div style="font-size:0.9rem;color:var(--gold)">hours logged</div>
+        <div style="font-size:0.92rem;color:var(--forest-mid);margin-top:0.4rem;border-top:1px solid var(--parchment);padding-top:0.4rem">Click to cycle: Total · Month · Week · Day</div>
       </div>
       <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
-        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">By Client</div>
-        <select class="crm-filter" id="labor-client-filter" onchange="renderOperations()" style="width:100%;margin-bottom:0.5rem">
-          <option value="">All</option>
+        <div style="font-size:0.92rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">By Campaign</div>
+        <select class="crm-filter" id="labor-campaign-filter" onchange="renderOperations()" style="width:100%;margin-bottom:0.5rem">
+          <option value="">All Campaigns</option>
+        </select>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
+        <div style="font-size:0.92rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">By Activity</div>
+        <select class="crm-filter" id="labor-activity-filter" onchange="renderOperations()" style="width:100%;margin-bottom:0.5rem">
+          <option value="">All Activities</option>
+          <option value="Strategy">Strategy</option>
+          <option value="Design">Design</option>
+          <option value="Development">Development</option>
+          <option value="Client Meeting">Client Meeting</option>
+          <option value="Content Creation">Content Creation</option>
+          <option value="Analytics">Analytics</option>
+          <option value="Admin">Admin</option>
         </select>
       </div>
     </div>
@@ -1589,21 +1613,21 @@ body {
         <div class="tool-card tool-card-selected" id="tool-card-gamma" onclick="selectTool('gamma')">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <div style="font-size:0.95rem;font-weight:700;color:var(--forest)">Gamma</div>
-            <div class="tool-card-check" id="check-gamma" style="width:16px;height:16px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--ivory)">✓</div>
+            <div class="tool-card-check" id="check-gamma" style="width:16px;height:16px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;font-size:0.92rem;color:var(--ivory)">✓</div>
           </div>
-          <div style="font-size:0.82rem;color:var(--forest-mid);margin-top:0.2rem">AI-powered slides with beautiful layouts. Free account at gamma.app — sign up takes 60 seconds.</div>
+          <div style="font-size:0.92rem;color:var(--forest-mid);margin-top:0.2rem">AI-powered slides with beautiful layouts. Free account at gamma.app — sign up takes 60 seconds.</div>
         </div>
         <div class="tool-card" id="tool-card-canva" onclick="selectTool('canva')">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <div style="font-size:0.95rem;font-weight:700;color:var(--forest)">Canva</div>
             <div class="tool-card-check" id="check-canva" style="width:16px;height:16px;border-radius:50%;border:1px solid var(--parchment);display:none"></div>
           </div>
-          <div style="font-size:0.82rem;color:var(--forest-mid);margin-top:0.2rem">Drag-and-drop presentation builder with thousands of templates. Free account at canva.com.</div>
+          <div style="font-size:0.92rem;color:var(--forest-mid);margin-top:0.2rem">Drag-and-drop presentation builder with thousands of templates. Free account at canva.com.</div>
         </div>
       </div>
       <input type="hidden" id="deck-tool" value="gamma">
 
-      <div id="tool-instruction" style="margin-top:1rem;padding:0.8rem 1rem;background:var(--ivory);border-left:2px solid var(--gold);font-size:0.84rem;color:var(--forest-mid);line-height:1.6">
+      <div id="tool-instruction" style="margin-top:1rem;padding:0.8rem 1rem;background:var(--ivory);border-left:2px solid var(--gold);font-size:0.95rem;color:var(--forest-mid);line-height:1.6">
         Clicking Generate opens <strong style="color:var(--forest)">Gamma</strong> in a new tab with your brief already filled in. Sign in to your free Gamma account and hit generate — your deck builds itself.
       </div>
 
@@ -1616,21 +1640,21 @@ body {
 
         <div style="display:flex;flex-direction:column;gap:1.2rem;margin-bottom:1.8rem">
           <div style="display:flex;gap:1rem;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0">1</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.92rem;font-weight:700;flex-shrink:0">1</div>
             <div>
               <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Fill out your brief</div>
               <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">Enter your company name, what the deck is for, your industry, tone, and the key message you want to land.</div>
             </div>
           </div>
           <div style="display:flex;gap:1rem;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0">2</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.92rem;font-weight:700;flex-shrink:0">2</div>
             <div>
               <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Choose Gamma or Canva</div>
               <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">Both are free to sign up. Gamma builds the deck automatically with AI. Canva gives you drag-and-drop control over thousands of templates.</div>
             </div>
           </div>
           <div style="display:flex;gap:1rem;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0">3</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.92rem;font-weight:700;flex-shrink:0">3</div>
             <div>
               <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Hit Generate</div>
               <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">The tool opens in a new tab with your brief already written. Sign in, click generate, and your deck is ready in under a minute.</div>
@@ -1639,7 +1663,7 @@ body {
         </div>
 
         <div style="border-top:1px solid var(--parchment);padding-top:1.2rem">
-          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">First time?</div>
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">First time?</div>
           <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.6">
             Create a free account at <a href="https://gamma.app" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold);text-decoration:none">gamma.app</a> or <a href="https://canva.com" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold);text-decoration:none">canva.com</a>. It takes about 60 seconds and you won't be charged.
           </div>
@@ -1650,6 +1674,7 @@ body {
     </div>
 
   </div>
+</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════ -->
@@ -1691,7 +1716,7 @@ body {
 
       <button class="btn-generate" id="proposal-gen-btn" onclick="generateProposal()" style="width:100%">Generate Proposal →</button>
 
-      <div style="margin-top:1rem;padding:0.8rem;background:var(--ivory);border-left:2px solid var(--gold);font-size:0.84rem;color:var(--forest-mid);line-height:1.6">
+      <div style="margin-top:1rem;padding:0.8rem;background:var(--ivory);border-left:2px solid var(--gold);font-size:0.95rem;color:var(--forest-mid);line-height:1.6">
         Meridian uses Claude AI to generate custom proposals based on your project details, deliverables, and timeline. Edit the output before sending.
       </div>
     </div>
@@ -1900,25 +1925,25 @@ body {
         <div id="add-headshot-preview" style="width:42px;height:42px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;overflow:hidden">?</div>
         <label style="flex:1;cursor:pointer">
           <input type="file" accept="image/*" style="display:none" onchange="previewHeadshot(event,'add-headshot-preview','add-headshot-data')">
-          <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload photo</div>
+          <div class="form-input" style="cursor:pointer;font-size:0.92rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload photo</div>
         </label>
       </div>
       <input type="hidden" name="headshot" id="add-headshot-data" value="">
       <label class="form-label">Business Card</label>
       <div style="display:flex;gap:0.6rem;align-items:center">
-        <div id="add-business-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;overflow:hidden;border-radius:2px">Card</div>
+        <div id="add-business-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;overflow:hidden;border-radius:2px">Card</div>
         <label style="flex:1;cursor:pointer">
           <input type="file" accept="image/*" style="display:none" onchange="previewMedia(event,'add-business-card-preview','add-business-card-data')">
-          <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload card photo</div>
+          <div class="form-input" style="cursor:pointer;font-size:0.92rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload card photo</div>
         </label>
       </div>
       <input type="hidden" name="businessCard" id="add-business-card-data" value="">
       <label class="form-label">Note Card</label>
       <div style="display:flex;gap:0.6rem;align-items:center">
-        <div id="add-note-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;overflow:hidden;border-radius:2px">Note</div>
+        <div id="add-note-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;overflow:hidden;border-radius:2px">Note</div>
         <label style="flex:1;cursor:pointer">
           <input type="file" accept="image/*" style="display:none" onchange="previewMedia(event,'add-note-card-preview','add-note-card-data')">
-          <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload note card</div>
+          <div class="form-input" style="cursor:pointer;font-size:0.92rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload note card</div>
         </label>
       </div>
       <input type="hidden" name="noteCard" id="add-note-card-data" value="">
@@ -2044,11 +2069,19 @@ body {
     <div class="modal-sub">Operations Tracking</div>
     <form id="add-labor-form" onsubmit="submitLabor(event)">
       <div class="modal-row">
+        <div><label class="form-label">Contractor / Team Member</label><select class="form-input" name="contractor"><option value="Nicole Feenstra">Nicole Feenstra</option><option value="Sarah Chen">Sarah Chen</option><option value="Marcus Rivera">Marcus Rivera</option><option value="Jade Thompson">Jade Thompson</option><option value="Alex Kim">Alex Kim</option></select></div>
+        <div><label class="form-label">Hourly Rate ($)</label><input class="form-input" name="hourlyRate" type="number" min="25" step="5" value="150" placeholder="150"></div>
+      </div>
+      <div class="modal-row">
         <div><label class="form-label">Date</label><input class="form-input" name="date" type="date" required></div>
         <div><label class="form-label">Hours</label><input class="form-input" name="hours" type="number" min="0.25" step="0.25" required placeholder="8"></div>
       </div>
       <div class="modal-row">
-        <div><label class="form-label">Client/Project</label><select class="form-input" name="projectId" required></select></div>
+        <div><label class="form-label">Client / Project</label><select class="form-input" name="projectId" required></select></div>
+        <div><label class="form-label">Campaign</label><select class="form-input" name="campaignId"></select></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Activity</label><select class="form-input" name="activity"><option value="Strategy">Strategy</option><option value="Design">Design</option><option value="Development">Development</option><option value="Client Meeting">Client Meeting</option><option value="Content Creation">Content Creation</option><option value="Analytics">Analytics</option><option value="Admin">Admin</option></select></div>
         <div><label class="form-label">Category</label><select class="form-input" name="category"><option>Billable</option><option>Internal</option></select></div>
       </div>
       <div style="margin-bottom:1rem"><label class="form-label">Notes</label><textarea class="form-input" name="notes" placeholder="What did you work on?" style="min-height:80px;resize:vertical"></textarea></div>
@@ -2099,7 +2132,7 @@ body {
 
   <!-- ── VALUE PROPOSITION ── -->
   <div style="background:var(--white);border:1px solid var(--parchment);padding:2rem 2.4rem;margin-bottom:2.5rem">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">Why Phase II</div>
+    <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">Why Phase II</div>
     <div style="font-size:1.15rem;font-weight:700;color:var(--charcoal);line-height:1.7;max-width:680px">
       Phase I gave you campaign command, CRM, donor finance, and a creative studio — the operating system for DNA Agency + Rebuilding California.
       <span style="display:block;margin-top:0.6rem;font-weight:700;color:var(--forest)">Phase II turns Meridian into your financial nerve center.</span>
@@ -2111,7 +2144,7 @@ body {
   <div style="display:grid;grid-template-columns:3px 1fr;gap:1.8rem;margin-bottom:3rem">
     <div style="background:var(--gold);border-radius:1px"></div>
     <div>
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 01</div>
+      <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 01</div>
       <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Business Finance Tab</div>
       <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Full financial visibility — no more spreadsheet juggling</div>
 
@@ -2119,41 +2152,41 @@ body {
         <!-- Features List -->
         <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">QuickBooks Integration</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">OAuth connect to your existing QuickBooks account. Transactions auto-sync daily — invoices, payments, expenses — all visible inside Meridian without switching tools.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">QuickBooks Integration</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Sign in to your QuickBooks account with one click. Transactions auto-sync daily — invoices, payments, expenses — all visible inside Meridian without switching tools.</div>
           </div>
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Bank & Credit Card Linking</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">Secure bank account and credit card linking via Plaid. Transactions auto-categorized. See every charge, transfer, and deposit in one place — real-time.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Bank & Credit Card Linking</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Secure bank account and credit card linking via Plaid. Transactions auto-categorized. See every charge, transfer, and deposit in one place — real-time.</div>
           </div>
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Spend Dashboards</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">Monthly burn rate, category breakdowns, trend lines. Know exactly where money is going across both DNA Agency and Rebuilding California — at a glance.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Spend Dashboards</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Monthly burn rate, category breakdowns, trend lines. Know exactly where money is going across both DNA Agency and Rebuilding California — at a glance.</div>
           </div>
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Exportable Reports</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">One-click PDF and CSV exports for your bookkeeper, accountant, or grant reporting. Formatted, branded, ready to send — no reformatting required.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Exportable Reports</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">One-click PDF and CSV exports for your bookkeeper, accountant, or grant reporting. Formatted, branded, ready to send — no reformatting required.</div>
           </div>
         </div>
 
         <!-- UI Preview -->
-        <div style="background:var(--cream);border:1px solid var(--parchment);border-radius:2px;padding:1.2rem;font-size:0.75rem">
-          <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Real Dashboard</div>
+        <div style="background:var(--cream);border:1px solid var(--parchment);border-radius:2px;padding:1.2rem;font-size:0.9rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Real Dashboard</div>
           <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.8rem;margin-bottom:0.6rem;border-radius:1px;text-align:center">
             <div style="color:var(--gold);font-weight:700;font-size:1rem">$47,283</div>
-            <div style="font-size:0.6rem;color:var(--forest-mid);margin-top:0.2rem">Month Burn</div>
+            <div style="font-size:0.92rem;color:var(--forest-mid);margin-top:0.2rem">Month Burn</div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4px;background:var(--parchment);margin-bottom:0.6rem;border-radius:1px">
             <div style="background:var(--white);padding:0.6rem;text-align:center;border-radius:0.5px">
-              <div style="font-size:0.55rem;color:var(--forest-mid)">Operating</div>
-              <div style="font-weight:700;color:var(--forest);font-size:0.75rem">$28.9K</div>
+              <div style="font-size:0.8rem;color:var(--forest-mid)">Operating</div>
+              <div style="font-weight:700;color:var(--forest);font-size:0.9rem">$28.9K</div>
             </div>
             <div style="background:var(--white);padding:0.6rem;text-align:center;border-radius:0.5px">
-              <div style="font-size:0.55rem;color:var(--forest-mid)">Contractors</div>
-              <div style="font-weight:700;color:var(--forest);font-size:0.75rem">$18.4K</div>
+              <div style="font-size:0.8rem;color:var(--forest-mid)">Contractors</div>
+              <div style="font-weight:700;color:var(--forest);font-size:0.9rem">$18.4K</div>
             </div>
           </div>
-          <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.6rem;border-radius:1px;font-size:0.6rem;color:var(--forest-mid)">
+          <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.6rem;border-radius:1px;font-size:0.92rem;color:var(--forest-mid)">
             <div style="margin-bottom:0.3rem">↑ 12% vs last mo</div>
             <div>On track: $567K/yr</div>
           </div>
@@ -2166,7 +2199,7 @@ body {
   <div style="display:grid;grid-template-columns:3px 1fr;gap:1.8rem;margin-bottom:3rem">
     <div style="background:var(--gold);border-radius:1px"></div>
     <div>
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 02</div>
+      <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 02</div>
       <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Contractor Billable Hours</div>
       <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Know exactly what every contractor costs per campaign</div>
 
@@ -2174,40 +2207,71 @@ body {
         <!-- Features List -->
         <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Time Tracking</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">Per-contractor, per-campaign time logging. Configurable hourly rates. Weekly and monthly summaries with simple approval workflow — no third-party tool needed.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Time Tracking</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Per-contractor, per-campaign time logging. Configurable hourly rates. Weekly and monthly summaries with simple approval workflow — no third-party tool needed.</div>
           </div>
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Cost Efficiency Reporting</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">Hours vs. campaign ROI analysis. See which contractors deliver the most value, which campaigns are over-budget on labor, and where to reallocate resources.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Cost Efficiency Reporting</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Hours vs. campaign ROI analysis. See which contractors deliver the most value, which campaigns are over-budget on labor, and where to reallocate resources.</div>
           </div>
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Invoice-Ready Export</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">Generate contractor payment summaries with hours, rates, and totals — ready to attach to invoices or send directly. Eliminates manual hour reconciliation.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Invoice-Ready Export</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Generate contractor payment summaries with hours, rates, and totals — ready to attach to invoices or send directly. Eliminates manual hour reconciliation.</div>
           </div>
           <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Team Overview</div>
-            <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6">See all active contractors, their campaign assignments, hours this period, and total cost — one dashboard view. No more chasing timesheets across email and Slack.</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Team Overview</div>
+            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">See all active contractors, their campaign assignments, hours this period, and total cost — one dashboard view. No more chasing timesheets across email and Slack.</div>
           </div>
         </div>
 
-        <!-- UI Preview -->
-        <div style="background:var(--cream);border:1px solid var(--parchment);border-radius:2px;padding:1.2rem;font-size:0.75rem">
-          <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Hours View</div>
-          <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.8rem;margin-bottom:0.6rem;border-radius:1px">
-            <div style="font-size:0.6rem;color:var(--forest-mid);margin-bottom:0.3rem">Sarah Chen</div>
-            <div style="color:var(--forest);font-weight:700;font-size:0.85rem">142.5 hrs</div>
-            <div style="font-size:0.6rem;color:var(--gold);margin-top:0.2rem">$5,700 · 4 campaigns</div>
-          </div>
-          <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.8rem;margin-bottom:0.6rem;border-radius:1px">
-            <div style="font-size:0.6rem;color:var(--forest-mid);margin-bottom:0.3rem">Marcus Dev</div>
-            <div style="color:var(--forest);font-weight:700;font-size:0.85rem">187 hrs</div>
-            <div style="font-size:0.6rem;color:var(--gold);margin-top:0.2rem">$9,350 · 2 campaigns</div>
-          </div>
-          <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.8rem;border-radius:1px;text-align:center;font-weight:700;color:var(--forest)">
-            <div style="font-size:0.75rem">$15,050</div>
-            <div style="font-size:0.55rem;color:var(--forest-mid);font-weight:700;margin-top:0.2rem">This Month</div>
-          </div>
+        <!-- UI Preview: Weekly/Monthly Hours Table -->
+        <div style="background:var(--cream);border:1px solid var(--parchment);border-radius:2px;padding:1.2rem;font-size:0.92rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Weekly / Monthly Hours</div>
+          <table style="width:100%;border-collapse:collapse;background:var(--white);border:0.5px solid var(--parchment);font-size:0.92rem">
+            <thead>
+              <tr style="border-bottom:2px solid var(--parchment)">
+                <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Contractor</th>
+                <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Week</th>
+                <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Month</th>
+                <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--parchment)">
+                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Sarah Chen</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">32h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">142.5h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$5,700</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--parchment)">
+                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Marcus Rivera</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">44h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">187h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$9,350</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--parchment)">
+                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Jade Thompson</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">28h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">118h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$5,900</td>
+              </tr>
+              <tr>
+                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Alex Kim</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">18h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">76h</td>
+                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$6,840</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr style="border-top:2px solid var(--forest);background:var(--ivory)">
+                <td style="padding:0.6rem;font-weight:700;color:var(--forest);text-transform:uppercase;font-size:0.85rem;letter-spacing:0.06em">Total</td>
+                <td style="padding:0.6rem;text-align:right;font-weight:700;color:var(--forest)">122h</td>
+                <td style="padding:0.6rem;text-align:right;font-weight:700;color:var(--forest)">523.5h</td>
+                <td style="padding:0.6rem;text-align:right;font-weight:700;color:var(--forest)">$27,790</td>
+              </tr>
+            </tfoot>
+          </table>
+          <div style="margin-top:0.6rem;font-size:0.85rem;color:var(--forest-mid);font-style:italic;text-align:center">April 2026 · Week of Mar 31</div>
         </div>
       </div>
     </div>
@@ -2217,28 +2281,28 @@ body {
 
   <!-- ── DEVELOPMENT TIMELINE ── -->
   <div style="margin-bottom:3rem">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Development Timeline</div>
+    <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Development Timeline</div>
     <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);margin-bottom:1.5rem">8-Week Build Plan</div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 1–2</div>
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Foundation</div>
-        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">QuickBooks OAuth flow<br>Plaid bank linking<br>Transaction data model</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Foundation</div>
+        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">QuickBooks sign-in setup<br>Bank &amp; card linking<br>Transaction sync engine</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 3–4</div>
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Finance Dashboard</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Finance Dashboard</div>
         <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Spend dashboards<br>Category breakdowns<br>Trend visualizations</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 5–6</div>
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Contractor Module</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Contractor Module</div>
         <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Time tracking UI<br>Rate configuration<br>Approval workflow</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 7–8</div>
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Reports & Polish</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Reports & Polish</div>
         <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Cost efficiency reports<br>PDF/CSV exports<br>QA + Nicole review</div>
       </div>
     </div>
@@ -2246,34 +2310,34 @@ body {
 
   <!-- ── COST BREAKDOWN ── -->
   <div style="margin-bottom:3rem">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Investment</div>
+    <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Investment</div>
     <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);margin-bottom:1.5rem">What $1,500 / Month Covers</div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--parchment);border:1px solid var(--parchment);margin-bottom:1.5rem">
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
         <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">40</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Dev Hours / Month</div>
-        <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Full-stack engineering</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Dev Hours / Month</div>
+        <div style="font-size:0.92rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Full-stack engineering</div>
       </div>
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
         <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">4</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Strategy Sessions</div>
-        <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Monthly consulting calls</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Strategy Sessions</div>
+        <div style="font-size:0.92rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Monthly consulting calls</div>
       </div>
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
         <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">$25</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Effective Hourly</div>
-        <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">vs. $150–250 agency rate</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Effective Hourly</div>
+        <div style="font-size:0.92rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">vs. $150–250 agency rate</div>
       </div>
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
         <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">$0</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Additional Licensing</div>
-        <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Everything built in-house</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Additional Licensing</div>
+        <div style="font-size:0.92rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Everything built in-house</div>
       </div>
     </div>
 
     <div style="background:var(--white);border:1px solid var(--parchment);padding:1.8rem 2.2rem">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest);margin-bottom:1rem">Comparable Market Pricing</div>
+      <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest);margin-bottom:1rem">Comparable Market Pricing</div>
       <div style="display:grid;grid-template-columns:1fr auto;gap:0.4rem 2rem;font-size:0.92rem;line-height:2">
         <div style="color:var(--charcoal)">QuickBooks integration (custom dev)</div>
         <div style="color:var(--forest-mid);text-align:right;font-weight:700">$8,000–15,000</div>
@@ -2293,14 +2357,14 @@ body {
 
   <!-- ── WHAT YOU KEEP ── -->
   <div style="background:var(--white);border:1px solid var(--parchment);padding:2rem 2.4rem;margin-bottom:2rem">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">What You Own</div>
+    <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">What You Own</div>
     <div style="font-size:0.95rem;color:var(--charcoal);line-height:1.8">
       Everything built on your retainer is <strong style="color:var(--forest)">yours</strong>. No vendor lock-in, no per-seat SaaS fees, no surprise invoices. The platform, the data, the integrations — all owned by DNA Agency. If you ever stop the retainer, you keep everything that's been built. This isn't a subscription. It's an asset.
     </div>
   </div>
 
   <div style="text-align:center;padding:2rem 0 1rem">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest-mid)">Ready to start Phase II?</div>
+    <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest-mid)">Ready to start Phase II?</div>
     <div style="font-size:clamp(1.3rem,2.5vw,1.6rem);font-weight:700;color:var(--forest);margin-top:0.4rem">Let's build your financial command center.</div>
     <div style="width:40px;height:0.5px;background:var(--gold);margin:1rem auto 0"></div>
   </div>
@@ -2578,13 +2642,13 @@ body {
               <div class="contact-card" onclick="openContact(${c.id})">
                 <div class="contact-name">${c.firstName} ${c.lastName}</div>
                 <div class="contact-co">${c.organization}</div>
-                <div style="font-size:0.7rem;color:var(--gold);margin:0.25rem 0 0.5rem">${stars(c.ranking)}</div>
+                <div style="font-size:0.92rem;color:var(--gold);margin:0.25rem 0 0.5rem">${stars(c.ranking)}</div>
                 <div class="contact-footer">
                   <div class="contact-value">$${c.value.toLocaleString()}</div>
                   <span class="badge ${STAGE_BADGE[stage]}">${STAGE_LABEL[stage]}</span>
                 </div>
               </div>`).join('')
-            : '<div style="padding:1rem 0.8rem;font-size:0.75rem;color:var(--forest-mid);font-style:italic">No contacts</div>'}
+            : '<div style="padding:1rem 0.8rem;font-size:0.9rem;color:var(--forest-mid);font-style:italic">No contacts</div>'}
           </div>
         </div>`;
       }).join('') + '</div>';
@@ -2673,7 +2737,7 @@ body {
             <div style="max-height:200px;overflow-y:auto;background:var(--cream);border:0.5px solid var(--gold);border-radius:3px;padding:0.8rem">
               ${c.otterTranscripts.map((t, i) => `
               <div style="margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:0.5px solid var(--gold);last-child:border-bottom:none">
-                <div style="font-size:0.75rem;color:var(--forest-mid);margin-bottom:0.3rem">${t.date} ${t.duration ? ' • ' + t.duration : ''}</div>
+                <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">${t.date} ${t.duration ? ' • ' + t.duration : ''}</div>
                 <div style="font-size:0.8rem;color:var(--forest);line-height:1.4">${(t.notes || '').substring(0, 150)}${(t.notes || '').length > 150 ? '...' : ''}</div>
               </div>
               `).join('')}
@@ -2724,7 +2788,7 @@ body {
         <div style="padding:2rem 2.5rem;overflow-y:auto;max-height:90vh">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid var(--gold)">
             <div class="cm-name" style="margin:0">${c.firstName} ${c.lastName}</div>
-            <div style="font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Editing</div>
+            <div style="font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Editing</div>
           </div>
           <form onsubmit="saveContactEdit(event,${id})">
             <div class="cm-section-lbl">Name & Role</div>
@@ -2777,7 +2841,7 @@ body {
                   </div>
                   <label style="flex:1;cursor:pointer">
                     <input type="file" accept="image/*" style="display:none" onchange="previewHeadshot(event,'edit-headshot-preview','edit-headshot-data')">
-                    <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload photo</div>
+                    <div class="form-input" style="cursor:pointer;font-size:0.92rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload photo</div>
                   </label>
                 </div>
                 <input type="hidden" name="headshot" id="edit-headshot-data" value="${v(c.headshot)}">
@@ -2796,7 +2860,7 @@ body {
             </div>
 
             <div class="cm-section-lbl" style="margin-top:1.4rem">Tags & Notes</div>
-            <label class="form-label">Tags <span style="font-weight:700;text-transform:none;letter-spacing:0;color:var(--forest-mid);font-size:0.65rem">(comma-separated)</span></label>
+            <label class="form-label">Tags <span style="font-weight:700;text-transform:none;letter-spacing:0;color:var(--forest-mid);font-size:0.85rem">(comma-separated)</span></label>
             <input class="form-input" name="tags" value="${v((c.tags||[]).join(', '))}">
             <label class="form-label">Notes</label>
             <textarea class="form-textarea" name="notes" style="min-height:90px">${c.notes||''}</textarea>
@@ -3030,18 +3094,40 @@ body {
   }
 
   // ── LABOR TRACKING FUNCTIONS (Operations) ───────────────
+  let laborViewMode = 'month'; // total | month | week | day
+  let selectedContractor = null; // null = show all, string = filter by name
+
+  function filterByContractor(name) {
+    selectedContractor = (selectedContractor === name) ? null : name;
+    renderOperations();
+  }
+
+  function cycleLaborView() {
+    const modes = ['total', 'month', 'week', 'day'];
+    const idx = modes.indexOf(laborViewMode);
+    laborViewMode = modes[(idx + 1) % modes.length];
+    renderOperations();
+  }
+
   function openAddLaborModal() {
     const form = document.getElementById('add-labor-form');
     form.date.valueAsDate = new Date();
     form.hours.value = '';
     form.notes.value = '';
     form.category.value = 'Billable';
+    form.activity.value = 'Strategy';
 
-    // Populate project dropdown with contacts/clients
+    // Populate project dropdown
     const projects = loadProjects();
     const projectSelect = form.projectId;
     projectSelect.innerHTML = '<option value="">— Select Project</option>' +
       projects.map(p => `<option value="${p.id}">${p.client} — ${p.name}</option>`).join('');
+
+    // Populate campaign dropdown
+    const campaigns = loadCampaigns();
+    const campaignSelect = form.campaignId;
+    campaignSelect.innerHTML = '<option value="">— No Campaign</option>' +
+      campaigns.map(c => `<option value="${c.id}">${c.client} — ${c.name}</option>`).join('');
 
     document.getElementById('add-labor-modal').style.display = 'flex';
   }
@@ -3057,11 +3143,14 @@ body {
     labor.push({
       id: Math.max(0, ...labor.map(l=>l.id)) + 1,
       userId: 1,
+      contractor: f.contractor.value || 'Nicole Feenstra',
       projectId: f.projectId.value ? parseInt(f.projectId.value) : null,
       clientId: null,
+      campaignId: f.campaignId.value ? parseInt(f.campaignId.value) : null,
+      activity: f.activity.value,
       date: f.date.value,
       hours: parseFloat(f.hours.value),
-      hourlyRate: 150,
+      hourlyRate: parseInt(f.hourlyRate.value) || 150,
       category: f.category.value,
       notes: f.notes.value,
       approved: true,
@@ -3134,48 +3223,130 @@ body {
     const laborTable = document.getElementById('labor-table');
     const projectsTable = document.getElementById('projects-table');
     const monthHoursDiv = document.getElementById('labor-month-hours');
+    const periodLabel = document.getElementById('labor-period-label');
 
-    if (!laborTable || !projectsTable) return; // Tab not rendered yet
+    if (!laborTable || !projectsTable) return;
 
     const labor = loadLaborTracking();
     const projects = loadProjects();
-
-    // Calculate current month hours
+    const campaigns = loadCampaigns();
     const now = new Date();
-    const yearMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-    const currentMonth = labor.filter(l => l.date.startsWith(yearMonth));
-    const monthHours = currentMonth.reduce((sum, l) => sum + l.hours, 0);
 
-    // Update month hours display
-    if (monthHoursDiv) monthHoursDiv.textContent = monthHours;
+    // Populate campaign filter dropdown
+    const campaignFilter = document.getElementById('labor-campaign-filter');
+    if (campaignFilter && campaignFilter.options.length <= 1) {
+      campaignFilter.innerHTML = '<option value="">All Campaigns</option>' +
+        campaigns.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    }
 
-    // Labor table rendering
-    const laborHTML = currentMonth.length > 0
-      ? currentMonth.map(l => {
+    // Filter by time period
+    let filtered = [...labor];
+    const labels = { total: 'All Time', month: 'This Month', week: 'This Week', day: 'Today' };
+    if (periodLabel) periodLabel.textContent = labels[laborViewMode] || 'This Month';
+
+    if (laborViewMode === 'month') {
+      const ym = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+      filtered = filtered.filter(l => l.date.startsWith(ym));
+    } else if (laborViewMode === 'week') {
+      const weekStart = new Date(now); weekStart.setDate(now.getDate() - now.getDay());
+      const ws = weekStart.toISOString().split('T')[0];
+      filtered = filtered.filter(l => l.date >= ws);
+    } else if (laborViewMode === 'day') {
+      const today = now.toISOString().split('T')[0];
+      filtered = filtered.filter(l => l.date === today);
+    }
+
+    // Apply campaign filter
+    const campVal = document.getElementById('labor-campaign-filter')?.value;
+    if (campVal) filtered = filtered.filter(l => l.campaignId === parseInt(campVal));
+
+    // Apply activity filter
+    const actVal = document.getElementById('labor-activity-filter')?.value;
+    if (actVal) filtered = filtered.filter(l => l.activity === actVal);
+
+    // Update hours display
+    const totalHours = filtered.reduce((sum, l) => sum + l.hours, 0);
+    const totalCost = filtered.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
+    if (monthHoursDiv) monthHoursDiv.textContent = totalHours;
+
+    // Contractor summary cards (built from full filtered set, before contractor filter)
+    const byContractor = {};
+    filtered.forEach(l => {
+      const name = l.contractor || 'Unassigned';
+      if (!byContractor[name]) byContractor[name] = { hours: 0, cost: 0, entries: 0 };
+      byContractor[name].hours += l.hours;
+      byContractor[name].cost += l.hours * l.hourlyRate;
+      byContractor[name].entries++;
+    });
+
+    const contractorCards = Object.entries(byContractor).map(([name, d]) => {
+      const isSelected = selectedContractor === name;
+      const bg = isSelected ? 'var(--forest)' : 'var(--white)';
+      const textColor = isSelected ? 'var(--ivory)' : 'var(--forest)';
+      const subColor = isSelected ? 'var(--parchment)' : 'var(--forest-mid)';
+      const costColor = isSelected ? 'var(--gold)' : 'var(--gold)';
+      const borderColor = isSelected ? 'var(--forest)' : 'var(--parchment)';
+      return `<div onclick="filterByContractor('${name.replace(/'/g, "\\'")}')" style="background:${bg};border:1px solid ${borderColor};padding:0.8rem 1rem;border-radius:3px;cursor:pointer;transition:all 200ms ease">
+        <div style="font-size:0.9rem;color:${subColor};margin-bottom:0.2rem">${name}</div>
+        <div style="font-size:1.1rem;font-weight:700;color:${textColor}">${d.hours}h</div>
+        <div style="font-size:0.92rem;color:${costColor}">$${d.cost.toLocaleString()} · ${d.entries} entries</div>
+      </div>`;
+    }).join('');
+
+    // Apply contractor drill-down filter to table (cards stay unfiltered)
+    let tableFiltered = selectedContractor
+      ? filtered.filter(l => (l.contractor || 'Unassigned') === selectedContractor)
+      : filtered;
+
+    // Labor table rows
+    const thStyle = 'text-align:left;padding:8px;color:var(--forest-mid);font-weight:700;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.05em';
+    const tdStyle = 'padding:8px;border-bottom:1px solid var(--parchment);font-size:0.85rem';
+
+    const tableHours = tableFiltered.reduce((sum, l) => sum + l.hours, 0);
+    const tableCost = tableFiltered.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
+
+    const laborHTML = tableFiltered.length > 0
+      ? tableFiltered.sort((a, b) => b.date.localeCompare(a.date)).map(l => {
           const proj = projects.find(p => p.id === l.projectId);
-          return `
-            <tr>
-              <td style="padding:8px;border-bottom:1px solid #eee">${l.date}</td>
-              <td style="padding:8px;border-bottom:1px solid #eee">${l.hours}h</td>
-              <td style="padding:8px;border-bottom:1px solid #eee">${proj ? proj.name : '—'}</td>
-              <td style="padding:8px;border-bottom:1px solid #eee"><span style="font-size:0.85rem;color:#888">${l.category}</span></td>
-              <td style="padding:8px;border-bottom:1px solid #eee;font-size:0.85rem;color:#666">${l.notes}</td>
-            </tr>
-          `;
+          const camp = campaigns.find(c => c.id === l.campaignId);
+          return `<tr>
+            <td style="${tdStyle}">${l.contractor || '—'}</td>
+            <td style="${tdStyle}">${l.date}</td>
+            <td style="${tdStyle};font-weight:700">${l.hours}h</td>
+            <td style="${tdStyle}">${proj ? proj.client : '—'}</td>
+            <td style="${tdStyle}">${camp ? camp.name : '—'}</td>
+            <td style="${tdStyle}"><span style="font-size:0.92rem;padding:2px 8px;background:var(--ivory);border-radius:2px">${l.activity || '—'}</span></td>
+            <td style="${tdStyle};color:var(--gold);font-weight:700">$${(l.hours * l.hourlyRate).toLocaleString()}</td>
+            <td style="${tdStyle};font-size:0.85rem;color:var(--forest-mid)">${l.notes}</td>
+          </tr>`;
         }).join('')
-      : '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">No labor logged this month</td></tr>';
+      : `<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">${selectedContractor ? 'No entries for ' + selectedContractor + ' in this period' : 'No hours logged for this period'}</td></tr>`;
+
+    const filterLabel = selectedContractor
+      ? `<span style="background:var(--forest);color:var(--ivory);padding:0.2rem 0.6rem;border-radius:2px;font-size:0.85rem;cursor:pointer" onclick="filterByContractor('${selectedContractor.replace(/'/g, "\\'")}')">Showing: ${selectedContractor} ✕</span>`
+      : '<span style="font-size:0.85rem;color:var(--forest-mid);font-style:italic">Click a contractor to drill down</span>';
 
     laborTable.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.6rem;margin-bottom:1.2rem">${contractorCards}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
+        <div style="font-size:0.92rem;color:var(--forest-mid);font-weight:700">${tableFiltered.length} entries · ${tableHours}h · $${tableCost.toLocaleString()} total</div>
+        <div>${filterLabel}</div>
+      </div>
+      <div style="overflow-x:auto">
       <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
-        <tr style="border-bottom:2px solid #ddd;background:#f9f9f9">
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Date</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Hours</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Project</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Type</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Notes</th>
+        <tr style="border-bottom:2px solid var(--parchment);background:var(--cream)">
+          <th style="${thStyle}">Who</th>
+          <th style="${thStyle}">Date</th>
+          <th style="${thStyle}">Hours</th>
+          <th style="${thStyle}">Client</th>
+          <th style="${thStyle}">Campaign</th>
+          <th style="${thStyle}">Activity</th>
+          <th style="${thStyle}">Cost</th>
+          <th style="${thStyle}">Notes</th>
         </tr>
         ${laborHTML}
       </table>
+      </div>
     `;
 
     // Projects table rendering
@@ -3183,31 +3354,28 @@ body {
       ? projects.map(p => {
           const labForProject = labor.filter(l => l.projectId === p.id);
           const laborCost = labForProject.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
-
-          return `
-            <tr>
-              <td style="padding:8px;border-bottom:1px solid #eee">${p.name}</td>
-              <td style="padding:8px;border-bottom:1px solid #eee">${p.client}</td>
-              <td style="padding:8px;border-bottom:1px solid #eee"><span style="font-size:0.85rem;padding:4px 8px;background:#f0f0f0;border-radius:3px">${p.status}</span></td>
-              <td style="padding:8px;border-bottom:1px solid #eee">${p.startDate}</td>
-              <td style="padding:8px;border-bottom:1px solid #eee">${p.endDate}</td>
-              <td style="padding:8px;border-bottom:1px solid #eee">$${p.budget.toLocaleString()}</td>
-              <td style="padding:8px;border-bottom:1px solid #eee;font-size:0.85rem;color:#666">$${laborCost.toLocaleString()}</td>
-            </tr>
-          `;
+          return `<tr>
+            <td style="${tdStyle}">${p.name}</td>
+            <td style="${tdStyle}">${p.client}</td>
+            <td style="${tdStyle}"><span style="font-size:0.85rem;padding:4px 8px;background:var(--ivory);border-radius:3px">${p.status}</span></td>
+            <td style="${tdStyle}">${p.startDate}</td>
+            <td style="${tdStyle}">${p.endDate}</td>
+            <td style="${tdStyle}">$${p.budget.toLocaleString()}</td>
+            <td style="${tdStyle};color:var(--gold);font-weight:700">$${laborCost.toLocaleString()}</td>
+          </tr>`;
         }).join('')
-      : '<tr><td colspan="7" style="text-align:center;color:#aaa;padding:20px">No projects yet. Create one to get started.</td></tr>';
+      : `<tr><td colspan="7" style="text-align:center;color:#aaa;padding:20px">No projects yet. Create one to get started.</td></tr>`;
 
     projectsTable.innerHTML = `
       <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
-        <tr style="border-bottom:2px solid #ddd;background:#f9f9f9">
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Project</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Client</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Status</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Start</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">End</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Budget</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Labor Cost</th>
+        <tr style="border-bottom:2px solid var(--parchment);background:var(--cream)">
+          <th style="${thStyle}">Project</th>
+          <th style="${thStyle}">Client</th>
+          <th style="${thStyle}">Status</th>
+          <th style="${thStyle}">Start</th>
+          <th style="${thStyle}">End</th>
+          <th style="${thStyle}">Budget</th>
+          <th style="${thStyle}">Labor Cost</th>
         </tr>
         ${projectsHTML}
       </table>
@@ -3293,11 +3461,16 @@ body {
   // ── LABOR TRACKING DATA (Operations) ──────────────────
   const LABOR_TRACKING_KEY = 'meridian_labor';
   const LABOR_TRACKING_SEED = [
-    {id:1,userId:1,projectId:1,clientId:1,date:"2026-03-25",hours:8,hourlyRate:150,category:"Billable",notes:"Campaign strategy & client meeting",approved:true,createdAt:"2026-03-25"},
-    {id:2,userId:1,projectId:1,clientId:1,date:"2026-03-26",hours:6,hourlyRate:150,category:"Billable",notes:"Platform architecture review",approved:true,createdAt:"2026-03-26"},
-    {id:3,userId:1,projectId:2,clientId:2,date:"2026-03-27",hours:4,hourlyRate:150,category:"Billable",notes:"Design concepts & client feedback",approved:true,createdAt:"2026-03-27"},
-    {id:4,userId:1,projectId:3,clientId:3,date:"2026-03-27",hours:3,hourlyRate:150,category:"Billable",notes:"Website audit & requirements doc",approved:true,createdAt:"2026-03-27"},
-    {id:5,userId:1,projectId:null,clientId:null,date:"2026-03-28",hours:2,hourlyRate:150,category:"Internal",notes:"Team planning & admin",approved:true,createdAt:"2026-03-28"}
+    {id:1,userId:1,contractor:"Nicole Feenstra",projectId:1,clientId:1,campaignId:1,activity:"Strategy",date:"2026-03-25",hours:8,hourlyRate:175,category:"Billable",notes:"Campaign strategy & client meeting",approved:true,createdAt:"2026-03-25"},
+    {id:2,userId:1,contractor:"Sarah Chen",projectId:1,clientId:1,campaignId:1,activity:"Development",date:"2026-03-26",hours:6,hourlyRate:125,category:"Billable",notes:"Platform architecture review",approved:true,createdAt:"2026-03-26"},
+    {id:3,userId:1,contractor:"Jade Thompson",projectId:2,clientId:2,campaignId:2,activity:"Design",date:"2026-03-27",hours:4,hourlyRate:100,category:"Billable",notes:"Design concepts & client feedback",approved:true,createdAt:"2026-03-27"},
+    {id:4,userId:1,contractor:"Marcus Rivera",projectId:3,clientId:3,campaignId:3,activity:"Analytics",date:"2026-03-27",hours:3,hourlyRate:110,category:"Billable",notes:"Website audit & requirements doc",approved:true,createdAt:"2026-03-27"},
+    {id:5,userId:1,contractor:"Nicole Feenstra",projectId:null,clientId:null,campaignId:null,activity:"Admin",date:"2026-03-28",hours:2,hourlyRate:175,category:"Internal",notes:"Team planning & admin",approved:true,createdAt:"2026-03-28"},
+    {id:6,userId:1,contractor:"Nicole Feenstra",projectId:1,clientId:1,campaignId:1,activity:"Client Meeting",date:"2026-04-01",hours:3,hourlyRate:175,category:"Billable",notes:"Q2 campaign planning session",approved:true,createdAt:"2026-04-01"},
+    {id:7,userId:1,contractor:"Jade Thompson",projectId:2,clientId:2,campaignId:2,activity:"Content Creation",date:"2026-04-02",hours:5,hourlyRate:100,category:"Billable",notes:"Menu photo shoot coordination",approved:true,createdAt:"2026-04-02"},
+    {id:8,userId:1,contractor:"Sarah Chen",projectId:3,clientId:3,campaignId:3,activity:"Development",date:"2026-04-02",hours:4,hourlyRate:125,category:"Billable",notes:"Landing page build",approved:true,createdAt:"2026-04-02"},
+    {id:9,userId:1,contractor:"Alex Kim",projectId:1,clientId:1,campaignId:null,activity:"Analytics",date:"2026-04-03",hours:2,hourlyRate:90,category:"Billable",notes:"Monthly performance report",approved:true,createdAt:"2026-04-03"},
+    {id:10,userId:1,contractor:"Marcus Rivera",projectId:2,clientId:2,campaignId:2,activity:"Strategy",date:"2026-04-03",hours:3,hourlyRate:110,category:"Billable",notes:"Competitive analysis & positioning",approved:true,createdAt:"2026-04-03"}
   ];
   function loadLaborTracking() {
     try { return JSON.parse(localStorage.getItem(LABOR_TRACKING_KEY)) || [...LABOR_TRACKING_SEED]; }
@@ -3438,7 +3611,7 @@ body {
     if (config.status === 'configured') {
       alert('QuickBooks is already connected.\n\nPhase 2 will add automatic sync and data reconciliation.');
     } else {
-      alert('QuickBooks OAuth is coming in Phase 2.\n\nFor now, you can manually track invoices and expenses in Meridian.');
+      alert('QuickBooks integration is coming in Phase 2.\n\nFor now, you can manually track invoices and expenses in Meridian.');
     }
   }
 
@@ -3695,11 +3868,11 @@ Generated on ${new Date().toLocaleDateString()}
     board.innerHTML = `
       <div style="margin-bottom:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
         <div style="background:var(--white);border:1px solid var(--parchment);padding:0.8rem;border-radius:3px">
-          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">Funded Revenue</div>
+          <div style="font-size:0.9rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">Funded Revenue</div>
           <div style="font-size:1.4rem;font-weight:700;color:var(--forest)">$${totalFunded.toLocaleString()}</div>
         </div>
         <div style="background:var(--white);border:1px solid var(--parchment);padding:0.8rem;border-radius:3px">
-          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">Pending Revenue</div>
+          <div style="font-size:0.9rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">Pending Revenue</div>
           <div style="font-size:1.4rem;font-weight:700;color:var(--gold)">$${totalPending.toLocaleString()}</div>
         </div>
       </div>
@@ -3757,7 +3930,7 @@ Generated on ${new Date().toLocaleDateString()}
                   <span class="badge ${DONOR_STAGE_BADGE[stage]}">${d.giftType === 'major' ? 'Major' : d.giftType === 'mid-level' ? 'Mid' : d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1)}</span>
                 </div>
               </div>`).join('')
-            : '<div style="padding:1rem 0.8rem;font-size:0.75rem;color:var(--forest-mid);font-style:italic">No donors</div>'}
+            : '<div style="padding:1rem 0.8rem;font-size:0.9rem;color:var(--forest-mid);font-style:italic">No donors</div>'}
           </div>
         </div>`;
       }).join('') + '</div>';
@@ -3774,7 +3947,7 @@ Generated on ${new Date().toLocaleDateString()}
         <div class="grant-amount">$${g.amount.toLocaleString()}</div>
         <span class="badge ${GRANT_STATUS_BADGE[g.status]}" title="Click to advance status">${GRANT_STATUS_LABEL[g.status]}</span>
       </div>`).join('')
-    : '<div style="padding:1.5rem 0;font-size:0.82rem;color:var(--forest-mid);font-style:italic">No grants tracked yet.</div>';
+    : '<div style="padding:1.5rem 0;font-size:0.92rem;color:var(--forest-mid);font-style:italic">No grants tracked yet.</div>';
   }
 
   // ── DONOR DETAIL ─────────────────────────────────────
@@ -3961,7 +4134,7 @@ Generated on ${new Date().toLocaleDateString()}
         </div>
         <div class="cm-section-lbl">Budget</div>
         <div class="spend-bar" style="margin:0.5rem 0 0.3rem"><div class="spend-fill" style="width:${pct}%"></div></div>
-        <div style="font-size:0.82rem;color:var(--forest-mid);margin-bottom:1rem">$${c.spent.toLocaleString()} of $${c.budget.toLocaleString()} · ${pct}% used</div>
+        <div style="font-size:0.92rem;color:var(--forest-mid);margin-bottom:1rem">$${c.spent.toLocaleString()} of $${c.budget.toLocaleString()} · ${pct}% used</div>
         <div class="cm-section-lbl">Performance</div>
         <div class="cm-field"><span class="cm-field-lbl">Leads</span><span class="cm-field-val">${c.leads.toLocaleString()}</span></div>
         <div class="cm-field"><span class="cm-field-lbl">CPL</span><span class="cm-field-val">$${c.cpl>0?c.cpl.toFixed(2):'—'}</span></div>
@@ -4148,7 +4321,7 @@ Generated on ${new Date().toLocaleDateString()}
         {label:'Organization', render:d=>`<span style="color:var(--forest-mid);font-style:italic">${d.organization||d.type}</span>`},
         {label:'Gift Type',    render:d=>d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1).replace('-',' ')},
         {label:'Amount',       render:d=>`<strong>$${d.amount.toLocaleString()}</strong>`},
-        {label:'Next Step',    render:d=>`<span style="font-size:0.78rem;color:var(--forest-mid)">${d.nextAction||'—'}</span>`}
+        {label:'Next Step',    render:d=>`<span style="font-size:0.92rem;color:var(--forest-mid)">${d.nextAction||'—'}</span>`}
       ],
       rows:[...donors].sort((a,b)=>b.amount-a.amount),
       footer:`Total YTD: $${total.toLocaleString()}`,
@@ -4166,7 +4339,7 @@ Generated on ${new Date().toLocaleDateString()}
         {label:'Organization', render:d=>`<span style="color:var(--forest-mid);font-style:italic">${d.organization||d.type}</span>`},
         {label:'Ask Amount',   render:d=>`<strong>$${d.amount.toLocaleString()}</strong>`},
         {label:'Gift Type',    render:d=>d.giftType.charAt(0).toUpperCase()+d.giftType.slice(1).replace('-',' ')},
-        {label:'Next Action',  render:d=>`<span style="font-size:0.78rem">${d.nextAction||'—'}</span>`}
+        {label:'Next Action',  render:d=>`<span style="font-size:0.92rem">${d.nextAction||'—'}</span>`}
       ],
       rows:[...donors].sort((a,b)=>b.amount-a.amount),
       footer:`Total in asks: $${total.toLocaleString()}`,
@@ -4274,6 +4447,9 @@ Generated on ${new Date().toLocaleDateString()}
 
   // Initialize tool selection
   selectTool('gamma');
+
+  // Initialize Proposals tab
+  initProposalProjectSelect();
 </script>
 </body>
 </html>
