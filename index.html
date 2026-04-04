@@ -1294,7 +1294,9 @@ body {
     <button class="tab active" data-tab="campaign">Campaign</button>
     <button class="tab" data-tab="crm">CRM</button>
     <button class="tab" data-tab="finance">Finance</button>
+    <button class="tab" data-tab="operations">Operations</button>
     <button class="tab" data-tab="studio">Creative Studio</button>
+    <button class="tab" data-tab="proposals">Proposals</button>
     <button class="tab" data-tab="phase2" style="color:var(--gold-deep)">Phase II</button>
   </nav>
 </header>
@@ -1442,6 +1444,91 @@ body {
     <div id="grant-tracker-board"></div>
   </div>
 
+  <!-- ── BUSINESS FINANCIALS (DNA Agency) ── -->
+  <div style="margin-top:2rem;border-top:1px solid var(--parchment);padding-top:1.5rem">
+    <div style="margin-bottom:1rem">
+      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">DNA Agency Financials</div>
+    </div>
+    <div class="kpi-bar" style="margin-bottom:1.5rem">
+      <div class="kpi"><div class="kpi-value" id="biz-kpi-revenue">$0</div><div class="kpi-label">Total Revenue</div><div class="kpi-delta" id="biz-kpi-revenue-delta">Funded invoices</div></div>
+      <div class="kpi"><div class="kpi-value" id="biz-kpi-pending">$0</div><div class="kpi-label">Pending Revenue</div></div>
+      <div class="kpi"><div class="kpi-value" id="biz-kpi-labor">$0</div><div class="kpi-label">Labor Cost</div></div>
+      <div class="kpi"><div class="kpi-value" id="biz-kpi-margin">—</div><div class="kpi-label">Gross Margin</div></div>
+    </div>
+  </div>
+
+  <!-- ── REVENUE TRACKING (DNA Agency / Business) ── -->
+  <div class="grants-section" style="margin-top:1.5rem">
+    <div class="grants-toolbar">
+      <div class="grants-label">Revenue Tracking</div>
+      <button class="btn-add-grant" onclick="openAddInvoiceModal(1)" style="background:var(--forest);color:var(--white)">+ New Invoice</button>
+    </div>
+    <div id="invoices-board"></div>
+  </div>
+
+  <!-- ── QUICKBOOKS INTEGRATION ── -->
+  <div class="grants-section" style="margin-top:2rem;border-top:1px solid var(--parchment);padding-top:1.5rem">
+    <div class="grants-toolbar">
+      <div class="grants-label">QuickBooks Integration</div>
+      <button class="btn-add-grant" id="qb-status-button" onclick="openQBConnection()" style="background:#1F497D;color:var(--white)">Not Connected</button>
+    </div>
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;margin-top:1rem">
+      <div style="font-size:0.9rem;color:var(--forest);margin-bottom:0.5rem">
+        <strong>Status:</strong> <span id="qb-sync-status">Ready to connect</span>
+      </div>
+      <div style="font-size:0.9rem;color:var(--forest);margin-bottom:0.5rem">
+        <strong>Last Sync:</strong> <span id="qb-last-sync">Never</span>
+      </div>
+      <div style="font-size:0.85rem;color:#666;line-height:1.4">
+        When connected, Meridian will read invoices and expenses from QuickBooks to calculate accurate profitability and labor costs. Phase 2 integration includes automated sync and real-time data flow.
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 03.5 — OPERATIONS CENTER                          -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="operations" class="tab-content">
+<div class="section">
+
+  <div class="section-eyebrow">03.5 — Operations</div>
+  <div class="section-title">Projects · Labor · Timeline</div>
+  <div class="section-sub">Project management + labor tracking</div>
+
+  <!-- ── LABOR TRACKING ── -->
+  <div style="margin-bottom:2.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Labor Tracking</div>
+      <button class="btn-add-contact" onclick="openAddLaborModal()">+ Log Hours</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
+        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">This Month</div>
+        <div style="font-size:1.6rem;font-weight:700;color:var(--forest)" id="labor-month-hours">0</div>
+        <div style="font-size:0.75rem;color:var(--gold)">hours logged</div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
+        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">By Client</div>
+        <select class="crm-filter" id="labor-client-filter" onchange="renderOperations()" style="width:100%;margin-bottom:0.5rem">
+          <option value="">All</option>
+        </select>
+      </div>
+    </div>
+    <div id="labor-table"></div>
+  </div>
+
+  <!-- ── PROJECTS ── -->
+  <div style="margin-bottom:2.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Active Projects</div>
+      <button class="btn-add-contact" onclick="openAddProjectModal()">+ New Project</button>
+    </div>
+    <div id="projects-table"></div>
+  </div>
+
 </div>
 </div>
 
@@ -1563,6 +1650,68 @@ body {
     </div>
 
   </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- 04.5 — PROPOSAL GENERATOR                          -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="proposals" class="tab-content">
+<div class="section">
+
+  <div class="section-eyebrow">04.5 — Proposal Generator</div>
+  <div class="section-title">AI-Powered Proposals</div>
+  <div class="section-sub">Generate custom proposals powered by Claude</div>
+
+  <div class="studio-grid">
+
+    <div class="studio-form-col">
+      <label class="form-label">Select Project</label>
+      <select class="form-input" id="proposal-project" style="width:100%;margin-bottom:1rem" onchange="loadProposalContext()">
+        <option value="">— Choose a project</option>
+      </select>
+
+      <label class="form-label">Proposal Tone</label>
+      <select class="form-input" id="proposal-tone" style="width:100%;margin-bottom:1rem">
+        <option value="professional">Professional & Authoritative</option>
+        <option value="witty">Witty & Sharp</option>
+        <option value="warm">Warm & Collaborative</option>
+        <option value="minimalist">Minimalist & Clear</option>
+      </select>
+
+      <label class="form-label">Target Audience</label>
+      <select class="form-input" id="proposal-audience" style="width:100%;margin-bottom:1rem">
+        <option value="client">Client Decision-Maker</option>
+        <option value="stakeholder">Stakeholder / Committee</option>
+        <option value="internal">Internal Team</option>
+        <option value="investor">Investor / Board</option>
+      </select>
+
+      <label class="form-label">Additional Context</label>
+      <textarea class="form-input" id="proposal-context" style="width:100%;min-height:100px;margin-bottom:1rem" placeholder="Any additional context or requirements for the proposal..."></textarea>
+
+      <button class="btn-generate" id="proposal-gen-btn" onclick="generateProposal()" style="width:100%">Generate Proposal →</button>
+
+      <div style="margin-top:1rem;padding:0.8rem;background:var(--ivory);border-left:2px solid var(--gold);font-size:0.84rem;color:var(--forest-mid);line-height:1.6">
+        Meridian uses Claude AI to generate custom proposals based on your project details, deliverables, and timeline. Edit the output before sending.
+      </div>
+    </div>
+
+    <div class="studio-output-col">
+      <div id="proposal-output" style="display:none;border:1px solid var(--parchment);padding:1.5rem;border-radius:3px;background:var(--white);max-height:500px;overflow-y:auto">
+        <div style="font-size:0.9rem;line-height:1.6;color:var(--forest)" id="proposal-text"></div>
+        <div style="margin-top:1.5rem;display:flex;gap:0.8rem">
+          <button onclick="copyProposal()" style="padding:0.6rem 1rem;background:var(--forest);color:var(--white);border:none;border-radius:3px;cursor:pointer;font-size:0.9rem">Copy</button>
+          <button onclick="exportProposalPDF()" style="padding:0.6rem 1rem;background:var(--gold);color:var(--forest);border:none;border-radius:3px;cursor:pointer;font-size:0.9rem">Export PDF</button>
+        </div>
+      </div>
+      <div id="proposal-placeholder" style="color:#aaa;text-align:center;padding:2rem">
+        <div style="font-size:0.95rem;margin-bottom:1rem">Select a project and click Generate to create a custom proposal.</div>
+        <div style="font-size:0.85rem">Proposals are powered by Claude and tailored to your project details.</div>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 </div>
 
@@ -1755,6 +1904,24 @@ body {
         </label>
       </div>
       <input type="hidden" name="headshot" id="add-headshot-data" value="">
+      <label class="form-label">Business Card</label>
+      <div style="display:flex;gap:0.6rem;align-items:center">
+        <div id="add-business-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:500;flex-shrink:0;overflow:hidden;border-radius:2px">Card</div>
+        <label style="flex:1;cursor:pointer">
+          <input type="file" accept="image/*" style="display:none" onchange="previewMedia(event,'add-business-card-preview','add-business-card-data')">
+          <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload card photo</div>
+        </label>
+      </div>
+      <input type="hidden" name="businessCard" id="add-business-card-data" value="">
+      <label class="form-label">Note Card</label>
+      <div style="display:flex;gap:0.6rem;align-items:center">
+        <div id="add-note-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:500;flex-shrink:0;overflow:hidden;border-radius:2px">Note</div>
+        <label style="flex:1;cursor:pointer">
+          <input type="file" accept="image/*" style="display:none" onchange="previewMedia(event,'add-note-card-preview','add-note-card-data')">
+          <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload note card</div>
+        </label>
+      </div>
+      <input type="hidden" name="noteCard" id="add-note-card-data" value="">
       <label class="form-label">Tags <span style="font-weight:400;text-transform:none;letter-spacing:0">(comma-separated)</span></label>
       <input class="form-input" name="tags" placeholder="real estate, high value, referral">
       <label class="form-label">Notes</label>
@@ -1762,6 +1929,32 @@ body {
       <div class="modal-actions">
         <button type="submit" class="btn-generate" style="flex:1">Add Contact →</button>
         <button type="button" class="btn-cancel" onclick="closeAddContact()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── ADD OTTER TRANSCRIPT MODAL ─────────────────────── -->
+<div class="modal-overlay" id="add-transcript-modal" onclick="if(event.target===this)closeAddTranscriptModal()">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-title">Add Call Transcript</div>
+    <div class="modal-sub">Paste transcript from Otter AI</div>
+    <form id="add-transcript-form" onsubmit="saveTranscript(event)">
+      <div style="margin-bottom:1rem">
+        <label class="form-label">Date</label>
+        <input class="form-input" name="date" type="date" required></input>
+      </div>
+      <div style="margin-bottom:1rem">
+        <label class="form-label">Duration (optional)</label>
+        <input class="form-input" name="duration" placeholder="e.g. 23 min" />
+      </div>
+      <div style="margin-bottom:1rem">
+        <label class="form-label">Transcript Text</label>
+        <textarea class="form-input" name="transcript" placeholder="Paste Otter transcript here..." style="min-height:200px;resize:vertical" required></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Save Transcript →</button>
+        <button type="button" class="btn-cancel" onclick="closeAddTranscriptModal()">Cancel</button>
       </div>
     </form>
   </div>
@@ -1812,6 +2005,83 @@ body {
       <div class="modal-actions">
         <button type="submit" class="btn-generate" style="flex:1">Add Campaign →</button>
         <button type="button" class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── ADD INVOICE MODAL ──────────────────────────────── -->
+<div class="modal-overlay" id="add-invoice-modal" onclick="if(event.target===this)closeAddInvoiceModal()">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-title">New Invoice</div>
+    <div class="modal-sub">Revenue Tracking</div>
+    <form id="add-invoice-form" onsubmit="submitInvoice(event)">
+      <div class="modal-row">
+        <div><label class="form-label">Client</label><select class="form-input" name="clientId" required></select></div>
+        <div><label class="form-label">Project (optional)</label><select class="form-input" name="projectId"><option value="">—</option></select></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Amount ($)</label><input class="form-input" name="amount" type="number" min="0" step="0.01" required placeholder="15000"></div>
+        <div><label class="form-label">Invoice Date</label><input class="form-input" name="date" type="date" required></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Due Date</label><input class="form-input" name="dueDate" type="date" required></div>
+        <div><label class="form-label">Status</label><select class="form-input" name="status"><option>Pending</option><option>Sent</option><option>Partial</option><option>Funded</option></select></div>
+      </div>
+      <div style="margin-bottom:1rem"><label class="form-label">Notes</label><textarea class="form-input" name="notes" placeholder="Invoice details..." style="min-height:80px;resize:vertical"></textarea></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Create Invoice →</button>
+        <button type="button" class="btn-cancel" onclick="closeAddInvoiceModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── ADD LABOR TRACKING MODAL ──────────────────────── -->
+<div class="modal-overlay" id="add-labor-modal" onclick="if(event.target===this)closeAddLaborModal()">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-title">Log Labor Hours</div>
+    <div class="modal-sub">Operations Tracking</div>
+    <form id="add-labor-form" onsubmit="submitLabor(event)">
+      <div class="modal-row">
+        <div><label class="form-label">Date</label><input class="form-input" name="date" type="date" required></div>
+        <div><label class="form-label">Hours</label><input class="form-input" name="hours" type="number" min="0.25" step="0.25" required placeholder="8"></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Client/Project</label><select class="form-input" name="projectId" required></select></div>
+        <div><label class="form-label">Category</label><select class="form-input" name="category"><option>Billable</option><option>Internal</option></select></div>
+      </div>
+      <div style="margin-bottom:1rem"><label class="form-label">Notes</label><textarea class="form-input" name="notes" placeholder="What did you work on?" style="min-height:80px;resize:vertical"></textarea></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Log Hours →</button>
+        <button type="button" class="btn-cancel" onclick="closeAddLaborModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── ADD PROJECT MODAL ─────────────────────────────── -->
+<div class="modal-overlay" id="add-project-modal" onclick="if(event.target===this)closeAddProjectModal()">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-title">New Project</div>
+    <div class="modal-sub">Operations</div>
+    <form id="add-project-form" onsubmit="submitProject(event)">
+      <div class="modal-row">
+        <div><label class="form-label">Project Name</label><input class="form-input" name="name" required placeholder="Campaign Phase 2"></div>
+        <div><label class="form-label">Client</label><select class="form-input" name="clientId" required></select></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Start Date</label><input class="form-input" name="startDate" type="date" required></div>
+        <div><label class="form-label">End Date</label><input class="form-input" name="endDate" type="date" required></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Budget ($)</label><input class="form-input" name="budget" type="number" min="0" step="0.01" required placeholder="50000"></div>
+        <div><label class="form-label">Owner</label><input class="form-input" name="owner" value="Nicole Feenstra" placeholder="Nicole Feenstra"></div>
+      </div>
+      <div style="margin-bottom:1rem"><label class="form-label">Deliverables (one per line)</label><textarea class="form-input" name="deliverables" placeholder="Design mockups&#10;Copy + assets&#10;Launch campaign" style="min-height:80px;resize:vertical"></textarea></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Create Project →</button>
+        <button type="button" class="btn-cancel" onclick="closeAddProjectModal()">Cancel</button>
       </div>
     </form>
   </div>
@@ -2106,6 +2376,12 @@ body {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       tab.classList.add('active');
       document.getElementById(target).classList.add('active');
+
+      // Render specific tabs when activated
+      if (target === 'operations') renderOperations();
+      if (target === 'crm') renderCRM();
+      if (target === 'finance') renderFinance();
+      if (target === 'proposals') initProposalProjectSelect();
     });
   });
 
@@ -2218,7 +2494,7 @@ body {
   // ── CRM DATA ──────────────────────────────────────────
   const CRM_KEY = 'meridian_contacts';
   const CRM_SEED = [
-    {id:1,firstName:"Sarah",lastName:"Kim",email:"sarah.kim@apexrealty.com",phone:"(310) 555-0182",address:"1234 Wilshire Blvd",city:"Los Angeles",state:"CA",zip:"90025",organization:"Apex Realty Group",title:"Principal Broker",stage:"new",value:8000,ranking:4,headshot:"",notes:"Interested in full digital marketing package. Met at LA Real Estate Summit. Follow up after Q1 closes.",website:"https://apexrealty.com",linkedin:"https://linkedin.com/in/sarahkim",twitter:"",instagram:"@apexrealtyla",facebook:"",lastContacted:"2026-03-20",tags:["real estate","high value"],createdAt:"2026-01-15"},
+    {id:1,firstName:"Sarah",lastName:"Kim",email:"sarah.kim@apexrealty.com",phone:"(310) 555-0182",address:"1234 Wilshire Blvd",city:"Los Angeles",state:"CA",zip:"90025",organization:"Apex Realty Group",title:"Principal Broker",stage:"new",value:8000,ranking:4,media:{headshot:"",businessCard:"",noteCard:""},otterTranscripts:[],notes:"Interested in full digital marketing package. Met at LA Real Estate Summit. Follow up after Q1 closes.",website:"https://apexrealty.com",linkedin:"https://linkedin.com/in/sarahkim",twitter:"",instagram:"@apexrealtyla",facebook:"",lastContacted:"2026-03-20",tags:["real estate","high value"],createdAt:"2026-01-15"},
     {id:2,firstName:"Marcus",lastName:"Webb",email:"marcus@westcoastboxing.com",phone:"(213) 555-0394",address:"890 S Grand Ave",city:"Los Angeles",state:"CA",zip:"90015",organization:"WestCoast Boxing",title:"Owner & Head Coach",stage:"new",value:5000,ranking:3,headshot:"",notes:"Wants social media management + local Meta ads. Budget is flexible if we show results.",website:"https://westcoastboxing.com",linkedin:"",twitter:"@wcboxing",instagram:"@westcoastboxingla",facebook:"",lastContacted:"2026-03-18",tags:["fitness","local"],createdAt:"2026-02-01"},
     {id:3,firstName:"Jordan",lastName:"Elias",email:"jordan@thevaultgym.com",phone:"(323) 555-0271",address:"4501 Hollywood Blvd",city:"Los Angeles",state:"CA",zip:"90027",organization:"The Vault Gym",title:"CEO",stage:"warm",value:12000,ranking:5,headshot:"",notes:"Had second call on 3/15. Very interested in full funnel — Meta ads, email, landing pages. Wants proposal by April 1.",website:"https://thevaultgym.com",linkedin:"https://linkedin.com/in/jordanelias",twitter:"",instagram:"@thevaultgym",facebook:"https://facebook.com/thevaultgym",lastContacted:"2026-03-15",tags:["fitness","proposal ready","hot"],createdAt:"2026-01-20"},
     {id:4,firstName:"Priya",lastName:"Mehta",email:"priya@bloomwellness.co",phone:"(818) 555-0047",address:"2200 Ventura Blvd",city:"Studio City",state:"CA",zip:"91604",organization:"Bloom Wellness",title:"Founder",stage:"warm",value:7000,ranking:4,headshot:"",notes:"Wellness spa — wants Google Ads + Instagram growth. Discussed brand voice. Needs price sheet.",website:"https://bloomwellness.co",linkedin:"",twitter:"",instagram:"@bloomwellnessla",facebook:"",lastContacted:"2026-03-12",tags:["wellness","instagram"],createdAt:"2026-02-10"},
@@ -2355,16 +2631,27 @@ body {
       c.facebook && `<a href="${c.facebook}" target="_blank" class="cm-social-btn">Facebook</a>`,
     ].filter(Boolean).join('');
 
+    // Backward compatibility: handle both old (c.headshot) and new (c.media.headshot) structures
+    const headshot = c.media?.headshot || c.headshot || '';
+    const businessCard = c.media?.businessCard || '';
+    const noteCard = c.media?.noteCard || '';
+
     document.getElementById('contact-detail-body').innerHTML = `
       <div class="contact-modal">
         <div class="cm-left">
-          <div class="cm-avatar">${c.headshot ? `<img src="${c.headshot}" alt="">` : initials(c)}</div>
+          <div class="cm-avatar">${headshot ? `<img src="${headshot}" alt="">` : initials(c)}</div>
           <div class="cm-name">${c.firstName} ${c.lastName}</div>
           ${c.title ? `<div class="cm-ttl">${c.title}</div>` : ''}
           <div class="cm-org">${c.organization}</div>
           <div class="cm-stars-display" title="Ranking">${stars(c.ranking, true)}</div>
           <span class="badge ${STAGE_BADGE[c.stage]}">${STAGE_LABEL[c.stage]}</span>
           ${c.tags?.length ? `<div class="cm-tags">${c.tags.map(t=>`<span class="cm-tag">${t}</span>`).join('')}</div>` : ''}
+          ${businessCard || noteCard ? `
+          <div style="margin-top:1.2rem;display:flex;gap:0.5rem;flex-wrap:wrap">
+            ${businessCard ? `<div title="Business Card" style="width:50px;height:32px;background:var(--forest-mid);border-radius:2px;overflow:hidden;background-image:url(${businessCard});background-size:cover;background-position:center;cursor:pointer" onclick="alert('Business Card image')"></div>` : ''}
+            ${noteCard ? `<div title="Note Card" style="width:50px;height:32px;background:var(--gold);border-radius:2px;overflow:hidden;background-image:url(${noteCard});background-size:cover;background-position:center;cursor:pointer" onclick="alert('Note Card image')"></div>` : ''}
+          </div>
+          ` : ''}
           <div class="cm-meta-foot">
             Last contacted<br>${c.lastContacted || '—'}<br><br>
             Added<br>${c.createdAt || '—'}
@@ -2380,7 +2667,22 @@ body {
           </div>
           ${socialLinks ? `<div><div class="cm-section-lbl">Links & Socials</div><div class="cm-socials">${socialLinks}</div></div>` : ''}
           ${c.notes ? `<div><div class="cm-section-lbl">Notes</div><div class="cm-notes-box">${c.notes}</div></div>` : ''}
+          ${c.otterTranscripts && c.otterTranscripts.length > 0 ? `
+          <div>
+            <div class="cm-section-lbl">Call Transcripts (${c.otterTranscripts.length})</div>
+            <div style="max-height:200px;overflow-y:auto;background:var(--cream);border:0.5px solid var(--gold);border-radius:3px;padding:0.8rem">
+              ${c.otterTranscripts.map((t, i) => `
+              <div style="margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:0.5px solid var(--gold);last-child:border-bottom:none">
+                <div style="font-size:0.75rem;color:var(--forest-mid);margin-bottom:0.3rem">${t.date} ${t.duration ? ' • ' + t.duration : ''}</div>
+                <div style="font-size:0.8rem;color:var(--forest);line-height:1.4">${(t.notes || '').substring(0, 150)}${(t.notes || '').length > 150 ? '...' : ''}</div>
+              </div>
+              `).join('')}
+            </div>
+          </div>
+          ` : ''}
           <div class="cm-actions">
+            <button type="button" class="btn-cm-secondary" onclick="openAddTranscriptModal(${c.id})">+ Add Transcript</button>
+            <button type="button" class="btn-cm-secondary" onclick="openAddInvoiceModal(${c.id})">+ Invoice</button>
             <button class="btn-cm-secondary" onclick="editContact(${c.id})">Edit</button>
             <button class="btn-cm-secondary" onclick="cycleContactStage(${c.id})">Move Stage →</button>
             <button class="btn-cm-secondary" onclick="deleteContact(${c.id})">Remove</button>
@@ -2566,7 +2868,127 @@ body {
     document.getElementById('add-contact-form').reset();
     document.getElementById('add-headshot-data').value = '';
     document.getElementById('add-headshot-preview').innerHTML = '?';
+    document.getElementById('add-business-card-data').value = '';
+    document.getElementById('add-business-card-preview').innerHTML = 'Card';
+    document.getElementById('add-note-card-data').value = '';
+    document.getElementById('add-note-card-preview').innerHTML = 'Note';
   }
+
+  // ── MEDIA HANDLING ───────────────────────────────────
+  function previewMedia(event, previewId, dataId) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById(dataId).value = e.target.result;
+      const preview = document.getElementById(previewId);
+      const img = new Image();
+      img.onload = function() {
+        preview.style.backgroundImage = `url(${e.target.result})`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+        preview.innerHTML = '';
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── OTTER TRANSCRIPT FUNCTIONS ────────────────────────
+  function openAddTranscriptModal(contactId) {
+    document.getElementById('add-transcript-form').dataset.contactId = contactId;
+    document.getElementById('add-transcript-form').date.valueAsDate = new Date();
+    document.getElementById('add-transcript-form').transcript.value = '';
+    document.getElementById('add-transcript-form').duration.value = '';
+    document.getElementById('add-transcript-modal').style.display = 'flex';
+  }
+
+  function closeAddTranscriptModal() {
+    document.getElementById('add-transcript-modal').style.display = 'none';
+  }
+
+  function parseTranscriptNotes(transcriptText) {
+    // Extract speaker turns and timestamps, create summary of key points
+    const lines = transcriptText.split('\n').filter(l => l.trim());
+    const summary = lines.slice(0, 5).map(l => l.replace(/^\d+:?\d*\s*/, '').trim()).join(' ').substring(0, 200);
+    return summary || 'Transcript recorded.';
+  }
+
+  function saveTranscript(e) {
+    e.preventDefault();
+    const form = e.target;
+    const contactId = parseInt(form.dataset.contactId);
+    const data = loadContacts();
+    const contact = data.find(c => c.id === contactId);
+    if (!contact) return;
+
+    const transcriptData = {
+      date: form.date.value,
+      duration: form.duration.value || '',
+      transcript: form.transcript.value,
+      notes: parseTranscriptNotes(form.transcript.value),
+      createdAt: new Date().toISOString()
+    };
+
+    if (!contact.otterTranscripts) contact.otterTranscripts = [];
+    contact.otterTranscripts.push(transcriptData);
+    saveContacts(data);
+    closeAddTranscriptModal();
+    openContact(contactId);
+  }
+
+  // ── INVOICE FUNCTIONS ──────────────────────────────
+  function openAddInvoiceModal(contactId) {
+    const form = document.getElementById('add-invoice-form');
+    form.dataset.contactId = contactId;
+    form.date.valueAsDate = new Date();
+    form.dueDate.valueAsDate = new Date(Date.now() + 30*24*60*60*1000); // 30 days
+    form.amount.value = '';
+    form.notes.value = '';
+    form.status.value = 'Pending';
+
+    // Populate client dropdown
+    const contacts = loadContacts();
+    const contact = contacts.find(c => c.id === contactId);
+    const clientSelect = form.clientId;
+    clientSelect.innerHTML = `<option value="${contactId}">${contact?.firstName} ${contact?.lastName}</option>`;
+    clientSelect.value = contactId;
+
+    // Populate project dropdown
+    const projects = loadProjects();
+    const projectSelect = form.projectId;
+    projectSelect.innerHTML = '<option value="">— No Project</option>' +
+      projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+
+    document.getElementById('add-invoice-modal').style.display = 'flex';
+  }
+
+  function closeAddInvoiceModal() {
+    document.getElementById('add-invoice-modal').style.display = 'none';
+  }
+
+  function submitInvoice(e) {
+    e.preventDefault();
+    const f = e.target;
+    const invoices = loadInvoices();
+    invoices.push({
+      id: Math.max(0, ...invoices.map(i=>i.id)) + 1,
+      clientId: parseInt(f.clientId.value),
+      projectId: f.projectId.value ? parseInt(f.projectId.value) : null,
+      amount: parseFloat(f.amount.value),
+      date: f.date.value,
+      dueDate: f.dueDate.value,
+      status: f.status.value,
+      paymentDate: null,
+      paymentMethod: null,
+      qbId: null,
+      notes: f.notes.value,
+      createdAt: new Date().toISOString().split('T')[0]
+    });
+    saveInvoices(invoices);
+    closeAddInvoiceModal();
+  }
+
   function submitContact(e) {
     e.preventDefault();
     const f = e.target;
@@ -2586,7 +3008,12 @@ body {
       stage:     f.stage.value,
       value:     parseFloat(f.value.value) || 0,
       ranking:   parseInt(f.ranking.value) || 3,
-      headshot:  f.headshot.value,
+      media: {
+        headshot: f.headshot.value,
+        businessCard: f.businessCard.value,
+        noteCard: f.noteCard.value
+      },
+      otterTranscripts: [],
       notes:     f.notes.value,
       website:   f.website.value,
       linkedin:  f.linkedin.value,
@@ -2600,6 +3027,191 @@ body {
     saveContacts(data);
     renderCRM();
     closeAddContact();
+  }
+
+  // ── LABOR TRACKING FUNCTIONS (Operations) ───────────────
+  function openAddLaborModal() {
+    const form = document.getElementById('add-labor-form');
+    form.date.valueAsDate = new Date();
+    form.hours.value = '';
+    form.notes.value = '';
+    form.category.value = 'Billable';
+
+    // Populate project dropdown with contacts/clients
+    const projects = loadProjects();
+    const projectSelect = form.projectId;
+    projectSelect.innerHTML = '<option value="">— Select Project</option>' +
+      projects.map(p => `<option value="${p.id}">${p.client} — ${p.name}</option>`).join('');
+
+    document.getElementById('add-labor-modal').style.display = 'flex';
+  }
+
+  function closeAddLaborModal() {
+    document.getElementById('add-labor-modal').style.display = 'none';
+  }
+
+  function submitLabor(e) {
+    e.preventDefault();
+    const f = e.target;
+    const labor = loadLaborTracking();
+    labor.push({
+      id: Math.max(0, ...labor.map(l=>l.id)) + 1,
+      userId: 1,
+      projectId: f.projectId.value ? parseInt(f.projectId.value) : null,
+      clientId: null,
+      date: f.date.value,
+      hours: parseFloat(f.hours.value),
+      hourlyRate: 150,
+      category: f.category.value,
+      notes: f.notes.value,
+      approved: true,
+      createdAt: f.date.value
+    });
+    saveLaborTracking(labor);
+    closeAddLaborModal();
+    renderOperations();
+  }
+
+  // ── PROJECT FUNCTIONS (Operations) ───────────────────────
+  function openAddProjectModal() {
+    const form = document.getElementById('add-project-form');
+    form.name.value = '';
+    form.startDate.valueAsDate = new Date();
+    form.endDate.valueAsDate = new Date(Date.now() + 30*24*60*60*1000);
+    form.budget.value = '';
+    form.owner.value = 'Nicole Feenstra';
+    form.deliverables.value = '';
+
+    // Populate client dropdown
+    const contacts = loadContacts();
+    const clientSelect = form.clientId;
+    clientSelect.innerHTML = '<option value="">— Select Client</option>' +
+      contacts.map(c => `<option value="${c.id}">${c.firstName} ${c.lastName} — ${c.organization}</option>`).join('');
+
+    document.getElementById('add-project-modal').style.display = 'flex';
+  }
+
+  function closeAddProjectModal() {
+    document.getElementById('add-project-modal').style.display = 'none';
+  }
+
+  function submitProject(e) {
+    e.preventDefault();
+    const f = e.target;
+    const projects = loadProjects();
+    const deliverables = f.deliverables.value.split('\n').filter(d => d.trim()).map(d => ({
+      name: d.trim(),
+      completed: false,
+      dueDate: null
+    }));
+
+    const contact = loadContacts().find(c => c.id === parseInt(f.clientId.value));
+    projects.push({
+      id: Math.max(0, ...projects.map(p=>p.id)) + 1,
+      leadId: parseInt(f.clientId.value),
+      name: f.name.value,
+      client: contact ? `${contact.firstName} ${contact.lastName}` : '',
+      startDate: f.startDate.value,
+      endDate: f.endDate.value,
+      budget: parseFloat(f.budget.value),
+      owner: f.owner.value,
+      deliverables: deliverables,
+      status: 'Active',
+      timeline: { items: [] },
+      laborCost: 0,
+      expenseCost: 0,
+      totalCost: 0,
+      createdAt: new Date().toISOString().split('T')[0],
+      updatedAt: new Date().toISOString().split('T')[0]
+    });
+    saveProjects(projects);
+    closeAddProjectModal();
+    renderOperations();
+  }
+
+  // ── RENDER OPERATIONS TAB ────────────────────────────────
+  function renderOperations() {
+    const laborTable = document.getElementById('labor-table');
+    const projectsTable = document.getElementById('projects-table');
+    const monthHoursDiv = document.getElementById('labor-month-hours');
+
+    if (!laborTable || !projectsTable) return; // Tab not rendered yet
+
+    const labor = loadLaborTracking();
+    const projects = loadProjects();
+
+    // Calculate current month hours
+    const now = new Date();
+    const yearMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    const currentMonth = labor.filter(l => l.date.startsWith(yearMonth));
+    const monthHours = currentMonth.reduce((sum, l) => sum + l.hours, 0);
+
+    // Update month hours display
+    if (monthHoursDiv) monthHoursDiv.textContent = monthHours;
+
+    // Labor table rendering
+    const laborHTML = currentMonth.length > 0
+      ? currentMonth.map(l => {
+          const proj = projects.find(p => p.id === l.projectId);
+          return `
+            <tr>
+              <td style="padding:8px;border-bottom:1px solid #eee">${l.date}</td>
+              <td style="padding:8px;border-bottom:1px solid #eee">${l.hours}h</td>
+              <td style="padding:8px;border-bottom:1px solid #eee">${proj ? proj.name : '—'}</td>
+              <td style="padding:8px;border-bottom:1px solid #eee"><span style="font-size:0.85rem;color:#888">${l.category}</span></td>
+              <td style="padding:8px;border-bottom:1px solid #eee;font-size:0.85rem;color:#666">${l.notes}</td>
+            </tr>
+          `;
+        }).join('')
+      : '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">No labor logged this month</td></tr>';
+
+    laborTable.innerHTML = `
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
+        <tr style="border-bottom:2px solid #ddd;background:#f9f9f9">
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Date</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Hours</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Project</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Type</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Notes</th>
+        </tr>
+        ${laborHTML}
+      </table>
+    `;
+
+    // Projects table rendering
+    const projectsHTML = projects.length > 0
+      ? projects.map(p => {
+          const labForProject = labor.filter(l => l.projectId === p.id);
+          const laborCost = labForProject.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
+
+          return `
+            <tr>
+              <td style="padding:8px;border-bottom:1px solid #eee">${p.name}</td>
+              <td style="padding:8px;border-bottom:1px solid #eee">${p.client}</td>
+              <td style="padding:8px;border-bottom:1px solid #eee"><span style="font-size:0.85rem;padding:4px 8px;background:#f0f0f0;border-radius:3px">${p.status}</span></td>
+              <td style="padding:8px;border-bottom:1px solid #eee">${p.startDate}</td>
+              <td style="padding:8px;border-bottom:1px solid #eee">${p.endDate}</td>
+              <td style="padding:8px;border-bottom:1px solid #eee">$${p.budget.toLocaleString()}</td>
+              <td style="padding:8px;border-bottom:1px solid #eee;font-size:0.85rem;color:#666">$${laborCost.toLocaleString()}</td>
+            </tr>
+          `;
+        }).join('')
+      : '<tr><td colspan="7" style="text-align:center;color:#aaa;padding:20px">No projects yet. Create one to get started.</td></tr>';
+
+    projectsTable.innerHTML = `
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
+        <tr style="border-bottom:2px solid #ddd;background:#f9f9f9">
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Project</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Client</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Status</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Start</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">End</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Budget</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Labor Cost</th>
+        </tr>
+        ${projectsHTML}
+      </table>
+    `;
   }
 
   renderCRM();
@@ -2647,6 +3259,51 @@ body {
     catch(e) { return [...GRANTS_SEED]; }
   }
   function saveGrants(data) { localStorage.setItem(GRANTS_KEY, JSON.stringify(data)); }
+
+  // ── CURRENT USER (for labor tracking) ─────────────────
+  const CURRENT_USER = { id: 1, name: 'Nicole Feenstra', hourlyRate: 150 };
+
+  // ── INVOICES DATA (Revenue) ───────────────────────────
+  const INVOICES_KEY = 'meridian_invoices';
+  const INVOICES_SEED = [
+    {id:1,clientId:1,projectId:1,amount:15000,date:"2026-03-01",dueDate:"2026-03-31",status:"Funded",paymentDate:"2026-03-28",paymentMethod:"ACH",qbId:null,notes:"Q1 Campaign retainer",createdAt:"2026-03-01"},
+    {id:2,clientId:2,projectId:2,amount:8500,date:"2026-03-15",dueDate:"2026-04-15",status:"Sent",paymentDate:null,paymentMethod:null,qbId:null,notes:"Brand refresh project",createdAt:"2026-03-15"},
+    {id:3,clientId:1,projectId:null,amount:3200,date:"2026-03-20",dueDate:"2026-04-20",status:"Pending",paymentDate:null,paymentMethod:null,qbId:null,notes:"Consulting hours — March",createdAt:"2026-03-20"},
+    {id:4,clientId:3,projectId:3,amount:25000,date:"2026-02-01",dueDate:"2026-02-28",status:"Partial",paymentDate:"2026-02-25",paymentMethod:"Wire",qbId:null,notes:"First installment — website redesign",createdAt:"2026-02-01"}
+  ];
+  function loadInvoices() {
+    try { return JSON.parse(localStorage.getItem(INVOICES_KEY)) || [...INVOICES_SEED]; }
+    catch(e) { return [...INVOICES_SEED]; }
+  }
+  function saveInvoices(data) { localStorage.setItem(INVOICES_KEY, JSON.stringify(data)); }
+
+  // ── PROJECTS DATA (Operations) ────────────────────────
+  const PROJECTS_KEY = 'meridian_projects';
+  const PROJECTS_SEED = [
+    {id:1,leadId:1,name:"Campaign Command Platform Build",client:"DNA Agency",startDate:"2026-02-01",endDate:"2026-04-30",budget:45000,owner:"Nicole",deliverables:[{name:"Platform architecture",completed:true,dueDate:"2026-02-15"},{name:"Dashboard mockups",completed:true,dueDate:"2026-02-28"},{name:"API integration",completed:false,dueDate:"2026-04-15"},{name:"Testing & QA",completed:false,dueDate:"2026-04-30"}],status:"Active",timeline:{items:[{task:"Kickoff",dueDate:"2026-02-01",owner:"Nicole",status:"complete"},{task:"Design review",dueDate:"2026-02-15",owner:"Team",status:"complete"},{task:"Dev sprints 1-3",dueDate:"2026-03-31",owner:"Dev",status:"in-progress"},{task:"Client feedback",dueDate:"2026-04-15",owner:"Nicole",status:"pending"},{task:"Launch",dueDate:"2026-04-30",owner:"Team",status:"pending"}]},laborCost:0,expenseCost:2500,totalCost:2500,createdAt:"2026-02-01",updatedAt:"2026-03-28"},
+    {id:2,leadId:2,name:"Brand Identity Refresh",client:"Casa Verde Restaurant",startDate:"2026-03-01",endDate:"2026-04-15",budget:12000,owner:"Creative Lead",deliverables:[{name:"Logo variations",completed:true,dueDate:"2026-03-15"},{name:"Color palette",completed:true,dueDate:"2026-03-20"},{name:"Brand guidelines",completed:false,dueDate:"2026-04-05"},{name:"Assets package",completed:false,dueDate:"2026-04-15"}],status:"Active",timeline:{items:[{task:"Discovery call",dueDate:"2026-03-01",owner:"Creative Lead",status:"complete"},{task:"Initial concepts",dueDate:"2026-03-10",owner:"Designer",status:"complete"},{task:"Client review 1",dueDate:"2026-03-15",owner:"Creative Lead",status:"complete"},{task:"Revisions",dueDate:"2026-03-25",owner:"Designer",status:"in-progress"},{task:"Finalization",dueDate:"2026-04-10",owner:"Designer",status:"pending"}]},laborCost:0,expenseCost:0,totalCost:0,createdAt:"2026-03-01",updatedAt:"2026-03-27"},
+    {id:3,leadId:3,name:"Website Redesign & Migration",client:"Pacific Legal Group",startDate:"2026-01-15",endDate:"2026-05-31",budget:35000,owner:"Nicole",deliverables:[{name:"Architecture & wireframes",completed:true,dueDate:"2026-02-15"},{name:"Design comps",completed:true,dueDate:"2026-03-15"},{name:"Development",completed:false,dueDate:"2026-05-01"},{name:"Content migration",completed:false,dueDate:"2026-05-15"},{name:"Testing & launch",completed:false,dueDate:"2026-05-31"}],status:"Active",timeline:{items:[{task:"Audit existing site",dueDate:"2026-01-20",owner:"Nicole",status:"complete"},{task:"Strategy session",dueDate:"2026-02-01",owner:"Team",status:"complete"},{task:"Design phase",dueDate:"2026-03-15",owner:"Designer",status:"complete"},{task:"Development sprint",dueDate:"2026-04-30",owner:"Dev",status:"in-progress"},{task:"Migration & QA",dueDate:"2026-05-15",owner:"Team",status:"pending"},{task:"Launch",dueDate:"2026-05-31",owner:"Nicole",status:"pending"}]},laborCost:0,expenseCost:5800,totalCost:5800,createdAt:"2026-01-15",updatedAt:"2026-03-25"}
+  ];
+  function loadProjects() {
+    try { return JSON.parse(localStorage.getItem(PROJECTS_KEY)) || [...PROJECTS_SEED]; }
+    catch(e) { return [...PROJECTS_SEED]; }
+  }
+  function saveProjects(data) { localStorage.setItem(PROJECTS_KEY, JSON.stringify(data)); }
+
+  // ── LABOR TRACKING DATA (Operations) ──────────────────
+  const LABOR_TRACKING_KEY = 'meridian_labor';
+  const LABOR_TRACKING_SEED = [
+    {id:1,userId:1,projectId:1,clientId:1,date:"2026-03-25",hours:8,hourlyRate:150,category:"Billable",notes:"Campaign strategy & client meeting",approved:true,createdAt:"2026-03-25"},
+    {id:2,userId:1,projectId:1,clientId:1,date:"2026-03-26",hours:6,hourlyRate:150,category:"Billable",notes:"Platform architecture review",approved:true,createdAt:"2026-03-26"},
+    {id:3,userId:1,projectId:2,clientId:2,date:"2026-03-27",hours:4,hourlyRate:150,category:"Billable",notes:"Design concepts & client feedback",approved:true,createdAt:"2026-03-27"},
+    {id:4,userId:1,projectId:3,clientId:3,date:"2026-03-27",hours:3,hourlyRate:150,category:"Billable",notes:"Website audit & requirements doc",approved:true,createdAt:"2026-03-27"},
+    {id:5,userId:1,projectId:null,clientId:null,date:"2026-03-28",hours:2,hourlyRate:150,category:"Internal",notes:"Team planning & admin",approved:true,createdAt:"2026-03-28"}
+  ];
+  function loadLaborTracking() {
+    try { return JSON.parse(localStorage.getItem(LABOR_TRACKING_KEY)) || [...LABOR_TRACKING_SEED]; }
+    catch(e) { return [...LABOR_TRACKING_SEED]; }
+  }
+  function saveLaborTracking(data) { localStorage.setItem(LABOR_TRACKING_KEY, JSON.stringify(data)); }
 
   const DONOR_STAGE_LABEL = {education:'Education',engagement:'Engagement',ask:'Ask',thank:'Thank'};
   const DONOR_STAGE_BADGE = {education:'badge-new',engagement:'badge-warm',ask:'badge-active',thank:'badge-active'};
@@ -2708,8 +3365,375 @@ body {
 
   function renderFinance() {
     renderFinanceKPIs();
+    renderBusinessKPIs();
     renderDonorPipeline(getFilteredDonors());
     renderGrantTracker();
+    renderInvoices();
+  }
+
+  // ── BUSINESS KPIs (Financial Dashboard) ────────────────
+  function renderBusinessKPIs() {
+    const invoices = loadInvoices();
+    const labor = loadLaborTracking();
+
+    const totalRevenue = invoices.filter(i => i.status === 'Funded').reduce((s, i) => s + i.amount, 0);
+    const pendingRevenue = invoices.filter(i => i.status !== 'Funded').reduce((s, i) => s + i.amount, 0);
+    const totalLaborCost = labor.reduce((s, l) => s + (l.hours * l.hourlyRate), 0);
+    const grossMargin = totalRevenue > 0 ? ((totalRevenue - totalLaborCost) / totalRevenue * 100).toFixed(1) : 0;
+
+    document.getElementById('biz-kpi-revenue').textContent = `$${totalRevenue.toLocaleString()}`;
+    document.getElementById('biz-kpi-revenue-delta').textContent = `${invoices.filter(i => i.status === 'Funded').length} invoices`;
+    document.getElementById('biz-kpi-pending').textContent = `$${pendingRevenue.toLocaleString()}`;
+    document.getElementById('biz-kpi-labor').textContent = `$${totalLaborCost.toLocaleString()}`;
+    document.getElementById('biz-kpi-margin').textContent = totalRevenue > 0 ? `${grossMargin}%` : '—';
+
+    renderQBStatus();
+  }
+
+  // ── QUICKBOOKS INTEGRATION (Phase 2 Ready) ─────────────
+  const QB_CONFIG_SEED = {
+    status: 'not-configured',
+    oauthToken: null,
+    businessId: null,
+    lastSync: null,
+    syncErrors: []
+  };
+
+  function loadQBConfig() {
+    try { return JSON.parse(localStorage.getItem('meridian_qb_config')) || QB_CONFIG_SEED; }
+    catch(e) { return QB_CONFIG_SEED; }
+  }
+
+  function saveQBConfig(config) {
+    localStorage.setItem('meridian_qb_config', JSON.stringify(config));
+  }
+
+  function renderQBStatus() {
+    const config = loadQBConfig();
+    const statusBtn = document.getElementById('qb-status-button');
+    const statusText = document.getElementById('qb-sync-status');
+    const lastSyncText = document.getElementById('qb-last-sync');
+
+    if (statusBtn) {
+      if (config.status === 'configured') {
+        statusBtn.textContent = '✓ Connected';
+        statusBtn.style.background = '#27AE60';
+      } else {
+        statusBtn.textContent = 'Not Connected';
+        statusBtn.style.background = '#999';
+      }
+    }
+
+    if (statusText) {
+      statusText.textContent = config.status === 'configured' ? 'Connected & ready to sync' : 'Ready to connect in Phase 2';
+    }
+
+    if (lastSyncText) {
+      lastSyncText.textContent = config.lastSync ? new Date(config.lastSync).toLocaleDateString() : 'Never';
+    }
+  }
+
+  function openQBConnection() {
+    const config = loadQBConfig();
+    if (config.status === 'configured') {
+      alert('QuickBooks is already connected.\n\nPhase 2 will add automatic sync and data reconciliation.');
+    } else {
+      alert('QuickBooks OAuth is coming in Phase 2.\n\nFor now, you can manually track invoices and expenses in Meridian.');
+    }
+  }
+
+  // ── PROPOSAL GENERATOR (Claude AI) ─────────────────────
+  function initProposalProjectSelect() {
+    const projects = loadProjects();
+    const select = document.getElementById('proposal-project');
+    if (!select) return;
+
+    select.innerHTML = '<option value="">— Choose a project</option>' +
+      projects.map(p => `<option value="${p.id}">${p.name} (${p.client})</option>`).join('');
+  }
+
+  function loadProposalContext() {
+    const projectId = parseInt(document.getElementById('proposal-project').value);
+    if (!projectId) {
+      document.getElementById('proposal-output').style.display = 'none';
+      document.getElementById('proposal-placeholder').style.display = 'block';
+      return;
+    }
+
+    const projects = loadProjects();
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
+
+    // Pre-fill context with project details
+    const deliverables = project.deliverables.map(d => d.name).join(', ');
+    const context = `Project: ${project.name}
+Client: ${project.client}
+Budget: $${project.budget.toLocaleString()}
+Timeline: ${project.startDate} to ${project.endDate}
+Deliverables: ${deliverables}`;
+
+    document.getElementById('proposal-context').value = context;
+  }
+
+  async function generateProposal() {
+    const projectId = parseInt(document.getElementById('proposal-project').value);
+    if (!projectId) {
+      alert('Please select a project first.');
+      return;
+    }
+
+    const tone = document.getElementById('proposal-tone').value;
+    const audience = document.getElementById('proposal-audience').value;
+    const context = document.getElementById('proposal-context').value;
+    const btn = document.getElementById('proposal-gen-btn');
+
+    btn.textContent = 'Generating...';
+    btn.disabled = true;
+
+    try {
+      // Build prompt for Claude
+      const systemPrompt = `You are a business proposal writer for DNA Agency & Rebuilding California.
+Your tone is witty, sharp, and clear. Write compelling proposals that sell the value of the project to the client.
+Keep proposals concise (3-4 paragraphs) and focused on client benefits.`;
+
+      const userPrompt = `Generate a proposal with this context:
+
+${context}
+
+Target audience: ${audience}
+Tone: ${tone}
+
+Write a compelling, professional proposal that shows why this project will deliver value to the client.`;
+
+      // Call Claude API
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': prompt('Enter your Anthropic API key:'),
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-opus-4-1',
+          max_tokens: 1024,
+          messages: [
+            {role: 'user', content: userPrompt}
+          ],
+          system: systemPrompt
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('API request failed: ' + response.statusText);
+      }
+
+      const data = await response.json();
+      const proposalText = data.content[0].text;
+
+      // Display proposal
+      document.getElementById('proposal-text').innerHTML = proposalText.replace(/\n/g, '<br><br>');
+      document.getElementById('proposal-output').style.display = 'block';
+      document.getElementById('proposal-placeholder').style.display = 'none';
+
+    } catch (error) {
+      alert('Error generating proposal: ' + error.message + '\n\nFor MVP, manually edit the proposal template or contact support.');
+      document.getElementById('proposal-output').style.display = 'none';
+      document.getElementById('proposal-placeholder').style.display = 'block';
+    } finally {
+      btn.textContent = 'Generate Proposal →';
+      btn.disabled = false;
+    }
+  }
+
+  function copyProposal() {
+    const text = document.getElementById('proposal-text').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Proposal copied to clipboard');
+    });
+  }
+
+  function exportProposalPDF() {
+    const projectId = parseInt(document.getElementById('proposal-project').value);
+    const projects = loadProjects();
+    const project = projects.find(p => p.id === projectId);
+    const proposalText = document.getElementById('proposal-text').innerText;
+
+    if (!proposalText) {
+      alert('No proposal to export. Generate one first.');
+      return;
+    }
+
+    // Simple PDF export using data URL (Phase 2 will use jsPDF)
+    const pdfContent = `
+PROPOSAL
+${project.name}
+${project.client}
+Generated on ${new Date().toLocaleDateString()}
+
+${proposalText}
+    `;
+
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(pdfContent));
+    element.setAttribute('download', `${project.name}-Proposal.txt`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  // ── CLIENT REPORT EXPORT ──────────────────────────────
+  function exportProjectReport(projectId) {
+    const projects = loadProjects();
+    const labor = loadLaborTracking();
+    const invoices = loadInvoices();
+    const project = projects.find(p => p.id === projectId);
+
+    if (!project) {
+      alert('Project not found');
+      return;
+    }
+
+    // Calculate project metrics
+    const projectLabor = labor.filter(l => l.projectId === projectId);
+    const laborCost = projectLabor.reduce((s, l) => s + (l.hours * l.hourlyRate), 0);
+    const projectInvoices = invoices.filter(i => i.projectId === projectId);
+    const revenue = projectInvoices.filter(i => i.status === 'Funded').reduce((s, i) => s + i.amount, 0);
+    const margin = revenue > 0 ? ((revenue - laborCost) / revenue * 100).toFixed(1) : 'N/A';
+    const totalHours = projectLabor.reduce((s, l) => s + l.hours, 0);
+
+    // Build report
+    const deliverablesList = project.deliverables
+      .map(d => `[${d.completed ? '✓' : ' '}] ${d.name}`)
+      .join('\n');
+
+    const report = `PROJECT REPORT
+================================================================================
+
+Project:              ${project.name}
+Client:              ${project.client}
+Owner:               ${project.owner}
+Status:              ${project.status}
+
+Period:              ${project.startDate} to ${project.endDate}
+Budget:              $${project.budget.toLocaleString()}
+
+DELIVERABLES
+================================================================================
+${deliverablesList}
+
+PERFORMANCE METRICS
+================================================================================
+Total Hours:         ${totalHours}h
+Labor Cost:          $${laborCost.toLocaleString()}
+Revenue:             $${revenue.toLocaleString()}
+Gross Margin:        ${margin}%
+
+INVOICES
+================================================================================
+${projectInvoices.length > 0
+  ? projectInvoices.map(inv => `• ${inv.date} — $${inv.amount.toLocaleString()} (${inv.status})`).join('\n')
+  : 'No invoices yet'}
+
+Generated on ${new Date().toLocaleDateString()}
+================================================================================
+    `;
+
+    // Export as text file
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(report));
+    element.setAttribute('download', `${project.name}-Report.txt`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+
+    alert(`Report exported: ${project.name}-Report.txt`);
+  }
+
+  // ── INVOICE RENDERING (Finance Tab) ────────────────────
+  function renderInvoices() {
+    const board = document.getElementById('invoices-board');
+    if (!board) return;
+
+    const invoices = loadInvoices();
+    const contacts = loadContacts();
+    const projects = loadProjects();
+
+    const statusColors = {
+      'Pending': '#FFA500',
+      'Sent': '#4CAF50',
+      'Partial': '#2196F3',
+      'Funded': '#27AE60'
+    };
+
+    const rows = invoices.map(inv => {
+      const contact = contacts.find(c => c.id === inv.clientId);
+      const project = inv.projectId ? projects.find(p => p.id === inv.projectId) : null;
+      const clientName = contact ? `${contact.firstName} ${contact.lastName}` : `Client #${inv.clientId}`;
+
+      return `
+        <tr>
+          <td style="padding:10px;border-bottom:1px solid #eee">${inv.date}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee">${clientName}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee;font-size:0.9rem">${project ? project.name : '—'}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee;text-align:right">$${inv.amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee">
+            <span class="status-badge" onclick="cycleInvoiceStatus(${inv.id})" style="background:${statusColors[inv.status]};color:white;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:0.85rem;font-weight:600">
+              ${inv.status}
+            </span>
+          </td>
+          <td style="padding:10px;border-bottom:1px solid #eee;text-align:right;font-size:0.9rem;color:#666">${inv.dueDate}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee;color:#666;font-size:0.85rem">${inv.notes}</td>
+        </tr>
+      `;
+    }).join('');
+
+    const totalFunded = invoices.filter(i => i.status === 'Funded').reduce((s, i) => s + i.amount, 0);
+    const totalPending = invoices.filter(i => i.status !== 'Funded').reduce((s, i) => s + i.amount, 0);
+
+    board.innerHTML = `
+      <div style="margin-bottom:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div style="background:var(--white);border:1px solid var(--parchment);padding:0.8rem;border-radius:3px">
+          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">Funded Revenue</div>
+          <div style="font-size:1.4rem;font-weight:700;color:var(--forest)">$${totalFunded.toLocaleString()}</div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--parchment);padding:0.8rem;border-radius:3px">
+          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">Pending Revenue</div>
+          <div style="font-size:1.4rem;font-weight:700;color:var(--gold)">$${totalPending.toLocaleString()}</div>
+        </div>
+      </div>
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse;background:var(--white);border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
+        <tr style="background:#f9f9f9;border-bottom:2px solid var(--parchment)">
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Date</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Client</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Project</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Amount</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Status</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Due</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Notes</th>
+        </tr>
+        ${rows || '<tr><td colspan="7" style="text-align:center;padding:20px;color:#aaa">No invoices yet</td></tr>'}
+      </table>
+    `;
+  }
+
+  function cycleInvoiceStatus(invoiceId) {
+    const invoices = loadInvoices();
+    const invoice = invoices.find(i => i.id === invoiceId);
+    if (!invoice) return;
+
+    const statusCycle = ['Pending', 'Sent', 'Partial', 'Funded'];
+    const currentIndex = statusCycle.indexOf(invoice.status);
+    invoice.status = statusCycle[(currentIndex + 1) % statusCycle.length];
+
+    if (invoice.status === 'Funded') {
+      invoice.paymentDate = new Date().toISOString().split('T')[0];
+    }
+
+    saveInvoices(invoices);
+    renderInvoices();
+    renderBusinessKPIs();
   }
 
   function renderDonorPipeline(data) {
