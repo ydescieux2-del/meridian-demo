@@ -53,7 +53,7 @@ body {
 
 .wordmark {
   font-size: clamp(1.4rem, 3vw, 1.8rem);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -71,7 +71,7 @@ body {
 
 .orgs {
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--forest-mid);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -91,7 +91,7 @@ body {
 .tab {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--forest-mid);
@@ -130,7 +130,7 @@ body {
 
 .section-title {
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
   line-height: 1.15;
   margin-bottom: 0.3rem;
@@ -138,7 +138,7 @@ body {
 
 .section-sub {
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--forest-mid);
   margin-bottom: 2.5rem;
   font-style: italic;
@@ -162,7 +162,7 @@ body {
 
 .kpi-value {
   font-size: clamp(2rem, 3.5vw, 2.6rem);
-  font-weight: 700;
+  font-weight: 500;
   color: var(--forest);
   line-height: 1;
   margin-bottom: 0.3rem;
@@ -170,7 +170,7 @@ body {
 
 .kpi-label {
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--forest-mid);
@@ -178,7 +178,7 @@ body {
 
 .kpi-delta {
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--gold-deep);
   margin-top: 0.25rem;
   font-style: italic;
@@ -217,7 +217,7 @@ body {
 .card-budget { min-width: 0; }
 .card-budget-label {
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--forest-mid);
   margin-top: 0.35rem;
   letter-spacing: 0.02em;
@@ -225,14 +225,14 @@ body {
 
 .card-title {
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
   line-height: 1.3;
 }
 
 .card-meta {
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.04em;
   color: var(--forest-mid);
   margin-top: 0.15rem;
@@ -267,14 +267,14 @@ body {
 
 .stat-val {
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--charcoal);
   line-height: 1;
 }
 
 .stat-lbl {
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--forest-mid);
@@ -328,7 +328,7 @@ body {
 
 .pipeline-count {
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest-mid);
 }
 
@@ -351,13 +351,13 @@ body {
 
 .contact-name {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
 }
 
 .contact-co {
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--forest-mid);
   margin: 0.1rem 0 0.6rem;
 }
@@ -370,7 +370,7 @@ body {
 
 .contact-value {
   font-size: 0.92rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--charcoal);
 }
 
@@ -420,13 +420,13 @@ body {
 
 .grant-name {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--charcoal);
 }
 
 .grant-org {
   font-size: 0.84rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--forest-mid);
   font-style: italic;
   margin-top: 0.1rem;
@@ -434,7 +434,7 @@ body {
 
 .grant-amount {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
   white-space: nowrap;
 }
@@ -448,7 +448,7 @@ body {
 .btn-add-campaign {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   background: var(--forest);
@@ -500,7 +500,7 @@ body {
 }
 .modal-title {
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
   letter-spacing: 0.08em;
   margin-bottom: 0.25rem;
@@ -526,7 +526,7 @@ body {
 .btn-cancel {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   background: transparent;
@@ -575,7 +575,7 @@ body {
 .form-input, .form-select, .form-textarea {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--charcoal);
   background: var(--ivory);
   border: 1px solid var(--parchment);
@@ -596,7 +596,7 @@ body {
 .btn-generate {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--white);
@@ -617,7 +617,7 @@ body {
 
 .output-eyebrow {
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
@@ -642,7 +642,7 @@ body {
 
 .output-card-thumb-text {
   font-size: clamp(1rem, 2.5vw, 1.5rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--ivory);
   letter-spacing: 0.08em;
   text-align: center;
@@ -656,7 +656,7 @@ body {
   text-transform: uppercase;
   display: block;
   margin-top: 0.4rem;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .output-card-body {
@@ -666,7 +666,7 @@ body {
 
 .output-card-title {
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--forest);
   margin-bottom: 0.3rem;
 }
@@ -686,7 +686,7 @@ body {
 .btn-view, .btn-export {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   padding: 0.5rem 1rem;
@@ -753,7 +753,7 @@ body {
 }
 .slide-card-num {
   font-size: 0.62rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
@@ -761,7 +761,7 @@ body {
 }
 .slide-card-title {
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
   letter-spacing: 0.03em;
   margin-bottom: 0.15rem;
@@ -806,7 +806,7 @@ body {
   padding-top: 1.5rem;
   border-top: 1px solid var(--parchment);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 300;
   color: var(--forest-mid);
   font-style: italic;
   line-height: 1.6;
@@ -862,7 +862,7 @@ body {
 .crm-view-btn {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   background: var(--white);
@@ -876,7 +876,7 @@ body {
 .btn-add-contact {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   background: var(--forest);
@@ -910,17 +910,17 @@ body {
   background: var(--forest);
   color: var(--ivory);
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem; font-weight: 700; letter-spacing: 0.05em;
+  font-size: 0.95rem; font-weight: 500; letter-spacing: 0.05em;
   flex-shrink: 0; overflow: hidden;
 }
 .cg-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .cg-name { font-size: 1.05rem; font-weight: 700; color: var(--forest); letter-spacing: 0.02em; margin-bottom: 0.1rem; }
-.cg-sub { font-size: 0.85rem; font-weight: 700; color: var(--forest-mid); font-style: italic; margin-bottom: 0.4rem; }
+.cg-sub { font-size: 0.85rem; font-weight: 500; color: var(--forest-mid); font-style: italic; margin-bottom: 0.4rem; }
 .cg-line { font-size: 0.88rem; color: var(--charcoal); margin-bottom: 0.2rem; display: flex; gap: 0.5rem; align-items: baseline; }
 .cg-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest-mid); flex-shrink: 0; width: 2.8rem; }
 .cg-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--parchment); }
 .cg-stars { color: var(--gold); font-size: 0.88rem; }
-.cg-val { font-size: 0.92rem; font-weight: 700; color: var(--forest); }
+.cg-val { font-size: 0.92rem; font-weight: 600; color: var(--forest); }
 .crm-empty { grid-column: 1/-1; background: var(--white); padding: 3rem; text-align: center; color: var(--forest-mid); font-style: italic; }
 
 /* ── CONTACT DETAIL MODAL ────────────────────────────── */
@@ -962,19 +962,19 @@ body {
   background: var(--forest);
   color: var(--ivory);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.75rem; font-weight: 700;
+  font-size: 1.75rem; font-weight: 300;
   letter-spacing: 0.04em;
   margin-bottom: 0.6rem;
   overflow: hidden;
 }
 .cm-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .cm-name { font-size: 1.25rem; font-weight: 700; color: var(--forest); letter-spacing: 0.03em; }
-.cm-ttl { font-size: 0.88rem; font-weight: 700; color: var(--forest-mid); font-style: italic; }
-.cm-org { font-size: 0.95rem; color: var(--charcoal); font-weight: 700; }
+.cm-ttl { font-size: 0.88rem; font-weight: 500; color: var(--forest-mid); font-style: italic; }
+.cm-org { font-size: 0.95rem; color: var(--charcoal); font-weight: 600; }
 .cm-stars-display { color: var(--gold); font-size: 1.1rem; letter-spacing: 0.1em; }
 .cm-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; justify-content: center; margin-top: 0.3rem; }
-.cm-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--cream); color: var(--forest); padding: 0.2rem 0.5rem; border: 1px solid var(--parchment); }
-.cm-meta-foot { margin-top: auto; padding-top: 1.2rem; font-size: 0.8rem; font-weight: 700; color: var(--forest-mid); font-style: italic; line-height: 1.8; }
+.cm-tag { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: var(--cream); color: var(--forest); padding: 0.2rem 0.5rem; border: 1px solid var(--parchment); }
+.cm-meta-foot { margin-top: auto; padding-top: 1.2rem; font-size: 0.8rem; font-weight: 500; color: var(--forest-mid); font-style: italic; line-height: 1.8; }
 .cm-right { padding: 2rem; display: flex; flex-direction: column; gap: 1.4rem; }
 .cm-section-lbl {
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
@@ -1005,7 +1005,7 @@ body {
 .btn-cm-secondary:hover { border-color: var(--forest); }
 .btn-cm-primary {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
   background: var(--forest); color: var(--ivory); border: none;
   padding: 0.5rem 1.2rem; cursor: pointer;
 }
@@ -1033,7 +1033,7 @@ body {
   margin-top: 0.5rem;
 }
 .donor-modal-name { font-size: 1.35rem; font-weight: 700; color: var(--forest); letter-spacing: 0.03em; margin-bottom: 0.15rem; }
-.donor-modal-org { font-size: 0.9rem; font-weight: 700; color: var(--forest-mid); font-style: italic; margin-bottom: 1.4rem; }
+.donor-modal-org { font-size: 0.9rem; font-weight: 500; color: var(--forest-mid); font-style: italic; margin-bottom: 1.4rem; }
 
 .grant-row {
   cursor: pointer;
@@ -1049,7 +1049,7 @@ body {
 .grants-label { margin-bottom: 0 !important; }
 .btn-add-grant {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
   background: transparent; color: var(--forest); border: 1px solid var(--parchment);
   padding: 0.4rem 0.9rem; cursor: pointer; white-space: nowrap;
   transition: border-color 0.2s;
@@ -1090,11 +1090,11 @@ body {
   padding-bottom: 1rem;
   border-bottom: 0.5px solid var(--gold);
 }
-.drill-title { font-size: 1.2rem; font-weight: 700; color: var(--forest); letter-spacing: 0.04em; }
+.drill-title { font-size: 1.2rem; font-weight: 600; color: var(--forest); letter-spacing: 0.04em; }
 .drill-sub { font-size: 0.7rem; color: var(--forest-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem; }
 .btn-drill-close {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
   background: var(--forest); color: var(--ivory); border: none;
   padding: 0.45rem 1rem; cursor: pointer; flex-shrink: 0;
 }
@@ -1109,7 +1109,7 @@ body {
 .drill-row-click { cursor: pointer; }
 .drill-row-click:hover td { background: var(--ivory); }
 .drill-table tfoot td {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--forest); background: var(--ivory);
   border-top: 1px solid var(--parchment); border-bottom: none; padding: 0.6rem 0.8rem;
 }
@@ -1151,7 +1151,7 @@ body {
 }
 .login-wordmark {
   font-size: 1.9rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--forest);
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -1186,7 +1186,7 @@ body {
 .login-field label {
   display: block;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--forest);
@@ -1214,7 +1214,7 @@ body {
   color: var(--ivory);
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   border: none;
@@ -1241,7 +1241,7 @@ body {
 .logout-btn {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--forest-mid);
@@ -1399,8 +1399,8 @@ body {
   <div class="section-sub" id="fin-campaign-sub">Rebuilding California · Q1 2026</div>
 
   <div style="margin-bottom:1.5rem;padding:0.8rem;background:var(--cream);border:1px solid var(--parchment);border-radius:3px;display:flex;align-items:center;gap:1rem">
-    <label style="font-weight:700;color:var(--forest);font-size:0.9rem">View by Campaign:</label>
-    <select class="crm-filter" id="campaign-selector" onchange="switchCampaign()" style="flex:1;max-width:280px;font-size:0.9rem;font-weight:700">
+    <label style="font-weight:600;color:var(--forest);font-size:0.9rem">View by Campaign:</label>
+    <select class="crm-filter" id="campaign-selector" onchange="switchCampaign()" style="flex:1;max-width:280px;font-size:0.9rem;font-weight:600">
       <option value="ALL">All Campaigns (Macro)</option>
       <option value="rebuilding-california">Rebuilding California</option>
       <option value="dna-agency">DNA Agency</option>
@@ -1506,12 +1506,12 @@ body {
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
       <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
-        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">This Month</div>
+        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">This Month</div>
         <div style="font-size:1.6rem;font-weight:700;color:var(--forest)" id="labor-month-hours">0</div>
         <div style="font-size:0.75rem;color:var(--gold)">hours logged</div>
       </div>
       <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
-        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">By Client</div>
+        <div style="font-size:0.7rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">By Client</div>
         <select class="crm-filter" id="labor-client-filter" onchange="renderOperations()" style="width:100%;margin-bottom:0.5rem">
           <option value="">All</option>
         </select>
@@ -1641,7 +1641,7 @@ body {
         <div style="border-top:1px solid var(--parchment);padding-top:1.2rem">
           <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">First time?</div>
           <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.6">
-            Create a free account at <a href="https://gamma.app" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold);text-decoration:none">gamma.app</a> or <a href="https://canva.com" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold);text-decoration:none">canva.com</a>. It takes about 60 seconds and you won't be charged.
+            Create a free account at <a href="https://gamma.app" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold);text-decoration:none">gamma.app</a> or <a href="https://canva.com" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold);text-decoration:none">canva.com</a>. It takes about 60 seconds and you won't be charged.
           </div>
         </div>
       </div>
@@ -1897,7 +1897,7 @@ body {
       <input class="form-input" name="facebook" placeholder="https://facebook.com/…">
       <label class="form-label">Headshot</label>
       <div style="display:flex;gap:0.6rem;align-items:center">
-        <div id="add-headshot-preview" style="width:42px;height:42px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;overflow:hidden">?</div>
+        <div id="add-headshot-preview" style="width:42px;height:42px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:500;flex-shrink:0;overflow:hidden">?</div>
         <label style="flex:1;cursor:pointer">
           <input type="file" accept="image/*" style="display:none" onchange="previewHeadshot(event,'add-headshot-preview','add-headshot-data')">
           <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload photo</div>
@@ -1906,7 +1906,7 @@ body {
       <input type="hidden" name="headshot" id="add-headshot-data" value="">
       <label class="form-label">Business Card</label>
       <div style="display:flex;gap:0.6rem;align-items:center">
-        <div id="add-business-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;overflow:hidden;border-radius:2px">Card</div>
+        <div id="add-business-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:500;flex-shrink:0;overflow:hidden;border-radius:2px">Card</div>
         <label style="flex:1;cursor:pointer">
           <input type="file" accept="image/*" style="display:none" onchange="previewMedia(event,'add-business-card-preview','add-business-card-data')">
           <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload card photo</div>
@@ -1915,14 +1915,14 @@ body {
       <input type="hidden" name="businessCard" id="add-business-card-data" value="">
       <label class="form-label">Note Card</label>
       <div style="display:flex;gap:0.6rem;align-items:center">
-        <div id="add-note-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;overflow:hidden;border-radius:2px">Note</div>
+        <div id="add-note-card-preview" style="width:60px;height:38px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:500;flex-shrink:0;overflow:hidden;border-radius:2px">Note</div>
         <label style="flex:1;cursor:pointer">
           <input type="file" accept="image/*" style="display:none" onchange="previewMedia(event,'add-note-card-preview','add-note-card-data')">
           <div class="form-input" style="cursor:pointer;font-size:0.78rem;color:var(--forest-mid);text-align:center;padding:0.5rem">Upload note card</div>
         </label>
       </div>
       <input type="hidden" name="noteCard" id="add-note-card-data" value="">
-      <label class="form-label">Tags <span style="font-weight:700;text-transform:none;letter-spacing:0">(comma-separated)</span></label>
+      <label class="form-label">Tags <span style="font-weight:400;text-transform:none;letter-spacing:0">(comma-separated)</span></label>
       <input class="form-input" name="tags" placeholder="real estate, high value, referral">
       <label class="form-label">Notes</label>
       <textarea class="form-textarea" name="notes" style="min-height:90px" placeholder="Context, conversation history, next steps…"></textarea>
@@ -2100,9 +2100,9 @@ body {
   <!-- ── VALUE PROPOSITION ── -->
   <div style="background:var(--white);border:1px solid var(--parchment);padding:2rem 2.4rem;margin-bottom:2.5rem">
     <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">Why Phase II</div>
-    <div style="font-size:1.15rem;font-weight:700;color:var(--charcoal);line-height:1.7;max-width:680px">
+    <div style="font-size:1.15rem;font-weight:400;color:var(--charcoal);line-height:1.7;max-width:680px">
       Phase I gave you campaign command, CRM, donor finance, and a creative studio — the operating system for DNA Agency + Rebuilding California.
-      <span style="display:block;margin-top:0.6rem;font-weight:700;color:var(--forest)">Phase II turns Meridian into your financial nerve center.</span>
+      <span style="display:block;margin-top:0.6rem;font-weight:500;color:var(--forest)">Phase II turns Meridian into your financial nerve center.</span>
       Real-time visibility into where every dollar goes — across vendors, contractors, campaigns, and accounts — so you can make faster decisions with full confidence.
     </div>
   </div>
@@ -2112,8 +2112,8 @@ body {
     <div style="background:var(--gold);border-radius:1px"></div>
     <div>
       <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 01</div>
-      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Business Finance Tab</div>
-      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Full financial visibility — no more spreadsheet juggling</div>
+      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Business Finance Tab</div>
+      <div style="font-size:0.92rem;font-weight:500;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Full financial visibility — no more spreadsheet juggling</div>
 
       <div style="display:grid;grid-template-columns:2fr 1.2fr;gap:1.5rem;margin-bottom:1.2rem;align-items:start">
         <!-- Features List -->
@@ -2167,8 +2167,8 @@ body {
     <div style="background:var(--gold);border-radius:1px"></div>
     <div>
       <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 02</div>
-      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Contractor Billable Hours</div>
-      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Know exactly what every contractor costs per campaign</div>
+      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Contractor Billable Hours</div>
+      <div style="font-size:0.92rem;font-weight:500;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Know exactly what every contractor costs per campaign</div>
 
       <div style="display:grid;grid-template-columns:2fr 1.2fr;gap:1.5rem;margin-bottom:1.2rem;align-items:start">
         <!-- Features List -->
@@ -2206,7 +2206,7 @@ body {
           </div>
           <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.8rem;border-radius:1px;text-align:center;font-weight:700;color:var(--forest)">
             <div style="font-size:0.75rem">$15,050</div>
-            <div style="font-size:0.55rem;color:var(--forest-mid);font-weight:700;margin-top:0.2rem">This Month</div>
+            <div style="font-size:0.55rem;color:var(--forest-mid);font-weight:400;margin-top:0.2rem">This Month</div>
           </div>
         </div>
       </div>
@@ -2218,26 +2218,26 @@ body {
   <!-- ── DEVELOPMENT TIMELINE ── -->
   <div style="margin-bottom:3rem">
     <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Development Timeline</div>
-    <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);margin-bottom:1.5rem">8-Week Build Plan</div>
+    <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--forest);margin-bottom:1.5rem">8-Week Build Plan</div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
       <div style="background:var(--white);padding:1.4rem 1.6rem">
-        <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 1–2</div>
+        <div style="font-size:2rem;font-weight:500;color:var(--forest);line-height:1">Wk 1–2</div>
         <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Foundation</div>
         <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">QuickBooks OAuth flow<br>Plaid bank linking<br>Transaction data model</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
-        <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 3–4</div>
+        <div style="font-size:2rem;font-weight:500;color:var(--forest);line-height:1">Wk 3–4</div>
         <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Finance Dashboard</div>
         <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Spend dashboards<br>Category breakdowns<br>Trend visualizations</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
-        <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 5–6</div>
+        <div style="font-size:2rem;font-weight:500;color:var(--forest);line-height:1">Wk 5–6</div>
         <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Contractor Module</div>
         <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Time tracking UI<br>Rate configuration<br>Approval workflow</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
-        <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 7–8</div>
+        <div style="font-size:2rem;font-weight:500;color:var(--forest);line-height:1">Wk 7–8</div>
         <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Reports & Polish</div>
         <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Cost efficiency reports<br>PDF/CSV exports<br>QA + Nicole review</div>
       </div>
@@ -2247,27 +2247,27 @@ body {
   <!-- ── COST BREAKDOWN ── -->
   <div style="margin-bottom:3rem">
     <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Investment</div>
-    <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);margin-bottom:1.5rem">What $1,500 / Month Covers</div>
+    <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:600;color:var(--forest);margin-bottom:1.5rem">What $1,500 / Month Covers</div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--parchment);border:1px solid var(--parchment);margin-bottom:1.5rem">
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
-        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">40</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Dev Hours / Month</div>
+        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:500;color:var(--forest);line-height:1">40</div>
+        <div style="font-size:0.82rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Dev Hours / Month</div>
         <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Full-stack engineering</div>
       </div>
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
-        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">4</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Strategy Sessions</div>
+        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:500;color:var(--forest);line-height:1">4</div>
+        <div style="font-size:0.82rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Strategy Sessions</div>
         <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Monthly consulting calls</div>
       </div>
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
-        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">$25</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Effective Hourly</div>
+        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:500;color:var(--forest);line-height:1">$25</div>
+        <div style="font-size:0.82rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Effective Hourly</div>
         <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">vs. $150–250 agency rate</div>
       </div>
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
-        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">$0</div>
-        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Additional Licensing</div>
+        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:500;color:var(--forest);line-height:1">$0</div>
+        <div style="font-size:0.82rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Additional Licensing</div>
         <div style="font-size:0.82rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Everything built in-house</div>
       </div>
     </div>
@@ -2276,16 +2276,16 @@ body {
       <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest);margin-bottom:1rem">Comparable Market Pricing</div>
       <div style="display:grid;grid-template-columns:1fr auto;gap:0.4rem 2rem;font-size:0.92rem;line-height:2">
         <div style="color:var(--charcoal)">QuickBooks integration (custom dev)</div>
-        <div style="color:var(--forest-mid);text-align:right;font-weight:700">$8,000–15,000</div>
+        <div style="color:var(--forest-mid);text-align:right;font-weight:500">$8,000–15,000</div>
         <div style="color:var(--charcoal)">Plaid bank linking module</div>
-        <div style="color:var(--forest-mid);text-align:right;font-weight:700">$5,000–10,000</div>
+        <div style="color:var(--forest-mid);text-align:right;font-weight:500">$5,000–10,000</div>
         <div style="color:var(--charcoal)">Contractor time-tracking system</div>
-        <div style="color:var(--forest-mid);text-align:right;font-weight:700">$6,000–12,000</div>
+        <div style="color:var(--forest-mid);text-align:right;font-weight:500">$6,000–12,000</div>
         <div style="color:var(--charcoal)">Spend dashboards + reporting</div>
-        <div style="color:var(--forest-mid);text-align:right;font-weight:700">$4,000–8,000</div>
-        <div style="border-top:0.5px solid var(--gold);padding-top:0.5rem;color:var(--forest);font-weight:700">Total at agency rates</div>
-        <div style="border-top:0.5px solid var(--gold);padding-top:0.5rem;text-align:right;color:var(--forest);font-weight:700">$23,000–45,000</div>
-        <div style="color:var(--forest);font-weight:700">Your Phase II investment</div>
+        <div style="color:var(--forest-mid);text-align:right;font-weight:500">$4,000–8,000</div>
+        <div style="border-top:0.5px solid var(--gold);padding-top:0.5rem;color:var(--forest);font-weight:600">Total at agency rates</div>
+        <div style="border-top:0.5px solid var(--gold);padding-top:0.5rem;text-align:right;color:var(--forest);font-weight:600">$23,000–45,000</div>
+        <div style="color:var(--forest);font-weight:600">Your Phase II investment</div>
         <div style="text-align:right;color:var(--gold-deep);font-weight:700;font-size:1.05rem">$1,500/month</div>
       </div>
     </div>
@@ -2300,8 +2300,8 @@ body {
   </div>
 
   <div style="text-align:center;padding:2rem 0 1rem">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest-mid)">Ready to start Phase II?</div>
-    <div style="font-size:clamp(1.3rem,2.5vw,1.6rem);font-weight:700;color:var(--forest);margin-top:0.4rem">Let's build your financial command center.</div>
+    <div style="font-size:0.72rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest-mid)">Ready to start Phase II?</div>
+    <div style="font-size:clamp(1.3rem,2.5vw,1.6rem);font-weight:600;color:var(--forest);margin-top:0.4rem">Let's build your financial command center.</div>
     <div style="width:40px;height:0.5px;background:var(--gold);margin:1rem auto 0"></div>
   </div>
 
@@ -2772,7 +2772,7 @@ body {
               <div>
                 <label class="form-label">Headshot</label>
                 <div style="display:flex;gap:0.6rem;align-items:center">
-                  <div id="edit-headshot-preview" style="width:42px;height:42px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;flex-shrink:0;overflow:hidden">
+                  <div id="edit-headshot-preview" style="width:42px;height:42px;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:500;flex-shrink:0;overflow:hidden">
                     ${c.headshot ? `<img src="${c.headshot}" style="width:100%;height:100%;object-fit:cover">` : initials(c)}
                   </div>
                   <label style="flex:1;cursor:pointer">
@@ -2796,7 +2796,7 @@ body {
             </div>
 
             <div class="cm-section-lbl" style="margin-top:1.4rem">Tags & Notes</div>
-            <label class="form-label">Tags <span style="font-weight:700;text-transform:none;letter-spacing:0;color:var(--forest-mid);font-size:0.65rem">(comma-separated)</span></label>
+            <label class="form-label">Tags <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--forest-mid);font-size:0.65rem">(comma-separated)</span></label>
             <input class="form-input" name="tags" value="${v((c.tags||[]).join(', '))}">
             <label class="form-label">Notes</label>
             <textarea class="form-textarea" name="notes" style="min-height:90px">${c.notes||''}</textarea>
@@ -3168,11 +3168,11 @@ body {
     laborTable.innerHTML = `
       <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
         <tr style="border-bottom:2px solid #ddd;background:#f9f9f9">
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Date</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Hours</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Project</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Type</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Notes</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Date</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Hours</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Project</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Type</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Notes</th>
         </tr>
         ${laborHTML}
       </table>
@@ -3201,13 +3201,13 @@ body {
     projectsTable.innerHTML = `
       <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
         <tr style="border-bottom:2px solid #ddd;background:#f9f9f9">
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Project</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Client</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Status</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Start</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">End</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Budget</th>
-          <th style="text-align:left;padding:8px;color:#666;font-weight:700">Labor Cost</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Project</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Client</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Status</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Start</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">End</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Budget</th>
+          <th style="text-align:left;padding:8px;color:#666;font-weight:600">Labor Cost</th>
         </tr>
         ${projectsHTML}
       </table>
@@ -3679,7 +3679,7 @@ Generated on ${new Date().toLocaleDateString()}
           <td style="padding:10px;border-bottom:1px solid #eee;font-size:0.9rem">${project ? project.name : '—'}</td>
           <td style="padding:10px;border-bottom:1px solid #eee;text-align:right">$${inv.amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
           <td style="padding:10px;border-bottom:1px solid #eee">
-            <span class="status-badge" onclick="cycleInvoiceStatus(${inv.id})" style="background:${statusColors[inv.status]};color:white;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:0.85rem;font-weight:700">
+            <span class="status-badge" onclick="cycleInvoiceStatus(${inv.id})" style="background:${statusColors[inv.status]};color:white;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:0.85rem;font-weight:600">
               ${inv.status}
             </span>
           </td>
@@ -3695,23 +3695,23 @@ Generated on ${new Date().toLocaleDateString()}
     board.innerHTML = `
       <div style="margin-bottom:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
         <div style="background:var(--white);border:1px solid var(--parchment);padding:0.8rem;border-radius:3px">
-          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">Funded Revenue</div>
+          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">Funded Revenue</div>
           <div style="font-size:1.4rem;font-weight:700;color:var(--forest)">$${totalFunded.toLocaleString()}</div>
         </div>
         <div style="background:var(--white);border:1px solid var(--parchment);padding:0.8rem;border-radius:3px">
-          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:700;text-transform:uppercase;margin-bottom:0.3rem">Pending Revenue</div>
+          <div style="font-size:0.75rem;color:var(--forest-mid);font-weight:600;text-transform:uppercase;margin-bottom:0.3rem">Pending Revenue</div>
           <div style="font-size:1.4rem;font-weight:700;color:var(--gold)">$${totalPending.toLocaleString()}</div>
         </div>
       </div>
       <table style="width:100%;font-size:0.85rem;border-collapse:collapse;background:var(--white);border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
         <tr style="background:#f9f9f9;border-bottom:2px solid var(--parchment)">
-          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Date</th>
-          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Client</th>
-          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Project</th>
-          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Amount</th>
-          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Status</th>
-          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Due</th>
-          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Notes</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Date</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Client</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Project</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Amount</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Status</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Due</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:600">Notes</th>
         </tr>
         ${rows || '<tr><td colspan="7" style="text-align:center;padding:20px;color:#aaa">No invoices yet</td></tr>'}
       </table>
@@ -3993,7 +3993,7 @@ Generated on ${new Date().toLocaleDateString()}
         {label:'Client',   render:c=>`<span style="color:var(--forest-mid)">${c.client}</span>`},
         {label:'Budget',   render:c=>`$${c.budget.toLocaleString()}`},
         {label:'Spent',    render:c=>`$${c.spent.toLocaleString()}`},
-        {label:'% Used',   render:c=>{const p=Math.round(c.spent/c.budget*100);return `<span style="color:${p>=90?'#7A2F2F':p>=70?'var(--gold-deep)':'var(--forest)'};font-weight:700">${p}%</span>`;}},
+        {label:'% Used',   render:c=>{const p=Math.round(c.spent/c.budget*100);return `<span style="color:${p>=90?'#7A2F2F':p>=70?'var(--gold-deep)':'var(--forest)'};font-weight:500">${p}%</span>`;}},
         {label:'Status',   render:c=>`<span class="badge ${c.status==='active'?'badge-active':c.status==='paused'?'badge-paused':'badge-warm'}">${c.status.charAt(0).toUpperCase()+c.status.slice(1)}</span>`}
       ],
       rows:[...data].sort((a,b)=>b.spent-a.spent),
@@ -4048,7 +4048,7 @@ Generated on ${new Date().toLocaleDateString()}
         {label:'Spent',    render:c=>`$${c.spent.toLocaleString()}`},
         {label:'Leads',    render:c=>c.leads.toLocaleString()},
         {label:'CPL',      render:c=>`$${c.cpl>0?c.cpl.toFixed(2):'—'}`},
-        {label:'Deadline', render:c=>{const past=c.deadline&&new Date(c.deadline)<new Date();return `<span style="${past?'color:#7A2F2F;font-weight:700':''}">${c.deadline||'—'}</span>`;}}
+        {label:'Deadline', render:c=>{const past=c.deadline&&new Date(c.deadline)<new Date();return `<span style="${past?'color:#7A2F2F;font-weight:500':''}">${c.deadline||'—'}</span>`;}}
       ],
       rows:data,
       rowClickFn:'openCampaign'
@@ -4252,8 +4252,8 @@ Generated on ${new Date().toLocaleDateString()}
     const el = document.getElementById('deck-error');
     el.style.cssText = 'display:block;background:var(--ivory);border-left:2px solid var(--gold);color:var(--forest);padding:1.2rem 1.4rem';
     el.innerHTML = opened
-      ? `${toolName} opened in a new tab. If nothing appeared, your browser may have blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`
-      : `Your browser blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`;
+      ? `${toolName} opened in a new tab. If nothing appeared, your browser may have blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`
+      : `Your browser blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:600;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`;
   }
 
   function generateDeck() {
