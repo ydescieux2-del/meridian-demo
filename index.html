@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MERIDIAN — DNA Agency & Rebuilding California</title>
+<title>MERIDIAN — DNA Agency</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
@@ -1274,7 +1274,7 @@ body {
 <div id="login-screen">
   <div class="login-box">
     <div class="login-wordmark">Meridian<span></span></div>
-    <div class="login-sub">DNA Agency · Rebuilding California</div>
+    <div class="login-sub">DNA Agency</div>
     <div class="login-divider"></div>
     <form id="login-form" onsubmit="handleLogin(event)" style="width:100%">
       <div class="login-field">
@@ -1296,7 +1296,7 @@ body {
   <div class="header-top">
     <div>
       <div class="wordmark">Meridian<span></span></div>
-      <div class="orgs">DNA Agency · Rebuilding California</div>
+      <div class="orgs">DNA Agency</div>
     </div>
     <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
   </div>
@@ -1796,7 +1796,7 @@ body {
 <div class="modal-overlay" id="add-donor-modal" onclick="if(event.target===this)closeAddDonor()">
   <div class="modal" style="max-width:580px">
     <div class="modal-title">New Donor</div>
-    <div class="modal-sub">Nonprofit Finance · Rebuilding California</div>
+    <div class="modal-sub">Nonprofit Finance</div>
     <form id="add-donor-form" onsubmit="submitDonor(event)">
       <label class="form-label">Full Name</label>
       <input class="form-input" name="name" required placeholder="James Whitfield">
@@ -3600,7 +3600,7 @@ body {
       const nonprofitLabel = document.getElementById('fin-nonprofit-label');
       if (nonprofitSection) {
         nonprofitSection.style.display = showNonprofit ? '' : 'none';
-        if (nonprofitLabel) nonprofitLabel.textContent = isNonprofit ? '— ' + (CAMPAIGN_LABELS[CURRENT_CAMPAIGN] || '') : '— Aggregated across all nonprofit campaigns';
+        if (nonprofitLabel) nonprofitLabel.textContent = isNonprofit ? '— Nonprofit Programs' : '— All Nonprofit Campaigns';
       }
       if (showNonprofit) { renderDonorPipeline(getFilteredDonors()); renderGrantTracker(); }
     }
@@ -3622,7 +3622,7 @@ body {
     if (nonprofitSection) {
       nonprofitSection.style.display = showNonprofit ? '' : 'none';
       if (nonprofitLabel) {
-        nonprofitLabel.textContent = isNonprofit ? '— ' + label : '— Aggregated across all nonprofit campaigns';
+        nonprofitLabel.textContent = isNonprofit ? '— Nonprofit Programs' : '— All Nonprofit Campaigns';
       }
     }
 
