@@ -976,8 +976,18 @@ body {
   letter-spacing: 0.04em;
   margin-bottom: 0.6rem;
   overflow: hidden;
+  position: relative;
+  cursor: pointer;
 }
 .cm-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.cm-avatar-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.15s;
+  font-size: 1.4rem; color: #fff;
+}
+.cm-avatar:hover .cm-avatar-overlay { opacity: 1; }
 .cm-name { font-size: 1.25rem; font-weight: 700; color: var(--forest); letter-spacing: 0.03em; }
 .cm-ttl { font-size: 0.92rem; font-weight: 700; color: var(--forest-mid); font-style: italic; }
 .cm-org { font-size: 0.95rem; color: var(--charcoal); font-weight: 700; }
@@ -2642,6 +2652,32 @@ body {
     return '★'.repeat(n) + (empty ? '☆'.repeat(5-n) : '');
   }
   function initials(c) { return (c.firstName[0] + c.lastName[0]).toUpperCase(); }
+
+  function triggerHeadshotUpload(contactId) {
+    const input = document.getElementById('headshot-input-' + contactId);
+    if (input) input.click();
+  }
+
+  function handleHeadshotUpload(event, contactId) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64 = e.target.result;
+      const contacts = loadContacts();
+      const contact = contacts.find(c => c.id === contactId);
+      if (!contact) return;
+      if (!contact.media) contact.media = {};
+      contact.media.headshot = base64;
+      saveContacts(contacts);
+      const avatar = event.target.closest('.cm-left')?.querySelector('.cm-avatar');
+      if (avatar) {
+        avatar.innerHTML = `<img src="${base64}" alt=""><div class="cm-avatar-overlay">📷</div>`;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
   const STAGE_BADGE = {new:'badge-new',warm:'badge-warm',active:'badge-active',cold:'badge-cold'};
   const STAGE_LABEL = {new:'New',warm:'Warm',active:'Active',cold:'Cold'};
 
@@ -2745,7 +2781,11 @@ body {
     document.getElementById('contact-detail-body').innerHTML = `
       <div class="contact-modal">
         <div class="cm-left">
-          <div class="cm-avatar">${headshot ? `<img src="${headshot}" alt="">` : initials(c)}</div>
+          <div class="cm-avatar" onclick="triggerHeadshotUpload('${c.id}')" title="Click to upload photo">
+            ${headshot ? `<img src="${headshot}" alt="">` : initials(c)}
+            <div class="cm-avatar-overlay">📷</div>
+          </div>
+          <input type="file" id="headshot-input-${c.id}" accept="image/*" style="display:none" onchange="handleHeadshotUpload(event,'${c.id}')">
           <div class="cm-name">${c.firstName} ${c.lastName}</div>
           ${c.title ? `<div class="cm-ttl">${c.title}</div>` : ''}
           <div class="cm-org">${c.organization}</div>
