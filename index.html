@@ -1404,96 +1404,138 @@ body {
 <div id="finance" class="tab-content">
 <div class="section">
 
-  <div class="section-eyebrow">03 — Nonprofit Finance</div>
-  <div class="section-title">Donor Intelligence</div>
-  <div class="section-sub" id="fin-campaign-sub">Rebuilding California · Q1 2026</div>
+  <div class="section-eyebrow">03 — Finance</div>
+  <div class="section-title" id="fin-section-title">DNA Agency</div>
+  <div class="section-sub" id="fin-section-sub">Business financials — revenue, invoices &amp; integrations</div>
 
-  <div style="margin-bottom:1.5rem;padding:0.8rem;background:var(--cream);border:1px solid var(--parchment);border-radius:3px;display:flex;align-items:center;gap:1rem">
-    <label style="font-weight:700;color:var(--forest);font-size:0.9rem">View by Campaign:</label>
-    <select class="crm-filter" id="campaign-selector" onchange="switchCampaign()" style="flex:1;max-width:280px;font-size:0.9rem;font-weight:700">
-      <option value="ALL">All Campaigns (Macro)</option>
-      <option value="rebuilding-california">Rebuilding California</option>
-      <option value="dna-agency">DNA Agency</option>
-      <option value="prop-development">Prop Development Initiative</option>
-    </select>
+  <!-- ── ENTITY TOGGLE ── -->
+  <div style="display:flex;gap:0;margin-bottom:2rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden;width:fit-content">
+    <button id="fin-toggle-dna" onclick="switchFinanceView('dna')"
+      style="padding:0.6rem 1.6rem;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;background:var(--forest);color:var(--ivory);transition:all 200ms">
+      DNA Agency
+    </button>
+    <button id="fin-toggle-campaigns" onclick="switchFinanceView('campaigns')"
+      style="padding:0.6rem 1.6rem;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;background:var(--white);color:var(--forest-mid);transition:all 200ms">
+      Campaigns
+    </button>
   </div>
 
-  <div class="kpi-bar" style="margin-bottom:1.5rem">
-    <div class="kpi kpi-drill" onclick="drillFinanceGifts()"><div class="kpi-value" id="fin-kpi-gifts">—</div><div class="kpi-label">YTD Gifts</div><div class="kpi-delta">↑ 31% vs prior year</div></div>
-    <div class="kpi kpi-drill" onclick="drillFinanceAsk()"><div class="kpi-value" id="fin-kpi-ask">—</div><div class="kpi-label">In Ask Stage</div></div>
-    <div class="kpi kpi-drill" onclick="drillFinanceGrants()"><div class="kpi-value" id="fin-kpi-grants">—</div><div class="kpi-label">Grants Pipeline</div></div>
-    <div class="kpi kpi-drill" onclick="drillFinanceDonors()"><div class="kpi-value" id="fin-kpi-donors">—</div><div class="kpi-label">Total Donors</div></div>
-  </div>
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- VIEW A: DNA AGENCY (Business Entity)           -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="fin-view-dna">
 
-  <div class="crm-toolbar">
-    <input type="text" class="crm-search" id="donor-search" placeholder="Search donors, organizations…" oninput="renderFinance()">
-    <select class="crm-filter" id="donor-stage-filter" onchange="renderFinance()">
-      <option value="">All Stages</option>
-      <option value="education">Education</option>
-      <option value="engagement">Engagement</option>
-      <option value="ask">Ask</option>
-      <option value="thank">Thank</option>
-    </select>
-    <select class="crm-filter" id="donor-type-filter" onchange="renderFinance()">
-      <option value="">All Types</option>
-      <option value="individual">Individual</option>
-      <option value="corporate">Corporate</option>
-      <option value="foundation">Foundation</option>
-      <option value="public">Public</option>
-    </select>
-    <button class="btn-add-contact" onclick="openAddDonor()">+ Add Donor</button>
-  </div>
-
-  <div id="donor-pipeline-board"></div>
-
-  <div class="grants-section">
-    <div class="grants-toolbar">
-      <div class="grants-label">Grant Tracker</div>
-      <button class="btn-add-grant" onclick="openAddGrant()">+ Add Grant</button>
-    </div>
-    <div id="grant-tracker-board"></div>
-  </div>
-
-  <!-- ── BUSINESS FINANCIALS (DNA Agency) ── -->
-  <div style="margin-top:2rem;border-top:1px solid var(--parchment);padding-top:1.5rem">
-    <div style="margin-bottom:1rem">
-      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">DNA Agency Financials</div>
-    </div>
+    <!-- Business KPIs -->
     <div class="kpi-bar" style="margin-bottom:1.5rem">
       <div class="kpi"><div class="kpi-value" id="biz-kpi-revenue">$0</div><div class="kpi-label">Total Revenue</div><div class="kpi-delta" id="biz-kpi-revenue-delta">Funded invoices</div></div>
-      <div class="kpi"><div class="kpi-value" id="biz-kpi-pending">$0</div><div class="kpi-label">Pending Revenue</div></div>
-      <div class="kpi"><div class="kpi-value" id="biz-kpi-labor">$0</div><div class="kpi-label">Labor Cost</div></div>
+      <div class="kpi"><div class="kpi-value" id="biz-kpi-pending">$0</div><div class="kpi-label">Outstanding AR</div></div>
+      <div class="kpi"><div class="kpi-value" id="biz-kpi-labor">$0</div><div class="kpi-label">Labor Cost YTD</div></div>
       <div class="kpi"><div class="kpi-value" id="biz-kpi-margin">—</div><div class="kpi-label">Gross Margin</div></div>
     </div>
-  </div>
 
-  <!-- ── REVENUE TRACKING (DNA Agency / Business) ── -->
-  <div class="grants-section" style="margin-top:1.5rem">
-    <div class="grants-toolbar">
-      <div class="grants-label">Revenue Tracking</div>
-      <button class="btn-add-grant" onclick="openAddInvoiceModal(1)" style="background:var(--forest);color:var(--white)">+ New Invoice</button>
+    <!-- Revenue / Invoice Tracking -->
+    <div class="grants-section">
+      <div class="grants-toolbar">
+        <div class="grants-label">Client Invoices</div>
+        <button class="btn-add-grant" onclick="openAddInvoiceModal(1)" style="background:var(--forest);color:var(--white)">+ New Invoice</button>
+      </div>
+      <div id="invoices-board"></div>
     </div>
-    <div id="invoices-board"></div>
-  </div>
 
-  <!-- ── QUICKBOOKS INTEGRATION ── -->
-  <div class="grants-section" style="margin-top:2rem;border-top:1px solid var(--parchment);padding-top:1.5rem">
-    <div class="grants-toolbar">
-      <div class="grants-label">QuickBooks Integration</div>
-      <button class="btn-add-grant" id="qb-status-button" onclick="openQBConnection()" style="background:#1F497D;color:var(--white)">Not Connected</button>
+    <!-- QuickBooks + Bank/CC (Phase 2) -->
+    <div class="grants-section" style="margin-top:2rem;border-top:1px solid var(--parchment);padding-top:1.5rem">
+      <div class="grants-toolbar">
+        <div class="grants-label">Integrations</div>
+        <button class="btn-add-grant" id="qb-status-button" onclick="openQBConnection()" style="background:#2CA01C;color:var(--white)">QuickBooks</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1rem">
+        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
+          <div style="font-size:0.88rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">QuickBooks</div>
+          <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">Status: <span id="qb-sync-status" style="font-weight:700;color:var(--forest)">Ready — Phase 2</span></div>
+          <div style="font-size:0.9rem;color:var(--forest-mid)">Last sync: <span id="qb-last-sync">Never</span></div>
+          <div style="font-size:0.85rem;color:#888;margin-top:0.5rem;line-height:1.5">Invoices + expenses auto-sync once connected</div>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
+          <div style="font-size:0.88rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Bank &amp; Credit Cards</div>
+          <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">Status: <span style="font-weight:700;color:#888">Not connected</span></div>
+          <div style="font-size:0.85rem;color:#888;margin-top:0.5rem;line-height:1.5">Plaid linking — automatic transaction import in Phase 2</div>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
+          <div style="font-size:0.88rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Receipt Capture</div>
+          <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">Status: <span style="font-weight:700;color:#888">Not connected</span></div>
+          <div style="font-size:0.85rem;color:#888;margin-top:0.5rem;line-height:1.5">Dext / Expensify — photo receipts &amp; card matching in Phase 2</div>
+        </div>
+      </div>
     </div>
-    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;margin-top:1rem">
-      <div style="font-size:0.9rem;color:var(--forest);margin-bottom:0.5rem">
-        <strong>Status:</strong> <span id="qb-sync-status">Ready to connect</span>
+
+  </div><!-- /fin-view-dna -->
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- VIEW B: CAMPAIGNS                              -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div id="fin-view-campaigns" style="display:none">
+
+    <!-- Campaign selector -->
+    <div style="margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <select class="crm-filter" id="campaign-selector" onchange="switchCampaign()" style="font-size:0.95rem;font-weight:700;padding:0.5rem 0.8rem;min-width:220px">
+        <option value="ALL">All Campaigns</option>
+        <option value="rebuilding-california">Rebuilding California</option>
+        <option value="prop-development">Prop Development Initiative</option>
+        <option value="casa-verde">Casa Verde Restaurant</option>
+        <option value="pacific-legal">Pacific Legal Group</option>
+      </select>
+      <div id="fin-campaign-sub" style="font-size:0.95rem;color:var(--forest-mid);font-weight:600;font-style:italic">All Campaigns · Q1 2026</div>
+    </div>
+
+    <!-- Campaign P&L Summary cards -->
+    <div id="campaign-pl-summary" style="margin-bottom:2rem"></div>
+
+    <!-- Nonprofit tools — only visible when a nonprofit campaign is selected -->
+    <div id="fin-nonprofit-section" style="display:none">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;padding:0.6rem 1rem;background:var(--cream);border:1px solid var(--parchment);border-radius:3px">
+        <span style="font-size:0.88rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid)">Nonprofit Campaign</span>
+        <span id="fin-nonprofit-label" style="font-size:0.92rem;font-weight:700;color:var(--forest)"></span>
       </div>
-      <div style="font-size:0.9rem;color:var(--forest);margin-bottom:0.5rem">
-        <strong>Last Sync:</strong> <span id="qb-last-sync">Never</span>
+
+      <!-- Donor/Gift KPIs -->
+      <div class="kpi-bar" style="margin-bottom:1.5rem">
+        <div class="kpi kpi-drill" onclick="drillFinanceGifts()"><div class="kpi-value" id="fin-kpi-gifts">—</div><div class="kpi-label">YTD Gifts</div><div class="kpi-delta" id="fin-kpi-gifts-delta">↑ 31% vs prior year</div></div>
+        <div class="kpi kpi-drill" onclick="drillFinanceAsk()"><div class="kpi-value" id="fin-kpi-ask">—</div><div class="kpi-label">In Ask Stage</div></div>
+        <div class="kpi kpi-drill" onclick="drillFinanceGrants()"><div class="kpi-value" id="fin-kpi-grants">—</div><div class="kpi-label">Grants Pipeline</div></div>
+        <div class="kpi kpi-drill" onclick="drillFinanceDonors()"><div class="kpi-value" id="fin-kpi-donors">—</div><div class="kpi-label">Total Donors</div></div>
       </div>
-      <div style="font-size:0.85rem;color:#666;line-height:1.4">
-        When connected, Meridian will read invoices and expenses from QuickBooks to calculate accurate profitability and labor costs. Phase 2 integration includes automated sync and real-time data flow.
+
+      <div class="crm-toolbar" style="margin-bottom:1rem">
+        <input type="text" class="crm-search" id="donor-search" placeholder="Search donors, organizations…" oninput="renderFinance()">
+        <select class="crm-filter" id="donor-stage-filter" onchange="renderFinance()">
+          <option value="">All Stages</option>
+          <option value="education">Education</option>
+          <option value="engagement">Engagement</option>
+          <option value="ask">Ask</option>
+          <option value="thank">Thank</option>
+        </select>
+        <select class="crm-filter" id="donor-type-filter" onchange="renderFinance()">
+          <option value="">All Types</option>
+          <option value="individual">Individual</option>
+          <option value="corporate">Corporate</option>
+          <option value="foundation">Foundation</option>
+          <option value="public">Public</option>
+        </select>
+        <button class="btn-add-contact" onclick="openAddDonor()">+ Add Donor</button>
+      </div>
+
+      <div id="donor-pipeline-board"></div>
+
+      <div class="grants-section" style="margin-top:1.5rem">
+        <div class="grants-toolbar">
+          <div class="grants-label">Grant Tracker</div>
+          <button class="btn-add-grant" onclick="openAddGrant()">+ Add Grant</button>
+        </div>
+        <div id="grant-tracker-board"></div>
       </div>
     </div>
-  </div>
+
+  </div><!-- /fin-view-campaigns -->
 
 </div>
 </div>
@@ -3506,42 +3548,175 @@ body {
   }
 
   let CURRENT_CAMPAIGN = 'ALL';
+  let FINANCE_VIEW = 'dna'; // 'dna' | 'campaigns'
 
   const CAMPAIGN_LABELS = {
-    'ALL': 'All Campaigns (Macro)',
+    'ALL': 'All Campaigns',
     'rebuilding-california': 'Rebuilding California',
-    'dna-agency': 'DNA Agency',
-    'prop-development': 'Prop Development Initiative'
+    'prop-development': 'Prop Development Initiative',
+    'casa-verde': 'Casa Verde Restaurant',
+    'pacific-legal': 'Pacific Legal Group'
   };
+
+  // Campaigns that are nonprofits — show donor + grant tools when selected
+  const NONPROFIT_CAMPAIGNS = new Set(['rebuilding-california', 'prop-development']);
+
+  // ── Finance entity toggle ──────────────────────────────
+  function switchFinanceView(view) {
+    FINANCE_VIEW = view;
+    const dnaView = document.getElementById('fin-view-dna');
+    const campView = document.getElementById('fin-view-campaigns');
+    const dnaBtnEl = document.getElementById('fin-toggle-dna');
+    const campBtnEl = document.getElementById('fin-toggle-campaigns');
+    const titleEl = document.getElementById('fin-section-title');
+    const subEl = document.getElementById('fin-section-sub');
+
+    if (view === 'dna') {
+      dnaView.style.display = '';
+      campView.style.display = 'none';
+      dnaBtnEl.style.background = 'var(--forest)';
+      dnaBtnEl.style.color = 'var(--ivory)';
+      campBtnEl.style.background = 'var(--white)';
+      campBtnEl.style.color = 'var(--forest-mid)';
+      titleEl.textContent = 'DNA Agency';
+      subEl.textContent = 'Business financials — revenue, invoices & integrations';
+      renderBusinessKPIs();
+      renderInvoices();
+    } else {
+      dnaView.style.display = 'none';
+      campView.style.display = '';
+      campBtnEl.style.background = 'var(--forest)';
+      campBtnEl.style.color = 'var(--ivory)';
+      dnaBtnEl.style.background = 'var(--white)';
+      dnaBtnEl.style.color = 'var(--forest-mid)';
+      titleEl.textContent = 'Campaigns';
+      subEl.textContent = CURRENT_CAMPAIGN === 'ALL' ? 'All Campaigns · Q1 2026' : CAMPAIGN_LABELS[CURRENT_CAMPAIGN] + ' · Q1 2026';
+      renderFinanceKPIs();
+      renderCampaignPL();
+      // Show nonprofit section based on current selection
+      const isNonprofit = NONPROFIT_CAMPAIGNS.has(CURRENT_CAMPAIGN);
+      const showNonprofit = isNonprofit || CURRENT_CAMPAIGN === 'ALL';
+      const nonprofitSection = document.getElementById('fin-nonprofit-section');
+      const nonprofitLabel = document.getElementById('fin-nonprofit-label');
+      if (nonprofitSection) {
+        nonprofitSection.style.display = showNonprofit ? '' : 'none';
+        if (nonprofitLabel) nonprofitLabel.textContent = isNonprofit ? '— ' + (CAMPAIGN_LABELS[CURRENT_CAMPAIGN] || '') : '— Aggregated across all nonprofit campaigns';
+      }
+      if (showNonprofit) { renderDonorPipeline(getFilteredDonors()); renderGrantTracker(); }
+    }
+  }
 
   function switchCampaign() {
     CURRENT_CAMPAIGN = document.getElementById('campaign-selector').value;
-    const label = CAMPAIGN_LABELS[CURRENT_CAMPAIGN];
-    const sub = CURRENT_CAMPAIGN === 'ALL' ? 'Macro View — All Campaigns' : label + ' · Q1 2026';
+    const label = CAMPAIGN_LABELS[CURRENT_CAMPAIGN] || 'All Campaigns';
+    const sub = CURRENT_CAMPAIGN === 'ALL' ? 'All Campaigns · Q1 2026' : label + ' · Q1 2026';
     document.getElementById('fin-campaign-sub').textContent = sub;
-    renderFinance();
+    document.getElementById('fin-section-sub').textContent = sub;
+
+    // Show nonprofit donor/grant section only for nonprofit campaigns
+    const isNonprofit = NONPROFIT_CAMPAIGNS.has(CURRENT_CAMPAIGN);
+    // Also show when ALL selected (so nonprofit data is still visible in macro view)
+    const showNonprofit = isNonprofit || CURRENT_CAMPAIGN === 'ALL';
+    const nonprofitSection = document.getElementById('fin-nonprofit-section');
+    const nonprofitLabel = document.getElementById('fin-nonprofit-label');
+    if (nonprofitSection) {
+      nonprofitSection.style.display = showNonprofit ? '' : 'none';
+      if (nonprofitLabel) {
+        nonprofitLabel.textContent = isNonprofit ? '— ' + label : '— Aggregated across all nonprofit campaigns';
+      }
+    }
+
+    renderFinanceKPIs();
+    renderCampaignPL();
+    if (showNonprofit) {
+      renderDonorPipeline(getFilteredDonors());
+      renderGrantTracker();
+    }
   }
 
   function getCampaignDonors() {
-    if (CURRENT_CAMPAIGN === 'ALL') {
-      return loadDonors();
-    }
+    if (CURRENT_CAMPAIGN === 'ALL') return loadDonors();
     return loadDonors().filter(d => d.campaign === CURRENT_CAMPAIGN);
   }
 
   function getCampaignGrants() {
-    if (CURRENT_CAMPAIGN === 'ALL') {
-      return loadGrants();
-    }
+    if (CURRENT_CAMPAIGN === 'ALL') return loadGrants();
     return loadGrants().filter(g => g.campaign === CURRENT_CAMPAIGN);
   }
 
+  // ── Campaign P&L summary cards ─────────────────────────
+  function renderCampaignPL() {
+    const el = document.getElementById('campaign-pl-summary');
+    if (!el) return;
+
+    const campaigns = loadCampaigns();
+    const invoices = loadInvoices();
+    const labor = loadLaborTracking();
+
+    const activeCampaigns = CURRENT_CAMPAIGN === 'ALL'
+      ? campaigns
+      : campaigns.filter(c => c.id === CURRENT_CAMPAIGN || c.name.toLowerCase().replace(/\s+/g,'-') === CURRENT_CAMPAIGN);
+
+    if (!activeCampaigns.length) { el.innerHTML = ''; return; }
+
+    const cards = activeCampaigns.map(c => {
+      const campInvoices = invoices.filter(i => i.campaignId === c.id || (i.notes && i.notes.toLowerCase().includes(c.name.toLowerCase().split(' ')[0])));
+      const campLabor = labor.filter(l => l.campaignId === c.id);
+      const revenue = campInvoices.filter(i => i.status === 'Funded').reduce((s,i) => s+i.amount, 0);
+      const pending = campInvoices.filter(i => i.status !== 'Funded').reduce((s,i) => s+i.amount, 0);
+      const laborCost = campLabor.reduce((s,l) => s + (l.hours * l.hourlyRate), 0);
+      const margin = revenue > 0 ? ((revenue - laborCost) / revenue * 100).toFixed(0) : null;
+      const marginColor = margin === null ? 'var(--forest-mid)' : margin >= 50 ? 'var(--forest)' : margin >= 20 ? 'var(--gold-deep)' : '#CC4444';
+      const budgetPct = c.budget > 0 ? Math.min(100, Math.round(laborCost / c.budget * 100)) : 0;
+
+      return `<div style="background:var(--white);border:1px solid var(--parchment);padding:1.2rem 1.4rem;border-radius:3px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem">
+          <div>
+            <div style="font-size:1rem;font-weight:700;color:var(--forest)">${c.name}</div>
+            <div style="font-size:0.9rem;color:var(--forest-mid)">${c.client || '—'}</div>
+          </div>
+          <span class="badge badge-${c.status === 'Active' ? 'active' : 'new'}">${c.status || 'Active'}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-bottom:0.8rem">
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em">Revenue</div>
+            <div style="font-size:1.1rem;font-weight:700;color:var(--forest)">$${revenue.toLocaleString()}</div>
+          </div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em">Pending</div>
+            <div style="font-size:1.1rem;font-weight:700;color:var(--gold-deep)">$${pending.toLocaleString()}</div>
+          </div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em">Labor Cost</div>
+            <div style="font-size:1.1rem;font-weight:700;color:var(--charcoal)">$${laborCost.toLocaleString()}</div>
+          </div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em">Margin</div>
+            <div style="font-size:1.1rem;font-weight:700;color:${marginColor}">${margin !== null ? margin + '%' : '—'}</div>
+          </div>
+        </div>
+        ${c.budget > 0 ? `<div style="margin-top:0.4rem">
+          <div style="font-size:0.85rem;color:var(--forest-mid);margin-bottom:0.3rem">Budget utilization: $${laborCost.toLocaleString()} of $${c.budget.toLocaleString()} (${budgetPct}%)</div>
+          <div style="height:4px;background:var(--parchment);border-radius:2px">
+            <div style="height:4px;width:${budgetPct}%;background:${budgetPct > 90 ? '#CC4444' : budgetPct > 70 ? 'var(--gold)' : 'var(--forest)'};border-radius:2px;transition:width 600ms ease"></div>
+          </div>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+
+    el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:1rem;margin-bottom:1.5rem">${cards}</div>`;
+  }
+
   function renderFinance() {
-    renderFinanceKPIs();
-    renderBusinessKPIs();
-    renderDonorPipeline(getFilteredDonors());
-    renderGrantTracker();
-    renderInvoices();
+    if (FINANCE_VIEW === 'dna') {
+      renderBusinessKPIs();
+      renderInvoices();
+    } else {
+      renderFinanceKPIs();
+      renderCampaignPL();
+      renderDonorPipeline(getFilteredDonors());
+      renderGrantTracker();
+    }
   }
 
   // ── BUSINESS KPIs (Financial Dashboard) ────────────────
