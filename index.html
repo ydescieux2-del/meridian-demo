@@ -1447,6 +1447,7 @@ body {
       <button class="crm-view-btn" id="btn-view-list" onclick="setCRMView('list')">List</button>
     </div>
     <button class="btn-add-contact" onclick="openAddContact()">+ Add Contact</button>
+    <button class="btn-add-contact" onclick="openImportContacts()" style="background:var(--gold);color:var(--white)">Import Contacts</button>
   </div>
 
   <div id="crm-kanban"></div>
@@ -2094,6 +2095,67 @@ body {
   </div>
 </div>
 
+<!-- ── IMPORT CONTACTS MODAL ─────────────────────────────── -->
+<div class="modal-overlay" id="import-contacts-modal" onclick="if(event.target===this)closeImportContacts()">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-title">Import Contacts</div>
+    <div class="modal-sub">CRM Pipeline</div>
+    <div style="display:flex;gap:0;border-bottom:2px solid var(--parchment);margin-bottom:1.5rem">
+      <button class="import-tab-btn active" id="import-tab-brevo" onclick="switchImportTab('brevo')" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid var(--forest);color:var(--forest);padding:0.6rem 1.2rem;cursor:pointer;margin-bottom:-2px">Brevo</button>
+      <button class="import-tab-btn" id="import-tab-sheets" onclick="switchImportTab('sheets')" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--forest-mid);padding:0.6rem 1.2rem;cursor:pointer;margin-bottom:-2px">Google Sheets</button>
+      <button class="import-tab-btn" id="import-tab-csv" onclick="switchImportTab('csv')" style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--forest-mid);padding:0.6rem 1.2rem;cursor:pointer;margin-bottom:-2px">CSV / Excel</button>
+    </div>
+
+    <!-- Brevo API Sync Tab -->
+    <div id="import-panel-brevo">
+      <label class="form-label">Brevo API Key</label>
+      <input class="form-input" id="brevo-api-key" type="password" placeholder="xkeysib-xxxxxxxx..." style="margin-bottom:1rem">
+      <button class="btn-generate" onclick="simulateBrevoSync()" style="width:100%;margin-bottom:1rem">Connect & Sync</button>
+      <div id="brevo-status" style="font-size:0.88rem;color:var(--forest-mid);min-height:2.5rem;padding:0.75rem;background:var(--cream);border-left:3px solid var(--parchment)"></div>
+    </div>
+
+    <!-- Google Sheets Tab -->
+    <div id="import-panel-sheets" style="display:none">
+      <label class="form-label">Google Sheet URL</label>
+      <input class="form-input" id="gsheet-url" type="url" placeholder="https://docs.google.com/spreadsheets/d/..." style="margin-bottom:1rem">
+      <button class="btn-generate" onclick="simulateSheetImport()" style="width:100%;margin-bottom:1rem">Import from Sheet</button>
+      <div id="sheets-mapping" style="font-size:0.88rem;color:var(--forest-mid);padding:0.75rem;background:var(--cream);border-left:3px solid var(--parchment);line-height:1.7">
+        <strong style="display:block;margin-bottom:0.4rem">Column Mapping Preview:</strong>
+        Column A &rarr; Name<br>
+        Column B &rarr; Email<br>
+        Column C &rarr; Company<br>
+        Column D &rarr; Stage
+      </div>
+      <div id="sheets-status" style="font-size:0.88rem;color:var(--forest-mid);min-height:1rem;margin-top:0.75rem"></div>
+    </div>
+
+    <!-- CSV / Excel Upload Tab -->
+    <div id="import-panel-csv" style="display:none">
+      <div id="csv-drop-zone" style="border:2px dashed var(--parchment);padding:2rem;text-align:center;margin-bottom:1rem;cursor:pointer;background:var(--cream);transition:border-color 0.2s" ondragover="event.preventDefault();this.style.borderColor='var(--gold)'" ondragleave="this.style.borderColor='var(--parchment)'" ondrop="event.preventDefault();this.style.borderColor='var(--parchment)';document.getElementById('csv-file-input').files=event.dataTransfer.files;handleCSVSelect()">
+        <div style="font-size:1.5rem;margin-bottom:0.5rem;color:var(--forest-mid)">&#128206;</div>
+        <div style="font-weight:600;color:var(--forest);margin-bottom:0.3rem">Drag & drop your file here</div>
+        <div style="font-size:0.85rem;color:var(--forest-mid)">or click to browse &mdash; .csv, .xlsx, .xls</div>
+        <input type="file" id="csv-file-input" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleCSVSelect()">
+      </div>
+      <button class="btn-generate" onclick="document.getElementById('csv-file-input').click()" style="width:100%;margin-bottom:1rem">Choose File</button>
+      <div id="csv-file-name" style="font-size:0.85rem;color:var(--forest-mid);margin-bottom:0.75rem"></div>
+      <div id="csv-mapping" style="display:none;font-size:0.88rem;color:var(--forest-mid);padding:0.75rem;background:var(--cream);border-left:3px solid var(--parchment);line-height:1.7;margin-bottom:1rem">
+        <strong style="display:block;margin-bottom:0.4rem">Column Mapping Preview:</strong>
+        Column A &rarr; Name<br>
+        Column B &rarr; Email<br>
+        Column C &rarr; Company<br>
+        Column D &rarr; Stage
+      </div>
+      <button class="btn-generate" id="csv-upload-btn" onclick="simulateCSVImport()" style="width:100%;display:none">Upload & Import</button>
+      <div id="csv-status" style="font-size:0.88rem;color:var(--forest-mid);min-height:1rem;margin-top:0.75rem"></div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:1.5rem">
+      <button type="button" class="btn-cancel" onclick="closeImportContacts()" style="flex:1">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── ADD CAMPAIGN MODAL ─────────────────────────────── -->
 <div class="modal-overlay" id="campaign-modal" onclick="if(event.target===this)closeAddModal()">
   <div class="modal">
@@ -2119,6 +2181,10 @@ body {
             <option>Google Ads</option>
             <option>Email</option>
             <option>Multi-Channel</option>
+            <option>Event (In-Person)</option>
+            <option>Event (Virtual)</option>
+            <option>Sponsorship</option>
+            <option>Community Outreach</option>
           </select>
         </div>
         <div>
@@ -2135,6 +2201,10 @@ body {
           <label class="form-label">Deadline</label>
           <input class="form-input" name="deadline" type="date" required>
         </div>
+      </div>
+      <div style="margin-top:1rem">
+        <label class="form-label">Milestones (one per line)</label>
+        <textarea class="form-input" name="milestones" placeholder="Kickoff&#10;Creative Due&#10;Launch&#10;Report" style="min-height:80px;resize:vertical"></textarea>
       </div>
       <div class="modal-actions">
         <button type="submit" class="btn-generate" style="flex:1">Add Campaign →</button>
@@ -2565,10 +2635,10 @@ body {
   // ── CAMPAIGN DATA ──────────────────────────────────────
   const CAMPAIGNS_KEY = 'meridian_campaigns';
   const SEED = [
-    {id:1,name:"Momentum Fitness",client:"Momentum Fitness",type:"Meta Ads",label:"Summer Campaign",status:"active",budget:6500,spent:4200,leads:312,cpl:13.46,ctr:4.2,deadline:"2026-03-31",lastActivity:"2026-03-27"},
-    {id:2,name:"Casa Verde Restaurant",client:"Casa Verde",type:"Meta Ads + Google",label:"Soft Launch",status:"active",budget:4000,spent:1850,leads:89,cpl:20.79,roas:3.2,deadline:"2026-04-15",lastActivity:"2026-03-26"},
-    {id:3,name:"Pacific Legal Group",client:"Pacific Legal Group",type:"Meta Ads",label:"Lead Generation",status:"active",budget:8000,spent:6500,leads:203,cpl:32.02,cvr:51,deadline:"2026-03-25",lastActivity:"2026-03-20"},
-    {id:4,name:"Solara Skincare",client:"Solara Skincare",type:"Meta Ads",label:"Reactivation",status:"complete",budget:2100,spent:2100,leads:445,cpl:4.72,revenue:28000,deadline:"2026-02-28",lastActivity:"2026-02-28"}
+    {id:1,name:"Momentum Fitness",client:"Momentum Fitness",type:"Meta Ads",label:"Summer Campaign",status:"active",budget:6500,spent:4200,leads:312,cpl:13.46,ctr:4.2,deadline:"2026-03-31",lastActivity:"2026-03-27",milestones:[{name:'Kickoff',date:'2026-02-01',status:'complete'},{name:'Creative Due',date:'2026-02-15',status:'complete'},{name:'Launch',date:'2026-03-01',status:'in-progress'},{name:'Mid-Campaign Review',date:'2026-03-15',status:'pending'},{name:'Wrap & Report',date:'2026-03-31',status:'pending'}]},
+    {id:2,name:"Casa Verde Restaurant",client:"Casa Verde",type:"Meta Ads + Google",label:"Soft Launch",status:"active",budget:4000,spent:1850,leads:89,cpl:20.79,roas:3.2,deadline:"2026-04-15",lastActivity:"2026-03-26",milestones:[{name:'Kickoff',date:'2026-02-01',status:'complete'},{name:'Creative Due',date:'2026-02-15',status:'complete'},{name:'Launch',date:'2026-03-01',status:'in-progress'},{name:'Mid-Campaign Review',date:'2026-03-15',status:'pending'},{name:'Wrap & Report',date:'2026-04-15',status:'pending'}]},
+    {id:3,name:"Pacific Legal Group",client:"Pacific Legal Group",type:"Meta Ads",label:"Lead Generation",status:"active",budget:8000,spent:6500,leads:203,cpl:32.02,cvr:51,deadline:"2026-03-25",lastActivity:"2026-03-20",milestones:[{name:'Kickoff',date:'2026-01-15',status:'complete'},{name:'Creative Due',date:'2026-02-01',status:'complete'},{name:'Launch',date:'2026-02-15',status:'complete'},{name:'Mid-Campaign Review',date:'2026-03-01',status:'in-progress'},{name:'Wrap & Report',date:'2026-03-25',status:'pending'}]},
+    {id:4,name:"Solara Skincare",client:"Solara Skincare",type:"Meta Ads",label:"Reactivation",status:"complete",budget:2100,spent:2100,leads:445,cpl:4.72,revenue:28000,deadline:"2026-02-28",lastActivity:"2026-02-28",milestones:[{name:'Kickoff',date:'2026-01-05',status:'complete'},{name:'Creative Due',date:'2026-01-15',status:'complete'},{name:'Launch',date:'2026-01-25',status:'complete'},{name:'Mid-Campaign Review',date:'2026-02-10',status:'complete'},{name:'Wrap & Report',date:'2026-02-28',status:'complete'}]}
   ];
 
   function loadCampaigns() {
@@ -2610,7 +2680,7 @@ body {
         <div class="stat-item"><div class="stat-val">${c.leads.toLocaleString()}</div><div class="stat-lbl">Leads</div></div>
         <div class="stat-item"><div class="stat-val">$${c.cpl > 0 ? c.cpl.toFixed(2) : '—'}</div><div class="stat-lbl">CPL</div></div>
         ${extra}
-      </div></div>`;
+      </div>${renderMilestoneBar(c)}</div>`;
   }
 
   function renderKPIs(data) {
@@ -2649,8 +2719,13 @@ body {
     e.preventDefault();
     const f = e.target;
     const data = loadCampaigns();
+    const today = new Date().toISOString().split('T')[0];
+    // Parse milestones from textarea
+    const milestonesRaw = (f.milestones?.value || '').trim();
+    const milestones = milestonesRaw ? milestonesRaw.split('\n').filter(l=>l.trim()).map(l=>({name:l.trim(),date:'',status:'pending'})) : [];
+    const campaignId = Math.max(0, ...data.map(c=>c.id)) + 1;
     data.push({
-      id: Math.max(0, ...data.map(c=>c.id)) + 1,
+      id: campaignId,
       name: f.name.value,
       client: f.client.value,
       type: f.type.value,
@@ -2659,9 +2734,32 @@ body {
       budget: parseFloat(f.budget.value) || 0,
       spent: 0, leads: 0, cpl: 0,
       deadline: f.deadline.value,
-      lastActivity: new Date().toISOString().split('T')[0]
+      lastActivity: today,
+      milestones: milestones
     });
     saveCampaigns(data);
+    // Auto-create corresponding project in Operations
+    const projects = loadProjects();
+    projects.push({
+      id: Math.max(0, ...projects.map(p=>p.id)) + 1,
+      campaignId: campaignId,
+      name: f.name.value,
+      client: f.client.value,
+      phase: 'kickoff',
+      status: 'Active',
+      startDate: today,
+      endDate: f.deadline.value,
+      budget: parseFloat(f.budget.value) || 0,
+      owner: 'Nicole',
+      deliverables: [],
+      timeline: {items:[]},
+      laborCost: 0,
+      expenseCost: 0,
+      totalCost: 0,
+      createdAt: today,
+      updatedAt: today
+    });
+    saveProjects(projects);
     renderBoard();
     closeAddModal();
   }
@@ -3384,11 +3482,13 @@ body {
     const campaigns = loadCampaigns();
     const now = new Date();
 
-    // Populate campaign filter dropdown
+    // Populate campaign filter dropdown (always refresh to catch newly added campaigns)
     const campaignFilter = document.getElementById('labor-campaign-filter');
-    if (campaignFilter && campaignFilter.options.length <= 1) {
+    if (campaignFilter) {
+      const prevVal = campaignFilter.value;
       campaignFilter.innerHTML = '<option value="">All Campaigns</option>' +
         campaigns.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      campaignFilter.value = prevVal;
     }
 
     // Filter by time period
@@ -4885,6 +4985,85 @@ Generated on ${new Date().toLocaleDateString()}
 
   // Initialize Proposals tab
   initProposalProjectSelect();
+
+  // ── IMPORT CONTACTS MODAL ──────────────────────────────
+  function openImportContacts() { document.getElementById('import-contacts-modal').style.display = 'flex'; }
+  function closeImportContacts() { document.getElementById('import-contacts-modal').style.display = 'none'; }
+
+  function switchImportTab(tab) {
+    const tabs = ['brevo','sheets','csv'];
+    tabs.forEach(t => {
+      document.getElementById('import-panel-' + t).style.display = (t === tab) ? 'block' : 'none';
+      const btn = document.getElementById('import-tab-' + t);
+      if (btn) {
+        btn.style.borderBottomColor = (t === tab) ? 'var(--forest)' : 'transparent';
+        btn.style.color = (t === tab) ? 'var(--forest)' : 'var(--forest-mid)';
+      }
+    });
+  }
+
+  function simulateBrevoSync() {
+    const key = document.getElementById('brevo-api-key').value;
+    const status = document.getElementById('brevo-status');
+    if (!key) { status.innerHTML = '<span style="color:#B05050">Please enter your Brevo API key.</span>'; return; }
+    status.innerHTML = '<span style="color:var(--gold-deep)">Connecting to Brevo...</span>';
+    setTimeout(() => {
+      status.innerHTML = '<span style="color:var(--forest)">Connected to Brevo. Syncing contacts... <strong>47 contacts imported.</strong></span>';
+    }, 1500);
+  }
+
+  function simulateSheetImport() {
+    const url = document.getElementById('gsheet-url').value;
+    const status = document.getElementById('sheets-status');
+    if (!url) { status.innerHTML = '<span style="color:#B05050">Please enter a Google Sheet URL.</span>'; return; }
+    status.innerHTML = '<span style="color:var(--gold-deep)">Reading sheet...</span>';
+    setTimeout(() => {
+      status.innerHTML = '<span style="color:var(--forest)">Import complete. <strong>32 contacts imported</strong> from Google Sheet.</span>';
+    }, 1500);
+  }
+
+  function handleCSVSelect() {
+    const input = document.getElementById('csv-file-input');
+    const nameDiv = document.getElementById('csv-file-name');
+    const mappingDiv = document.getElementById('csv-mapping');
+    const uploadBtn = document.getElementById('csv-upload-btn');
+    if (input.files.length > 0) {
+      nameDiv.textContent = 'Selected: ' + input.files[0].name;
+      mappingDiv.style.display = 'block';
+      uploadBtn.style.display = 'block';
+    }
+  }
+
+  function simulateCSVImport() {
+    const input = document.getElementById('csv-file-input');
+    const status = document.getElementById('csv-status');
+    if (!input.files.length) { status.innerHTML = '<span style="color:#B05050">Please select a file first.</span>'; return; }
+    status.innerHTML = '<span style="color:var(--gold-deep)">Processing file...</span>';
+    setTimeout(() => {
+      status.innerHTML = '<span style="color:var(--forest)">Import complete. <strong>58 contacts imported</strong> from ' + input.files[0].name + '.</span>';
+    }, 1500);
+  }
+
+  // ── MILESTONE BAR RENDERER ─────────────────────────────
+  function renderMilestoneBar(c) {
+    const ms = c.milestones || [];
+    if (ms.length === 0) return '';
+    const done = ms.filter(m => m.status === 'complete').length;
+    const inProg = ms.filter(m => m.status === 'in-progress').length;
+    const pct = Math.round(((done + inProg * 0.5) / ms.length) * 100);
+    return `<div style="margin-top:0.6rem;padding-top:0.5rem;border-top:1px solid var(--parchment)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
+        <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Milestones</span>
+        <span style="font-size:0.75rem;color:var(--forest-mid)">${done}/${ms.length} complete</span>
+      </div>
+      <div style="display:flex;gap:3px">
+        ${ms.map(m => {
+          const color = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--parchment)';
+          return `<div title="${m.name} — ${m.status}" style="flex:1;height:5px;background:${color};border-radius:2px"></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
 </script>
 </body>
 </html>
