@@ -4192,24 +4192,33 @@ body {
     const today = new Date();
     const todayStr = today.toISOString().split('T')[0];
 
+    // Parse dates safely: YYYY-MM-DD strings are treated as local dates
+    function parseDate(dateStr) {
+      if (!dateStr) return null;
+      const [yr, mo, dy] = dateStr.split('-').map(x => parseInt(x));
+      const d = new Date(yr, mo - 1, dy);
+      return d;
+    }
+
     let minDate = null, maxDate = null;
     campaigns.forEach(c => {
-      const s = c.startDate ? new Date(c.startDate) : null;
-      const e = c.endDate ? new Date(c.endDate) : null;
+      const s = c.startDate ? parseDate(c.startDate) : null;
+      const e = c.endDate ? parseDate(c.endDate) : null;
       if (s && (!minDate || s < minDate)) minDate = s;
       if (e && (!maxDate || e > maxDate)) maxDate = e;
     });
-    if (!minDate) minDate = new Date(today);
-    if (!maxDate) maxDate = new Date(today);
-    minDate = new Date(minDate); maxDate = new Date(maxDate);
-    minDate.setDate(minDate.getDate() - 7);
-    maxDate.setDate(maxDate.getDate() + 7);
+    if (!minDate) minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    if (!maxDate) maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    
+    minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate() - 7);
+    maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate() + 7);
 
     const totalMs = maxDate - minDate;
     if (totalMs <= 0) return '<div style="color:#aaa;padding:20px;text-align:center">Invalid date range.</div>';
 
     function pct(d) {
-      const date = typeof d === 'string' ? new Date(d) : d;
+      const date = typeof d === 'string' ? parseDate(d) : d;
+      if (!date) return 0;
       return Math.max(0, Math.min(100, ((date - minDate) / totalMs) * 100));
     }
 
