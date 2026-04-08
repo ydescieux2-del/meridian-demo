@@ -1837,6 +1837,15 @@ body {
     <div id="ops-activities-panel"></div>
   </div>
 
+  <!-- ── TEAM AVAILABILITY & RESOURCE ALLOCATION ── -->
+  <div style="margin-bottom:2.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Team Availability & Allocations</div>
+      <button class="btn-add-contact" onclick="toggleAvailabilityDetail()" style="font-size:0.82rem">Show Details</button>
+    </div>
+    <div id="team-availability-panel"></div>
+  </div>
+
   <!-- ── PAYROLL SUMMARY ── -->
   <div style="margin-bottom:2.5rem" id="payroll-section">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -3989,6 +3998,7 @@ body {
     renderRoster();
     renderLaborTracking();
     renderCampaignActivities();
+    renderTeamAvailability();
     renderPayroll();
   }
 
@@ -4370,6 +4380,10 @@ body {
         const startP = pct(c.startDate || todayStr);
         const endP = pct(a.dueDate);
         const dw = Math.max(0.5, endP - startP);
+        const isComplete = a.status === 'done';
+        const statusColor = isComplete ? '#2d6a4f' : a.status === 'in-progress' ? 'var(--gold)' : 'var(--forest-mid)';
+        const statusLabel = isComplete ? '✓ Done' : a.status === 'in-progress' ? 'In Progress' : 'Not Started';
+        
         // Get initials from assignee name
         const formatAssigneeName = (name) => {
           if (!name) return '';
@@ -4378,10 +4392,21 @@ body {
           return parts[0] + ' ' + parts[parts.length - 1].charAt(0) + '.';
         };
         const assigneeName = formatAssigneeName(a.assignee);
-        const assigneeDisplay = a.assignee ? `<span title="${a.assignee}" style="font-size:0.7rem;font-weight:600;color:var(--forest);margin-left:0.4rem;padding:0.2rem 0.5rem;background:var(--gold);border-radius:2px;display:inline-block;white-space:nowrap;cursor:help">${assigneeName}</span>` : '';
+        const assigneeDisplay = a.assignee ? `<span title="${a.assignee}" style="font-size:0.7rem;font-weight:600;color:var(--white);margin-left:0.3rem;padding:0.2rem 0.4rem;background:${statusColor};border-radius:2px;display:inline-block;white-space:nowrap;cursor:help">${assigneeName}</span>` : '';
+        
+        // For incomplete activities, show name inside/over the bar. For complete, show minimal label
+        const labelContent = isComplete 
+          ? `<span style="font-size:0.7rem;color:${statusColor};font-weight:600">${a.name}</span>`
+          : `<span style="font-size:0.78rem;color:var(--white);font-weight:600">${a.name}</span>${assigneeDisplay}`;
+        
         return `<div class="gantt-deliverable-row">
-          <div class="gantt-deliverable-label" title="${a.name} — ${a.assignee || 'Unassigned'}">${a.name}${assigneeDisplay}</div>
-          <div class="gantt-bar-area">${todayLine}<div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%"></div></div>
+          <div class="gantt-deliverable-label" title="${a.name} · ${statusLabel} · Due: ${a.dueDate}${a.assignee ? ' · ' + a.assignee : ''}">${isComplete ? '<span style="color:var(--forest-mid);margin-right:0.3rem">✓</span>' : ''}${labelContent}</div>
+          <div class="gantt-bar-area" style="position:relative">
+            ${todayLine}
+            <div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%;background:${isComplete ? '#2d6a4f' : statusColor};opacity:${isComplete ? '0.5' : '1'};border-bottom:2px solid ${statusColor}">
+              ${!isComplete ? `<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:0.7rem;font-weight:600;color:var(--white);white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.3)">${a.name}</div>` : ''}
+            </div>
+          </div>
         </div>`;
       }).join('');
       return `<div class="gantt-row">
@@ -4405,6 +4430,174 @@ body {
         <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:2px;height:14px;background:#e74c3c;opacity:0.7"></div><span style="font-size:0.75rem;color:var(--forest-mid)">Today</span></div>
       </div>
     </div>`;
+  }
+
+  let availabilityShowDetail = false;
+  function toggleAvailabilityDetail() {
+    availabilityShowDetail = !availabilityShowDetail;
+    renderTeamAvailability();
+  }
+
+  function renderTeamAvailability() {
+    const panel = document.getElementById('team-availability-panel');
+    if (!panel) return;
+
+    const campaigns = loadCampaigns();
+    const teamMembers = TEAM_MEMBERS;
+    const labor = loadLaborTracking();
+    
+    // Build allocation map: who's working on what
+    const allocations = {};
+    teamMembers.forEach(tm => {
+      allocations[tm.name] = {
+        member: tm,
+        currentActivities: [],
+        completedActivities: [],
+        totalHoursLogged: 0,
+        capacity: tm.capacity || 160,
+        availableCapacity: tm.capacity || 160
+      };
+    });
+
+    // Map activities to assignees
+    campaigns.forEach(campaign => {
+      (campaign.activities || []).forEach(activity => {
+        if (activity.assignee && allocations[activity.assignee]) {
+          if (activity.status === 'done') {
+            allocations[activity.assignee].completedActivities.push({
+              campaign: campaign.name,
+              activity: activity.name,
+              dueDate: activity.dueDate,
+              category: activity.category
+            });
+          } else {
+            allocations[activity.assignee].currentActivities.push({
+              id: `${campaign.id}-${activity.id}`,
+              campaign: campaign.name,
+              activity: activity.name,
+              status: activity.status,
+              dueDate: activity.dueDate,
+              category: activity.category,
+              campaignId: campaign.id,
+              activityId: activity.id
+            });
+          }
+        }
+      });
+    });
+
+    // Calculate hours logged per person
+    const now = new Date();
+    const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    labor.forEach(entry => {
+      if (entry.contractor && allocations[entry.contractor] && entry.date >= currentMonthStart) {
+        allocations[entry.contractor].totalHoursLogged += entry.hours;
+      }
+    });
+
+    // Calculate available capacity
+    teamMembers.forEach(tm => {
+      const alloc = allocations[tm.name];
+      alloc.availableCapacity = Math.max(0, alloc.capacity - alloc.totalHoursLogged);
+    });
+
+    // Sort by available capacity (those with most availability first, so PM knows who to tap)
+    const sortedTeam = Object.values(allocations)
+      .sort((a, b) => b.availableCapacity - a.availableCapacity);
+
+    if (availabilityShowDetail) {
+      // Detailed view showing each person's allocations
+      const rows = sortedTeam.map(alloc => {
+        const member = alloc.member;
+        const utilization = Math.round((alloc.totalHoursLogged / alloc.capacity) * 100);
+        const statusColor = alloc.availableCapacity > 20 ? '#2d6a4f' : alloc.availableCapacity > 10 ? 'var(--gold)' : '#c1440c';
+        
+        const activitiesHTML = alloc.currentActivities.length
+          ? alloc.currentActivities.map(act => `
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.75rem;border-bottom:0.5px solid var(--parchment);font-size:0.82rem">
+                <div style="flex:1">
+                  <div style="font-weight:600;color:var(--forest)">${act.activity}</div>
+                  <div style="color:var(--forest-mid);font-size:0.78rem">${act.campaign} · ${act.category || 'General'}</div>
+                </div>
+                <div style="text-align:right;white-space:nowrap">
+                  <div style="font-size:0.75rem;color:var(--forest-mid)">Due: ${act.dueDate || '—'}</div>
+                  <span style="font-size:0.7rem;font-weight:600;text-transform:uppercase;color:${act.status === 'in-progress' ? 'var(--gold)' : 'var(--forest-mid)'}; padding:2px 4px;background:${act.status === 'in-progress' ? 'var(--cream)' : 'transparent'}">${act.status}</span>
+                </div>
+              </div>
+            `).join('')
+          : '<div style="padding:1rem;text-align:center;color:var(--forest-mid);font-style:italic;font-size:0.85rem">No active assignments</div>';
+
+        return `<div style="margin-bottom:1.5rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.8rem 1rem;background:var(--white);border-bottom:1px solid var(--parchment)">
+            <div>
+              <div style="font-weight:700;color:var(--forest);font-size:0.95rem">${member.name}</div>
+              <div style="font-size:0.8rem;color:var(--forest-mid)">${member.title}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="display:flex;gap:1rem;align-items:flex-end">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.2rem">Utilization</div>
+                  <div style="font-size:1.3rem;font-weight:700;color:${statusColor}">${utilization}%</div>
+                  <div style="font-size:0.75rem;color:var(--forest-mid)">${alloc.totalHoursLogged.toFixed(1)}/${alloc.capacity} hrs</div>
+                </div>
+                <div style="border-left:1px solid var(--parchment);padding-left:1rem">
+                  <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.2rem">Available</div>
+                  <div style="font-size:1.3rem;font-weight:700;color:${statusColor}">${alloc.availableCapacity.toFixed(0)}</div>
+                  <div style="font-size:0.75rem;color:var(--forest-mid)">hours this month</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--ivory)">
+            <div style="padding:0.6rem 1rem;font-size:0.8rem;font-weight:700;text-transform:uppercase;color:var(--forest-mid);border-bottom:0.5px solid var(--parchment)">
+              Current Assignments (${alloc.currentActivities.length})
+            </div>
+            ${activitiesHTML}
+          </div>
+          ${alloc.completedActivities.length > 0 ? `
+            <div style="background:var(--cream);padding:0.6rem 1rem;font-size:0.8rem;color:var(--forest-mid)">
+              ✓ ${alloc.completedActivities.length} completed this month
+            </div>
+          ` : ''}
+        </div>`;
+      }).join('');
+
+      panel.innerHTML = `<div style="max-width:1000px">${rows}</div>`;
+    } else {
+      // Summary view - quick capacity cards
+      const cards = sortedTeam.map(alloc => {
+        const member = alloc.member;
+        const utilization = Math.round((alloc.totalHoursLogged / alloc.capacity) * 100);
+        const statusColor = alloc.availableCapacity > 20 ? '#2d6a4f' : alloc.availableCapacity > 10 ? 'var(--gold)' : '#c1440c';
+        const statusLabel = alloc.availableCapacity > 20 ? 'Available' : alloc.availableCapacity > 10 ? 'Moderate' : 'Stretched';
+        
+        return `<div style="background:var(--white);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer" onclick="toggleAvailabilityDetail()">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.6rem">
+            <div>
+              <div style="font-weight:700;color:var(--forest)">${member.name}</div>
+              <div style="font-size:0.8rem;color:var(--forest-mid)">${member.title}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:0.9rem;font-weight:700;color:${statusColor}">${alloc.availableCapacity.toFixed(0)} hrs</div>
+              <div style="font-size:0.75rem;color:var(--forest-mid)">available</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:center">
+            <div style="flex:1">
+              <div style="height:6px;background:var(--parchment);border-radius:3px;overflow:hidden">
+                <div style="height:100%;background:${statusColor};width:${utilization}%"></div>
+              </div>
+              <div style="font-size:0.75rem;color:var(--forest-mid);margin-top:0.3rem">${utilization}% utilized · ${alloc.currentActivities.length} active</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      panel.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.8rem">${cards}</div>
+        <div style="margin-top:1rem;padding:0.8rem;background:var(--ivory);border:1px solid var(--parchment);border-radius:3px;font-size:0.85rem;color:var(--forest-mid)">
+          <strong style="color:var(--forest)">Legend:</strong> Green (>20hrs available) = Can take new work · Amber (10-20hrs) = Selective · Red (<10hrs) = At capacity
+        </div>`;
+    }
   }
 
   // ── PAYROLL FUNCTIONS ─────────────────────────────────
