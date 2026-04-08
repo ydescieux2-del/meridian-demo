@@ -1529,6 +1529,29 @@ body {
   <div class="section-title" id="fin-section-title">DNA Agency</div>
   <div class="section-sub" id="fin-section-sub">Business financials — revenue, invoices &amp; integrations</div>
 
+  <!-- SUBSCRIPTION STATUS BAR -->
+  <div style="background:var(--forest);color:var(--ivory);padding:0.8rem 1.2rem;border-radius:3px;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+    <div>
+      <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-right:0.8rem">Meridian Essential</span>
+      <span style="font-size:0.95rem;font-weight:700">$500 / month</span>
+      <span style="font-size:0.85rem;color:var(--parchment);margin-left:0.6rem">· Nonprofit Rate</span>
+    </div>
+    <div style="display:flex;gap:1rem;align-items:center">
+      <div style="text-align:right">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Next Invoice</div>
+        <div id="fin-next-invoice" style="font-size:0.9rem;font-weight:700">May 1, 2026</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Status</div>
+        <div style="font-size:0.9rem;font-weight:700;color:#4ade80">Active ✓</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Creative Add-Ons</div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--parchment)">None Active</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── ENTITY TOGGLE ── -->
   <div style="display:flex;gap:0;margin-bottom:1rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden;width:fit-content">
     <button id="fin-toggle-dna" onclick="switchFinanceView('dna')"
@@ -1751,6 +1774,20 @@ body {
     <!-- Campaign P&L Summary cards -->
     <div id="campaign-pl-summary" style="margin-bottom:2rem"></div>
 
+    <!-- CONTRACTOR LABOR COST BY CAMPAIGN (COLLAPSIBLE) -->
+    <div class="collapsible-section" style="margin-bottom:1.5rem">
+      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Labor Costs</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Contractor Labor Cost by Campaign</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
+      </div>
+      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+        <div id="campaign-labor-cost-table"></div>
+      </div>
+    </div>
+
     <!-- Nonprofit tools — only visible when a nonprofit campaign is selected -->
     <div id="fin-nonprofit-section" style="display:none">
       <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;padding:0.6rem 1rem;background:var(--cream);border:1px solid var(--parchment);border-radius:3px">
@@ -1905,127 +1942,97 @@ body {
     <div id="payroll-table"></div>
   </div>
 
+  <!-- BILLABLE INVOICE SECTION -->
+  <div style="margin-top:2.5rem;margin-bottom:2.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem">Billing</div>
+        <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Billable Hours → Client Invoices</div>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <select class="crm-filter" id="billing-period" onchange="renderBillableInvoicing()">
+          <option value="current">Apr 1–15, 2026</option>
+          <option value="previous">Mar 16–31, 2026</option>
+          <option value="prev2">Mar 1–15, 2026</option>
+          <option value="all">All Time</option>
+        </select>
+        <button onclick="renderBillableInvoicing()" style="padding:0.4rem 0.9rem;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:transparent;color:var(--forest);border:1px solid var(--parchment);border-radius:2px;cursor:pointer">Refresh</button>
+      </div>
+    </div>
+    <div id="billable-invoice-table"></div>
+  </div>
+
 </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════ -->
-<!-- 04 — CREATIVE STUDIO                              -->
+<!-- 04 — CREATIVE SUITE (ADD-ON GATE)                 -->
 <!-- ══════════════════════════════════════════════════ -->
 <div id="studio" class="tab-content">
 <div class="section">
 
-  <div class="section-eyebrow">04 — Creative Studio</div>
-  <div class="section-title">Generate a Deck</div>
-  <div class="section-sub">Powered by MERIDIAN AI · Canva · Gamma</div>
+  <div class="section-eyebrow">04 — Creative Suite</div>
+  <div class="section-title">Creative Add-Ons</div>
+  <div class="section-sub">Available as activated add-ons · Contact Von to enable</div>
 
-  <div class="studio-grid">
+  <!-- Plan badge -->
+  <div style="display:inline-flex;align-items:center;gap:0.6rem;background:#2d6a4f;color:var(--ivory);padding:0.45rem 1rem;border-radius:3px;margin-bottom:1.8rem">
+    <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#a8d5b5">Current Plan</span>
+    <span style="font-size:0.92rem;font-weight:700">DNA Agency Essential Plan — $500/mo</span>
+  </div>
 
-    <div class="studio-form-col">
-      <label class="form-label">Company Name</label>
-      <input class="form-input" id="gamma-company" type="text" placeholder="e.g. DNA Agency">
+  <!-- Add-on cards grid (2×2) -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-bottom:2rem">
 
-      <label class="form-label">Deck Purpose</label>
-      <select class="form-select" id="gamma-purpose">
-        <option>New Business Pitch</option>
-        <option>Campaign Performance Report</option>
-        <option>Brand Overview</option>
-        <option>Donor Deck</option>
-        <option>Grant Proposal</option>
-        <option>Investor Deck</option>
-        <option>Partnership Proposal</option>
-        <option>Case Study</option>
-      </select>
-
-      <label class="form-label">Industry</label>
-      <select class="form-select" id="gamma-industry">
-        <option>Ad Agency / Media Buying</option>
-        <option>Non-Profit / Cause</option>
-        <option>Fashion & Apparel</option>
-        <option>Luxury Brand</option>
-        <option>Real Estate</option>
-        <option>Food & Beverage</option>
-        <option>Health & Wellness</option>
-        <option>Legal Services</option>
-      </select>
-
-      <label class="form-label">Tone</label>
-      <select class="form-select" id="gamma-tone">
-        <option>Refined & Luxurious</option>
-        <option>Bold & Provocative</option>
-        <option>Warm & Human</option>
-        <option>Data-Driven & Authoritative</option>
-        <option>Minimal & Mysterious</option>
-      </select>
-
-      <label class="form-label">Key Message</label>
-      <textarea class="form-textarea" id="gamma-message" placeholder="What is the single most important thing this deck should make the audience feel or do?"></textarea>
-
-      <label class="form-label" style="margin-top:1.6rem">Choose Your Tool</label>
-      <div id="tool-cards" style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.2rem">
-        <div class="tool-card tool-card-selected" id="tool-card-gamma" onclick="selectTool('gamma')">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div style="font-size:0.95rem;font-weight:700;color:var(--forest)">Gamma</div>
-            <div class="tool-card-check" id="check-gamma" style="width:16px;height:16px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;font-size:0.92rem;color:var(--ivory)">✓</div>
-          </div>
-          <div style="font-size:0.92rem;color:var(--forest-mid);margin-top:0.2rem">AI-powered slides with beautiful layouts. Free account at gamma.app — sign up takes 60 seconds.</div>
-        </div>
-        <div class="tool-card" id="tool-card-canva" onclick="selectTool('canva')">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div style="font-size:0.95rem;font-weight:700;color:var(--forest)">Canva</div>
-            <div class="tool-card-check" id="check-canva" style="width:16px;height:16px;border-radius:50%;border:1px solid var(--parchment);display:none"></div>
-          </div>
-          <div style="font-size:0.92rem;color:var(--forest-mid);margin-top:0.2rem">Drag-and-drop presentation builder with thousands of templates. Free account at canva.com.</div>
-        </div>
+    <!-- Card 1: AI Deck Builder -->
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.5rem;border-radius:3px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem">
+        <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">AI Deck Builder</div>
+        <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:var(--forest);color:var(--ivory);padding:0.2rem 0.55rem;border-radius:2px">Add-On</span>
       </div>
-      <input type="hidden" id="deck-tool" value="gamma">
-
-      <div id="tool-instruction" style="margin-top:1rem;padding:0.8rem 1rem;background:var(--ivory);border-left:2px solid var(--gold);font-size:0.95rem;color:var(--forest-mid);line-height:1.6">
-        Clicking Generate opens <strong style="color:var(--forest)">Gamma</strong> in a new tab with your brief already filled in. Sign in to your free Gamma account and hit generate — your deck builds itself.
-      </div>
-
-      <button class="btn-generate" onclick="generateDeck()" style="margin-top:1.4rem">Generate →</button>
+      <div style="font-size:0.92rem;color:var(--forest-mid);line-height:1.6;margin-bottom:1rem">Generate presentation decks from your campaign briefs. Powered by MERIDIAN AI.</div>
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Not Active</div>
     </div>
 
-    <div class="studio-output-col">
-      <div id="studio-sample">
-        <div class="output-eyebrow">How It Works</div>
-
-        <div style="display:flex;flex-direction:column;gap:1.2rem;margin-bottom:1.8rem">
-          <div style="display:flex;gap:1rem;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.92rem;font-weight:700;flex-shrink:0">1</div>
-            <div>
-              <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Fill out your brief</div>
-              <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">Enter your company name, what the deck is for, your industry, tone, and the key message you want to land.</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:1rem;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.92rem;font-weight:700;flex-shrink:0">2</div>
-            <div>
-              <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Choose Gamma or Canva</div>
-              <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">Both are free to sign up. Gamma builds the deck automatically with AI. Canva gives you drag-and-drop control over thousands of templates.</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:1rem;align-items:flex-start">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--forest);color:var(--ivory);display:flex;align-items:center;justify-content:center;font-size:0.92rem;font-weight:700;flex-shrink:0">3</div>
-            <div>
-              <div style="font-size:0.95rem;font-weight:700;color:var(--forest);margin-bottom:0.2rem">Hit Generate</div>
-              <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.55">The tool opens in a new tab with your brief already written. Sign in, click generate, and your deck is ready in under a minute.</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="border-top:1px solid var(--parchment);padding-top:1.2rem">
-          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">First time?</div>
-          <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.6">
-            Create a free account at <a href="https://gamma.app" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold);text-decoration:none">gamma.app</a> or <a href="https://canva.com" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold);text-decoration:none">canva.com</a>. It takes about 60 seconds and you won't be charged.
-          </div>
-        </div>
+    <!-- Card 2: AI Content Engine -->
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.5rem;border-radius:3px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem">
+        <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">AI Content Engine</div>
+        <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:var(--forest);color:var(--ivory);padding:0.2rem 0.55rem;border-radius:2px">Add-On</span>
       </div>
+      <div style="font-size:0.92rem;color:var(--forest-mid);line-height:1.6;margin-bottom:1rem">Social posts, email copy, ad headlines — generated from your campaign data.</div>
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Not Active</div>
+    </div>
 
-      <div class="deck-error" id="deck-error"></div>
+    <!-- Card 3: Visual Brief Generator -->
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.5rem;border-radius:3px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem">
+        <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Visual Brief Generator</div>
+        <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:var(--forest);color:var(--ivory);padding:0.2rem 0.55rem;border-radius:2px">Add-On</span>
+      </div>
+      <div style="font-size:0.92rem;color:var(--forest-mid);line-height:1.6;margin-bottom:1rem">Structured creative briefs for video, photo, and design shoots.</div>
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Not Active</div>
+    </div>
+
+    <!-- Card 4: Report Builder -->
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.5rem;border-radius:3px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem">
+        <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Report Builder</div>
+        <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:var(--forest);color:var(--ivory);padding:0.2rem 0.55rem;border-radius:2px">Add-On</span>
+      </div>
+      <div style="font-size:0.92rem;color:var(--forest-mid);line-height:1.6;margin-bottom:1rem">Auto-generate client-facing campaign reports with charts and insights.</div>
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Not Active</div>
     </div>
 
   </div>
+
+  <!-- Full-width CTA card -->
+  <div style="background:var(--forest);color:var(--ivory);padding:1.8rem 2rem;border-radius:3px">
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem">Activate a Creative Tool</div>
+    <div style="font-size:1.05rem;font-weight:700;margin-bottom:0.6rem">Ready to activate a creative tool?</div>
+    <div style="font-size:0.95rem;line-height:1.7;color:#c8ddd7">Contact Von Descieux at Descieux Digital to enable. Each tool is priced per activation — no lock-in.</div>
+  </div>
+
 </div>
 </div>
 
@@ -2499,8 +2506,29 @@ body {
     <div class="modal-sub">Operations Tracking</div>
     <form id="add-labor-form" onsubmit="submitLabor(event)">
       <div class="modal-row">
-        <div><label class="form-label">Contractor / Team Member</label><select class="form-input" name="contractor"><option value="Nicole Feenstra">Nicole Feenstra</option><option value="Sarah Chen">Sarah Chen</option><option value="Marcus Rivera">Marcus Rivera</option><option value="Jade Thompson">Jade Thompson</option><option value="Alex Kim">Alex Kim</option></select></div>
-        <div><label class="form-label">Hourly Rate ($)</label><input class="form-input" name="hourlyRate" type="number" min="25" step="5" value="150" placeholder="150"></div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.3rem">
+            <label class="form-label" style="margin-bottom:0">Contractor / Team Member</label>
+            <button type="button" onclick="openManageRatesPanel()" style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline">⚙ Manage Rates</button>
+          </div>
+          <select class="form-input" name="contractor" onchange="autoFillContractorRate(this.value)">
+            <option value="Nicole Feenstra">Nicole Feenstra</option>
+            <option value="Sarah Chen">Sarah Chen</option>
+            <option value="Marcus Rivera">Marcus Rivera</option>
+            <option value="Jade Thompson">Jade Thompson</option>
+            <option value="Alex Kim">Alex Kim</option>
+          </select>
+        </div>
+        <div><label class="form-label">Hourly Rate ($)</label><input class="form-input" name="hourlyRate" id="labor-hourly-rate" type="number" min="25" step="5" value="175" placeholder="175"></div>
+      </div>
+      <!-- Inline Manage Rates Panel -->
+      <div id="manage-rates-panel" style="display:none;background:var(--cream);border:1px solid var(--parchment);border-radius:3px;padding:1rem;margin-bottom:1rem">
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">Contractor Rates</div>
+        <div id="rates-editor-rows"></div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.8rem">
+          <button type="button" onclick="saveContractorRatesFromPanel()" style="padding:0.4rem 0.9rem;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--forest);color:var(--ivory);border:none;border-radius:2px;cursor:pointer">Save Rates</button>
+          <button type="button" onclick="closeManageRatesPanel()" style="padding:0.4rem 0.9rem;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:transparent;color:var(--forest-mid);border:1px solid var(--parchment);border-radius:2px;cursor:pointer">Cancel</button>
+        </div>
       </div>
       <div class="modal-row">
         <div><label class="form-label">Date</label><input class="form-input" name="date" type="date" required></div>
@@ -3978,6 +4006,17 @@ body {
     form.category.value = 'Billable';
     form.activity.value = 'Strategy';
 
+    // Auto-fill rate from stored contractor rates
+    const rates = loadContractorRates();
+    const defaultContractor = form.contractor.value || 'Nicole Feenstra';
+    const rateInput = document.getElementById('labor-hourly-rate');
+    if (rateInput && rates[defaultContractor]) {
+      rateInput.value = rates[defaultContractor];
+    }
+
+    // Close rates panel if open
+    closeManageRatesPanel();
+
     // Populate project dropdown with campaigns (campaigns are the projects now)
     const campaigns = loadCampaigns();
     const projectSelect = form.projectId;
@@ -4043,6 +4082,7 @@ body {
     renderCampaignActivities();
     renderTeamAvailability();
     renderPayroll();
+    renderBillableInvoicing();
   }
 
   function renderLaborTracking() {
@@ -4781,6 +4821,352 @@ body {
     document.body.removeChild(a);
   }
 
+  // ── CONTRACTOR RATES ──────────────────────────────────
+  const CONTRACTOR_RATES_KEY = 'meridian_contractor_rates';
+  const DEFAULT_CONTRACTOR_RATES = {
+    'Nicole Feenstra': 175,
+    'Sarah Chen':      125,
+    'Marcus Rivera':   110,
+    'Jade Thompson':   95,
+    'Alex Kim':        105
+  };
+
+  function loadContractorRates() {
+    try {
+      const stored = JSON.parse(localStorage.getItem(CONTRACTOR_RATES_KEY));
+      return stored || { ...DEFAULT_CONTRACTOR_RATES };
+    } catch(e) {
+      return { ...DEFAULT_CONTRACTOR_RATES };
+    }
+  }
+
+  function saveContractorRates(rates) {
+    localStorage.setItem(CONTRACTOR_RATES_KEY, JSON.stringify(rates));
+  }
+
+  function autoFillContractorRate(contractorName) {
+    const rates = loadContractorRates();
+    const rateInput = document.getElementById('labor-hourly-rate');
+    if (rateInput && rates[contractorName]) {
+      rateInput.value = rates[contractorName];
+    }
+  }
+
+  function openManageRatesPanel() {
+    const panel = document.getElementById('manage-rates-panel');
+    const rowsEl = document.getElementById('rates-editor-rows');
+    if (!panel || !rowsEl) return;
+    const rates = loadContractorRates();
+    const thS = 'font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)';
+    const tdS = 'padding:4px 0';
+    rowsEl.innerHTML = `<table style="width:100%;border-collapse:collapse">
+      <tr>
+        <th style="${thS};text-align:left;padding-bottom:0.5rem">Team Member</th>
+        <th style="${thS};text-align:right;padding-bottom:0.5rem">Rate ($/hr)</th>
+      </tr>
+      ${Object.entries(rates).map(([name, rate]) => `
+      <tr>
+        <td style="${tdS};font-size:0.88rem;font-weight:600;color:var(--forest)">${name}</td>
+        <td style="${tdS};text-align:right">
+          <input type="number" min="10" step="5" value="${rate}" data-contractor="${name}"
+            style="width:80px;padding:3px 6px;border:1px solid var(--parchment);border-radius:2px;font-family:inherit;font-size:0.88rem;text-align:right;background:var(--white)">
+        </td>
+      </tr>`).join('')}
+    </table>`;
+    panel.style.display = 'block';
+  }
+
+  function closeManageRatesPanel() {
+    const panel = document.getElementById('manage-rates-panel');
+    if (panel) panel.style.display = 'none';
+  }
+
+  function saveContractorRatesFromPanel() {
+    const inputs = document.querySelectorAll('#rates-editor-rows input[data-contractor]');
+    const rates = {};
+    inputs.forEach(inp => {
+      const name = inp.getAttribute('data-contractor');
+      const val = parseFloat(inp.value);
+      if (name && !isNaN(val)) rates[name] = val;
+    });
+    saveContractorRates(rates);
+    closeManageRatesPanel();
+    // Re-fill rate for currently selected contractor
+    const contractorSel = document.querySelector('#add-labor-form select[name="contractor"]');
+    if (contractorSel) autoFillContractorRate(contractorSel.value);
+  }
+
+  // ── BILLABLE HOURS INVOICING ───────────────────────────
+  let invoiceCounter = parseInt(localStorage.getItem('meridian_invoice_counter') || '100');
+
+  function nextInvoiceNumber() {
+    invoiceCounter++;
+    localStorage.setItem('meridian_invoice_counter', String(invoiceCounter));
+    return 'INV-' + String(invoiceCounter).padStart(4, '0');
+  }
+
+  function renderBillableInvoicing() {
+    const el = document.getElementById('billable-invoice-table');
+    if (!el) return;
+
+    const period = document.getElementById('billing-period')?.value || 'current';
+    const labor = loadLaborTracking();
+    const campaigns = loadCampaigns();
+
+    let startDate, endDate;
+    if (period === 'current')  { startDate = '2026-04-01'; endDate = '2026-04-15'; }
+    else if (period === 'previous') { startDate = '2026-03-16'; endDate = '2026-03-31'; }
+    else if (period === 'prev2')    { startDate = '2026-03-01'; endDate = '2026-03-15'; }
+    else { startDate = '2000-01-01'; endDate = '2099-12-31'; }
+
+    const billable = labor.filter(l =>
+      l.category === 'Billable' &&
+      l.date >= startDate && l.date <= endDate
+    );
+
+    if (!billable.length) {
+      el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--forest-mid);font-style:italic;background:var(--white);border:1px solid var(--parchment)">No billable hours logged for this period.</div>';
+      return;
+    }
+
+    // Group by campaign
+    const byCampaign = {};
+    billable.forEach(l => {
+      const campId = l.campaignId || l.projectId || 'unassigned';
+      if (!byCampaign[campId]) byCampaign[campId] = { items: [], totalHours: 0, totalCost: 0, contractors: new Set() };
+      byCampaign[campId].items.push(l);
+      byCampaign[campId].totalHours += l.hours;
+      byCampaign[campId].totalCost += l.hours * l.hourlyRate;
+      byCampaign[campId].contractors.add(l.contractor || 'Unassigned');
+    });
+
+    const thS = 'text-align:left;padding:8px 10px;color:var(--forest-mid);font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;background:var(--cream)';
+    const tdS = 'padding:8px 10px;border-bottom:0.5px solid var(--parchment);font-size:0.85rem;vertical-align:middle';
+
+    const rows = Object.entries(byCampaign).map(([campId, data]) => {
+      const camp = campaigns.find(c => String(c.id) === String(campId));
+      const campName = camp ? camp.name : (campId === 'unassigned' ? 'Unassigned' : `Campaign #${campId}`);
+      const clientName = camp ? (camp.client || 'DNA Agency') : 'DNA Agency';
+      const contractors = [...data.contractors].join(', ');
+      return `<tr>
+        <td style="${tdS};font-weight:700;color:var(--forest)">${campName}</td>
+        <td style="${tdS};color:var(--forest-mid);font-size:0.82rem">${clientName}</td>
+        <td style="${tdS}">${data.totalHours.toFixed(2)}h</td>
+        <td style="${tdS};font-weight:700;color:var(--gold)">$${data.totalCost.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td style="${tdS};font-size:0.82rem;color:var(--forest-mid)">${contractors}</td>
+        <td style="${tdS}">
+          <button onclick="generateCampaignInvoice('${campId}','${startDate}','${endDate}')"
+            style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--forest);color:var(--ivory);border:none;padding:4px 10px;cursor:pointer;border-radius:2px">
+            Generate Invoice
+          </button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    el.innerHTML = `<div style="overflow-x:auto">
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse;background:var(--white);border:1px solid var(--parchment)">
+        <tr>
+          <th style="${thS}">Campaign</th>
+          <th style="${thS}">Client</th>
+          <th style="${thS}">Total Hours</th>
+          <th style="${thS}">Total Cost</th>
+          <th style="${thS}">Contractors</th>
+          <th style="${thS}">Action</th>
+        </tr>
+        ${rows}
+      </table>
+    </div>`;
+  }
+
+  function generateCampaignInvoice(campId, startDate, endDate) {
+    const labor = loadLaborTracking();
+    const campaigns = loadCampaigns();
+    const camp = campaigns.find(c => String(c.id) === String(campId));
+    const campName = camp ? camp.name : (campId === 'unassigned' ? 'Unassigned' : `Campaign #${campId}`);
+    const clientName = camp ? (camp.client || 'DNA Agency') : 'DNA Agency';
+
+    const items = labor.filter(l =>
+      l.category === 'Billable' &&
+      l.date >= startDate && l.date <= endDate &&
+      (String(l.campaignId) === String(campId) || String(l.projectId) === String(campId) || (campId === 'unassigned' && !l.campaignId && !l.projectId))
+    );
+
+    // Group by contractor for line items
+    const byContractor = {};
+    items.forEach(l => {
+      const name = l.contractor || 'Unassigned';
+      if (!byContractor[name]) byContractor[name] = { hours: 0, rate: l.hourlyRate, cost: 0 };
+      byContractor[name].hours += l.hours;
+      byContractor[name].cost += l.hours * l.hourlyRate;
+    });
+
+    const invoiceNum = nextInvoiceNumber();
+    const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+    const total = Object.values(byContractor).reduce((s, d) => s + d.cost, 0);
+
+    const thS = 'text-align:left;padding:8px 12px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--forest-mid);background:var(--cream);border-bottom:1px solid var(--parchment)';
+    const tdS = 'padding:8px 12px;font-size:0.88rem;border-bottom:0.5px solid var(--parchment)';
+
+    const lineRows = Object.entries(byContractor).map(([name, d]) =>
+      `<tr>
+        <td style="${tdS};font-weight:600;color:var(--forest)">${name}</td>
+        <td style="${tdS}">${d.hours.toFixed(2)}</td>
+        <td style="${tdS}">$${d.rate}/hr</td>
+        <td style="${tdS};font-weight:700;color:var(--gold)">$${d.cost.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      </tr>`
+    ).join('');
+
+    // Build CSV for download
+    function buildInvoiceCSV() {
+      const header = 'Invoice Number,Date,Campaign,Client,Contractor,Hours,Rate,Cost';
+      const dataRows = Object.entries(byContractor).map(([name, d]) =>
+        `"${invoiceNum}","${today}","${campName}","${clientName}","${name}",${d.hours.toFixed(2)},$${d.rate},$${d.cost.toFixed(2)}`
+      );
+      return [header, ...dataRows].join('\n');
+    }
+
+    // Show modal
+    const existing = document.getElementById('invoice-gen-modal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'invoice-gen-modal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:1rem';
+    modal.innerHTML = `
+      <div style="background:var(--white);max-width:640px;width:100%;border-radius:3px;overflow:hidden;max-height:90vh;overflow-y:auto">
+        <div style="background:var(--forest);color:var(--ivory);padding:1.5rem">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Invoice</div>
+          <div style="font-size:1.2rem;font-weight:700;letter-spacing:0.05em">${invoiceNum}</div>
+          <div style="font-size:0.85rem;color:#c8ddd7;margin-top:0.3rem">${today}</div>
+        </div>
+        <div style="padding:1.5rem">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+            <div>
+              <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">From</div>
+              <div style="font-size:0.92rem;font-weight:700;color:var(--forest)">DNA Agency</div>
+            </div>
+            <div>
+              <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">To / Campaign</div>
+              <div style="font-size:0.92rem;font-weight:700;color:var(--forest)">${clientName}</div>
+              <div style="font-size:0.85rem;color:var(--forest-mid)">${campName}</div>
+            </div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;margin-bottom:1rem">
+            <tr>
+              <th style="${thS}">Contractor</th>
+              <th style="${thS}">Hours</th>
+              <th style="${thS}">Rate</th>
+              <th style="${thS}">Amount</th>
+            </tr>
+            ${lineRows}
+            <tr style="background:var(--cream)">
+              <td style="${tdS};font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--forest)" colspan="3">Total</td>
+              <td style="${tdS};font-weight:700;font-size:1rem;color:var(--forest)">$${total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+            </tr>
+          </table>
+          <div style="display:flex;gap:0.8rem;flex-wrap:wrap">
+            <button onclick="(function(){
+              const csv=${JSON.stringify(buildInvoiceCSV())};
+              const a=document.createElement('a');
+              a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+              a.download='invoice-${invoiceNum}.csv';
+              a.style.display='none';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            })()" style="padding:0.55rem 1.1rem;background:var(--gold);color:var(--forest);border:none;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase">Download CSV</button>
+            <button onclick="markCampaignInvoiced('${campId}','${startDate}','${endDate}')" style="padding:0.55rem 1.1rem;background:var(--forest);color:var(--ivory);border:none;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase">Mark Invoiced</button>
+            <button onclick="document.getElementById('invoice-gen-modal').remove()" style="padding:0.55rem 1.1rem;background:transparent;color:var(--forest-mid);border:1px solid var(--parchment);border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase">Close</button>
+          </div>
+        </div>
+      </div>`;
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+    document.body.appendChild(modal);
+  }
+
+  function markCampaignInvoiced(campId, startDate, endDate) {
+    const labor = loadLaborTracking();
+    labor.forEach(l => {
+      if (
+        l.category === 'Billable' &&
+        l.date >= startDate && l.date <= endDate &&
+        (String(l.campaignId) === String(campId) || String(l.projectId) === String(campId))
+      ) {
+        l.invoiced = true;
+      }
+    });
+    saveLaborTracking(labor);
+    const modal = document.getElementById('invoice-gen-modal');
+    if (modal) modal.remove();
+    renderBillableInvoicing();
+  }
+
+  function renderCampaignLaborCosts() {
+    const el = document.getElementById('campaign-labor-cost-table');
+    if (!el) return;
+    const labor = loadLaborTracking();
+    const campaigns = loadCampaigns();
+    const billable = labor.filter(l => l.category === 'Billable');
+
+    const byCampaign = {};
+    billable.forEach(l => {
+      const campId = l.campaignId || l.projectId || 'unassigned';
+      if (!byCampaign[campId]) byCampaign[campId] = { hours: 0, cost: 0, rows: [] };
+      byCampaign[campId].hours += l.hours;
+      byCampaign[campId].cost += l.hours * l.hourlyRate;
+      byCampaign[campId].rows.push(l);
+    });
+
+    if (!Object.keys(byCampaign).length) {
+      el.innerHTML = '<div style="padding:1.5rem;text-align:center;color:var(--forest-mid);font-style:italic">No billable labor logged yet.</div>';
+      return;
+    }
+
+    const thS = 'text-align:left;padding:8px 10px;color:var(--forest-mid);font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;background:var(--cream)';
+    const tdS = 'padding:8px 10px;border-bottom:0.5px solid var(--parchment);font-size:0.85rem';
+
+    const rows = Object.entries(byCampaign).map(([campId, data]) => {
+      const camp = campaigns.find(c => String(c.id) === String(campId));
+      const campName = camp ? camp.name : (campId === 'unassigned' ? 'Unassigned' : `Campaign #${campId}`);
+      const contractors = [...new Set(data.rows.map(r => r.contractor || 'Unassigned'))].join(', ');
+      const periods = [...new Set(data.rows.map(r => r.date ? r.date.substring(0, 7) : '—'))].sort().join(', ');
+      const invoicedCount = data.rows.filter(r => r.invoiced).length;
+      const invoicedLabel = invoicedCount === data.rows.length ? '<span style="color:#27AE60;font-weight:700">All Invoiced</span>'
+        : invoicedCount > 0 ? `<span style="color:var(--gold);font-weight:700">${invoicedCount}/${data.rows.length} Invoiced</span>`
+        : '<span style="color:var(--forest-mid)">Not Invoiced</span>';
+
+      return `<tr>
+        <td style="${tdS};font-weight:700;color:var(--forest)">${campName}</td>
+        <td style="${tdS}">${data.hours.toFixed(2)}h</td>
+        <td style="${tdS};font-weight:700;color:var(--gold)">$${data.cost.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td style="${tdS};font-size:0.82rem;color:var(--forest-mid)">${contractors}</td>
+        <td style="${tdS};font-size:0.82rem;color:var(--forest-mid)">${periods}</td>
+        <td style="${tdS}">${invoicedLabel}</td>
+        <td style="${tdS}">
+          <button onclick="generateCampaignInvoice('${campId}','2000-01-01','2099-12-31')"
+            style="font-family:'DM Sans',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:transparent;color:var(--forest);border:1px solid var(--parchment);padding:3px 8px;cursor:pointer;border-radius:2px">
+            Invoice
+          </button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    el.innerHTML = `<div style="overflow-x:auto">
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse;background:var(--white);border:1px solid var(--parchment)">
+        <tr>
+          <th style="${thS}">Campaign</th>
+          <th style="${thS}">Hours (Billable)</th>
+          <th style="${thS}">Cost</th>
+          <th style="${thS}">Contractors</th>
+          <th style="${thS}">Pay Period</th>
+          <th style="${thS}">Invoiced?</th>
+          <th style="${thS}">Action</th>
+        </tr>
+        ${rows}
+      </table>
+    </div>`;
+  }
+
   // ── CRM → CAMPAIGN LINK ─────────────────────────────────
   function createCampaignFromContact(contactId) {
     const contacts = loadContacts();
@@ -5292,6 +5678,7 @@ body {
     } else {
       renderFinanceKPIs();
       renderCampaignPL();
+      renderCampaignLaborCosts();
       renderDonorPipeline(getFilteredDonors());
       renderGrantTracker();
     }
@@ -6973,71 +7360,8 @@ function drillCampaignSpend() {
     });
   }
 
-  // ── DECK GENERATOR ────────────────────────────────────
-  function getFormValues() {
-    return {
-      company:  document.getElementById('gamma-company').value.trim() || 'My Company',
-      purpose:  document.getElementById('gamma-purpose').value,
-      industry: document.getElementById('gamma-industry').value,
-      tone:     document.getElementById('gamma-tone').value,
-      message:  document.getElementById('gamma-message').value.trim()
-    };
-  }
-
-  function selectTool(tool) {
-    document.getElementById('deck-tool').value = tool;
-    ['gamma','canva'].forEach(t => {
-      const card = document.getElementById('tool-card-' + t);
-      const check = document.getElementById('check-' + t);
-      if (t === tool) {
-        card.classList.add('tool-card-selected');
-        check.style.display = 'flex';
-        check.style.background = 'var(--forest)';
-        check.style.border = 'none';
-        check.textContent = '✓';
-      } else {
-        card.classList.remove('tool-card-selected');
-        check.style.display = 'none';
-      }
-    });
-    const instructions = {
-      gamma: 'Clicking Generate opens <strong style="color:var(--forest)">Gamma</strong> in a new tab with your brief already filled in. Sign in to your free Gamma account at gamma.app and hit generate — your deck builds itself.',
-      canva: 'Clicking Generate opens <strong style="color:var(--forest)">Canva</strong> in a new tab with your brief pre-loaded. Sign in to your free Canva account at canva.com and choose a presentation template.'
-    };
-    document.getElementById('tool-instruction').innerHTML = instructions[tool];
-  }
-
+  // ── DECK GENERATOR (removed — Creative Studio replaced with Add-On Gate) ──
   function updateApiKeyVisibility() {} // no-op, kept for safety
-
-  function showExternalLink(url, toolName, opened) {
-    document.getElementById('studio-sample').style.display = 'none';
-    document.getElementById('deck-loading').classList.remove('visible');
-    document.getElementById('slides-output').classList.remove('visible');
-    const el = document.getElementById('deck-error');
-    el.style.cssText = 'display:block;background:var(--ivory);border-left:2px solid var(--gold);color:var(--forest);padding:1.2rem 1.4rem';
-    el.innerHTML = opened
-      ? `${toolName} opened in a new tab. If nothing appeared, your browser may have blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`
-      : `Your browser blocked the popup.<br><br><a href="${url}" target="_blank" rel="noopener" style="color:var(--forest);font-weight:700;border-bottom:1px solid var(--gold)">Click here to open ${toolName} →</a>`;
-  }
-
-  function generateDeck() {
-    const tool = document.getElementById('deck-tool').value;
-    const v = getFormValues();
-    const prompt = `${v.company} — ${v.purpose}. Industry: ${v.industry}. Tone: ${v.tone}.${v.message ? ' Key message: ' + v.message : ''}`;
-
-    const urls = {
-      gamma: 'https://gamma.app/generate?prompt=' + encodeURIComponent(prompt),
-      canva: 'https://www.canva.com/create/presentations/?q=' + encodeURIComponent(prompt)
-    };
-    const url = urls[tool];
-    if (!url) return;
-
-    const w = window.open(url, '_blank');
-    showExternalLink(url, tool === 'gamma' ? 'Gamma' : 'Canva', !!w);
-  }
-
-  // Initialize tool selection
-  selectTool('gamma');
 
   // Initialize Proposals tab
   initProposalProjectSelect();
