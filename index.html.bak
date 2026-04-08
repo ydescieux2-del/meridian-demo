@@ -1714,14 +1714,14 @@ body {
 <div class="section">
 
   <div class="section-eyebrow">03.5 — Operations</div>
-  <div class="section-title">Campaigns · Labor · Timeline</div>
-  <div class="section-sub">Campaign management + labor tracking</div>
+  <div class="section-title">Projects · Labor · Timeline</div>
+  <div class="section-sub">Project management + labor tracking</div>
 
   <!-- ── TEAM ROSTER ── -->
   <div style="margin-bottom:2.5rem" id="team-roster-section">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
       <div>
-        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem">People &amp; Campaigns</div>
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem">People &amp; Projects</div>
         <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Team Roster</div>
       </div>
       <div style="display:flex;border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
@@ -1939,9 +1939,9 @@ body {
   <div class="studio-grid">
 
     <div class="studio-form-col">
-      <label class="form-label">Select Campaign</label>
+      <label class="form-label">Select Project</label>
       <select class="form-input" id="proposal-project" style="width:100%;margin-bottom:1rem" onchange="loadProposalContext()">
-        <option value="">— Choose a campaign</option>
+        <option value="">— Choose a project</option>
       </select>
 
       <label class="form-label">Proposal Tone</label>
@@ -3095,54 +3095,6 @@ body {
     return flags;
   }
 
-  // ─ CAMPAIGN HEALTH & BURNRATE ─
-  function getCampaignHealth(c) {
-    if (c.status === 'complete') return {status: 'complete', label: '✓ Complete', color: '#2d6a4f'};
-    if (c.status === 'paused') return {status: 'paused', label: '⊣ Paused', color: '#c4932a'};
-    
-    const today = new Date();
-    const daysLeft = Math.ceil((new Date(c.deadline) - today) / 86400000);
-    const budgetUsedPct = (c.spent / c.budget) * 100;
-    const avgCpl = c.leads > 0 ? c.spent / c.leads : 0;
-    
-    let issues = [];
-    if (daysLeft < 0) issues.push('Past deadline');
-    if (daysLeft > 0 && daysLeft <= 3) issues.push('Deadline soon');
-    if (budgetUsedPct >= 90) issues.push('Budget nearly exhausted');
-    if (budgetUsedPct >= 100) issues.push('Over budget');
-    
-    if (issues.length > 0) return {status: 'critical', label: '⚠ ' + issues[0], color: '#e74c3c'};
-    if (daysLeft <= 7 || budgetUsedPct >= 70) return {status: 'warn', label: '◐ Monitor', color: '#f39c12'};
-    return {status: 'good', label: '◉ Healthy', color: '#27ae60'};
-  }
-
-  function getBurnrate(c) {
-    const today = new Date();
-    const campaignStart = new Date(c.startDate || c.deadline);
-    const campaignEnd = new Date(c.deadline);
-    const daysElapsed = Math.max(1, Math.ceil((today - campaignStart) / 86400000));
-    const daysTotal = Math.max(1, Math.ceil((campaignEnd - campaignStart) / 86400000));
-    const daysRemaining = Math.max(0, Math.ceil((campaignEnd - today) / 86400000));
-    
-    const dailyBurnRate = c.spent / daysElapsed;
-    const budgetRemaining = Math.max(0, c.budget - c.spent);
-    const projectedDaysAtRate = dailyBurnRate > 0 ? Math.ceil(budgetRemaining / dailyBurnRate) : daysRemaining;
-    
-    const paceSchedule = daysElapsed / daysTotal;
-    const paceBudget = c.spent / c.budget;
-    let paceStatus = 'on-track';
-    if (paceBudget > paceSchedule * 1.2) paceStatus = 'ahead';
-    else if (paceBudget < paceSchedule * 0.8) paceStatus = 'behind';
-    
-    return {
-      daysRemaining,
-      projectedDaysAtRate,
-      dailyBurnRate,
-      paceStatus,
-      paceLabel: paceStatus === 'ahead' ? '→ Spending fast' : paceStatus === 'behind' ? '← Spending slow' : '→ On pace'
-    };
-  }
-
   function renderCard(c) {
     const pct = Math.min(Math.round(c.spent / c.budget * 100), 100);
     const statusMap = {active:'badge-active',paused:'badge-paused',complete:'badge-warm'};
@@ -3152,16 +3104,6 @@ body {
     else if (c.roas !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.roas}×</div><div class="stat-lbl">ROAS</div></div>`;
     else if (c.cvr !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.cvr}%</div><div class="stat-lbl">Form CVR</div></div>`;
     else if (c.revenue !== undefined && c.revenue > 0) extra = `<div class="stat-item"><div class="stat-val">$${Math.round(c.revenue/1000)}K</div><div class="stat-lbl">Revenue</div></div>`;
-    
-    // Health & Burnrate
-    const health = getCampaignHealth(c);
-    const burn = getBurnrate(c);
-    const healthHtml = `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:700;color:${health.color}">${health.label}</div>`;
-    const burnHtml = `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--forest-mid)">
-      <span style="font-weight:700">${burn.projectedDaysAtRate}d left</span>
-      <span style="font-size:0.7rem">${burn.paceLabel}</span>
-    </div>`;
-    
     // Activity progress
     const acts = c.activities || [];
     const actsDone = acts.filter(a => a.status === 'done').length;
@@ -3178,20 +3120,16 @@ body {
       <div style="height:3px;background:var(--parchment);border-radius:1px"><div style="height:3px;width:${actsPct}%;background:var(--forest);border-radius:1px"></div></div>
     </div>` : '';
     return `<div class="card" onclick="openCampaign(${c.id})">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.5rem">
-        <div class="card-info">
-          <div class="card-title">${c.name}</div>
-          <div class="card-meta">${c.type} · ${c.label}</div>
-        </div>
-        <div class="badge ${statusMap[c.status]||'badge-warm'}" style="cursor:pointer;flex-shrink:0" title="Click to cycle status" onclick="event.stopPropagation();cycleStatus(${c.id})">${statusLabel[c.status]||c.status}</div>
+      <div class="card-info">
+        <div class="card-title">${c.name}</div>
+        <div class="card-meta">${c.type} · ${c.label}</div>
       </div>
-      ${healthHtml}
-      <div class="card-budget" style="margin-top:0.5rem">
+      <div class="badge ${statusMap[c.status]||'badge-warm'}" style="cursor:pointer;flex-shrink:0" title="Click to cycle status" onclick="event.stopPropagation();cycleStatus(${c.id})">${statusLabel[c.status]||c.status}</div>
+      <div class="card-budget">
         <div class="spend-bar"><div class="spend-fill" style="width:${pct}%"></div></div>
         <div class="card-budget-label">$${c.spent.toLocaleString()} of $${c.budget.toLocaleString()} budget</div>
       </div>
-      ${burnHtml}
-      <div class="card-stats" style="margin-top:0.5rem">
+      <div class="card-stats">
         <div class="stat-item"><div class="stat-val">${c.leads.toLocaleString()}</div><div class="stat-lbl">Leads</div></div>
         <div class="stat-item"><div class="stat-val">$${c.cpl > 0 ? c.cpl.toFixed(2) : '—'}</div><div class="stat-lbl">CPL</div></div>
         ${extra}
@@ -3765,7 +3703,7 @@ body {
     clientSelect.innerHTML = `<option value="${contactId}">${contact?.firstName} ${contact?.lastName}</option>`;
     clientSelect.value = contactId;
 
-    // Populate campaign dropdown
+    // Populate project/campaign dropdown
     const campaigns = loadCampaigns();
     const projectSelect = form.projectId;
     projectSelect.innerHTML = '<option value="">— No Campaign</option>' +
@@ -4254,33 +4192,24 @@ body {
     const today = new Date();
     const todayStr = today.toISOString().split('T')[0];
 
-    // Parse dates safely: YYYY-MM-DD strings are treated as local dates
-    function parseDate(dateStr) {
-      if (!dateStr) return null;
-      const [yr, mo, dy] = dateStr.split('-').map(x => parseInt(x));
-      const d = new Date(yr, mo - 1, dy);
-      return d;
-    }
-
     let minDate = null, maxDate = null;
     campaigns.forEach(c => {
-      const s = c.startDate ? parseDate(c.startDate) : null;
-      const e = c.endDate ? parseDate(c.endDate) : null;
+      const s = c.startDate ? new Date(c.startDate) : null;
+      const e = c.endDate ? new Date(c.endDate) : null;
       if (s && (!minDate || s < minDate)) minDate = s;
       if (e && (!maxDate || e > maxDate)) maxDate = e;
     });
-    if (!minDate) minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    if (!maxDate) maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    
-    minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate() - 7);
-    maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate() + 7);
+    if (!minDate) minDate = new Date(today);
+    if (!maxDate) maxDate = new Date(today);
+    minDate = new Date(minDate); maxDate = new Date(maxDate);
+    minDate.setDate(minDate.getDate() - 7);
+    maxDate.setDate(maxDate.getDate() + 7);
 
     const totalMs = maxDate - minDate;
     if (totalMs <= 0) return '<div style="color:#aaa;padding:20px;text-align:center">Invalid date range.</div>';
 
     function pct(d) {
-      const date = typeof d === 'string' ? parseDate(d) : d;
-      if (!date) return 0;
+      const date = typeof d === 'string' ? new Date(d) : d;
       return Math.max(0, Math.min(100, ((date - minDate) / totalMs) * 100));
     }
 
@@ -6090,31 +6019,6 @@ Generated on ${new Date().toLocaleDateString()}
             ${c.status.charAt(0).toUpperCase()+c.status.slice(1)} — click to cycle
           </span></span></div>
         ${flags.length?`<div style="margin-top:1rem;display:flex;gap:0.4rem;flex-wrap:wrap">${flags.map(f=>`<span class="campaign-flag">⚠ ${f}</span>`).join('')}</div>`:''}
-        
-        <!-- TIMELINE SECTION -->
-        <div class="cm-section-lbl" style="margin-top:1.2rem">Timeline & Milestones</div>
-        <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.6">
-          <div style="display:flex;gap:1rem;margin-bottom:0.8rem;padding:0.6rem;background:var(--cream);border-radius:3px">
-            <div><span style="font-weight:700">Start:</span> ${c.startDate||'TBD'}</div>
-            <div><span style="font-weight:700">End:</span> ${c.deadline||'TBD'}</div>
-          </div>
-          ${(() => {
-            const ms = (c.milestones || []).sort((a,b) => new Date(a.date||'2099-12-31') - new Date(b.date||'2099-12-31'));
-            if (ms.length === 0) return '<div style="color:#aaa;font-style:italic;padding:0.5rem 0">No milestones</div>';
-            return ms.map(m => {
-              const icon = m.status === 'complete' ? '✓' : m.status === 'in-progress' ? '◐' : '◯';
-              const iconColor = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--forest-mid)';
-              const dateObj = m.date ? new Date(m.date) : null;
-              const dateStr = dateObj ? dateObj.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'2-digit'}) : 'TBD';
-              const isPast = dateObj && dateObj < new Date() ? true : false;
-              return `<div style="display:flex;gap:0.6rem;padding:0.4rem 0;border-bottom:0.5px solid var(--parchment);align-items:baseline">
-                <span style="font-weight:700;color:${iconColor};min-width:1.5rem">${icon}</span>
-                <span style="flex:1;${isPast?'opacity:0.6':''}">${m.name}</span>
-                <span style="font-weight:700;min-width:4rem;text-align:right;color:${iconColor}">${dateStr}</span>
-              </div>`;
-            }).join('');
-          })()}
-        </div>
       </div>`);
   }
 
@@ -6482,34 +6386,15 @@ Generated on ${new Date().toLocaleDateString()}
     const done = ms.filter(m => m.status === 'complete').length;
     const inProg = ms.filter(m => m.status === 'in-progress').length;
     const pct = Math.round(((done + inProg * 0.5) / ms.length) * 100);
-    
-    // Sort milestones by date
-    const sortedMs = [...ms].sort((a, b) => new Date(a.date || '2099-12-31') - new Date(b.date || '2099-12-31'));
-    
     return `<div style="margin-top:0.6rem;padding-top:0.5rem;border-top:1px solid var(--parchment)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
-        <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Key Milestones</span>
+        <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Milestones</span>
         <span style="font-size:0.75rem;color:var(--forest-mid)">${done}/${ms.length} complete</span>
       </div>
-      <!-- Timeline bar -->
-      <div style="display:flex;gap:3px;margin-bottom:0.4rem">
+      <div style="display:flex;gap:3px">
         ${ms.map(m => {
           const color = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--parchment)';
-          return `<div title="${m.name} — ${m.date} (${m.status})" style="flex:1;height:5px;background:${color};border-radius:2px;opacity:0.8"></div>`;
-        }).join('')}
-      </div>
-      <!-- Milestone dates list -->
-      <div style="display:flex;flex-direction:column;gap:0.25rem;font-size:0.7rem">
-        ${sortedMs.map((m, i) => {
-          const statusColor = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--forest-mid)';
-          const dateObj = new Date(m.date);
-          const dateStr = m.date ? dateObj.toLocaleDateString('en-US', {month:'short', day:'numeric'}) : 'TBD';
-          const icon = m.status === 'complete' ? '✓' : m.status === 'in-progress' ? '◐' : '◯';
-          return `<div style="display:flex;gap:0.3rem;align-items:center;color:${statusColor};white-space:nowrap">
-            <span style="font-weight:700">${icon}</span>
-            <span style="flex:1;overflow:hidden;text-overflow:ellipsis">${m.name}</span>
-            <span style="font-weight:600;min-width:3.5rem;text-align:right">${dateStr}</span>
-          </div>`;
+          return `<div title="${m.name} — ${m.status}" style="flex:1;height:5px;background:${color};border-radius:2px"></div>`;
         }).join('')}
       </div>
     </div>`;
