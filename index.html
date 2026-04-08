@@ -1505,107 +1505,135 @@ body {
   </div>
 
   <!-- ══════════════════════════════════════════════ -->
-  <!-- VIEW A: DNA AGENCY (Business Entity)           -->
+  <!-- VIEW A: DNA AGENCY — UNIFIED FINANCIAL DASHBOARD -->
   <!-- ══════════════════════════════════════════════ -->
   <div id="fin-view-dna">
 
-    <!-- Business KPIs -->
-    <div class="kpi-bar" style="margin-bottom:1.5rem">
-      <div class="kpi"><div class="kpi-value" id="biz-kpi-revenue">$0</div><div class="kpi-label">Total Revenue</div><div class="kpi-delta" id="biz-kpi-revenue-delta">Funded invoices</div></div>
-      <div class="kpi"><div class="kpi-value" id="biz-kpi-pending">$0</div><div class="kpi-label">Outstanding AR</div></div>
-      <div class="kpi"><div class="kpi-value" id="biz-kpi-labor">$0</div><div class="kpi-label">Labor Cost YTD</div></div>
-      <div class="kpi"><div class="kpi-value" id="biz-kpi-margin">—</div><div class="kpi-label">Gross Margin</div></div>
+    <!-- SECTION 1: SUMMARY KPIs (ALWAYS EXPANDED) -->
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.5rem;border-radius:3px;margin-bottom:1.5rem">
+      <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Financial Summary</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Total Cash on Hand</div>
+          <div style="font-size:1.8rem;font-weight:700;color:var(--forest)" id="fin-cash-total">$0</div>
+          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">All accounts + CC balances</div>
+        </div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Monthly Revenue (MTD)</div>
+          <div style="font-size:1.8rem;font-weight:700;color:#27AE60" id="fin-revenue-mtd">$0</div>
+          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">Invoices this month</div>
+        </div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Monthly Spend (MTD)</div>
+          <div style="font-size:1.8rem;font-weight:700;color:var(--ember)" id="fin-spend-mtd">$0</div>
+          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">Expenses this month</div>
+        </div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Cash Burn Rate</div>
+          <div style="font-size:1.8rem;font-weight:700;" id="fin-burn-rate">—</div>
+          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">Monthly cash position</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Revenue / Invoice Tracking -->
-    <div class="grants-section">
-      <div class="grants-toolbar">
-        <div class="grants-label">Client Invoices</div>
-        <button class="btn-add-grant" onclick="openAddInvoiceModal(1)" style="background:var(--forest);color:var(--white)">+ New Invoice</button>
+    <!-- SECTION 2: P&L STATEMENT (COLLAPSIBLE) -->
+    <div class="collapsible-section" style="margin-bottom:1.5rem">
+      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Financial Statement</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Profit & Loss (YTD)</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
       </div>
-      <div id="invoices-board"></div>
+      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+        <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
+          <tr style="border-bottom:1px solid var(--parchment)">
+            <td style="padding:0.7rem 0;font-weight:700;color:var(--forest)">Revenue (QB Invoices)</td>
+            <td style="padding:0.7rem 0;text-align:right;font-weight:700;color:#27AE60" id="fin-pl-revenue">$0</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--parchment)">
+            <td style="padding:0.7rem 0;color:var(--forest-mid)">— Expenses (QB)</td>
+            <td style="padding:0.7rem 0;text-align:right;color:var(--ember)" id="fin-pl-expenses">($0)</td>
+          </tr>
+          <tr style="border-bottom:2px solid var(--parchment);background:var(--cream)">
+            <td style="padding:0.9rem 0;font-weight:700;font-size:1.05rem;color:var(--forest)">Net Income (YTD)</td>
+            <td style="padding:0.9rem 0;text-align:right;font-weight:700;font-size:1.05rem;" id="fin-pl-net">$0</td>
+          </tr>
+          <tr>
+            <td style="padding:0.7rem 0;font-size:0.9rem;color:var(--forest-mid)">Gross Margin</td>
+            <td style="padding:0.7rem 0;text-align:right;font-weight:600" id="fin-pl-margin">—</td>
+          </tr>
+        </table>
+      </div>
     </div>
 
-    <!-- Integrations: QB + Bank + Receipts -->
-    <div class="grants-section" style="margin-top:2rem;border-top:1px solid var(--parchment);padding-top:1.5rem">
-      <div class="grants-toolbar">
-        <div class="grants-label">Integrations</div>
-        <div style="display:flex;gap:0.5rem">
-          <button id="qb-status-button" class="btn-add-grant" onclick="openQBModal()" style="background:#2CA01C;color:var(--white)">QuickBooks</button>
-          <button id="qb-sync-btn" class="btn-add-grant" onclick="qbSync()" style="display:none;background:var(--forest);color:var(--white)">↻ Sync</button>
+    <!-- SECTION 3: CASH POSITION (COLLAPSIBLE) -->
+    <div class="collapsible-section" style="margin-bottom:1.5rem">
+      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Liquidity</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Bank Accounts & Cash</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
+      </div>
+      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+        <div id="fin-cash-position-detail"></div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: RECENT ACTIVITY (COLLAPSIBLE) -->
+    <div class="collapsible-section" style="margin-bottom:1.5rem">
+      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Activity Feed</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Recent Transactions</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
+      </div>
+      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+        <div style="max-height:600px;overflow-y:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+            <thead style="border-bottom:2px solid var(--parchment);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;color:var(--forest-mid)">
+              <tr><th style="text-align:left;padding:0.5rem 0">Date</th><th style="text-align:left;padding:0.5rem 0">Description</th><th style="text-align:right;padding:0.5rem 0">Amount</th><th style="text-align:left;padding:0.5rem 0">Source</th></tr>
+            </thead>
+            <tbody id="fin-activity-list"></tbody>
+          </table>
         </div>
       </div>
+    </div>
 
-      <!-- 3 Integration Cards -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1rem">
-
-        <!-- QuickBooks Card -->
-        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.2rem;border-radius:3px">
-          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem">
-            <div style="width:30px;height:30px;background:#2CA01C;border-radius:4px;display:flex;align-items:center;justify-content:center;color:white;font-size:0.72rem;font-weight:800;flex-shrink:0">QB</div>
-            <div style="font-size:0.82rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.07em">QuickBooks Online</div>
-          </div>
-          <div style="font-size:0.88rem;color:var(--forest-mid);margin-bottom:0.25rem">Status: <span id="qb-sync-status" style="font-weight:700;color:#888">Not Connected</span></div>
-          <div style="font-size:0.82rem;color:#999;margin-bottom:0.8rem">Last sync: <span id="qb-last-sync">—</span></div>
-          <button onclick="openQBModal()" id="qb-connect-btn" style="width:100%;padding:0.45rem 0.6rem;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--parchment);background:var(--white);color:var(--forest);cursor:pointer;border-radius:2px">Connect QuickBooks →</button>
+    <!-- SECTION 5: SPENDING BREAKDOWN (COLLAPSIBLE) -->
+    <div class="collapsible-section" style="margin-bottom:1.5rem">
+      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Expense Analysis</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Spending by Category</div>
         </div>
-
-        <!-- Bank & Credit Cards Card -->
-        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.2rem;border-radius:3px">
-          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem">
-            <div style="width:30px;height:30px;background:#1a56db;border-radius:4px;display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;font-weight:700;flex-shrink:0">$</div>
-            <div style="font-size:0.82rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.07em">Bank &amp; Credit Cards</div>
-          </div>
-          <div style="font-size:0.88rem;color:var(--forest-mid);margin-bottom:0.25rem">Status: <span id="bank-sync-status" style="font-weight:700;color:#888">Not Connected</span></div>
-          <div style="font-size:0.82rem;color:#999;margin-bottom:0.8rem">Accounts linked: <span id="bank-accounts-count">0</span></div>
-          <button onclick="openBankModal()" id="bank-connect-btn" style="width:100%;padding:0.45rem 0.6rem;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--parchment);background:var(--white);color:var(--forest);cursor:pointer;border-radius:2px">Link via Plaid →</button>
-        </div>
-
-        <!-- Receipt Capture Card -->
-        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.2rem;border-radius:3px">
-          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem">
-            <div style="width:30px;height:30px;background:#7c3aed;border-radius:4px;display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;font-weight:700;flex-shrink:0">R</div>
-            <div style="font-size:0.82rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.07em">Receipt Capture</div>
-          </div>
-          <div style="font-size:0.88rem;color:var(--forest-mid);margin-bottom:0.25rem">Captured: <span id="receipt-count-status" style="font-weight:700;color:var(--forest)">0 receipts</span></div>
-          <div style="font-size:0.82rem;color:#999;margin-bottom:0.8rem">Total: <span id="receipt-total-status">$0.00</span></div>
-          <button onclick="openReceiptModal()" style="width:100%;padding:0.45rem 0.6rem;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--parchment);background:var(--white);color:var(--forest);cursor:pointer;border-radius:2px">Upload Receipt →</button>
-        </div>
-
-      </div><!-- /integration cards -->
-
-      <!-- QB Synced Data Panel -->
-      <div id="qb-data-panel" style="display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--parchment)">
-        <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">QuickBooks — Synced Data</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.2rem">
-          <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QB Revenue (YTD)</div>
-            <div style="font-size:1.6rem;font-weight:700;color:var(--forest)" id="qb-revenue-ytd">—</div>
-          </div>
-          <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QB Expenses (YTD)</div>
-            <div style="font-size:1.6rem;font-weight:700;color:var(--ember)" id="qb-expenses-ytd">—</div>
-          </div>
-          <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">Net Income (YTD)</div>
-            <div style="font-size:1.6rem;font-weight:700;color:var(--forest)" id="qb-net-ytd">—</div>
-          </div>
-        </div>
-        <div id="qb-invoices-panel"></div>
+        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
       </div>
-
-      <!-- Bank Transaction Panel -->
-      <div id="bank-data-panel" style="display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--parchment)">
-        <div id="bank-accounts-panel"></div>
-        <div id="bank-transactions-panel" style="margin-top:1rem"></div>
+      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+        <div id="fin-spending-breakdown"></div>
       </div>
+    </div>
 
-      <!-- Receipt List Panel -->
-      <div id="receipt-data-panel" style="display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--parchment)">
-        <div id="receipt-list-panel"></div>
+    <!-- INTEGRATIONS STATUS (ALWAYS VISIBLE, COMPACT) -->
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;margin-top:1.5rem">
+      <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Data Sources</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.8rem">
+        <button onclick="openQBModal()" style="padding:0.6rem;text-align:left;background:var(--white);border:1px solid var(--parchment);border-radius:3px;cursor:pointer">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QuickBooks</div>
+          <div id="fin-qb-status" style="font-size:0.9rem;font-weight:700;color:#2CA01C">Not Connected</div>
+        </button>
+        <button onclick="openBankModal()" style="padding:0.6rem;text-align:left;background:var(--white);border:1px solid var(--parchment);border-radius:3px;cursor:pointer">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">Bank & Cards</div>
+          <div id="fin-bank-status" style="font-size:0.9rem;font-weight:700;color:#999">Not Connected</div>
+        </button>
+        <button onclick="openReceiptModal()" style="padding:0.6rem;text-align:left;background:var(--white);border:1px solid var(--parchment);border-radius:3px;cursor:pointer">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">Receipt Capture</div>
+          <div id="fin-receipt-status" style="font-size:0.9rem;font-weight:700;color:#999" id="receipt-count-status">0 captured</div>
+        </button>
       </div>
-
-    </div><!-- /integrations section -->
+    </div>
 
   </div><!-- /fin-view-dna -->
 
@@ -2797,11 +2825,19 @@ body {
 <script>
   // ── AUTH ───────────────────────────────────────────────
   const AUTH_KEY  = 'meridian_auth';
+  const USER_KEY  = 'meridian_user';
+  const ROLE_KEY  = 'meridian_role';
+  
   // Credentials — change these to update access
   const USERS = {
     'nicole': 'meridian2026',
     'admin':  'apex2026'
   };
+  
+  // User roles: nicole = admin (sees all tabs), others = employee (sees CRM, Campaign, Operations only)
+  function getUserRole(username) {
+    return username === 'nicole' ? 'admin' : 'employee';
+  }
 
   function checkAuth() {
     const ok = sessionStorage.getItem(AUTH_KEY) === 'true';
@@ -2812,14 +2848,18 @@ body {
     const adminParam = params.get('admin');
     if (adminParam === 'apex2026') {
       sessionStorage.setItem(AUTH_KEY, 'true');
+      sessionStorage.setItem(USER_KEY, 'admin');
+      sessionStorage.setItem(ROLE_KEY, 'admin');
       // Clean URL
       window.history.replaceState({}, document.title, window.location.pathname);
       screen.classList.add('hidden');
+      updateTabVisibility();
       return;
     }
 
     if (ok) {
       screen.classList.add('hidden');
+      updateTabVisibility();
     } else {
       screen.classList.remove('hidden');
       setTimeout(() => document.getElementById('login-user').focus(), 80);
@@ -2832,9 +2872,13 @@ body {
     const pass = document.getElementById('login-pass').value;
     const err  = document.getElementById('login-error');
     if (USERS[user] && USERS[user] === pass) {
+      const role = getUserRole(user);
       sessionStorage.setItem(AUTH_KEY, 'true');
+      sessionStorage.setItem(USER_KEY, user);
+      sessionStorage.setItem(ROLE_KEY, role);
       err.textContent = '';
       document.getElementById('login-screen').classList.add('hidden');
+      updateTabVisibility();
     } else {
       err.textContent = 'Incorrect username or password.';
       document.getElementById('login-pass').value = '';
@@ -2844,11 +2888,34 @@ body {
 
   function handleLogout() {
     sessionStorage.removeItem(AUTH_KEY);
+    sessionStorage.removeItem(USER_KEY);
+    sessionStorage.removeItem(ROLE_KEY);
     document.getElementById('login-user').value = '';
     document.getElementById('login-pass').value = '';
     document.getElementById('login-error').textContent = '';
     document.getElementById('login-screen').classList.remove('hidden');
     setTimeout(() => document.getElementById('login-user').focus(), 80);
+  }
+  
+  // ── ROLE-BASED TAB VISIBILITY ──────────────────────────
+  function updateTabVisibility() {
+    const role = sessionStorage.getItem(ROLE_KEY) || 'employee';
+    const adminTabs = ['finance', 'studio', 'proposals', 'phase2'];
+    
+    document.querySelectorAll('.tab').forEach(tab => {
+      const tabName = tab.dataset.tab;
+      if (role === 'admin') {
+        // Nicole sees all tabs
+        tab.style.display = '';
+      } else {
+        // Employees see only campaign, crm, operations
+        if (adminTabs.includes(tabName)) {
+          tab.style.display = 'none';
+        } else {
+          tab.style.display = '';
+        }
+      }
+    });
   }
 
   // Run auth check on load
@@ -4775,8 +4842,7 @@ body {
 
   function renderFinance() {
     if (FINANCE_VIEW === 'dna') {
-      renderBusinessKPIs();
-      renderInvoices();
+      renderConsolidatedDashboard();
     } else {
       renderFinanceKPIs();
       renderCampaignPL();
@@ -4785,28 +4851,217 @@ body {
     }
   }
 
-  // ── BUSINESS KPIs (Financial Dashboard) ────────────────
-  function renderBusinessKPIs() {
-    const invoices = loadInvoices();
-    const labor = loadLaborTracking();
+  // ── COLLAPSIBLE SECTIONS ──────────────────────────────
+  function toggleCollapse(headerEl) {
+    const content = headerEl.nextElementSibling;
+    const indicator = headerEl.querySelector('div:last-child');
+    if (content.style.display === 'none') {
+      content.style.display = '';
+      indicator.style.transform = 'rotate(180deg)';
+    } else {
+      content.style.display = 'none';
+      indicator.style.transform = 'rotate(0deg)';
+    }
+  }
 
-    const totalRevenue = invoices.filter(i => i.status === 'Funded').reduce((s, i) => s + i.amount, 0);
-    const pendingRevenue = invoices.filter(i => i.status !== 'Funded').reduce((s, i) => s + i.amount, 0);
-    const totalLaborCost = labor.reduce((s, l) => s + (l.hours * l.hourlyRate), 0);
-    const grossMargin = totalRevenue > 0 ? ((totalRevenue - totalLaborCost) / totalRevenue * 100).toFixed(1) : 0;
+  // ── CONSOLIDATED FINANCIAL DASHBOARD ──────────────────
+  function renderConsolidatedDashboard() {
+    const qbConfig = loadQBConfig();
+    const bankConnected = localStorage.getItem('meridian_bank_connected') === 'true';
+    
+    renderDashboardSummaryKPIs();
+    renderDashboardPL();
+    renderDashboardCashPosition();
+    renderDashboardActivity();
+    renderDashboardSpending();
+    updateIntegrationStatusBadges(qbConfig.status === 'configured', bankConnected);
+  }
 
-    document.getElementById('biz-kpi-revenue').textContent = `$${totalRevenue.toLocaleString()}`;
-    document.getElementById('biz-kpi-revenue-delta').textContent = `${invoices.filter(i => i.status === 'Funded').length} invoices`;
-    document.getElementById('biz-kpi-pending').textContent = `$${pendingRevenue.toLocaleString()}`;
-    document.getElementById('biz-kpi-labor').textContent = `$${totalLaborCost.toLocaleString()}`;
-    document.getElementById('biz-kpi-margin').textContent = totalRevenue > 0 ? `${grossMargin}%` : '—';
+  function renderDashboardSummaryKPIs() {
+    // Calculate total cash from all bank accounts
+    let totalCash = 0;
+    for (const bank in BANK_ACCOUNTS_DEMO) {
+      for (const acct of BANK_ACCOUNTS_DEMO[bank]) {
+        totalCash += acct.available || acct.balance || 0;
+      }
+    }
+    
+    // Calculate MTD revenue and spend
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    
+    const qbInvoices = QB_INVOICES_DEMO.filter(i => {
+      const invDate = new Date(i.date);
+      return invDate.getMonth() === currentMonth && invDate.getFullYear() === currentYear && i.status === 'Paid';
+    }).reduce((s, i) => s + i.amount, 0);
+    
+    const bankTransactions = BANK_TRANSACTIONS_DEMO.filter(t => {
+      const txDate = new Date(t.date);
+      return txDate.getMonth() === currentMonth && txDate.getFullYear() === currentYear && t.amount < 0;
+    }).reduce((s, t) => s + Math.abs(t.amount), 0);
+    
+    const mtdRevenue = qbInvoices;
+    const mtdSpend = bankTransactions;
+    const burnRate = mtdRevenue > 0 ? ((mtdRevenue - mtdSpend) / mtdRevenue * 100).toFixed(1) : 0;
+    
+    document.getElementById('fin-cash-total').textContent = '$' + totalCash.toLocaleString('en-US', {minimumFractionDigits: 0});
+    document.getElementById('fin-revenue-mtd').textContent = '$' + mtdRevenue.toLocaleString('en-US', {minimumFractionDigits: 0});
+    document.getElementById('fin-spend-mtd').textContent = '$' + mtdSpend.toLocaleString('en-US', {minimumFractionDigits: 0});
+    document.getElementById('fin-burn-rate').textContent = mtdRevenue > 0 ? burnRate + '%' : '—';
+  }
 
-    renderQBStatus();
-    renderQBPanel();
-    renderBankStatus();
-    renderBankPanel();
-    renderReceiptStatus();
-    renderReceiptPanel();
+  function renderDashboardPL() {
+    const revenue = QB_INVOICES_DEMO.filter(i => i.status === 'Paid').reduce((s, i) => s + i.amount, 0);
+    const expenses = QB_EXPENSES_DEMO.reduce((s, e) => s + e.amount, 0);
+    const net = revenue - expenses;
+    const margin = revenue > 0 ? ((revenue - expenses) / revenue * 100).toFixed(1) : 0;
+    
+    const fmt = (n) => '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits: 0});
+    
+    document.getElementById('fin-pl-revenue').textContent = fmt(revenue);
+    document.getElementById('fin-pl-expenses').textContent = '(' + fmt(expenses) + ')';
+    const netEl = document.getElementById('fin-pl-net');
+    netEl.textContent = (net >= 0 ? '+' : '-') + fmt(net);
+    netEl.style.color = net >= 0 ? 'var(--forest)' : 'var(--ember)';
+    document.getElementById('fin-pl-margin').textContent = revenue > 0 ? margin + '%' : '—';
+  }
+
+  function renderDashboardCashPosition() {
+    const detail = document.getElementById('fin-cash-position-detail');
+    let html = '';
+    
+    for (const [bank, accounts] of Object.entries(BANK_ACCOUNTS_DEMO)) {
+      const bankTotal = accounts.reduce((s, a) => s + (a.available || a.balance || 0), 0);
+      html += `
+        <div style="margin-bottom:1rem;border-bottom:1px solid var(--parchment);padding-bottom:1rem">
+          <div style="font-weight:700;color:var(--forest);margin-bottom:0.5rem">${bank}</div>
+      `;
+      
+      for (const acct of accounts) {
+        const balance = acct.balance || 0;
+        const available = acct.available || balance;
+        html += `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.6rem;background:var(--cream);margin-bottom:0.4rem;border-radius:2px;font-size:0.9rem">
+            <div>
+              <div style="font-weight:600;color:var(--forest)">${acct.name}</div>
+              <div style="font-size:0.8rem;color:#999">${acct.type}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-weight:700;color:var(--forest)">${balance.toLocaleString('en-US', {style:'currency', currency:'USD'})}</div>
+              <div style="font-size:0.8rem;color:#999">Available: ${available.toLocaleString('en-US', {style:'currency', currency:'USD'})}</div>
+            </div>
+          </div>
+        `;
+      }
+      html += '</div>';
+    }
+    
+    detail.innerHTML = html;
+  }
+
+  function renderDashboardActivity() {
+    const list = document.getElementById('fin-activity-list');
+    const allTxns = [];
+    
+    // QB Invoices
+    QB_INVOICES_DEMO.forEach(inv => {
+      allTxns.push({
+        date: inv.date,
+        description: inv.customer + ' — ' + inv.description,
+        amount: inv.amount,
+        source: 'QuickBooks',
+        type: 'invoice'
+      });
+    });
+    
+    // Bank Transactions
+    BANK_TRANSACTIONS_DEMO.forEach(txn => {
+      allTxns.push({
+        date: txn.date,
+        description: txn.description,
+        amount: txn.amount,
+        source: 'Bank',
+        type: txn.amount > 0 ? 'income' : 'expense'
+      });
+    });
+    
+    // Sort by date (most recent first)
+    allTxns.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    const rows = allTxns.slice(0, 15).map(t => {
+      const amtColor = t.amount > 0 ? '#27AE60' : 'var(--ember)';
+      const amtSign = t.amount > 0 ? '+' : '';
+      return `
+        <tr style="border-bottom:1px solid var(--parchment)">
+          <td style="padding:0.5rem 0;font-size:0.85rem;color:#999">${new Date(t.date).toLocaleDateString('en-US', {month:'short', day:'numeric'})}</td>
+          <td style="padding:0.5rem 0.5rem;font-size:0.9rem;color:var(--forest)">${t.description}</td>
+          <td style="padding:0.5rem 0;text-align:right;font-weight:600;color:${amtColor}">${amtSign}${Math.abs(t.amount).toLocaleString('en-US', {style:'currency', currency:'USD'})}</td>
+          <td style="padding:0.5rem 0;text-align:left;font-size:0.8rem;color:#999">${t.source}</td>
+        </tr>
+      `;
+    }).join('');
+    
+    list.innerHTML = rows || '<tr><td colspan="4" style="padding:1rem;text-align:center;color:#999">No transactions</td></tr>';
+  }
+
+  function renderDashboardSpending() {
+    const breakdown = document.getElementById('fin-spending-breakdown');
+    let totalSpend = 0;
+    const categories = [];
+    
+    QB_EXPENSES_DEMO.forEach(exp => {
+      categories.push({ name: exp.category, amount: exp.amount });
+      totalSpend += exp.amount;
+    });
+    
+    const rows = categories.map(cat => {
+      const pct = totalSpend > 0 ? (cat.amount / totalSpend * 100).toFixed(1) : 0;
+      return `
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem">
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem">
+              <span style="font-weight:600;color:var(--forest);font-size:0.9rem">${cat.name}</span>
+              <span style="font-weight:700;color:var(--forest)">${cat.amount.toLocaleString('en-US', {style:'currency', currency:'USD'})}</span>
+            </div>
+            <div style="height:6px;background:var(--parchment);border-radius:3px;overflow:hidden">
+              <div style="height:100%;width:${pct}%;background:var(--gold);border-radius:3px"></div>
+            </div>
+            <div style="font-size:0.75rem;color:#999;margin-top:0.2rem">${pct}% of total</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    breakdown.innerHTML = `
+      ${rows}
+      <div style="border-top:2px solid var(--parchment);padding-top:0.8rem;margin-top:0.8rem">
+        <div style="display:flex;justify-content:space-between">
+          <span style="font-weight:700;color:var(--forest)">Total YTD Expenses</span>
+          <span style="font-weight:700;font-size:1.1rem;color:var(--ember)">${totalSpend.toLocaleString('en-US', {style:'currency', currency:'USD'})}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function updateIntegrationStatusBadges(qbConnected, bankConnected) {
+    const qbStatusEl = document.getElementById('fin-qb-status');
+    const bankStatusEl = document.getElementById('fin-bank-status');
+    const receiptStatusEl = document.getElementById('fin-receipt-status');
+    const receiptCount = JSON.parse(localStorage.getItem('meridian_receipts') || '[]').length;
+    
+    if (qbStatusEl) {
+      qbStatusEl.textContent = qbConnected ? '✓ Connected' : 'Not Connected';
+      qbStatusEl.style.color = qbConnected ? '#27AE60' : '#999';
+    }
+    if (bankStatusEl) {
+      bankStatusEl.textContent = bankConnected ? '✓ Connected' : 'Not Connected';
+      bankStatusEl.style.color = bankConnected ? '#27AE60' : '#999';
+    }
+    if (receiptStatusEl) {
+      receiptStatusEl.textContent = receiptCount + ' captured';
+      receiptStatusEl.style.color = receiptCount > 0 ? 'var(--forest)' : '#999';
+    }
   }
 
   // ══════════════════════════════════════════════════════
