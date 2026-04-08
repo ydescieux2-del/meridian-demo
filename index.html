@@ -1436,6 +1436,38 @@ body {
     <button class="btn-add-campaign" onclick="openAddModal()">+ Add Campaign</button>
   </div>
 
+  <!-- ── METRICS LEGEND ── -->
+  <div style="display:flex;gap:1rem;margin-bottom:2rem;margin-top:2rem;flex-wrap:wrap;font-size:0.85rem">
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">CPL</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Cost per lead — total spend ÷ leads generated</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">CTR</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Click-through rate — clicks ÷ impressions</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">ROAS</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Return on ad spend — revenue ÷ spend</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">CVR</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Conversion rate — conversions ÷ clicks</div>
+    </div>
+  </div>
+
   <div class="card-grid" id="campaign-board"></div>
 
 </div>
@@ -1509,37 +1541,7 @@ body {
     </button>
   </div>
 
-  <!-- ── METRICS LEGEND ── -->
-  <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;font-size:0.85rem">
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">CPL</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Cost per lead — total spend ÷ leads generated</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">CTR</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Click-through rate — clicks ÷ impressions</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">ROAS</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Return on ad spend — revenue ÷ spend</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">CVR</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Conversion rate — conversions ÷ clicks</div>
-    </div>
-  </div>
+
 
   <!-- ══════════════════════════════════════════════ -->
   <!-- VIEW A: DNA AGENCY — UNIFIED FINANCIAL DASHBOARD -->
