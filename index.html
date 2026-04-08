@@ -4351,8 +4351,16 @@ body {
         const startP = pct(c.startDate || todayStr);
         const endP = pct(a.dueDate);
         const dw = Math.max(0.5, endP - startP);
+        // Get initials from assignee name
+        const getInitials = (name) => {
+          if (!name) return '';
+          const parts = name.split(' ');
+          return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+        };
+        const initials = getInitials(a.assignee);
+        const assigneeDisplay = a.assignee ? `<span style="font-size:0.65rem;font-weight:700;color:var(--forest);margin-left:0.3rem;padding:0 0.3rem;background:var(--gold);border-radius:2px;display:inline-block;min-width:1.4rem;text-align:center">${initials}</span>` : '';
         return `<div class="gantt-deliverable-row">
-          <div class="gantt-deliverable-label" title="${a.name}">${a.name}</div>
+          <div class="gantt-deliverable-label" title="${a.name} — ${a.assignee || 'Unassigned'}">${a.name}${assigneeDisplay}</div>
           <div class="gantt-bar-area">${todayLine}<div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%"></div></div>
         </div>`;
       }).join('');
