@@ -4349,7 +4349,7 @@ body {
     const cur = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
     while (cur <= maxDate) {
       const left = pct(cur);
-      const label = cur.toLocaleDateString('en-US', {month:'short', year:'2-digit'});
+      const label = cur.toLocaleDateString('en-US', {month:'short', year:'numeric'});
       monthLabels.push(`<div style="position:absolute;left:${left.toFixed(2)}%;font-size:0.72rem;color:var(--forest-mid);font-weight:700;white-space:nowrap;top:4px">${label}</div>`);
       cur.setMonth(cur.getMonth() + 1);
     }
