@@ -258,6 +258,7 @@ body {
 
 .badge-active  { color: var(--forest); border-color: var(--forest); }
 .badge-paused  { color: var(--parchment); border-color: var(--parchment); }
+.badge-draft   { color: #999; border-color: #ccc; background: #f5f5f5; }
 .badge-warm    { color: var(--gold-deep); border-color: var(--gold); }
 .badge-new     { color: var(--forest-mid); border-color: var(--parchment); }
 .badge-closed  { color: var(--parchment); border-color: var(--parchment); }
@@ -1801,63 +1802,72 @@ body {
   <div class="section-title">Q1 2026 Overview</div>
   <div class="section-sub">DNA Agency · All Platforms</div>
 
-  <div class="kpi-bar">
-    <div class="kpi kpi-drill" onclick="drillCampaignSpend()">
-      <div class="kpi-value" id="kpi-spend">—</div>
-      <div class="kpi-label">Total Spend</div>
-      <div class="kpi-delta">↑ 18% vs Q4 2025</div>
+  <div class="fin-dash" id="campaign-dashboard">
+
+    <!-- ROW 1: HERO KPI CARDS -->
+    <div class="fin-kpi-row">
+      <div class="fin-kpi-card kpi-revenue" onclick="drillCampaignSpend()">
+        <div class="fin-kpi-label">Total Spend</div>
+        <div class="fin-kpi-value" style="color:var(--forest)" id="kpi-spend">--</div>
+        <div class="fin-kpi-sub"><span class="fin-kpi-trend up" id="camp-spend-trend">--</span> <span>across all campaigns</span></div>
+      </div>
+      <div class="fin-kpi-card kpi-cash" onclick="drillCampaignLeads()">
+        <div class="fin-kpi-label">Leads Generated</div>
+        <div class="fin-kpi-value" style="color:var(--forest)" id="kpi-leads">--</div>
+        <div class="fin-kpi-sub"><span class="fin-kpi-trend up" id="camp-leads-trend">--</span> <span>total conversions</span></div>
+      </div>
+      <div class="fin-kpi-card kpi-net" onclick="drillCampaignCPL()">
+        <div class="fin-kpi-label">Avg CPL</div>
+        <div class="fin-kpi-value" style="color:var(--forest)" id="kpi-cpl">--</div>
+        <div class="fin-kpi-sub"><span class="fin-kpi-trend up" id="camp-cpl-trend">--</span> <span>cost per lead</span></div>
+      </div>
+      <div class="fin-kpi-card kpi-expenses">
+        <div class="fin-kpi-label">Revenue</div>
+        <div class="fin-kpi-value" style="color:var(--green)" id="camp-revenue">--</div>
+        <div class="fin-kpi-sub"><span class="fin-kpi-trend up" id="camp-roas-trend">--</span> <span>avg ROAS</span></div>
+      </div>
     </div>
-    <div class="kpi kpi-drill" onclick="drillCampaignLeads()">
-      <div class="kpi-value" id="kpi-leads">—</div>
-      <div class="kpi-label">Leads Generated</div>
-      <div class="kpi-delta">↑ 24% vs Q4 2025</div>
+
+    <!-- ROW 2: CAMPAIGN STATUS PIPELINE + SPEND BY CAMPAIGN -->
+    <div class="fin-two-col">
+      <div class="fin-panel">
+        <div class="fin-panel-header">
+          <div class="fin-panel-title">Campaign Status</div>
+          <div style="font-size:0.72rem;color:#999" id="camp-total-count">-- campaigns</div>
+        </div>
+        <div id="camp-status-pipeline"></div>
+      </div>
+      <div class="fin-panel">
+        <div class="fin-panel-header">
+          <div class="fin-panel-title">Spend by Campaign</div>
+          <button class="fin-panel-action" onclick="drillCampaignSpend()">View All</button>
+        </div>
+        <div id="camp-spend-bars"></div>
+      </div>
     </div>
-    <div class="kpi kpi-drill" onclick="drillCampaignCPL()">
-      <div class="kpi-value" id="kpi-cpl">—</div>
-      <div class="kpi-label">Avg CPL</div>
-      <div class="kpi-delta">↓ 5% — improving</div>
+
+    <!-- ROW 3: PERFORMANCE TABLE + DELIVERABLES OVERVIEW -->
+    <div class="fin-two-col">
+      <div class="fin-panel">
+        <div class="fin-panel-header">
+          <div class="fin-panel-title">Performance by Campaign</div>
+        </div>
+        <div id="camp-perf-table"></div>
+      </div>
+      <div class="fin-panel">
+        <div class="fin-panel-header">
+          <div class="fin-panel-title">Deliverables Overview</div>
+          <div style="font-size:0.72rem;color:#999" id="camp-deliv-summary">--</div>
+        </div>
+        <div id="camp-deliverables-overview"></div>
+      </div>
     </div>
-    <div class="kpi kpi-drill" onclick="drillCampaignActive()">
-      <div class="kpi-value" id="kpi-active">—</div>
-      <div class="kpi-label">Active Campaigns</div>
-      <div class="kpi-delta">100% client retention</div>
-    </div>
+
   </div>
 
-  <div class="section-actions">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;margin-bottom:1rem">
+    <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">All Campaigns</div>
     <button class="btn-add-campaign" onclick="openAddModal()">+ Add Campaign</button>
-  </div>
-
-  <!-- ── METRICS LEGEND ── -->
-  <div style="display:flex;gap:1rem;margin-bottom:2rem;margin-top:2rem;flex-wrap:wrap;font-size:0.85rem">
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">CPL</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Cost per lead — total spend ÷ leads generated</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">CTR</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Click-through rate — clicks ÷ impressions</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">ROAS</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Return on ad spend — revenue ÷ spend</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
-         onmouseover="this.querySelector('.tooltip').style.display='block'" 
-         onmouseout="this.querySelector('.tooltip').style.display='none'">
-      <span style="font-weight:700;color:var(--forest)">CVR</span>
-      <span style="color:#999;font-size:0.7rem">?</span>
-      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Conversion rate — conversions ÷ clicks</div>
-    </div>
   </div>
 
   <div class="card-grid" id="campaign-board"></div>
@@ -3521,6 +3531,79 @@ body {
         {id:3,name:"Optimization Pass",assignee:"Alex Kim",status:"done",dueDate:"2026-02-01",notes:"CPL improved 40%",category:"Analytics",teamWork:[{name:"Alex Kim",phase:"Testing & Optimization",progress:100,lastWorked:"2026-02-01"}]},
         {id:4,name:"Final Report",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-02-28",notes:"Client thrilled",category:"Reporting",teamWork:[{name:"Nicole Feenstra",phase:"Analysis & Reporting",progress:100,lastWorked:"2026-02-28"}]}
       ]
+    },
+    {
+      id: 5,
+      name: "Rebuilding CA — Q2 Grant Push",
+      client: "Rebuilding California",
+      contactId: null,
+      type: "Email + Events",
+      label: "Nonprofit Outreach",
+      status: "paused",
+      phase: "review",
+      budget: 8000,
+      spent: 3200,
+      revenue: 0,
+      leads: 47,
+      cpl: 68.09,
+      ctr: 2.1,
+      roas: 0,
+      cvr: 15,
+      startDate: "2026-03-01",
+      endDate: "2026-06-30",
+      deadline: "2026-06-30",
+      lastActivity: "2026-03-22",
+      milestones: [
+        {name:"Prospect List",date:"2026-03-05",status:"complete"},
+        {name:"Email Sequences",date:"2026-03-15",status:"complete"},
+        {name:"First Event",date:"2026-04-10",status:"pending"},
+        {name:"Follow-up Wave",date:"2026-05-01",status:"pending"},
+        {name:"Grant Deadline",date:"2026-06-30",status:"pending"}
+      ],
+      activities: [
+        {id:1,name:"Prospect Research",assignee:"Marcus Rivera",status:"done",dueDate:"2026-03-05",notes:"47 qualified prospects identified",category:"Strategy",teamWork:[{name:"Marcus Rivera",phase:"Research & Strategy",progress:100,lastWorked:"2026-03-05"}]},
+        {id:2,name:"Email Sequence Build",assignee:"Sarah Chen",status:"done",dueDate:"2026-03-15",notes:"3-email nurture built in Mailchimp",category:"Development",teamWork:[{name:"Sarah Chen",phase:"Email Dev & Testing",progress:100,lastWorked:"2026-03-15"}]},
+        {id:3,name:"Event Landing Page",assignee:"Jade Thompson",status:"in-progress",dueDate:"2026-04-05",notes:"Paused — waiting on venue confirmation",category:"Design",teamWork:[{name:"Jade Thompson",phase:"Design & Build",progress:40,lastWorked:"2026-03-22"}]},
+        {id:4,name:"Donor Event Coordination",assignee:"Nicole Feenstra",status:"not-started",dueDate:"2026-04-10",notes:"On hold until venue confirmed",category:"Execution",teamWork:[{name:"Nicole Feenstra",phase:"Event Planning",progress:0}]},
+        {id:5,name:"Grant Application Package",assignee:"Nicole Feenstra",status:"not-started",dueDate:"2026-06-15",notes:"",category:"Reporting",teamWork:[{name:"Nicole Feenstra",phase:"Grant Writing",progress:0}]}
+      ]
+    },
+    {
+      id: 6,
+      name: "TechStart LA — Launch Campaign",
+      client: "TechStart LA",
+      contactId: null,
+      type: "Google Ads + LinkedIn",
+      label: "B2B Lead Gen",
+      status: "draft",
+      phase: "kickoff",
+      budget: 15000,
+      spent: 0,
+      revenue: 0,
+      leads: 0,
+      cpl: 0,
+      ctr: 0,
+      roas: 0,
+      cvr: 0,
+      startDate: "2026-04-15",
+      endDate: "2026-07-15",
+      deadline: "2026-07-15",
+      lastActivity: "2026-04-07",
+      milestones: [
+        {name:"Discovery Call",date:"2026-04-07",status:"complete"},
+        {name:"Strategy Deck",date:"2026-04-15",status:"pending"},
+        {name:"Creative Brief",date:"2026-04-22",status:"pending"},
+        {name:"Campaign Launch",date:"2026-05-01",status:"pending"},
+        {name:"Mid-Flight Review",date:"2026-06-01",status:"pending"}
+      ],
+      activities: [
+        {id:1,name:"Discovery & Onboarding",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-04-07",notes:"Kickoff call completed, SOW signed",category:"Strategy",teamWork:[{name:"Nicole Feenstra",phase:"Discovery",progress:100,lastWorked:"2026-04-07"}]},
+        {id:2,name:"Competitive Analysis",assignee:"Alex Kim",status:"in-progress",dueDate:"2026-04-12",notes:"Analyzing 5 competitors in SoCal tech space",category:"Analytics",teamWork:[{name:"Alex Kim",phase:"Research & Analysis",progress:60,lastWorked:"2026-04-08"}]},
+        {id:3,name:"Strategy Deck",assignee:"Marcus Rivera",status:"not-started",dueDate:"2026-04-15",notes:"",category:"Strategy",teamWork:[{name:"Marcus Rivera",phase:"Strategy Development",progress:0}]},
+        {id:4,name:"Ad Creative Production",assignee:"Jade Thompson",status:"not-started",dueDate:"2026-04-22",notes:"",category:"Design",teamWork:[{name:"Jade Thompson",phase:"Creative Production",progress:0}]},
+        {id:5,name:"Campaign Setup & Launch",assignee:"Marcus Rivera",status:"not-started",dueDate:"2026-05-01",notes:"",category:"Execution",teamWork:[{name:"Marcus Rivera",phase:"Platform Setup",progress:0}]},
+        {id:6,name:"Analytics Dashboard Setup",assignee:"Alex Kim",status:"not-started",dueDate:"2026-05-05",notes:"",category:"Analytics",teamWork:[{name:"Alex Kim",phase:"Dashboard Build",progress:0}]}
+      ]
     }
   ];
   // Keep SEED as alias for backward compat
@@ -3546,6 +3629,7 @@ body {
   function getCampaignHealth(c) {
     if (c.status === 'complete') return {status: 'complete', label: '✓ Complete', color: '#2d6a4f'};
     if (c.status === 'paused') return {status: 'paused', label: '⊣ Paused', color: '#c4932a'};
+    if (c.status === 'draft') return {status: 'draft', label: '○ Draft', color: '#999'};
     
     const today = new Date();
     const daysLeft = Math.ceil((new Date(c.deadline) - today) / 86400000);
@@ -3592,8 +3676,8 @@ body {
 
   function renderCard(c) {
     const pct = Math.min(Math.round(c.spent / c.budget * 100), 100);
-    const statusMap = {active:'badge-active',paused:'badge-paused',complete:'badge-warm'};
-    const statusLabel = {active:'Active',paused:'Paused',complete:'Complete'};
+    const statusMap = {active:'badge-active',paused:'badge-paused',complete:'badge-warm',draft:'badge-draft'};
+    const statusLabel = {active:'Active',paused:'Paused',complete:'Complete',draft:'Draft'};
     // Show consistent metrics across all campaigns: CTR, ROAS, CVR
     const metricsHtml = `
       <div class="stat-item"><div class="stat-val">${c.ctr || 0}%</div><div class="stat-lbl">CTR</div></div>
@@ -3619,11 +3703,23 @@ body {
     const phaseColor = phaseColors[c.phase || 'execution'] || 'var(--forest-mid)';
     const phaseHtml = c.phase ? `<span style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${phaseColor};margin-left:0.5rem">${c.phase}</span>` : '';
     const actProgressHtml = actsTotal > 0 ? `<div style="margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--parchment)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem">
-        <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Activities</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem">
+        <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Deliverables</span>
         <span style="font-size:0.72rem;color:var(--forest-mid)">${actsDone}/${actsTotal} done${phaseHtml}</span>
       </div>
-      <div style="height:3px;background:var(--parchment);border-radius:1px"><div style="height:3px;width:${actsPct}%;background:var(--forest);border-radius:1px"></div></div>
+      <div style="height:3px;background:var(--parchment);border-radius:1px;margin-bottom:0.5rem"><div style="height:3px;width:${actsPct}%;background:var(--forest);border-radius:1px"></div></div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem">${acts.slice(0,4).map(a => {
+        const statusIcon = a.status === 'done' ? '<span style="color:#27AE60">&#10003;</span>' : a.status === 'in-progress' ? '<span style="color:var(--gold)">&#9679;</span>' : '<span style="color:#ccc">&#9675;</span>';
+        const assignee = a.assignee ? a.assignee.split(' ')[0] : '';
+        const tw = (a.teamWork && a.teamWork[0]) ? a.teamWork[0] : null;
+        const progPct = tw ? tw.progress : (a.status === 'done' ? 100 : 0);
+        return `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.78rem" onclick="event.stopPropagation()">
+          ${statusIcon}
+          <span style="flex:1;color:${a.status==='done'?'#999':'var(--forest)'};${a.status==='done'?'text-decoration:line-through;':''}">${a.name}</span>
+          <span style="font-size:0.68rem;color:var(--forest-mid);font-weight:600;min-width:50px;text-align:right">${assignee}</span>
+          <div style="width:40px;height:3px;background:var(--parchment);border-radius:1px;flex-shrink:0"><div style="height:3px;width:${progPct}%;background:${progPct===100?'#27AE60':progPct>0?'var(--gold)':'transparent'};border-radius:1px"></div></div>
+        </div>`;
+      }).join('')}${actsTotal > 4 ? `<div style="font-size:0.7rem;color:var(--forest-mid);text-align:center;margin-top:0.2rem">+${actsTotal-4} more deliverables</div>` : ''}</div>
     </div>` : '';
     return `<div class="card" onclick="openCampaign(${c.id})">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.5rem">
@@ -3650,11 +3746,162 @@ body {
     const spend = data.reduce((s,c)=>s+c.spent,0);
     const leads = data.reduce((s,c)=>s+c.leads,0);
     const cpl = leads > 0 ? spend/leads : 0;
+    const revenue = data.reduce((s,c)=>s+c.revenue,0);
+    const roas = spend > 0 ? (revenue/spend).toFixed(1) : 0;
     const active = data.filter(c=>c.status==='active').length;
+
     document.getElementById('kpi-spend').textContent = '$' + spend.toLocaleString();
     document.getElementById('kpi-leads').textContent = leads.toLocaleString();
     document.getElementById('kpi-cpl').textContent = '$' + cpl.toFixed(2);
-    document.getElementById('kpi-active').textContent = active;
+    document.getElementById('camp-revenue').textContent = '$' + revenue.toLocaleString();
+
+    // Trend badges
+    const spTrend = document.getElementById('camp-spend-trend');
+    if (spTrend) { spTrend.textContent = data.length + ' campaigns'; spTrend.className = 'fin-kpi-trend up'; }
+    const ldTrend = document.getElementById('camp-leads-trend');
+    if (ldTrend) { ldTrend.textContent = active + ' active'; ldTrend.className = 'fin-kpi-trend up'; }
+    const cpTrend = document.getElementById('camp-cpl-trend');
+    if (cpTrend) { cpTrend.textContent = 'improving'; cpTrend.className = 'fin-kpi-trend up'; }
+    const roTrend = document.getElementById('camp-roas-trend');
+    if (roTrend) { roTrend.textContent = roas + 'x ROAS'; roTrend.className = 'fin-kpi-trend up'; }
+
+    renderCampStatusPipeline(data);
+    renderCampSpendBars(data);
+    renderCampPerfTable(data);
+    renderCampDeliverablesOverview(data);
+  }
+
+  function renderCampStatusPipeline(data) {
+    const el = document.getElementById('camp-status-pipeline');
+    if (!el) return;
+    const stages = [
+      {key:'draft', label:'DRAFT', bg:'#f5f5f5', color:'#999', border:'#ccc'},
+      {key:'active', label:'ACTIVE', bg:'#e8f5e9', color:'#27AE60', border:'#27AE60'},
+      {key:'paused', label:'PAUSED', bg:'#fff8e1', color:'#F39C12', border:'#F39C12'},
+      {key:'complete', label:'COMPLETE', bg:'#e3f2fd', color:'#2980B9', border:'#2980B9'}
+    ];
+    const counts = {};
+    stages.forEach(s => counts[s.key] = 0);
+    data.forEach(c => { if (counts[c.status] !== undefined) counts[c.status]++; });
+    document.getElementById('camp-total-count').textContent = data.length + ' campaigns';
+    el.innerHTML = `<div class="fin-pipeline">${stages.map(s => `
+      <div class="fin-pipe-stage" style="background:${s.bg};border:1px solid ${s.border}30" onclick="drillCampaignStatus('${s.key}')">
+        <div class="fin-pipe-count" style="color:${s.color}">${counts[s.key]}</div>
+        <div class="fin-pipe-label" style="color:${s.color}">${s.label}</div>
+      </div>`).join('')}</div>`;
+  }
+
+  function renderCampSpendBars(data) {
+    const el = document.getElementById('camp-spend-bars');
+    if (!el) return;
+    const sorted = [...data].filter(c => c.spent > 0).sort((a,b) => b.spent - a.spent);
+    const maxSpend = sorted.length ? sorted[0].spent : 1;
+    const barColors = ['var(--forest)','var(--green)','var(--gold)','var(--blue)','#8E44AD','#E67E22'];
+    el.innerHTML = sorted.map((c, i) => {
+      const pct = (c.spent / maxSpend * 100).toFixed(0);
+      const budgetPct = Math.round(c.spent / c.budget * 100);
+      return `<div class="fin-bar-row" onclick="openCampaign(${c.id})">
+        <div class="fin-bar-label" title="${c.client}">${c.client}</div>
+        <div class="fin-bar-track">
+          <div class="fin-bar-fill" style="width:${pct}%;background:${barColors[i%barColors.length]}">${pct > 30 ? budgetPct + '% used' : ''}</div>
+        </div>
+        <div class="fin-bar-amount">$${c.spent.toLocaleString()}</div>
+      </div>`;
+    }).join('') || '<div style="color:#999;text-align:center;padding:1rem">No spend data</div>';
+  }
+
+  function renderCampPerfTable(data) {
+    const el = document.getElementById('camp-perf-table');
+    if (!el) return;
+    const active = data.filter(c => c.status !== 'draft');
+    const thS = 'text-align:left;padding:0.4rem 0.5rem;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);border-bottom:2px solid var(--parchment)';
+    const tdS = 'padding:0.45rem 0.5rem;border-bottom:1px solid var(--cream);font-size:0.82rem';
+    el.innerHTML = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">
+      <thead><tr><th style="${thS}">Campaign</th><th style="${thS};text-align:right">CTR</th><th style="${thS};text-align:right">ROAS</th><th style="${thS};text-align:right">CVR</th><th style="${thS};text-align:right">Leads</th></tr></thead>
+      <tbody>${active.map(c => {
+        const ctrColor = c.ctr >= 4 ? 'var(--green)' : c.ctr >= 2 ? 'var(--gold)' : 'var(--ember)';
+        const roasColor = c.roas >= 4 ? 'var(--green)' : c.roas >= 2 ? 'var(--gold)' : 'var(--ember)';
+        return `<tr style="cursor:pointer" onclick="openCampaign(${c.id})" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">
+          <td style="${tdS};font-weight:600;color:var(--forest)">${c.client}</td>
+          <td style="${tdS};text-align:right;font-weight:700;color:${ctrColor}">${c.ctr}%</td>
+          <td style="${tdS};text-align:right;font-weight:700;color:${roasColor}">${c.roas}x</td>
+          <td style="${tdS};text-align:right">${c.cvr}%</td>
+          <td style="${tdS};text-align:right;font-weight:600">${c.leads.toLocaleString()}</td>
+        </tr>`;
+      }).join('')}</tbody></table></div>`;
+  }
+
+  function renderCampDeliverablesOverview(data) {
+    const el = document.getElementById('camp-deliverables-overview');
+    if (!el) return;
+    let totalActs = 0, doneActs = 0, inProgActs = 0, notStartedActs = 0;
+    data.forEach(c => {
+      (c.activities || []).forEach(a => {
+        totalActs++;
+        if (a.status === 'done') doneActs++;
+        else if (a.status === 'in-progress') inProgActs++;
+        else notStartedActs++;
+      });
+    });
+    const overallPct = totalActs > 0 ? Math.round((doneActs / totalActs) * 100) : 0;
+    document.getElementById('camp-deliv-summary').textContent = doneActs + '/' + totalActs + ' done';
+
+    // Per-campaign deliverable bars
+    const campBars = data.filter(c => (c.activities||[]).length > 0).map(c => {
+      const acts = c.activities || [];
+      const done = acts.filter(a => a.status === 'done').length;
+      const inProg = acts.filter(a => a.status === 'in-progress').length;
+      const pctDone = Math.round((done / acts.length) * 100);
+      const pctInProg = Math.round((inProg / acts.length) * 100);
+      return `<div style="margin-bottom:0.6rem">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.2rem">
+          <span style="font-size:0.78rem;font-weight:600;color:var(--forest)">${c.client}</span>
+          <span style="font-size:0.7rem;color:var(--forest-mid)">${done}/${acts.length}</span>
+        </div>
+        <div style="height:8px;background:var(--parchment);border-radius:4px;overflow:hidden;display:flex">
+          <div style="width:${pctDone}%;background:#27AE60;transition:width 400ms"></div>
+          <div style="width:${pctInProg}%;background:var(--gold);transition:width 400ms"></div>
+        </div>
+      </div>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div style="display:flex;gap:1.5rem;margin-bottom:1rem">
+        <div style="text-align:center;flex:1">
+          <div style="font-size:1.6rem;font-weight:700;color:var(--green)">${doneActs}</div>
+          <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--forest-mid)">Done</div>
+        </div>
+        <div style="text-align:center;flex:1">
+          <div style="font-size:1.6rem;font-weight:700;color:var(--gold)">${inProgActs}</div>
+          <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--forest-mid)">In Progress</div>
+        </div>
+        <div style="text-align:center;flex:1">
+          <div style="font-size:1.6rem;font-weight:700;color:#999">${notStartedActs}</div>
+          <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--forest-mid)">Not Started</div>
+        </div>
+      </div>
+      <div style="height:10px;background:var(--parchment);border-radius:5px;overflow:hidden;display:flex;margin-bottom:1rem">
+        <div style="width:${overallPct}%;background:#27AE60"></div>
+        <div style="width:${totalActs > 0 ? Math.round((inProgActs/totalActs)*100) : 0}%;background:var(--gold)"></div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--forest-mid);text-align:center;margin-bottom:1rem;font-weight:600">${overallPct}% overall completion</div>
+      ${campBars}`;
+  }
+
+  function drillCampaignStatus(status) {
+    const camps = loadCampaigns().filter(c => c.status === status);
+    const label = {draft:'Draft',active:'Active',paused:'Paused',complete:'Complete'}[status] || status;
+    const rows = camps.map(c => `<tr style="border-bottom:1px solid var(--parchment);cursor:pointer" onclick="closeDrill();openCampaign(${c.id})">
+      <td style="padding:0.5rem;font-weight:600;color:var(--forest)">${c.name}</td>
+      <td style="padding:0.5rem">${c.client}</td>
+      <td style="padding:0.5rem;text-align:right;font-weight:700">${c.leads.toLocaleString()}</td>
+      <td style="padding:0.5rem;text-align:right">$${c.spent.toLocaleString()}</td>
+    </tr>`).join('');
+    openDrillOverlay(`<div class="drill-panel">
+      <div class="drill-header"><div><div class="drill-title">${label} Campaigns</div><div class="drill-sub">${camps.length} campaigns</div></div>
+      <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button></div>
+      <table class="drill-table"><thead><tr><th>Campaign</th><th>Client</th><th style="text-align:right">Leads</th><th style="text-align:right">Spend</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`);
   }
 
   function renderBoard() {
@@ -3667,7 +3914,7 @@ body {
     const data = loadCampaigns();
     const c = data.find(x=>x.id===id);
     if (!c) return;
-    const cycle = ['active','paused','complete'];
+    const cycle = ['draft','active','paused','complete'];
     c.status = cycle[(cycle.indexOf(c.status)+1) % cycle.length];
     saveCampaigns(data);
     renderBoard();
@@ -4599,14 +4846,29 @@ body {
               <th style="${thStyle}">Due Date</th>
               <th style="${thStyle}">Notes</th>
             </tr>
-            ${acts.length ? acts.map(a => `<tr>
+            ${acts.length ? acts.map(a => {
+              const tw = a.teamWork || [];
+              const mainWorker = tw.length ? tw[0] : null;
+              const progPct = mainWorker ? mainWorker.progress : (a.status === 'done' ? 100 : 0);
+              const progColor = progPct === 100 ? '#27AE60' : progPct > 0 ? 'var(--gold)' : 'var(--parchment)';
+              const workerHtml = tw.length > 0 ? tw.map(w => `<div style="display:flex;align-items:center;gap:0.3rem;margin-top:0.2rem">
+                <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${w.progress===100?'#27AE60':w.progress>0?'var(--gold)':'#ccc'}"></span>
+                <span style="font-size:0.76rem;font-weight:600;color:var(--forest)">${w.name.split(' ')[0]}</span>
+                <span style="font-size:0.68rem;color:var(--forest-mid)">${w.phase||''}</span>
+                <span style="font-size:0.68rem;font-weight:700;color:${w.progress===100?'#27AE60':'var(--forest-mid)'}">${w.progress}%</span>
+              </div>`).join('') : '';
+              return `<tr>
               <td style="${tdStyle};font-weight:700;color:var(--forest)">${a.name}</td>
-              <td style="${tdStyle}">${a.assignee||'—'}</td>
+              <td style="${tdStyle}">${a.assignee||'—'}${workerHtml}</td>
               <td style="${tdStyle}"><span style="font-size:0.8rem;background:var(--ivory);padding:2px 6px;border-radius:2px">${a.category||'—'}</span></td>
               <td style="${tdStyle}">${activityStatusBadge(a.status)}</td>
-              <td style="${tdStyle}">${a.dueDate||'—'}</td>
+              <td style="${tdStyle}">
+                <div>${a.dueDate||'—'}</div>
+                <div style="width:60px;height:3px;background:var(--parchment);border-radius:1px;margin-top:0.3rem"><div style="height:3px;width:${progPct}%;background:${progColor};border-radius:1px"></div></div>
+                <div style="font-size:0.68rem;color:var(--forest-mid);margin-top:0.15rem">${progPct}% complete</div>
+              </td>
               <td style="${tdStyle};color:var(--forest-mid);font-style:italic">${a.notes||''}</td>
-            </tr>`).join('') : `<tr><td colspan="6" style="text-align:center;padding:1rem;color:#aaa">No activities yet.</td></tr>`}
+            </tr>`;}).join('') : `<tr><td colspan="6" style="text-align:center;padding:1rem;color:#aaa">No activities yet.</td></tr>`}
           </table>
           <div style="padding:0.6rem 1rem;background:var(--ivory);border-top:1px solid var(--parchment)">
             <button onclick="addActivityInline(${c.id})" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:transparent;color:var(--forest);border:1px solid var(--parchment);padding:0.3rem 0.8rem;cursor:pointer;transition:border-color 0.15s" onmouseover="this.style.borderColor='var(--forest)'" onmouseout="this.style.borderColor='var(--parchment)'">+ Add Activity</button>
