@@ -6457,15 +6457,34 @@ Generated on ${new Date().toLocaleDateString()}
     const done = ms.filter(m => m.status === 'complete').length;
     const inProg = ms.filter(m => m.status === 'in-progress').length;
     const pct = Math.round(((done + inProg * 0.5) / ms.length) * 100);
+    
+    // Sort milestones by date
+    const sortedMs = [...ms].sort((a, b) => new Date(a.date || '2099-12-31') - new Date(b.date || '2099-12-31'));
+    
     return `<div style="margin-top:0.6rem;padding-top:0.5rem;border-top:1px solid var(--parchment)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
-        <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Milestones</span>
+        <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Key Milestones</span>
         <span style="font-size:0.75rem;color:var(--forest-mid)">${done}/${ms.length} complete</span>
       </div>
-      <div style="display:flex;gap:3px">
+      <!-- Timeline bar -->
+      <div style="display:flex;gap:3px;margin-bottom:0.4rem">
         ${ms.map(m => {
           const color = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--parchment)';
-          return `<div title="${m.name} — ${m.status}" style="flex:1;height:5px;background:${color};border-radius:2px"></div>`;
+          return `<div title="${m.name} — ${m.date} (${m.status})" style="flex:1;height:5px;background:${color};border-radius:2px;opacity:0.8"></div>`;
+        }).join('')}
+      </div>
+      <!-- Milestone dates list -->
+      <div style="display:flex;flex-direction:column;gap:0.25rem;font-size:0.7rem">
+        ${sortedMs.map((m, i) => {
+          const statusColor = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--forest-mid)';
+          const dateObj = new Date(m.date);
+          const dateStr = m.date ? dateObj.toLocaleDateString('en-US', {month:'short', day:'numeric'}) : 'TBD';
+          const icon = m.status === 'complete' ? '✓' : m.status === 'in-progress' ? '◐' : '◯';
+          return `<div style="display:flex;gap:0.3rem;align-items:center;color:${statusColor};white-space:nowrap">
+            <span style="font-weight:700">${icon}</span>
+            <span style="flex:1;overflow:hidden;text-overflow:ellipsis">${m.name}</span>
+            <span style="font-weight:600;min-width:3.5rem;text-align:right">${dateStr}</span>
+          </div>`;
         }).join('')}
       </div>
     </div>`;
