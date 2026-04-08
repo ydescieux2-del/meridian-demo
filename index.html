@@ -3095,6 +3095,54 @@ body {
     return flags;
   }
 
+  // ─ CAMPAIGN HEALTH & BURNRATE ─
+  function getCampaignHealth(c) {
+    if (c.status === 'complete') return {status: 'complete', label: '✓ Complete', color: '#2d6a4f'};
+    if (c.status === 'paused') return {status: 'paused', label: '⊣ Paused', color: '#c4932a'};
+    
+    const today = new Date();
+    const daysLeft = Math.ceil((new Date(c.deadline) - today) / 86400000);
+    const budgetUsedPct = (c.spent / c.budget) * 100;
+    const avgCpl = c.leads > 0 ? c.spent / c.leads : 0;
+    
+    let issues = [];
+    if (daysLeft < 0) issues.push('Past deadline');
+    if (daysLeft > 0 && daysLeft <= 3) issues.push('Deadline soon');
+    if (budgetUsedPct >= 90) issues.push('Budget nearly exhausted');
+    if (budgetUsedPct >= 100) issues.push('Over budget');
+    
+    if (issues.length > 0) return {status: 'critical', label: '⚠ ' + issues[0], color: '#e74c3c'};
+    if (daysLeft <= 7 || budgetUsedPct >= 70) return {status: 'warn', label: '◐ Monitor', color: '#f39c12'};
+    return {status: 'good', label: '◉ Healthy', color: '#27ae60'};
+  }
+
+  function getBurnrate(c) {
+    const today = new Date();
+    const campaignStart = new Date(c.startDate || c.deadline);
+    const campaignEnd = new Date(c.deadline);
+    const daysElapsed = Math.max(1, Math.ceil((today - campaignStart) / 86400000));
+    const daysTotal = Math.max(1, Math.ceil((campaignEnd - campaignStart) / 86400000));
+    const daysRemaining = Math.max(0, Math.ceil((campaignEnd - today) / 86400000));
+    
+    const dailyBurnRate = c.spent / daysElapsed;
+    const budgetRemaining = Math.max(0, c.budget - c.spent);
+    const projectedDaysAtRate = dailyBurnRate > 0 ? Math.ceil(budgetRemaining / dailyBurnRate) : daysRemaining;
+    
+    const paceSchedule = daysElapsed / daysTotal;
+    const paceBudget = c.spent / c.budget;
+    let paceStatus = 'on-track';
+    if (paceBudget > paceSchedule * 1.2) paceStatus = 'ahead';
+    else if (paceBudget < paceSchedule * 0.8) paceStatus = 'behind';
+    
+    return {
+      daysRemaining,
+      projectedDaysAtRate,
+      dailyBurnRate,
+      paceStatus,
+      paceLabel: paceStatus === 'ahead' ? '→ Spending fast' : paceStatus === 'behind' ? '← Spending slow' : '→ On pace'
+    };
+  }
+
   function renderCard(c) {
     const pct = Math.min(Math.round(c.spent / c.budget * 100), 100);
     const statusMap = {active:'badge-active',paused:'badge-paused',complete:'badge-warm'};
@@ -3104,6 +3152,16 @@ body {
     else if (c.roas !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.roas}×</div><div class="stat-lbl">ROAS</div></div>`;
     else if (c.cvr !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.cvr}%</div><div class="stat-lbl">Form CVR</div></div>`;
     else if (c.revenue !== undefined && c.revenue > 0) extra = `<div class="stat-item"><div class="stat-val">$${Math.round(c.revenue/1000)}K</div><div class="stat-lbl">Revenue</div></div>`;
+    
+    // Health & Burnrate
+    const health = getCampaignHealth(c);
+    const burn = getBurnrate(c);
+    const healthHtml = `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:700;color:${health.color}">${health.label}</div>`;
+    const burnHtml = `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--forest-mid)">
+      <span style="font-weight:700">${burn.projectedDaysAtRate}d left</span>
+      <span style="font-size:0.7rem">${burn.paceLabel}</span>
+    </div>`;
+    
     // Activity progress
     const acts = c.activities || [];
     const actsDone = acts.filter(a => a.status === 'done').length;
@@ -3120,16 +3178,20 @@ body {
       <div style="height:3px;background:var(--parchment);border-radius:1px"><div style="height:3px;width:${actsPct}%;background:var(--forest);border-radius:1px"></div></div>
     </div>` : '';
     return `<div class="card" onclick="openCampaign(${c.id})">
-      <div class="card-info">
-        <div class="card-title">${c.name}</div>
-        <div class="card-meta">${c.type} · ${c.label}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.5rem">
+        <div class="card-info">
+          <div class="card-title">${c.name}</div>
+          <div class="card-meta">${c.type} · ${c.label}</div>
+        </div>
+        <div class="badge ${statusMap[c.status]||'badge-warm'}" style="cursor:pointer;flex-shrink:0" title="Click to cycle status" onclick="event.stopPropagation();cycleStatus(${c.id})">${statusLabel[c.status]||c.status}</div>
       </div>
-      <div class="badge ${statusMap[c.status]||'badge-warm'}" style="cursor:pointer;flex-shrink:0" title="Click to cycle status" onclick="event.stopPropagation();cycleStatus(${c.id})">${statusLabel[c.status]||c.status}</div>
-      <div class="card-budget">
+      ${healthHtml}
+      <div class="card-budget" style="margin-top:0.5rem">
         <div class="spend-bar"><div class="spend-fill" style="width:${pct}%"></div></div>
         <div class="card-budget-label">$${c.spent.toLocaleString()} of $${c.budget.toLocaleString()} budget</div>
       </div>
-      <div class="card-stats">
+      ${burnHtml}
+      <div class="card-stats" style="margin-top:0.5rem">
         <div class="stat-item"><div class="stat-val">${c.leads.toLocaleString()}</div><div class="stat-lbl">Leads</div></div>
         <div class="stat-item"><div class="stat-val">$${c.cpl > 0 ? c.cpl.toFixed(2) : '—'}</div><div class="stat-lbl">CPL</div></div>
         ${extra}
