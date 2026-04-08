@@ -1070,6 +1070,13 @@ body {
   padding: 0.5rem 1rem; cursor: pointer; transition: border-color 0.15s;
 }
 .btn-cm-secondary:hover { border-color: var(--forest); }
+.bank-inst-btn {
+  padding: 0.6rem 0.8rem; border: 1px solid var(--parchment); background: var(--white);
+  cursor: pointer; font-size: 0.86rem; font-weight: 600; color: var(--forest);
+  text-align: left; border-radius: 2px; font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.15s, background 0.15s;
+}
+.bank-inst-btn:hover { border-color: var(--forest); background: var(--cream); }
 .btn-cm-primary {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.92rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
@@ -1519,31 +1526,86 @@ body {
       <div id="invoices-board"></div>
     </div>
 
-    <!-- QuickBooks + Bank/CC (Phase 2) -->
+    <!-- Integrations: QB + Bank + Receipts -->
     <div class="grants-section" style="margin-top:2rem;border-top:1px solid var(--parchment);padding-top:1.5rem">
       <div class="grants-toolbar">
         <div class="grants-label">Integrations</div>
-        <button class="btn-add-grant" id="qb-status-button" onclick="openQBConnection()" style="background:#2CA01C;color:var(--white)">QuickBooks</button>
+        <div style="display:flex;gap:0.5rem">
+          <button id="qb-status-button" class="btn-add-grant" onclick="openQBModal()" style="background:#2CA01C;color:var(--white)">QuickBooks</button>
+          <button id="qb-sync-btn" class="btn-add-grant" onclick="qbSync()" style="display:none;background:var(--forest);color:var(--white)">↻ Sync</button>
+        </div>
       </div>
+
+      <!-- 3 Integration Cards -->
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1rem">
-        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
-          <div style="font-size:0.88rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">QuickBooks</div>
-          <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">Status: <span id="qb-sync-status" style="font-weight:700;color:var(--forest)">Ready — Phase 2</span></div>
-          <div style="font-size:0.9rem;color:var(--forest-mid)">Last sync: <span id="qb-last-sync">Never</span></div>
-          <div style="font-size:0.85rem;color:#888;margin-top:0.5rem;line-height:1.5">Invoices + expenses auto-sync once connected</div>
+
+        <!-- QuickBooks Card -->
+        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.2rem;border-radius:3px">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem">
+            <div style="width:30px;height:30px;background:#2CA01C;border-radius:4px;display:flex;align-items:center;justify-content:center;color:white;font-size:0.72rem;font-weight:800;flex-shrink:0">QB</div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.07em">QuickBooks Online</div>
+          </div>
+          <div style="font-size:0.88rem;color:var(--forest-mid);margin-bottom:0.25rem">Status: <span id="qb-sync-status" style="font-weight:700;color:#888">Not Connected</span></div>
+          <div style="font-size:0.82rem;color:#999;margin-bottom:0.8rem">Last sync: <span id="qb-last-sync">—</span></div>
+          <button onclick="openQBModal()" id="qb-connect-btn" style="width:100%;padding:0.45rem 0.6rem;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--parchment);background:var(--white);color:var(--forest);cursor:pointer;border-radius:2px">Connect QuickBooks →</button>
         </div>
-        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
-          <div style="font-size:0.88rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Bank &amp; Credit Cards</div>
-          <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">Status: <span style="font-weight:700;color:#888">Not connected</span></div>
-          <div style="font-size:0.85rem;color:#888;margin-top:0.5rem;line-height:1.5">Plaid linking — automatic transaction import in Phase 2</div>
+
+        <!-- Bank & Credit Cards Card -->
+        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.2rem;border-radius:3px">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem">
+            <div style="width:30px;height:30px;background:#1a56db;border-radius:4px;display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;font-weight:700;flex-shrink:0">$</div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.07em">Bank &amp; Credit Cards</div>
+          </div>
+          <div style="font-size:0.88rem;color:var(--forest-mid);margin-bottom:0.25rem">Status: <span id="bank-sync-status" style="font-weight:700;color:#888">Not Connected</span></div>
+          <div style="font-size:0.82rem;color:#999;margin-bottom:0.8rem">Accounts linked: <span id="bank-accounts-count">0</span></div>
+          <button onclick="openBankModal()" id="bank-connect-btn" style="width:100%;padding:0.45rem 0.6rem;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--parchment);background:var(--white);color:var(--forest);cursor:pointer;border-radius:2px">Link via Plaid →</button>
         </div>
-        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px">
-          <div style="font-size:0.88rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem">Receipt Capture</div>
-          <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">Status: <span style="font-weight:700;color:#888">Not connected</span></div>
-          <div style="font-size:0.85rem;color:#888;margin-top:0.5rem;line-height:1.5">Dext / Expensify — photo receipts &amp; card matching in Phase 2</div>
+
+        <!-- Receipt Capture Card -->
+        <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.2rem;border-radius:3px">
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.7rem">
+            <div style="width:30px;height:30px;background:#7c3aed;border-radius:4px;display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;font-weight:700;flex-shrink:0">R</div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.07em">Receipt Capture</div>
+          </div>
+          <div style="font-size:0.88rem;color:var(--forest-mid);margin-bottom:0.25rem">Captured: <span id="receipt-count-status" style="font-weight:700;color:var(--forest)">0 receipts</span></div>
+          <div style="font-size:0.82rem;color:#999;margin-bottom:0.8rem">Total: <span id="receipt-total-status">$0.00</span></div>
+          <button onclick="openReceiptModal()" style="width:100%;padding:0.45rem 0.6rem;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;border:1px solid var(--parchment);background:var(--white);color:var(--forest);cursor:pointer;border-radius:2px">Upload Receipt →</button>
         </div>
+
+      </div><!-- /integration cards -->
+
+      <!-- QB Synced Data Panel -->
+      <div id="qb-data-panel" style="display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--parchment)">
+        <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">QuickBooks — Synced Data</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+          <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem">
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QB Revenue (YTD)</div>
+            <div style="font-size:1.6rem;font-weight:700;color:var(--forest)" id="qb-revenue-ytd">—</div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem">
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QB Expenses (YTD)</div>
+            <div style="font-size:1.6rem;font-weight:700;color:var(--ember)" id="qb-expenses-ytd">—</div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--parchment);padding:1rem">
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">Net Income (YTD)</div>
+            <div style="font-size:1.6rem;font-weight:700;color:var(--forest)" id="qb-net-ytd">—</div>
+          </div>
+        </div>
+        <div id="qb-invoices-panel"></div>
       </div>
-    </div>
+
+      <!-- Bank Transaction Panel -->
+      <div id="bank-data-panel" style="display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--parchment)">
+        <div id="bank-accounts-panel"></div>
+        <div id="bank-transactions-panel" style="margin-top:1rem"></div>
+      </div>
+
+      <!-- Receipt List Panel -->
+      <div id="receipt-data-panel" style="display:none;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--parchment)">
+        <div id="receipt-list-panel"></div>
+      </div>
+
+    </div><!-- /integrations section -->
 
   </div><!-- /fin-view-dna -->
 
@@ -2330,7 +2392,156 @@ body {
   </div>
 </div>
 
-<!-- ── ADD PROJECT MODAL ─────────────────────────────── -->
+<!-- ── QB CONNECT MODAL ──────────────────────────────── -->
+<div class="modal-overlay" id="qb-modal" onclick="if(event.target===this)closeQBModal()">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-title">Connect QuickBooks Online</div>
+    <div class="modal-sub">Finance Integration · DNA Agency</div>
+
+    <!-- Step tabs -->
+    <div style="display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--parchment);overflow:hidden;border-radius:2px">
+      <div id="qb-step-1-tab" style="flex:1;padding:0.55rem;text-align:center;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--forest);color:var(--ivory)">1 · Connect</div>
+      <div id="qb-step-2-tab" style="flex:1;padding:0.55rem;text-align:center;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--cream);color:var(--forest-mid)">2 · Synced</div>
+    </div>
+
+    <!-- STEP 1: Connect -->
+    <div id="qb-step-1">
+      <p style="font-size:0.9rem;color:var(--forest-mid);line-height:1.7;margin-bottom:1.2rem">Connect your QuickBooks Online account to sync invoices, expenses, and chart of accounts directly into Meridian — read-only, no writes.</p>
+      <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;margin-bottom:1.2rem;border-radius:2px">
+        <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">What Meridian reads (never writes):</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 1rem">
+          <div style="font-size:0.86rem;color:var(--forest-mid)">✓ Invoices &amp; payments</div>
+          <div style="font-size:0.86rem;color:var(--forest-mid)">✓ Expenses &amp; bills</div>
+          <div style="font-size:0.86rem;color:var(--forest-mid)">✓ Chart of accounts</div>
+          <div style="font-size:0.86rem;color:var(--forest-mid)">✓ P&amp;L summary</div>
+          <div style="font-size:0.86rem;color:var(--forest-mid)">✓ Customer list</div>
+          <div style="font-size:0.86rem;color:var(--forest-mid)">✓ Vendor payments</div>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Company Name</label><input class="form-input" id="qb-company-name" placeholder="DNA Agency" value="DNA Agency"></div>
+        <div><label class="form-label">QB Company ID <span style="font-weight:400;color:#aaa">(optional)</span></label><input class="form-input" id="qb-realm-id" placeholder="e.g. 9341453183"></div>
+      </div>
+      <div class="modal-actions" style="flex-direction:column;gap:0.5rem;margin-top:1rem">
+        <button class="btn-generate" onclick="qbDemoConnect()" style="width:100%;background:#2CA01C">✓ Connect with Demo Data (Preview Mode)</button>
+        <div style="text-align:center;font-size:0.78rem;color:#aaa;margin:0">— or sign in live —</div>
+        <button class="btn-cm-secondary" onclick="qbOAuthConnect()" style="width:100%">Sign in to QuickBooks Online →</button>
+        <button class="btn-cancel" onclick="closeQBModal()" style="width:100%;text-align:center">Cancel</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Connected -->
+    <div id="qb-step-2" style="display:none">
+      <div style="text-align:center;padding:0.5rem 0 1.2rem">
+        <div style="font-size:2.2rem;margin-bottom:0.4rem">✓</div>
+        <div style="font-size:1.1rem;font-weight:700;color:var(--forest)">QuickBooks Connected</div>
+        <div style="font-size:0.88rem;color:var(--forest-mid);margin-top:0.2rem" id="qb-modal-company-name">DNA Agency</div>
+      </div>
+      <div id="qb-modal-sync-summary" style="margin-bottom:1.2rem"></div>
+      <div class="modal-actions">
+        <button class="btn-generate" onclick="closeQBModal()" style="flex:1">View Synced Data →</button>
+        <button class="btn-cancel" onclick="qbDisconnect()">Disconnect</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BANK / PLAID MODAL ─────────────────────────────── -->
+<div class="modal-overlay" id="bank-modal" onclick="if(event.target===this)closeBankModal()">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title">Link Bank &amp; Credit Cards</div>
+    <div class="modal-sub">Plaid Integration · Secure Read-Only Access</div>
+
+    <!-- Connect step -->
+    <div id="bank-connect-step">
+      <p style="font-size:0.9rem;color:var(--forest-mid);line-height:1.7;margin-bottom:1.2rem">Securely connect business bank accounts and credit cards through Plaid. Read-only — Meridian can never initiate transfers or payments.</p>
+      <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;margin-bottom:1rem;border-radius:2px">
+        <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.7rem">Select Your Institution</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <button onclick="bankDemoConnect('Chase')" class="bank-inst-btn">🏦 Chase Bank</button>
+          <button onclick="bankDemoConnect('Bank of America')" class="bank-inst-btn">🏦 Bank of America</button>
+          <button onclick="bankDemoConnect('Wells Fargo')" class="bank-inst-btn">🏦 Wells Fargo</button>
+          <button onclick="bankDemoConnect('American Express')" class="bank-inst-btn">💳 American Express</button>
+          <button onclick="bankDemoConnect('US Bank')" class="bank-inst-btn">🏦 US Bank</button>
+          <button onclick="bankDemoConnect('Other')" class="bank-inst-btn">🔍 Search all banks…</button>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:#aaa;text-align:center;margin-bottom:1rem">🔒 256-bit encryption · Read-only · Powered by Plaid</div>
+      <button class="btn-cancel" onclick="closeBankModal()" style="width:100%;text-align:center">Cancel</button>
+    </div>
+
+    <!-- Connected step -->
+    <div id="bank-connected-step" style="display:none">
+      <div style="text-align:center;padding:0.5rem 0 1.2rem">
+        <div style="font-size:2.2rem;margin-bottom:0.4rem">✓</div>
+        <div style="font-size:1.1rem;font-weight:700;color:var(--forest)" id="bank-connected-name">Chase Connected</div>
+        <div style="font-size:0.88rem;color:var(--forest-mid);margin-top:0.2rem">Accounts synced · Updated now</div>
+      </div>
+      <div id="bank-modal-accounts" style="margin-bottom:1.2rem"></div>
+      <div class="modal-actions">
+        <button class="btn-generate" onclick="closeBankModal()" style="flex:1">View Transactions →</button>
+        <button class="btn-cancel" onclick="bankDisconnect()">Disconnect</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RECEIPT CAPTURE MODAL ──────────────────────────── -->
+<div class="modal-overlay" id="receipt-modal" onclick="if(event.target===this)closeReceiptModal()">
+  <div class="modal" style="max-width:540px">
+    <div class="modal-title">Upload Receipt</div>
+    <div class="modal-sub">Expense Tracking · DNA Agency</div>
+    <form id="receipt-form" onsubmit="submitReceipt(event)">
+      <div onclick="document.getElementById('receipt-file-input').click()"
+           style="border:2px dashed var(--parchment);padding:1.3rem;text-align:center;margin-bottom:1rem;border-radius:3px;cursor:pointer;background:var(--cream);transition:border-color 200ms"
+           onmouseover="this.style.borderColor='var(--forest)'" onmouseout="this.style.borderColor='var(--parchment)'">
+        <div style="font-size:1.6rem;margin-bottom:0.25rem">📎</div>
+        <div style="font-size:0.9rem;font-weight:600;color:var(--forest)">Drop receipt here or click to upload</div>
+        <div style="font-size:0.78rem;color:#aaa;margin-top:0.2rem">JPG, PNG, or PDF · Max 10MB</div>
+        <input type="file" id="receipt-file-input" accept="image/*,.pdf" style="display:none" onchange="previewReceiptFile(this)">
+      </div>
+      <div id="receipt-preview" style="display:none;margin-bottom:0.8rem;padding:0.7rem 0.9rem;background:var(--cream);border:1px solid var(--parchment);border-radius:2px;font-size:0.86rem;color:var(--forest)"></div>
+      <div class="modal-row">
+        <div><label class="form-label">Vendor / Merchant</label><input class="form-input" name="vendor" required placeholder="Adobe, Google Ads…"></div>
+        <div><label class="form-label">Amount ($)</label><input class="form-input" name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00"></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Date</label><input class="form-input" name="date" type="date" required></div>
+        <div><label class="form-label">Category</label>
+          <select class="form-input" name="category">
+            <option>Software &amp; Tools</option>
+            <option>Advertising</option>
+            <option>Travel &amp; Transport</option>
+            <option>Office Supplies</option>
+            <option>Meals &amp; Entertainment</option>
+            <option>Contractor Payments</option>
+            <option>Equipment</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Campaign <span style="font-weight:400;color:#aaa">(optional)</span></label><select class="form-input" id="receipt-campaign-select" name="campaignId"><option value="">— General expense</option></select></div>
+        <div><label class="form-label">Payment Method</label>
+          <select class="form-input" name="paymentMethod">
+            <option>Business Credit Card</option>
+            <option>Business Checking</option>
+            <option>ACH Transfer</option>
+            <option>PayPal</option>
+            <option>Zelle</option>
+            <option>Cash</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:1rem"><label class="form-label">Notes <span style="font-weight:400;color:#aaa">(optional)</span></label><textarea class="form-input" name="notes" placeholder="What was this for?" style="min-height:60px;resize:vertical"></textarea></div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-generate" style="flex:1">Save Receipt →</button>
+        <button type="button" class="btn-cancel" onclick="closeReceiptModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════════════════════ -->
 <!-- 05 — PHASE II ROADMAP                              -->
 <!-- ══════════════════════════════════════════════════ -->
@@ -4591,59 +4802,431 @@ body {
     document.getElementById('biz-kpi-margin').textContent = totalRevenue > 0 ? `${grossMargin}%` : '—';
 
     renderQBStatus();
+    renderQBPanel();
+    renderBankStatus();
+    renderBankPanel();
+    renderReceiptStatus();
+    renderReceiptPanel();
   }
 
-  // ── QUICKBOOKS INTEGRATION (Phase 2 Ready) ─────────────
-  const QB_CONFIG_SEED = {
-    status: 'not-configured',
-    oauthToken: null,
-    businessId: null,
-    lastSync: null,
-    syncErrors: []
+  // ══════════════════════════════════════════════════════
+  // INTEGRATIONS: QB · BANK/PLAID · RECEIPT CAPTURE
+  // ══════════════════════════════════════════════════════
+
+  // ── QB DEMO DATA ──────────────────────────────────────
+  const QB_INVOICES_DEMO = [
+    {id:'QB-001', customer:'Momentum Fitness',        amount:6500, status:'Paid',    date:'2026-01-15', description:'Social Media Campaign Q1'},
+    {id:'QB-002', customer:'Casa Verde Restaurant',   amount:3200, status:'Paid',    date:'2026-01-22', description:'Brand Identity + Menu Design'},
+    {id:'QB-003', customer:'Pacific Legal Group',     amount:4800, status:'Open',    date:'2026-02-01', description:'Website Redesign + SEO'},
+    {id:'QB-004', customer:'Rebuilding California',   amount:2100, status:'Paid',    date:'2026-02-10', description:'Grant Writing + Reporting'},
+    {id:'QB-005', customer:'Momentum Fitness',        amount:5500, status:'Open',    date:'2026-03-01', description:'Q2 Campaign + Analytics'},
+    {id:'QB-006', customer:'Pacific Legal Group',     amount:1200, status:'Overdue', date:'2026-02-15', description:'Monthly Retainer Feb'}
+  ];
+
+  const QB_EXPENSES_DEMO = [
+    {category:'Contractor Payments', amount:28500.00},
+    {category:'Advertising',         amount:12400.00},
+    {category:'Software & Tools',    amount:1847.50},
+    {category:'Meals & Entertainment', amount:892.40},
+    {category:'Travel & Transport',  amount:640.20}
+  ];
+
+  // ── BANK DEMO DATA ────────────────────────────────────
+  const BANK_ACCOUNTS_DEMO = {
+    'Chase': [
+      {name:'Chase Business Checking', mask:'4821', type:'checking', balance:24830.50, available:22950.00},
+      {name:'Chase Business Savings',  mask:'9103', type:'savings',  balance:45000.00, available:45000.00}
+    ],
+    'Bank of America': [
+      {name:'BofA Business Advantage', mask:'3344', type:'checking', balance:18250.75, available:16800.00}
+    ],
+    'American Express': [
+      {name:'Amex Business Gold', mask:'0001', type:'credit', balance:-3420.18, available:26579.82, limit:30000}
+    ],
+    'Wells Fargo': [
+      {name:'WF Business Checking', mask:'7756', type:'checking', balance:11200.00, available:10800.00}
+    ],
+    'US Bank': [
+      {name:'US Bank Business Checking', mask:'2290', type:'checking', balance:8400.00, available:8200.00}
+    ],
+    'Other': [
+      {name:'Business Checking', mask:'0000', type:'checking', balance:5000.00, available:4800.00}
+    ]
   };
+
+  const BANK_TRANSACTIONS_DEMO = [
+    {date:'2026-04-05', description:'Adobe Creative Cloud',           amount:-54.99,   category:'Software',    account:'Chase ••4821'},
+    {date:'2026-04-04', description:'META ADS — DNA AGENCY',          amount:-2400.00, category:'Advertising', account:'Amex ••0001'},
+    {date:'2026-04-03', description:'CLIENT PAYMENT — Momentum Fitness', amount:3250.00, category:'Income',   account:'Chase ••4821'},
+    {date:'2026-04-03', description:'Google Workspace',               amount:-72.00,   category:'Software',    account:'Chase ••4821'},
+    {date:'2026-04-02', description:'Contractor Payment — Sarah Chen', amount:-1500.00, category:'Contractor', account:'Chase ••4821'},
+    {date:'2026-04-01', description:'Office Rent — April',            amount:-2800.00, category:'Rent',        account:'Chase ••4821'},
+    {date:'2026-03-31', description:'CLIENT PAYMENT — Pacific Legal', amount:4800.00,  category:'Income',      account:'Chase ••4821'},
+    {date:'2026-03-30', description:'Figma Teams',                    amount:-45.00,   category:'Software',    account:'Amex ••0001'}
+  ];
+
+  // ── QB CONFIG ─────────────────────────────────────────
+  const QB_CONFIG_SEED = { status:'not-configured', oauthToken:null, businessId:null, companyName:null, lastSync:null, syncErrors:[] };
 
   function loadQBConfig() {
     try { return JSON.parse(localStorage.getItem('meridian_qb_config')) || QB_CONFIG_SEED; }
     catch(e) { return QB_CONFIG_SEED; }
   }
+  function saveQBConfig(cfg) { localStorage.setItem('meridian_qb_config', JSON.stringify(cfg)); }
 
-  function saveQBConfig(config) {
-    localStorage.setItem('meridian_qb_config', JSON.stringify(config));
+  function openQBModal() {
+    const config = loadQBConfig();
+    document.getElementById('qb-modal').style.display = 'flex';
+    if (config.status === 'configured') {
+      document.getElementById('qb-step-1').style.display = 'none';
+      document.getElementById('qb-step-2').style.display = 'block';
+      document.getElementById('qb-step-1-tab').style.cssText += ';background:var(--cream);color:var(--forest-mid)';
+      document.getElementById('qb-step-2-tab').style.cssText += ';background:var(--forest);color:var(--ivory)';
+      document.getElementById('qb-modal-company-name').textContent = config.companyName || 'DNA Agency';
+      renderQBModalSummary();
+    } else {
+      document.getElementById('qb-step-1').style.display = 'block';
+      document.getElementById('qb-step-2').style.display = 'none';
+    }
+  }
+
+  function closeQBModal() {
+    document.getElementById('qb-modal').style.display = 'none';
+    renderQBStatus();
+    renderQBPanel();
+  }
+
+  function qbDemoConnect() {
+    const name = document.getElementById('qb-company-name').value || 'DNA Agency';
+    saveQBConfig({ status:'configured', mode:'demo', companyName:name,
+      realmId: document.getElementById('qb-realm-id').value || 'demo-9341453183',
+      oauthToken:'demo-token', lastSync:new Date().toISOString(), syncErrors:[] });
+    document.getElementById('qb-step-1').style.display = 'none';
+    document.getElementById('qb-step-2').style.display = 'block';
+    document.getElementById('qb-step-1-tab').style.background = 'var(--cream)';
+    document.getElementById('qb-step-1-tab').style.color = 'var(--forest-mid)';
+    document.getElementById('qb-step-2-tab').style.background = 'var(--forest)';
+    document.getElementById('qb-step-2-tab').style.color = 'var(--ivory)';
+    document.getElementById('qb-modal-company-name').textContent = name;
+    renderQBModalSummary();
+  }
+
+  function qbOAuthConnect() {
+    alert('QuickBooks Live OAuth requires:\n\n1. A QB Developer App (app.developer.intuit.com)\n2. Client ID + Client Secret\n3. Registered Redirect URI\n\nVon will configure live OAuth access before the July bookkeeper transition.\n\nFor now, click "Connect with Demo Data" to preview the full integration.');
+  }
+
+  function qbDisconnect() {
+    if (!confirm('Disconnect QuickBooks? Synced data will be removed.')) return;
+    saveQBConfig(QB_CONFIG_SEED);
+    closeQBModal();
+  }
+
+  function qbSync() {
+    const config = loadQBConfig();
+    if (config.status !== 'configured') return openQBModal();
+    config.lastSync = new Date().toISOString();
+    saveQBConfig(config);
+    const btn = document.getElementById('qb-sync-btn');
+    if (btn) { btn.textContent = '✓ Synced'; setTimeout(() => { btn.textContent = '↻ Sync'; }, 2000); }
+    renderQBStatus();
+    renderQBPanel();
+  }
+
+  function renderQBModalSummary() {
+    const paid = QB_INVOICES_DEMO.filter(i => i.status === 'Paid').reduce((s,i) => s+i.amount, 0);
+    const open = QB_INVOICES_DEMO.filter(i => i.status !== 'Paid').reduce((s,i) => s+i.amount, 0);
+    const el = document.getElementById('qb-modal-sync-summary');
+    if (!el) return;
+    el.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.6rem">
+      <div style="background:var(--cream);border:1px solid var(--parchment);padding:0.7rem;text-align:center">
+        <div style="font-size:1.1rem;font-weight:700;color:var(--forest)">$${paid.toLocaleString()}</div>
+        <div style="font-size:0.72rem;color:#888;margin-top:0.15rem">Revenue synced</div>
+      </div>
+      <div style="background:var(--cream);border:1px solid var(--parchment);padding:0.7rem;text-align:center">
+        <div style="font-size:1.1rem;font-weight:700;color:var(--ember)">$${open.toLocaleString()}</div>
+        <div style="font-size:0.72rem;color:#888;margin-top:0.15rem">Open AR</div>
+      </div>
+      <div style="background:var(--cream);border:1px solid var(--parchment);padding:0.7rem;text-align:center">
+        <div style="font-size:1.1rem;font-weight:700;color:var(--forest)">${QB_INVOICES_DEMO.length}</div>
+        <div style="font-size:0.72rem;color:#888;margin-top:0.15rem">Invoices pulled</div>
+      </div>
+    </div>`;
   }
 
   function renderQBStatus() {
-    const config = loadQBConfig();
-    const statusBtn = document.getElementById('qb-status-button');
-    const statusText = document.getElementById('qb-sync-status');
-    const lastSyncText = document.getElementById('qb-last-sync');
+    const cfg = loadQBConfig();
+    const connected = cfg.status === 'configured';
+    const statusEl = document.getElementById('qb-sync-status');
+    const lastEl   = document.getElementById('qb-last-sync');
+    const btn      = document.getElementById('qb-connect-btn');
+    const syncBtn  = document.getElementById('qb-sync-btn');
+    const hdrBtn   = document.getElementById('qb-status-button');
 
-    if (statusBtn) {
-      if (config.status === 'configured') {
-        statusBtn.textContent = '✓ Connected';
-        statusBtn.style.background = '#27AE60';
-      } else {
-        statusBtn.textContent = 'Not Connected';
-        statusBtn.style.background = '#999';
-      }
-    }
-
-    if (statusText) {
-      statusText.textContent = config.status === 'configured' ? 'Connected & ready to sync' : 'Ready to connect in Phase 2';
-    }
-
-    if (lastSyncText) {
-      lastSyncText.textContent = config.lastSync ? new Date(config.lastSync).toLocaleDateString() : 'Never';
-    }
+    if (statusEl) { statusEl.textContent = connected ? '✓ Connected' : 'Not Connected'; statusEl.style.color = connected ? '#27AE60' : '#888'; }
+    if (lastEl)   lastEl.textContent = cfg.lastSync ? new Date(cfg.lastSync).toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '—';
+    if (btn)      btn.textContent = connected ? 'Manage Connection →' : 'Connect QuickBooks →';
+    if (syncBtn)  syncBtn.style.display = connected ? 'inline-block' : 'none';
+    if (hdrBtn)   { hdrBtn.textContent = connected ? '✓ QB Connected' : 'QuickBooks'; hdrBtn.style.background = connected ? '#27AE60' : '#2CA01C'; }
   }
 
-  function openQBConnection() {
-    const config = loadQBConfig();
-    if (config.status === 'configured') {
-      alert('QuickBooks is already connected.\n\nPhase 2 will add automatic sync and data reconciliation.');
+  function renderQBPanel() {
+    const cfg = loadQBConfig();
+    const panel = document.getElementById('qb-data-panel');
+    if (!panel) return;
+    if (cfg.status !== 'configured') { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+
+    const revenue  = QB_INVOICES_DEMO.filter(i => i.status === 'Paid').reduce((s,i) => s+i.amount, 0);
+    const expenses = QB_EXPENSES_DEMO.reduce((s,e) => s+e.amount, 0);
+    const net      = revenue - expenses;
+    const fmtN     = n => '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:0});
+
+    document.getElementById('qb-revenue-ytd').textContent  = fmtN(revenue);
+    document.getElementById('qb-expenses-ytd').textContent = fmtN(expenses);
+    const netEl = document.getElementById('qb-net-ytd');
+    netEl.textContent  = (net >= 0 ? '+' : '-') + fmtN(net);
+    netEl.style.color  = net >= 0 ? 'var(--forest)' : 'var(--ember)';
+
+    const colors = {Paid:'#27AE60', Open:'var(--gold)', Overdue:'var(--ember)'};
+    const invPanel = document.getElementById('qb-invoices-panel');
+    if (!invPanel) return;
+    invPanel.innerHTML = `
+      <div style="font-size:0.76rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.6rem">QB Invoices — Synced</div>
+      <table style="width:100%;border-collapse:collapse;font-size:0.86rem">
+        <thead><tr style="border-bottom:2px solid var(--parchment)">
+          <th style="text-align:left;padding:0.4rem 0.6rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid)">ID</th>
+          <th style="text-align:left;padding:0.4rem 0.6rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid)">Customer</th>
+          <th style="text-align:left;padding:0.4rem 0.6rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid)">Description</th>
+          <th style="text-align:right;padding:0.4rem 0.6rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid)">Amount</th>
+          <th style="text-align:center;padding:0.4rem 0.6rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid)">Status</th>
+        </tr></thead>
+        <tbody>${QB_INVOICES_DEMO.map(inv => `
+          <tr style="border-bottom:1px solid var(--cream)">
+            <td style="padding:0.4rem 0.6rem;color:#aaa;font-size:0.78rem">${inv.id}</td>
+            <td style="padding:0.4rem 0.6rem;font-weight:600">${inv.customer}</td>
+            <td style="padding:0.4rem 0.6rem;color:var(--forest-mid);font-size:0.82rem">${inv.description}</td>
+            <td style="padding:0.4rem 0.6rem;text-align:right;font-weight:700">$${inv.amount.toLocaleString()}</td>
+            <td style="padding:0.4rem 0.6rem;text-align:center"><span style="font-size:0.72rem;font-weight:700;color:${colors[inv.status]||'#888'}">${inv.status.toUpperCase()}</span></td>
+          </tr>`).join('')}</tbody>
+      </table>
+      <div style="margin-top:1.2rem">
+        <div style="font-size:0.76rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.5rem">Expense Categories (YTD)</div>
+        ${QB_EXPENSES_DEMO.map(exp => `
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.35rem 0;border-bottom:1px solid var(--cream)">
+            <span style="font-size:0.86rem;color:var(--forest)">${exp.category}</span>
+            <span style="font-size:0.86rem;font-weight:700;color:var(--ember)">$${exp.amount.toLocaleString()}</span>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  // ── BANK / PLAID ──────────────────────────────────────
+  const BANK_CONFIG_KEY = 'meridian_bank_config';
+  const BANK_CONFIG_SEED = { status:'not-connected', institution:null, accounts:[], lastSync:null };
+
+  function loadBankConfig() {
+    try { return JSON.parse(localStorage.getItem(BANK_CONFIG_KEY)) || BANK_CONFIG_SEED; }
+    catch(e) { return BANK_CONFIG_SEED; }
+  }
+  function saveBankConfig(cfg) { localStorage.setItem(BANK_CONFIG_KEY, JSON.stringify(cfg)); }
+
+  function openBankModal() {
+    const cfg = loadBankConfig();
+    document.getElementById('bank-modal').style.display = 'flex';
+    if (cfg.status === 'connected') {
+      document.getElementById('bank-connect-step').style.display = 'none';
+      document.getElementById('bank-connected-step').style.display = 'block';
+      document.getElementById('bank-connected-name').textContent = cfg.institution + ' Connected';
+      renderBankModalAccounts(cfg.accounts);
     } else {
-      alert('QuickBooks integration is coming in Phase 2.\n\nFor now, you can manually track invoices and expenses in Meridian.');
+      document.getElementById('bank-connect-step').style.display = 'block';
+      document.getElementById('bank-connected-step').style.display = 'none';
     }
   }
+
+  function closeBankModal() {
+    document.getElementById('bank-modal').style.display = 'none';
+    renderBankStatus();
+    renderBankPanel();
+  }
+
+  function bankDemoConnect(institution) {
+    const accounts = BANK_ACCOUNTS_DEMO[institution] || BANK_ACCOUNTS_DEMO['Other'];
+    saveBankConfig({ status:'connected', institution, accounts, lastSync:new Date().toISOString() });
+    document.getElementById('bank-connect-step').style.display = 'none';
+    document.getElementById('bank-connected-step').style.display = 'block';
+    document.getElementById('bank-connected-name').textContent = institution + ' Connected';
+    renderBankModalAccounts(accounts);
+  }
+
+  function bankDisconnect() {
+    if (!confirm('Disconnect bank accounts?')) return;
+    saveBankConfig(BANK_CONFIG_SEED);
+    closeBankModal();
+  }
+
+  function renderBankModalAccounts(accounts) {
+    const el = document.getElementById('bank-modal-accounts');
+    if (!el || !accounts) return;
+    el.innerHTML = accounts.map(a => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.65rem 0.8rem;background:var(--cream);border:1px solid var(--parchment);margin-bottom:0.4rem;border-radius:2px">
+        <div>
+          <div style="font-size:0.88rem;font-weight:600;color:var(--forest)">${a.name}</div>
+          <div style="font-size:0.76rem;color:#888">••••${a.mask} · ${a.type}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:0.98rem;font-weight:700;color:${a.type==='credit'?'var(--ember)':'var(--forest)'}">$${Math.abs(a.balance).toLocaleString()}</div>
+          <div style="font-size:0.72rem;color:#aaa">${a.type==='credit'?'balance owed':'avail: $'+a.available.toLocaleString()}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function renderBankStatus() {
+    const cfg = loadBankConfig();
+    const connected = cfg.status === 'connected';
+    const statusEl  = document.getElementById('bank-sync-status');
+    const countEl   = document.getElementById('bank-accounts-count');
+    const btn       = document.getElementById('bank-connect-btn');
+    if (statusEl) { statusEl.textContent = connected ? '✓ ' + cfg.institution : 'Not Connected'; statusEl.style.color = connected ? '#27AE60' : '#888'; }
+    if (countEl)  countEl.textContent = connected ? cfg.accounts.length : '0';
+    if (btn)      btn.textContent = connected ? 'Manage Accounts →' : 'Link via Plaid →';
+  }
+
+  function renderBankPanel() {
+    const cfg   = loadBankConfig();
+    const panel = document.getElementById('bank-data-panel');
+    if (!panel) return;
+    if (cfg.status !== 'connected') { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+
+    const acctEl = document.getElementById('bank-accounts-panel');
+    if (acctEl) {
+      acctEl.innerHTML = `
+        <div style="font-size:0.76rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.5rem">Linked Accounts — ${cfg.institution}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.6rem;margin-bottom:0.8rem">
+          ${cfg.accounts.map(a => `
+            <div style="background:var(--white);border:1px solid var(--parchment);padding:0.8rem">
+              <div style="font-size:0.72rem;color:#aaa">••••${a.mask} · ${a.type}</div>
+              <div style="font-size:1.1rem;font-weight:700;color:${a.type==='credit'?'var(--ember)':'var(--forest)'};margin-top:0.2rem">$${Math.abs(a.balance).toLocaleString()}</div>
+              <div style="font-size:0.78rem;color:var(--forest-mid)">${a.name}</div>
+            </div>`).join('')}
+        </div>`;
+    }
+
+    const txEl = document.getElementById('bank-transactions-panel');
+    if (txEl) {
+      txEl.innerHTML = `
+        <div style="font-size:0.76rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.5rem">Recent Transactions</div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+          <thead><tr style="border-bottom:2px solid var(--parchment)">
+            <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Date</th>
+            <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Description</th>
+            <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Category</th>
+            <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account</th>
+            <th style="text-align:right;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Amount</th>
+          </tr></thead>
+          <tbody>${BANK_TRANSACTIONS_DEMO.map(tx => `
+            <tr style="border-bottom:1px solid var(--cream)">
+              <td style="padding:0.35rem 0.5rem;color:#aaa;font-size:0.78rem;white-space:nowrap">${tx.date}</td>
+              <td style="padding:0.35rem 0.5rem;font-weight:${tx.amount>0?'700':'400'};max-width:200px">${tx.description}</td>
+              <td style="padding:0.35rem 0.5rem;color:var(--forest-mid);font-size:0.78rem">${tx.category}</td>
+              <td style="padding:0.35rem 0.5rem;color:#aaa;font-size:0.78rem">${tx.account}</td>
+              <td style="padding:0.35rem 0.5rem;text-align:right;font-weight:700;color:${tx.amount>0?'var(--forest)':'var(--charcoal)'}">
+                ${tx.amount>0?'+':''}$${Math.abs(tx.amount).toLocaleString('en-US',{minimumFractionDigits:2})}
+              </td>
+            </tr>`).join('')}</tbody>
+        </table>`;
+    }
+  }
+
+  // ── RECEIPT CAPTURE ───────────────────────────────────
+  const RECEIPTS_KEY = 'meridian_receipts';
+
+  function loadReceipts() {
+    try { return JSON.parse(localStorage.getItem(RECEIPTS_KEY)) || []; }
+    catch(e) { return []; }
+  }
+  function saveReceipts(r) { localStorage.setItem(RECEIPTS_KEY, JSON.stringify(r)); }
+
+  function openReceiptModal() {
+    document.getElementById('receipt-modal').style.display = 'flex';
+    const d = document.querySelector('#receipt-form input[name="date"]');
+    if (d) d.value = new Date().toISOString().split('T')[0];
+    const sel = document.getElementById('receipt-campaign-select');
+    if (sel) {
+      const camps = loadCampaigns();
+      sel.innerHTML = '<option value="">— General expense</option>' +
+        camps.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    }
+    document.getElementById('receipt-preview').style.display = 'none';
+  }
+
+  function closeReceiptModal() {
+    document.getElementById('receipt-modal').style.display = 'none';
+    document.getElementById('receipt-form').reset();
+    document.getElementById('receipt-preview').style.display = 'none';
+    renderReceiptStatus();
+    renderReceiptPanel();
+  }
+
+  function previewReceiptFile(input) {
+    const file = input.files[0];
+    const prev = document.getElementById('receipt-preview');
+    if (file && prev) { prev.style.display = 'block'; prev.innerHTML = `📎 ${file.name} <span style="color:#aaa">(${(file.size/1024).toFixed(1)} KB)</span>`; }
+  }
+
+  function submitReceipt(e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target));
+    const receipts = loadReceipts();
+    receipts.push({ id:Date.now(), vendor:data.vendor, amount:parseFloat(data.amount),
+      date:data.date, category:data.category, campaignId:data.campaignId||null,
+      paymentMethod:data.paymentMethod, notes:data.notes||'', createdAt:new Date().toISOString() });
+    saveReceipts(receipts);
+    closeReceiptModal();
+  }
+
+  function renderReceiptStatus() {
+    const receipts = loadReceipts();
+    const total = receipts.reduce((s,r) => s+r.amount, 0);
+    const cEl = document.getElementById('receipt-count-status');
+    const tEl = document.getElementById('receipt-total-status');
+    if (cEl) cEl.textContent = receipts.length + (receipts.length===1?' receipt':' receipts');
+    if (tEl) tEl.textContent = '$' + total.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+
+  function renderReceiptPanel() {
+    const receipts = loadReceipts();
+    const panel = document.getElementById('receipt-data-panel');
+    if (!panel) return;
+    if (receipts.length === 0) { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+    const listEl = document.getElementById('receipt-list-panel');
+    if (!listEl) return;
+    const catColors = {'Software & Tools':'#7c3aed','Advertising':'var(--ember)','Travel & Transport':'#1a56db',
+      'Meals & Entertainment':'var(--gold)','Contractor Payments':'var(--forest)','Equipment':'#555','Other':'#888','Office Supplies':'#888'};
+    listEl.innerHTML = `
+      <div style="font-size:0.76rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.5rem">Captured Receipts</div>
+      <table style="width:100%;border-collapse:collapse;font-size:0.86rem">
+        <thead><tr style="border-bottom:2px solid var(--parchment)">
+          <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Date</th>
+          <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Vendor</th>
+          <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Category</th>
+          <th style="text-align:left;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Method</th>
+          <th style="text-align:right;padding:0.35rem 0.5rem;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Amount</th>
+        </tr></thead>
+        <tbody>${[...receipts].reverse().map(r => `
+          <tr style="border-bottom:1px solid var(--cream)">
+            <td style="padding:0.35rem 0.5rem;color:#aaa;font-size:0.78rem;white-space:nowrap">${r.date}</td>
+            <td style="padding:0.35rem 0.5rem;font-weight:600">${r.vendor}</td>
+            <td style="padding:0.35rem 0.5rem"><span style="font-size:0.72rem;font-weight:700;color:${catColors[r.category]||'#888'}">${r.category}</span></td>
+            <td style="padding:0.35rem 0.5rem;color:#aaa;font-size:0.78rem">${r.paymentMethod}</td>
+            <td style="padding:0.35rem 0.5rem;text-align:right;font-weight:700;color:var(--ember)">$${r.amount.toLocaleString('en-US',{minimumFractionDigits:2})}</td>
+          </tr>`).join('')}</tbody>
+      </table>`;
+  }
+
+  // Legacy shim — openQBConnection was referenced in old code
+  function openQBConnection() { openQBModal(); }
 
   // ── PROPOSAL GENERATOR (Claude AI) ─────────────────────
   function initProposalProjectSelect() {
