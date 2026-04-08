@@ -6090,6 +6090,31 @@ Generated on ${new Date().toLocaleDateString()}
             ${c.status.charAt(0).toUpperCase()+c.status.slice(1)} — click to cycle
           </span></span></div>
         ${flags.length?`<div style="margin-top:1rem;display:flex;gap:0.4rem;flex-wrap:wrap">${flags.map(f=>`<span class="campaign-flag">⚠ ${f}</span>`).join('')}</div>`:''}
+        
+        <!-- TIMELINE SECTION -->
+        <div class="cm-section-lbl" style="margin-top:1.2rem">Timeline & Milestones</div>
+        <div style="font-size:0.85rem;color:var(--forest-mid);line-height:1.6">
+          <div style="display:flex;gap:1rem;margin-bottom:0.8rem;padding:0.6rem;background:var(--cream);border-radius:3px">
+            <div><span style="font-weight:700">Start:</span> ${c.startDate||'TBD'}</div>
+            <div><span style="font-weight:700">End:</span> ${c.deadline||'TBD'}</div>
+          </div>
+          ${(() => {
+            const ms = (c.milestones || []).sort((a,b) => new Date(a.date||'2099-12-31') - new Date(b.date||'2099-12-31'));
+            if (ms.length === 0) return '<div style="color:#aaa;font-style:italic;padding:0.5rem 0">No milestones</div>';
+            return ms.map(m => {
+              const icon = m.status === 'complete' ? '✓' : m.status === 'in-progress' ? '◐' : '◯';
+              const iconColor = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--forest-mid)';
+              const dateObj = m.date ? new Date(m.date) : null;
+              const dateStr = dateObj ? dateObj.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'2-digit'}) : 'TBD';
+              const isPast = dateObj && dateObj < new Date() ? true : false;
+              return `<div style="display:flex;gap:0.6rem;padding:0.4rem 0;border-bottom:0.5px solid var(--parchment);align-items:baseline">
+                <span style="font-weight:700;color:${iconColor};min-width:1.5rem">${icon}</span>
+                <span style="flex:1;${isPast?'opacity:0.6':''}">${m.name}</span>
+                <span style="font-weight:700;min-width:4rem;text-align:right;color:${iconColor}">${dateStr}</span>
+              </div>`;
+            }).join('');
+          })()}
+        </div>
       </div>`);
   }
 
