@@ -1577,7 +1577,10 @@ body {
       <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
         <div>
           <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Financial Statement</div>
-          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Profit & Loss (YTD)</div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div style="font-size:1rem;font-weight:700;color:var(--forest)">Profit & Loss (YTD)</div>
+            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600" id="kpi-pl-summary">Gross Margin: —</div>
+          </div>
         </div>
         <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
       </div>
@@ -1608,7 +1611,10 @@ body {
       <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
         <div>
           <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Liquidity</div>
-          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Bank Accounts & Cash</div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div style="font-size:1rem;font-weight:700;color:var(--forest)">Bank Accounts & Cash</div>
+            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600" id="kpi-cash-summary">Total: —</div>
+          </div>
         </div>
         <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
       </div>
@@ -1622,7 +1628,10 @@ body {
       <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
         <div>
           <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Activity Feed</div>
-          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Recent Transactions</div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div style="font-size:1rem;font-weight:700;color:var(--forest)">Recent Transactions</div>
+            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600" id="kpi-activity-summary">Count: —</div>
+          </div>
         </div>
         <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
       </div>
@@ -1643,7 +1652,10 @@ body {
       <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
         <div>
           <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Expense Analysis</div>
-          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Spending by Category</div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div style="font-size:1rem;font-weight:700;color:var(--forest)">Spending by Category</div>
+            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600" id="kpi-spending-summary">Total: —</div>
+          </div>
         </div>
         <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
       </div>
@@ -4793,6 +4805,22 @@ body {
     document.getElementById('fin-revenue-mtd').textContent = fmt(monthlyRevenue);
     document.getElementById('fin-spend-mtd').textContent = fmt(monthlySpend);
     document.getElementById('fin-burn-rate').textContent = fmt(burnRate);
+    
+    // Calculate YTD metrics for collapsible header KPI summaries
+    const ytdRevenue = QB_INVOICES_DEMO
+      .filter(inv => inv.status === 'Paid')
+      .reduce((sum, inv) => sum + inv.amount, 0);
+    const ytdExpenses = QB_EXPENSES_DEMO
+      .reduce((sum, exp) => sum + exp.amount, 0);
+    const ytdNetIncome = ytdRevenue - ytdExpenses;
+    const grossMargin = ytdRevenue > 0 ? Math.round((ytdNetIncome / ytdRevenue) * 100) : 0;
+    const transactionCount = QB_INVOICES_DEMO.length + QB_EXPENSES_DEMO.length;
+    
+    // Update collapsible header KPI summaries
+    document.getElementById('kpi-pl-summary').textContent = `Gross Margin: ${grossMargin}%`;
+    document.getElementById('kpi-cash-summary').textContent = `Total: ${fmt(totalCash)}`;
+    document.getElementById('kpi-activity-summary').textContent = `${transactionCount} transactions`;
+    document.getElementById('kpi-spending-summary').textContent = `Total: ${fmt(ytdExpenses)}`;
     
     // Render all sections of the DNA Agency view
     renderDashboardPL();
