@@ -1191,6 +1191,25 @@ body {
   .card-grid { grid-template-columns: 1fr; }
 }
 
+/* ── GANTT CHART ─────────────────────────────────────── */
+.gantt-row { display: flex; align-items: center; border-bottom: 1px solid var(--parchment); min-height: 44px; }
+.gantt-label { flex: 0 0 180px; font-size: 0.82rem; font-weight: 700; color: var(--forest); padding: 0.4rem 0.75rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.gantt-bar-area { flex: 1; position: relative; height: 44px; }
+.gantt-bar { position: absolute; height: 14px; top: 15px; border-radius: 2px; }
+.gantt-milestone { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--forest); top: 18px; transform: translateX(-4px); }
+.gantt-today { position: absolute; top: 0; bottom: 0; width: 2px; background: #e74c3c; opacity: 0.7; z-index: 2; }
+.gantt-deliverable-row { display: flex; align-items: center; min-height: 28px; background: var(--cream); }
+.gantt-deliverable-label { flex: 0 0 180px; font-size: 0.75rem; color: var(--forest-mid); padding: 0.2rem 0.75rem 0.2rem 1.5rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.gantt-deliverable-bar { position: absolute; height: 8px; top: 10px; border-radius: 1px; background: var(--parchment); border: 1px solid var(--forest-mid); }
+
+/* ── TEAM ROSTER ──────────────────────────────────────── */
+.roster-card { background: var(--white); border: 1px solid var(--parchment); border-top: 3px solid var(--forest); padding: 1rem; border-radius: 2px; }
+.roster-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--forest); color: var(--ivory); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.roster-util-bar { height: 6px; background: var(--parchment); border-radius: 3px; margin: 0.5rem 0 0.3rem; overflow: hidden; }
+.roster-util-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.3s; }
+.roster-project-item { font-size: 0.8rem; color: var(--forest-mid); padding: 0.2rem 0; border-bottom: 0.5px solid var(--parchment); }
+.roster-deliverable-tag { display: inline-block; font-size: 0.7rem; background: var(--cream); border: 1px solid var(--parchment); padding: 1px 6px; border-radius: 2px; margin: 1px 2px; color: var(--forest); }
+
 /* ── LOGIN SCREEN ───────────────────────────────────── */
 #login-screen {
   position: fixed;
@@ -1608,6 +1627,21 @@ body {
   <div class="section-title">Projects · Labor · Timeline</div>
   <div class="section-sub">Project management + labor tracking</div>
 
+  <!-- ── TEAM ROSTER ── -->
+  <div style="margin-bottom:2.5rem" id="team-roster-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem">People &amp; Projects</div>
+        <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Team Roster</div>
+      </div>
+      <div style="display:flex;border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
+        <button id="roster-active-btn" class="proj-view-btn active" onclick="toggleRosterView('active')">Active</button>
+        <button id="roster-all-btn" class="proj-view-btn" onclick="toggleRosterView('all')">All</button>
+      </div>
+    </div>
+    <div id="roster-grid"></div>
+  </div>
+
   <!-- ── LABOR TRACKING ── -->
   <div style="margin-bottom:2.5rem">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -1652,6 +1686,7 @@ body {
         <div style="display:flex;border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
           <button id="proj-view-table-btn" class="proj-view-btn active" onclick="toggleProjectsView('table')">Table</button>
           <button id="proj-view-board-btn" class="proj-view-btn" onclick="toggleProjectsView('board')">Board</button>
+          <button id="proj-view-gantt-btn" class="proj-view-btn" onclick="toggleProjectsView('gantt')">Gantt</button>
         </div>
         <button class="btn-add-contact" onclick="openAddProjectModal()">+ New Project</button>
       </div>
@@ -3601,10 +3636,15 @@ body {
       </div>
     `;
 
+    // Roster
+    renderRoster();
+
     // Projects rendering — handled below via view toggle
 
     if (projectsView === 'board') {
       projectsTable.innerHTML = renderKanbanBoard(projects, labor);
+    } else if (projectsView === 'gantt') {
+      projectsTable.innerHTML = renderGanttChart(projects, labor);
     } else {
       const DELIVERABLE_STATUS_LABELS = {'not-started':'Not Started','in-progress':'In Progress','review':'Review','done':'Done'};
       const DELIVERABLE_STATUS_COLORS = {'not-started':'#aaa','in-progress':'var(--gold)','review':'#c4932a','done':'#2d6a4f'};
@@ -3771,8 +3811,10 @@ body {
     projectsView = view;
     const tBtn = document.getElementById('proj-view-table-btn');
     const bBtn = document.getElementById('proj-view-board-btn');
+    const gBtn = document.getElementById('proj-view-gantt-btn');
     if (tBtn) { tBtn.classList.toggle('active', view === 'table'); }
     if (bBtn) { bBtn.classList.toggle('active', view === 'board'); }
+    if (gBtn) { gBtn.classList.toggle('active', view === 'gantt'); }
     renderOperations();
   }
 
@@ -3832,6 +3874,230 @@ body {
     }).join('');
 
     return `<div class="kanban-board">${cols}</div>`;
+  }
+
+  // ── GANTT CHART (Operations) ──────────────────────────
+  function renderGanttChart(projects, labor) {
+    if (!projects.length) return '<div style="color:#aaa;padding:20px;text-align:center">No projects to display.</div>';
+
+    const phaseColors = {kickoff:'#4a6741',strategy:'#7a8f6b',execution:'#c4932a',review:'#a07320',complete:'#2d6a4f'};
+
+    // Calculate date range
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+
+    let minDate = null, maxDate = null;
+    projects.forEach(p => {
+      const s = p.startDate ? new Date(p.startDate) : null;
+      const e = p.endDate ? new Date(p.endDate) : null;
+      if (s && (!minDate || s < minDate)) minDate = s;
+      if (e && (!maxDate || e > maxDate)) maxDate = e;
+    });
+    if (!minDate) minDate = new Date(today); minDate = new Date(minDate);
+    if (!maxDate) maxDate = new Date(today); maxDate = new Date(maxDate);
+
+    // Add 7-day padding
+    minDate.setDate(minDate.getDate() - 7);
+    maxDate.setDate(maxDate.getDate() + 7);
+
+    const totalMs = maxDate - minDate;
+    if (totalMs <= 0) return '<div style="color:#aaa;padding:20px;text-align:center">Invalid date range.</div>';
+
+    function pct(d) {
+      const date = typeof d === 'string' ? new Date(d) : d;
+      return Math.max(0, Math.min(100, ((date - minDate) / totalMs) * 100));
+    }
+
+    // Build month header labels
+    const monthLabels = [];
+    const cur = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+    while (cur <= maxDate) {
+      const left = pct(cur);
+      const label = cur.toLocaleDateString('en-US', {month:'short', year:'2-digit'});
+      monthLabels.push(`<div style="position:absolute;left:${left.toFixed(2)}%;font-size:0.72rem;color:var(--forest-mid);font-weight:700;white-space:nowrap;top:4px">${label}</div>`);
+      cur.setMonth(cur.getMonth() + 1);
+    }
+
+    const todayPct = pct(today);
+    const todayLine = `<div class="gantt-today" style="left:${todayPct.toFixed(2)}%"></div>`;
+
+    // Build rows
+    const campaigns = loadCampaigns();
+    const rows = projects.map(p => {
+      const leftPct = pct(p.startDate || todayStr);
+      const rightPct = pct(p.endDate || todayStr);
+      const widthPct = Math.max(0.5, rightPct - leftPct);
+      const barColor = phaseColors[p.phase || 'kickoff'] || '#4a6741';
+
+      // Milestone dots: from linked campaign or from deliverable due dates
+      const linkedCampaign = campaigns.find(c => c.id === p.campaignId);
+      const milestones = linkedCampaign && linkedCampaign.milestones && linkedCampaign.milestones.length
+        ? linkedCampaign.milestones.filter(m => m.date)
+        : (p.deliverables || []).filter(d => d.dueDate).map(d => ({name: d.name, date: d.dueDate}));
+
+      const milestoneDots = milestones.map(m => {
+        const mp = pct(m.date);
+        if (mp < 0 || mp > 100) return '';
+        return `<div class="gantt-milestone" style="left:${mp.toFixed(2)}%" title="${m.name}"></div>`;
+      }).join('');
+
+      // Deliverable sub-rows
+      const delivs = (p.deliverables || []).filter(d => d.dueDate);
+      const delivRows = delivs.map(d => {
+        const startP = pct(p.startDate || todayStr);
+        const endP = pct(d.dueDate);
+        const dw = Math.max(0.5, endP - startP);
+        return `<div class="gantt-deliverable-row">
+          <div class="gantt-deliverable-label" title="${d.name}">${d.name}</div>
+          <div class="gantt-bar-area">
+            ${todayLine}
+            <div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%"></div>
+          </div>
+        </div>`;
+      }).join('');
+
+      return `<div class="gantt-row">
+        <div class="gantt-label" title="${p.name} · ${p.client}">${p.name}</div>
+        <div class="gantt-bar-area">
+          ${todayLine}
+          <div class="gantt-bar" style="left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;background:${barColor}" title="${p.name}: ${p.startDate||'?'} – ${p.endDate||'?'}"></div>
+          ${milestoneDots}
+        </div>
+      </div>${delivRows}`;
+    }).join('');
+
+    return `<div style="background:var(--white);border:1px solid var(--parchment);overflow-x:auto">
+      <div style="display:flex;border-bottom:2px solid var(--parchment);background:var(--cream)">
+        <div style="flex:0 0 180px;padding:0.5rem 0.75rem;font-size:0.75rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em">Project</div>
+        <div style="flex:1;position:relative;height:28px;">${monthLabels.join('')}${todayLine}</div>
+      </div>
+      ${rows}
+      <div style="display:flex;align-items:center;gap:1.2rem;padding:0.6rem 0.75rem;border-top:1px solid var(--parchment);background:var(--cream);flex-wrap:wrap">
+        ${Object.entries(phaseColors).map(([ph, col]) => `<div style="display:flex;align-items:center;gap:0.4rem"><div style="width:14px;height:8px;background:${col};border-radius:1px"></div><span style="font-size:0.75rem;color:var(--forest-mid);text-transform:capitalize">${ph}</span></div>`).join('')}
+        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:2px;height:14px;background:#e74c3c;opacity:0.7"></div><span style="font-size:0.75rem;color:var(--forest-mid)">Today</span></div>
+        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:8px;height:8px;border-radius:50%;background:var(--forest)"></div><span style="font-size:0.75rem;color:var(--forest-mid)">Milestone</span></div>
+      </div>
+    </div>`;
+  }
+
+  // ── TEAM ROSTER (Operations) ──────────────────────────
+  let rosterView = 'active';
+
+  function toggleRosterView(mode) {
+    rosterView = mode;
+    const aBtn = document.getElementById('roster-active-btn');
+    const allBtn = document.getElementById('roster-all-btn');
+    if (aBtn) aBtn.classList.toggle('active', mode === 'active');
+    if (allBtn) allBtn.classList.toggle('active', mode === 'all');
+    renderRoster();
+  }
+
+  function renderRoster() {
+    const grid = document.getElementById('roster-grid');
+    if (!grid) return;
+
+    const labor = loadLaborTracking();
+    const projects = loadProjects();
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+
+    // Compute month window
+    const ym = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    const sevenDaysAgo = new Date(now); sevenDaysAgo.setDate(now.getDate() - 7);
+    const fourteenDaysAgo = new Date(now); fourteenDaysAgo.setDate(now.getDate() - 14);
+    const thirtyDaysAgo = new Date(now); thirtyDaysAgo.setDate(now.getDate() - 30);
+
+    // Collect all unique contractor names from labor + TEAM_MEMBERS
+    const labContractors = [...new Set(labor.map(l => l.contractor).filter(Boolean))];
+    const allNames = [...new Set([...TEAM_MEMBERS.map(m => m.name), ...labContractors])];
+
+    const members = allNames.map(name => {
+      const teamDef = TEAM_MEMBERS.find(m => m.name === name) || {name, title: 'Contractor', rate: 0, capacity: 160};
+      const laborEntries = labor.filter(l => l.contractor === name);
+
+      // Month hours
+      const monthEntries = laborEntries.filter(l => l.date && l.date.startsWith(ym));
+      const monthHours = monthEntries.reduce((s, l) => s + (l.hours || 0), 0);
+
+      // Last active date
+      const sortedDates = laborEntries.map(l => l.date).filter(Boolean).sort().reverse();
+      const lastActiveDate = sortedDates[0] ? new Date(sortedDates[0]) : null;
+
+      // Activity status
+      let statusDot, statusTitle;
+      if (!lastActiveDate) {
+        statusDot = '#aaa'; statusTitle = 'No recent activity';
+      } else if (lastActiveDate >= sevenDaysAgo) {
+        statusDot = '#2d6a4f'; statusTitle = 'Active in last 7 days';
+      } else if (lastActiveDate >= fourteenDaysAgo) {
+        statusDot = '#c4932a'; statusTitle = 'Active 8-14 days ago';
+      } else {
+        statusDot = '#aaa'; statusTitle = '15+ days since last activity';
+      }
+
+      const isActive = lastActiveDate && lastActiveDate >= thirtyDaysAgo;
+
+      // Projects in last 30 days
+      const recentProjectIds = [...new Set(
+        laborEntries.filter(l => l.date && new Date(l.date) >= thirtyDaysAgo).map(l => l.projectId).filter(Boolean)
+      )];
+      const assignedProjects = recentProjectIds.map(pid => {
+        const proj = projects.find(p => p.id === pid);
+        if (!proj) return null;
+        const ownedDelivs = (proj.deliverables || []).filter(d => d.assignee === name);
+        return {proj, ownedDelivs};
+      }).filter(Boolean);
+
+      // Utilization
+      const utilPct = Math.min(100, Math.round((monthHours / (teamDef.capacity || 160)) * 100));
+
+      return {name, teamDef, monthHours, statusDot, statusTitle, isActive, assignedProjects, utilPct};
+    });
+
+    const toRender = rosterView === 'active' ? members.filter(m => m.isActive) : members;
+
+    if (!toRender.length) {
+      grid.innerHTML = '<div style="color:var(--forest-mid);font-style:italic;padding:1rem">No team members to display.</div>';
+      return;
+    }
+
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(260px, 1fr))';
+    grid.style.gap = '1rem';
+
+    grid.innerHTML = toRender.map(m => {
+      const initials = m.name.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+      const projectsHTML = m.assignedProjects.length
+        ? m.assignedProjects.map(({proj, ownedDelivs}) => {
+            const tags = ownedDelivs.length
+              ? ownedDelivs.map(d => `<span class="roster-deliverable-tag">${d.name}</span>`).join('')
+              : '';
+            return `<div class="roster-project-item">
+              <span style="font-weight:700;color:var(--forest)">${proj.name}</span>
+              ${tags ? `<div style="margin-top:2px">${tags}</div>` : ''}
+            </div>`;
+          }).join('')
+        : '<div style="font-size:0.8rem;color:#bbb;font-style:italic">No active projects this month</div>';
+
+      return `<div class="roster-card">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
+          <div class="roster-avatar">${initials}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:0.95rem;font-weight:700;color:var(--forest);line-height:1.2">${m.name}</div>
+            <div style="font-size:0.8rem;color:var(--forest-mid)">${m.teamDef.title}</div>
+          </div>
+          <div style="width:10px;height:10px;border-radius:50%;background:${m.statusDot};flex-shrink:0" title="${m.statusTitle}"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.8rem;color:var(--forest-mid)">
+          <span><strong style="font-size:1.1rem;color:var(--forest)">${m.monthHours}h</strong> this month</span>
+          <span>${m.utilPct}% utilized</span>
+        </div>
+        <div class="roster-util-bar"><div class="roster-util-fill" style="width:${m.utilPct}%"></div></div>
+        <div style="font-size:0.75rem;color:var(--forest-mid);margin-bottom:0.5rem">${m.teamDef.capacity}h monthly capacity · $${m.teamDef.rate}/hr</div>
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin-bottom:0.4rem">Active Projects</div>
+        ${projectsHTML}
+      </div>`;
+    }).join('');
   }
 
   // ── LABOR TRACKING DATA (Operations) ──────────────────
@@ -3905,6 +4171,15 @@ body {
       phase2: true
     }
   };
+
+  // ── TEAM MEMBERS ──────────────────────────────────────
+  const TEAM_MEMBERS = [
+    {name: 'Nicole Feenstra', title: 'Founder & CD', rate: 175, capacity: 80},
+    {name: 'Sarah Chen', title: 'Developer', rate: 125, capacity: 160},
+    {name: 'Jade Thompson', title: 'Designer', rate: 100, capacity: 120},
+    {name: 'Marcus Rivera', title: 'Strategist', rate: 110, capacity: 100},
+    {name: 'Alex Kim', title: 'Analytics', rate: 90, capacity: 80}
+  ];
 
   // Apply tab visibility from config
   Object.entries(MERIDIAN_CONFIG.tabs).forEach(([tab, visible]) => {
