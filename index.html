@@ -1198,6 +1198,10 @@ body {
   .card-grid { grid-template-columns: 1fr; }
 }
 
+/* ── COLLAPSIBLE SECTIONS ────────────────────────────── */
+.collapsible-header > div:first-child { transform: none !important; }
+.collapsible-header > div:first-child > div { transform: none !important; }
+
 /* ── GANTT CHART ─────────────────────────────────────── */
 .gantt-row { display: flex; align-items: center; border-bottom: 1px solid var(--parchment); min-height: 44px; }
 .gantt-label { flex: 0 0 180px; font-size: 0.82rem; font-weight: 700; color: var(--forest); padding: 0.4rem 0.75rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
@@ -5016,7 +5020,10 @@ body {
   // ── COLLAPSIBLE SECTIONS ──────────────────────────────
   function toggleCollapse(headerEl) {
     const content = headerEl.nextElementSibling;
-    const indicator = headerEl.querySelector('div:last-child');
+    // Find the arrow indicator (rightmost child with the ▾ symbol)
+    const indicator = Array.from(headerEl.children).find(el => el.textContent.includes('▾'));
+    if (!indicator) return;
+    
     if (content.style.display === 'none') {
       content.style.display = '';
       indicator.style.transform = 'rotate(180deg)';
