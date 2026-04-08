@@ -260,7 +260,7 @@ body {
 .badge-paused  { color: var(--parchment); border-color: var(--parchment); }
 .badge-warm    { color: var(--gold-deep); border-color: var(--gold); }
 .badge-new     { color: var(--forest-mid); border-color: var(--parchment); }
-.badge-cold    { color: var(--parchment); border-color: var(--parchment); }
+.badge-closed  { color: var(--parchment); border-color: var(--parchment); }
 
 .card-stats {
   display: grid;
@@ -1434,7 +1434,7 @@ body {
       <option value="new">New</option>
       <option value="warm">Warm</option>
       <option value="active">Active</option>
-      <option value="cold">Cold</option>
+      <option value="closed">Closed</option>
     </select>
     <select class="crm-filter" id="crm-rank-filter" onchange="renderCRM()">
       <option value="">Any Rank</option>
@@ -1997,7 +1997,7 @@ body {
             <option value="new">New</option>
             <option value="warm">Warm</option>
             <option value="active">Active</option>
-            <option value="cold">Cold</option>
+            <option value="closed">Closed</option>
           </select>
         </div>
         <div>
@@ -2073,6 +2073,10 @@ body {
       <div style="margin-bottom:1rem">
         <label class="form-label">Date</label>
         <input class="form-input" name="date" type="date" required></input>
+      </div>
+      <div style="margin-bottom:1rem">
+        <label class="form-label">Otter AI Link (optional)</label>
+        <input class="form-input" name="otterLink" type="url" placeholder="https://otter.ai/u/..." />
       </div>
       <div style="margin-bottom:1rem">
         <label class="form-label">Duration (optional)</label>
@@ -2157,6 +2161,10 @@ body {
       <div class="modal-row">
         <div><label class="form-label">Due Date</label><input class="form-input" name="dueDate" type="date" required></div>
         <div><label class="form-label">Status</label><select class="form-input" name="status"><option>Pending</option><option>Sent</option><option>Partial</option><option>Funded</option></select></div>
+      </div>
+      <div class="modal-row">
+        <div><label class="form-label">Payment Method</label><select class="form-input" name="paymentMethod"><option value="">— Select</option><option value="ACH">ACH/Direct Deposit</option><option value="Check">Check</option><option value="Credit Card">Credit Card</option><option value="Wire">Wire</option><option value="Other">Other</option></select></div>
+        <div></div>
       </div>
       <div style="margin-bottom:1rem"><label class="form-label">Notes</label><textarea class="form-input" name="notes" placeholder="Invoice details..." style="min-height:80px;resize:vertical"></textarea></div>
       <div class="modal-actions">
@@ -2669,11 +2677,11 @@ body {
     {id:4,firstName:"Priya",lastName:"Mehta",email:"priya@bloomwellness.co",phone:"(818) 555-0047",address:"2200 Ventura Blvd",city:"Studio City",state:"CA",zip:"91604",organization:"Bloom Wellness",title:"Founder",stage:"warm",value:7000,ranking:4,headshot:"",notes:"Wellness spa — wants Google Ads + Instagram growth. Discussed brand voice. Needs price sheet.",website:"https://bloomwellness.co",linkedin:"",twitter:"",instagram:"@bloomwellnessla",facebook:"",lastContacted:"2026-03-12",tags:["wellness","instagram"],createdAt:"2026-02-10"},
     {id:5,firstName:"David",lastName:"Chen",email:"d.chen@pacificlegalgroup.com",phone:"(213) 555-0819",address:"633 W 5th St, Suite 2800",city:"Los Angeles",state:"CA",zip:"90071",organization:"Pacific Legal Group",title:"Managing Partner",stage:"active",value:18000,ranking:5,headshot:"",notes:"Running Meta lead gen campaign. High intent leads coming in. Monthly reporting call scheduled for Apr 3.",website:"https://pacificlegalgroup.com",linkedin:"https://linkedin.com/in/davidchenlaw",twitter:"",instagram:"",facebook:"",lastContacted:"2026-03-27",tags:["legal","active campaign","high value"],createdAt:"2025-11-01"},
     {id:6,firstName:"Monica",lastName:"Torres",email:"monica@casaverdeLA.com",phone:"(323) 555-0562",address:"1456 Sunset Blvd",city:"Los Angeles",state:"CA",zip:"90026",organization:"Casa Verde Restaurant",title:"Owner",stage:"active",value:4500,ranking:3,headshot:"",notes:"Soft launch Meta + Google campaign live. ROAS tracking well. Monthly budget review next week.",website:"https://casaverdela.com",linkedin:"",twitter:"",instagram:"@casaverdeLA",facebook:"https://facebook.com/casaverdeLA",lastContacted:"2026-03-26",tags:["restaurant","food & bev"],createdAt:"2026-01-05"},
-    {id:7,firstName:"Alex",lastName:"Rodriguez",email:"alex@sunsetauto.com",phone:"(310) 555-0334",address:"9200 Sepulveda Blvd",city:"Los Angeles",state:"CA",zip:"90045",organization:"Sunset Auto Group",title:"General Manager",stage:"cold",value:3000,ranking:2,headshot:"",notes:"Went cold after initial quote. Follow up in Q2. May respond to a case study from a similar business.",website:"",linkedin:"",twitter:"",instagram:"",facebook:"https://facebook.com/sunsetautogroup",lastContacted:"2026-02-01",tags:["auto","re-engage Q2"],createdAt:"2025-12-10"},
+    {id:7,firstName:"Alex",lastName:"Rodriguez",email:"alex@sunsetauto.com",phone:"(310) 555-0334",address:"9200 Sepulveda Blvd",city:"Los Angeles",state:"CA",zip:"90045",organization:"Sunset Auto Group",title:"General Manager",stage:"closed",value:3000,ranking:2,headshot:"",notes:"Went cold after initial quote. Follow up in Q2. May respond to a case study from a similar business.",website:"",linkedin:"",twitter:"",instagram:"",facebook:"https://facebook.com/sunsetautogroup",lastContacted:"2026-02-01",tags:["auto","re-engage Q2"],createdAt:"2025-12-10"},
     {id:8,firstName:"Kezia",lastName:"Okafor",email:"kezia@okaforbrands.com",phone:"(323) 555-0701",address:"800 W Olympic Blvd",city:"Los Angeles",state:"CA",zip:"90015",organization:"Okafor Brands",title:"Brand Director",stage:"new",value:9500,ranking:4,headshot:"",notes:"Brand strategy + paid media inquiry. Came in via referral from David Chen. First call scheduled Apr 5.",website:"https://okaforbrands.com",linkedin:"https://linkedin.com/in/keziaokafor",twitter:"@keziaokafor",instagram:"@okaforbrands",facebook:"",lastContacted:"2026-03-25",tags:["brand","referral"],createdAt:"2026-03-20"},
     {id:9,firstName:"Tariq",lastName:"Hasan",email:"tariq@labrickcoffee.com",phone:"(213) 555-0129",address:"1100 S Hope St",city:"Los Angeles",state:"CA",zip:"90015",organization:"LA Brick Coffee",title:"Co-Founder",stage:"warm",value:5500,ranking:3,headshot:"",notes:"Multi-location coffee brand. Wants full content strategy + Meta Ads for grand opening of 3rd location.",website:"https://labrickcoffee.com",linkedin:"",twitter:"",instagram:"@labrickcoffee",facebook:"https://facebook.com/labrickcoffee",lastContacted:"2026-03-10",tags:["food & bev","growth"],createdAt:"2026-02-25"},
     {id:10,firstName:"Simone",lastName:"Beaumont",email:"simone@beaumontatelier.com",phone:"(310) 555-0255",address:"434 N Rodeo Dr",city:"Beverly Hills",state:"CA",zip:"90210",organization:"Beaumont Atelier",title:"Creative Director",stage:"warm",value:22000,ranking:5,headshot:"",notes:"Luxury fashion atelier. Wants luxury-tier digital ads and editorial-style content. Very brand-conscious — match the aesthetic.",website:"https://beaumontatelier.com",linkedin:"https://linkedin.com/in/simonebeaumont",twitter:"",instagram:"@beaumontatelier",facebook:"",lastContacted:"2026-03-22",tags:["luxury","fashion","editorial","high value"],createdAt:"2026-03-01"},
-    {id:11,firstName:"DeShawn",lastName:"Watkins",email:"deshawn@elevateagency.co",phone:"(323) 555-0943",address:"3535 Cahuenga Blvd W",city:"Los Angeles",state:"CA",zip:"90068",organization:"Elevate Agency",title:"Founder",stage:"cold",value:6000,ranking:2,headshot:"",notes:"Competing agency — had conversation about white-labeling. Gone quiet. Worth revisiting in Q3.",website:"https://elevateagency.co",linkedin:"https://linkedin.com/in/deshawnwatkins",twitter:"",instagram:"",facebook:"",lastContacted:"2026-01-20",tags:["agency","white-label","Q3"],createdAt:"2025-11-15"},
+    {id:11,firstName:"DeShawn",lastName:"Watkins",email:"deshawn@elevateagency.co",phone:"(323) 555-0943",address:"3535 Cahuenga Blvd W",city:"Los Angeles",state:"CA",zip:"90068",organization:"Elevate Agency",title:"Founder",stage:"closed",value:6000,ranking:2,headshot:"",notes:"Competing agency — had conversation about white-labeling. Gone quiet. Worth revisiting in Q3.",website:"https://elevateagency.co",linkedin:"https://linkedin.com/in/deshawnwatkins",twitter:"",instagram:"",facebook:"",lastContacted:"2026-01-20",tags:["agency","white-label","Q3"],createdAt:"2025-11-15"},
     {id:12,firstName:"Nadia",lastName:"Petrov",email:"nadia@solarpeak.energy",phone:"(213) 555-0476",address:"444 S Flower St",city:"Los Angeles",state:"CA",zip:"90071",organization:"Solar Peak Energy",title:"VP Marketing",stage:"active",value:14000,ranking:4,headshot:"",notes:"Running lead gen for residential solar. Strong CPL improvements over 60 days. Wants to expand to 3 new markets.",website:"https://solarpeak.energy",linkedin:"https://linkedin.com/in/nadiapetrov",twitter:"@solarpeak",instagram:"@solarpeak.energy",facebook:"",lastContacted:"2026-03-28",tags:["energy","active campaign","expansion"],createdAt:"2025-10-01"}
   ];
 
@@ -2731,8 +2739,8 @@ body {
     reader.readAsDataURL(file);
   }
 
-  const STAGE_BADGE = {new:'badge-new',warm:'badge-warm',active:'badge-active',cold:'badge-cold'};
-  const STAGE_LABEL = {new:'New',warm:'Warm',active:'Active',cold:'Cold'};
+  const STAGE_BADGE = {new:'badge-new',warm:'badge-warm',active:'badge-active',closed:'badge-closed'};
+  const STAGE_LABEL = {new:'New',warm:'Warm',active:'Active',closed:'Closed'};
 
   function renderCRMKPIs() {
     const all = loadContacts();
@@ -2759,7 +2767,7 @@ body {
   }
 
   function renderKanbanCRM(data) {
-    const stages = ['new','warm','active','cold'];
+    const stages = ['new','warm','active','closed'];
     document.getElementById('crm-kanban').innerHTML = '<div class="pipeline">' +
       stages.map(stage => {
         const contacts = data.filter(c => c.stage === stage);
@@ -2871,9 +2879,10 @@ body {
             <div class="cm-section-lbl">Call Transcripts (${c.otterTranscripts.length})</div>
             <div style="max-height:200px;overflow-y:auto;background:var(--cream);border:0.5px solid var(--gold);border-radius:3px;padding:0.8rem">
               ${c.otterTranscripts.map((t, i) => `
-              <div style="margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:0.5px solid var(--gold);last-child:border-bottom:none">
-                <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">${t.date} ${t.duration ? ' • ' + t.duration : ''}</div>
+              <div style="margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:0.5px solid var(--gold)">
+                <div style="font-size:0.9rem;color:var(--forest-mid);margin-bottom:0.3rem">${t.date} ${t.duration ? ' &bull; ' + t.duration : ''}${t.otterLink ? ' &bull; <a href="'+t.otterLink+'" target="_blank" style="color:var(--gold-deep)">Otter Link</a>' : ''}</div>
                 <div style="font-size:0.8rem;color:var(--forest);line-height:1.4">${(t.notes || '').substring(0, 150)}${(t.notes || '').length > 150 ? '...' : ''}</div>
+                ${t.transcript ? '<details style="margin-top:0.4rem"><summary style="font-size:0.78rem;cursor:pointer;color:var(--forest-mid)">View full transcript</summary><pre style="font-size:0.75rem;white-space:pre-wrap;margin-top:0.3rem;max-height:200px;overflow-y:auto;background:var(--ivory);padding:0.5rem;border-radius:2px">' + t.transcript.replace(/</g,'&lt;').substring(0,2000) + '</pre></details>' : ''}
               </div>
               `).join('')}
             </div>
@@ -2900,7 +2909,7 @@ body {
     const data = loadContacts();
     const c = data.find(x => x.id === id);
     if (!c) return;
-    const cycle = ['new','warm','active','cold'];
+    const cycle = ['new','warm','active','closed'];
     c.stage = cycle[(cycle.indexOf(c.stage) + 1) % cycle.length];
     saveContacts(data);
     renderCRM();
@@ -2955,7 +2964,7 @@ body {
               <div>
                 <label class="form-label">Stage</label>
                 <select class="form-select" name="stage">
-                  ${['new','warm','active','cold'].map(s=>`<option value="${s}"${c.stage===s?' selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+                  ${['new','warm','active','closed'].map(s=>`<option value="${s}"${c.stage===s?' selected':''}>${STAGE_LABEL[s]}</option>`).join('')}
                 </select>
               </div>
               <div><label class="form-label">Value ($)</label><input class="form-input" name="value" type="number" min="0" value="${c.value}"></div>
@@ -3095,10 +3104,12 @@ body {
 
   // ── OTTER TRANSCRIPT FUNCTIONS ────────────────────────
   function openAddTranscriptModal(contactId) {
-    document.getElementById('add-transcript-form').dataset.contactId = contactId;
-    document.getElementById('add-transcript-form').date.valueAsDate = new Date();
-    document.getElementById('add-transcript-form').transcript.value = '';
-    document.getElementById('add-transcript-form').duration.value = '';
+    const form = document.getElementById('add-transcript-form');
+    form.dataset.contactId = contactId;
+    form.date.valueAsDate = new Date();
+    form.otterLink.value = '';
+    form.transcript.value = '';
+    form.duration.value = '';
     document.getElementById('add-transcript-modal').style.display = 'flex';
   }
 
@@ -3123,6 +3134,7 @@ body {
 
     const transcriptData = {
       date: form.date.value,
+      otterLink: form.otterLink.value || '',
       duration: form.duration.value || '',
       transcript: form.transcript.value,
       notes: parseTranscriptNotes(form.transcript.value),
@@ -3179,13 +3191,14 @@ body {
       dueDate: f.dueDate.value,
       status: f.status.value,
       paymentDate: null,
-      paymentMethod: null,
+      paymentMethod: f.paymentMethod.value || null,
       qbId: null,
       notes: f.notes.value,
       createdAt: new Date().toISOString().split('T')[0]
     });
     saveInvoices(invoices);
     closeAddInvoiceModal();
+    renderInvoices();
   }
 
   function submitContact(e) {
@@ -3326,7 +3339,10 @@ body {
     const deliverables = f.deliverables.value.split('\n').filter(d => d.trim()).map(d => ({
       name: d.trim(),
       completed: false,
-      dueDate: null
+      dueDate: null,
+      assignee: '',
+      status: 'not-started',
+      notes: ''
     }));
 
     const contact = loadContacts().find(c => c.id === parseInt(f.clientId.value));
@@ -3335,6 +3351,7 @@ body {
       leadId: parseInt(f.clientId.value),
       name: f.name.value,
       client: contact ? `${contact.firstName} ${contact.lastName}` : '',
+      phase: 'kickoff',
       startDate: f.startDate.value,
       endDate: f.endDate.value,
       budget: parseFloat(f.budget.value),
@@ -3489,9 +3506,14 @@ body {
     if (projectsView === 'board') {
       projectsTable.innerHTML = renderKanbanBoard(projects, labor);
     } else {
+      const DELIVERABLE_STATUS_LABELS = {'not-started':'Not Started','in-progress':'In Progress','review':'Review','done':'Done'};
+      const DELIVERABLE_STATUS_COLORS = {'not-started':'#aaa','in-progress':'var(--gold)','review':'#c4932a','done':'#2d6a4f'};
+      const CONTRACTORS = ['','Nicole Feenstra','Sarah Chen','Marcus Rivera','Jade Thompson','Alex Kim'];
+
       projectsTable.innerHTML = `
         <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
           <tr style="border-bottom:2px solid var(--parchment);background:var(--cream)">
+            <th style="${thStyle}"></th>
             <th style="${thStyle}">Project</th>
             <th style="${thStyle}">Client</th>
             <th style="${thStyle}">Phase</th>
@@ -3504,9 +3526,32 @@ body {
           ${projects.length > 0 ? projects.map(p => {
             const labForProject = labor.filter(l => l.projectId === p.id);
             const laborCost = labForProject.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
-            const phaseLabel = {kickoff:'Kickoff',strategy:'Strategy',execution:'Execution',review:'Review',complete:'Complete'}[p.phase||'execution'] || '—';
-            return `<tr>
-              <td style="${tdStyle}">${p.name}</td>
+            const phaseLabel = {kickoff:'Kickoff',strategy:'Strategy',execution:'Execution',review:'Review',complete:'Complete'}[p.phase||'kickoff'] || '—';
+            const delivs = (p.deliverables || []);
+            const doneCount = delivs.filter(d => d.completed || d.status === 'done').length;
+            const delivRows = delivs.length > 0 ? delivs.map((d, di) => `
+              <tr class="deliv-row-${p.id}" style="display:none;background:var(--ivory)">
+                <td style="${tdStyle}"></td>
+                <td style="${tdStyle};padding-left:2rem;font-size:0.82rem">${d.name}</td>
+                <td style="${tdStyle}">
+                  <select style="font-size:0.78rem;padding:2px 4px;border:1px solid var(--parchment);border-radius:2px;background:var(--white)" onchange="updateDeliverable(${p.id},${di},'assignee',this.value)">
+                    ${CONTRACTORS.map(c => '<option value="'+c+'"'+(d.assignee===c?' selected':'')+'>'+( c || '— Assign')+'</option>').join('')}
+                  </select>
+                </td>
+                <td style="${tdStyle}" colspan="2">
+                  <select style="font-size:0.78rem;padding:2px 4px;border:1px solid var(--parchment);border-radius:2px;background:var(--white)" onchange="updateDeliverable(${p.id},${di},'status',this.value)">
+                    ${Object.keys(DELIVERABLE_STATUS_LABELS).map(s => '<option value="'+s+'"'+((d.status||'not-started')===s?' selected':'')+'>'+DELIVERABLE_STATUS_LABELS[s]+'</option>').join('')}
+                  </select>
+                </td>
+                <td style="${tdStyle};font-size:0.8rem">${d.dueDate || '—'}</td>
+                <td style="${tdStyle}" colspan="3">
+                  <input type="text" value="${(d.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." style="font-size:0.78rem;width:100%;padding:2px 4px;border:1px solid var(--parchment);border-radius:2px;background:var(--white)" onchange="updateDeliverable(${p.id},${di},'notes',this.value)">
+                </td>
+              </tr>
+            `).join('') : '';
+            return `<tr style="cursor:pointer" onclick="toggleDeliverables(${p.id})">
+              <td style="${tdStyle};width:30px;text-align:center"><span id="deliv-arrow-${p.id}" style="font-size:0.7rem;color:var(--forest-mid)">&#9654;</span></td>
+              <td style="${tdStyle}"><strong>${p.name}</strong> <span style="font-size:0.75rem;color:var(--forest-mid)">(${doneCount}/${delivs.length})</span></td>
               <td style="${tdStyle}">${p.client}</td>
               <td style="${tdStyle}"><span style="font-size:0.82rem;padding:3px 8px;background:var(--cream);border-radius:3px;color:var(--forest-mid);font-weight:700">${phaseLabel}</span></td>
               <td style="${tdStyle}"><span style="font-size:0.82rem;padding:3px 8px;background:var(--ivory);border-radius:3px">${p.status}</span></td>
@@ -3514,14 +3559,37 @@ body {
               <td style="${tdStyle}">${p.endDate}</td>
               <td style="${tdStyle}">$${p.budget.toLocaleString()}</td>
               <td style="${tdStyle};color:var(--gold);font-weight:700">$${laborCost.toLocaleString()}</td>
-            </tr>`;
-          }).join('') : `<tr><td colspan="8" style="text-align:center;color:#aaa;padding:20px">No projects yet.</td></tr>`}
+            </tr>
+            ${delivs.length > 0 ? '<tr class="deliv-row-'+p.id+'" style="display:none;background:var(--cream)"><td style="'+tdStyle+'"></td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem;padding-left:2rem">Deliverable</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem">Assignee</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem" colspan="2">Status</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem">Due</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem" colspan="3">Notes</td></tr>' : ''}
+            ${delivRows}`;
+          }).join('') : `<tr><td colspan="9" style="text-align:center;color:#aaa;padding:20px">No projects yet.</td></tr>`}
         </table>
       `;
     }
   }
 
   renderCRM();
+
+  function toggleDeliverables(projectId) {
+    const rows = document.querySelectorAll('.deliv-row-' + projectId);
+    const arrow = document.getElementById('deliv-arrow-' + projectId);
+    const visible = rows.length > 0 && rows[0].style.display !== 'none';
+    rows.forEach(r => r.style.display = visible ? 'none' : 'table-row');
+    if (arrow) arrow.innerHTML = visible ? '&#9654;' : '&#9660;';
+  }
+
+  function updateDeliverable(projectId, delivIndex, field, value) {
+    const projects = loadProjects();
+    const p = projects.find(x => x.id === projectId);
+    if (!p || !p.deliverables || !p.deliverables[delivIndex]) return;
+    p.deliverables[delivIndex][field] = value;
+    if (field === 'status' && value === 'done') {
+      p.deliverables[delivIndex].completed = true;
+    } else if (field === 'status' && value !== 'done') {
+      p.deliverables[delivIndex].completed = false;
+    }
+    saveProjects(projects);
+  }
 
   // ── FINANCE DATA ──────────────────────────────────────
   const DONORS_KEY = 'meridian_donors';
@@ -3613,7 +3681,7 @@ body {
     const projects = loadProjects();
     const p = projects.find(x => x.id === projectId);
     if (!p) return;
-    const idx = phases.indexOf(p.phase || 'execution');
+    const idx = phases.indexOf(p.phase || 'kickoff');
     p.phase = phases[Math.max(0, Math.min(phases.length - 1, idx + dir))];
     saveProjects(projects);
     renderOperations();
@@ -3625,7 +3693,7 @@ body {
     const phaseAccent = {kickoff:'var(--forest-mid)',strategy:'#7a8f6b',execution:'var(--gold)',review:'#c4932a',complete:'#2d6a4f'};
 
     const cols = phases.map(phase => {
-      const cards = projects.filter(p => (p.phase || 'execution') === phase);
+      const cards = projects.filter(p => (p.phase || 'kickoff') === phase);
       const cardHTML = cards.length
         ? cards.map(p => {
             const projectLabor = labor.filter(l => l.projectId === p.id);
@@ -3689,7 +3757,7 @@ body {
   const DONOR_STAGE_LABEL = {education:'Education',engagement:'Engagement',ask:'Ask',thank:'Thank'};
   const DONOR_STAGE_BADGE = {education:'badge-new',engagement:'badge-warm',ask:'badge-active',thank:'badge-active'};
   const GRANT_STATUS_LABEL = {research:'Research',pending:'Pending','in-review':'In Review',awarded:'Awarded',declined:'Declined'};
-  const GRANT_STATUS_BADGE = {research:'badge-new',pending:'badge-warm','in-review':'badge-active',awarded:'badge-active',declined:'badge-cold'};
+  const GRANT_STATUS_BADGE = {research:'badge-new',pending:'badge-warm','in-review':'badge-active',awarded:'badge-active',declined:'badge-closed'};
 
   function getFilteredDonors() {
     const q = (document.getElementById('donor-search')?.value || '').toLowerCase();
@@ -4221,6 +4289,7 @@ Generated on ${new Date().toLocaleDateString()}
               ${inv.status}
             </span>
           </td>
+          <td style="padding:10px;border-bottom:1px solid #eee;font-size:0.85rem;color:var(--forest-mid)">${inv.paymentMethod || '—'}</td>
           <td style="padding:10px;border-bottom:1px solid #eee;text-align:right;font-size:0.9rem;color:#666">${inv.dueDate}</td>
           <td style="padding:10px;border-bottom:1px solid #eee;color:#666;font-size:0.85rem">${inv.notes}</td>
         </tr>
@@ -4248,10 +4317,11 @@ Generated on ${new Date().toLocaleDateString()}
           <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Project</th>
           <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Amount</th>
           <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Status</th>
+          <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Payment</th>
           <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Due</th>
           <th style="text-align:left;padding:10px;color:var(--forest);font-weight:700">Notes</th>
         </tr>
-        ${rows || '<tr><td colspan="7" style="text-align:center;padding:20px;color:#aaa">No invoices yet</td></tr>'}
+        ${rows || '<tr><td colspan="8" style="text-align:center;padding:20px;color:#aaa">No invoices yet</td></tr>'}
       </table>
     `;
   }
@@ -4623,7 +4693,7 @@ Generated on ${new Date().toLocaleDateString()}
   function drillCRMPipelineValue() {
     const all = loadContacts();
     const total = all.reduce((s,c)=>s+c.value,0);
-    const rows = ['new','warm','active','cold'].map((stage,i)=>{
+    const rows = ['new','warm','active','closed'].map((stage,i)=>{
       const g = all.filter(c=>c.stage===stage);
       const val = g.reduce((s,c)=>s+c.value,0);
       return {id:i+1,stage,count:g.length,value:val,pct:total>0?Math.round(val/total*100):0};
