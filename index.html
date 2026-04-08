@@ -3724,6 +3724,30 @@ body {
     'pacific-legal': 'Pacific Legal Group'
   };
 
+  // ── CLIENT CONFIG ──────────────────────────────────────
+  // Toggle features per client instance. Code stays — just hidden.
+  const MERIDIAN_CONFIG = {
+    tabs: {
+      campaign: true,
+      crm: true,
+      finance: true,
+      operations: true,
+      studio: false,      // Creative Studio — hidden for DNA Agency
+      proposals: false,   // Proposals — hidden for DNA Agency
+      phase2: true
+    }
+  };
+
+  // Apply tab visibility from config
+  Object.entries(MERIDIAN_CONFIG.tabs).forEach(([tab, visible]) => {
+    if (!visible) {
+      const btn = document.querySelector(`[data-tab="${tab}"]`);
+      const panel = document.getElementById(tab);
+      if (btn) btn.style.display = 'none';
+      if (panel) panel.style.display = 'none';
+    }
+  });
+
   // Campaigns that are nonprofits — show donor + grant tools when selected
   const NONPROFIT_CAMPAIGNS = new Set(['rebuilding-california', 'prop-development']);
 
