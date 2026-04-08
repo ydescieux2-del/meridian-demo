@@ -4748,6 +4748,47 @@ body {
     });
   }
 
+  function renderBusinessKPIs() {
+    // Calculate financial KPIs for DNA Agency (business) view
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+    
+    // Total Cash on Hand: sum all bank balances
+    const totalCash = Object.values(BANK_ACCOUNTS_DEMO).flat().reduce((sum, account) => {
+      return sum + (account.balance || 0);
+    }, 0);
+    
+    // Monthly Revenue (MTD): sum invoices with 'Paid' status in current month
+    const monthlyRevenue = QB_INVOICES_DEMO
+      .filter(inv => inv.status === 'Paid')
+      .filter(inv => {
+        const invDate = new Date(inv.date);
+        return invDate.getMonth() + 1 === currentMonth && invDate.getFullYear() === currentYear;
+      })
+      .reduce((sum, inv) => sum + inv.amount, 0);
+    
+    // Monthly Spend (MTD): sum expenses for current month
+    const monthlySpend = QB_EXPENSES_DEMO.reduce((sum, exp) => sum + exp.amount, 0);
+    
+    // Cash Burn Rate: monthly spend
+    const burnRate = monthlySpend;
+    
+    // Format and populate elements
+    const fmt = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + Math.round(n);
+    
+    document.getElementById('fin-cash-total').textContent = fmt(totalCash);
+    document.getElementById('fin-revenue-mtd').textContent = fmt(monthlyRevenue);
+    document.getElementById('fin-spend-mtd').textContent = fmt(monthlySpend);
+    document.getElementById('fin-burn-rate').textContent = fmt(burnRate);
+    
+    // Render all sections of the DNA Agency view
+    renderDashboardPL();
+    renderDashboardCashPosition();
+    renderDashboardActivity();
+    renderDashboardSpending();
+  }
+
   function renderFinanceKPIs() {
     const donors = getCampaignDonors();
     const grants = getCampaignGrants();
