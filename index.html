@@ -3030,11 +3030,11 @@ body {
         {name:"Final Report",date:"2026-04-30",status:"pending"}
       ],
       activities: [
-        {id:1,name:"Campaign Strategy",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-02-05",notes:"Q2 strategy finalized",category:"Strategy"},
-        {id:2,name:"Ad Creative Production",assignee:"Jade Thompson",status:"done",dueDate:"2026-02-15",notes:"3 ad sets completed",category:"Design"},
-        {id:3,name:"Campaign Launch",assignee:"Marcus Rivera",status:"done",dueDate:"2026-03-01",notes:"All ads live",category:"Execution"},
-        {id:4,name:"Weekly Performance Review",assignee:"Alex Kim",status:"in-progress",dueDate:"2026-04-01",notes:"Ongoing weekly cadence",category:"Analytics"},
-        {id:5,name:"Final Report & Wrap",assignee:"Nicole Feenstra",status:"not-started",dueDate:"2026-04-30",notes:"",category:"Reporting"}
+        {id:1,name:"Campaign Strategy",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-02-05",notes:"Q2 strategy finalized",category:"Strategy",teamWork:[{name:"Nicole Feenstra",phase:"Strategy & Planning",progress:100,lastWorked:"2026-02-05"}]},
+        {id:2,name:"Ad Creative Production",assignee:"Jade Thompson",status:"done",dueDate:"2026-02-15",notes:"3 ad sets completed",category:"Design",teamWork:[{name:"Jade Thompson",phase:"Design & Production",progress:100,lastWorked:"2026-02-15"},{name:"Marcus Rivera",phase:"Asset Prep",progress:100,lastWorked:"2026-02-12"}]},
+        {id:3,name:"Campaign Launch",assignee:"Marcus Rivera",status:"done",dueDate:"2026-03-01",notes:"All ads live",category:"Execution",teamWork:[{name:"Marcus Rivera",phase:"Platform Setup",progress:100,lastWorked:"2026-03-01"},{name:"Alex Kim",phase:"QA Testing",progress:100,lastWorked:"2026-02-28"}]},
+        {id:4,name:"Weekly Performance Review",assignee:"Alex Kim",status:"in-progress",dueDate:"2026-04-01",notes:"Ongoing weekly cadence",category:"Analytics",teamWork:[{name:"Alex Kim",phase:"Analytics & Reporting",progress:65,lastWorked:"2026-04-07"},{name:"Nicole Feenstra",phase:"Strategic Review",progress:45,lastWorked:"2026-04-05"}]},
+        {id:5,name:"Final Report & Wrap",assignee:"Nicole Feenstra",status:"not-started",dueDate:"2026-04-30",notes:"",category:"Reporting",teamWork:[{name:"Nicole Feenstra",phase:"Report Compilation",progress:0}]}
       ]
     },
     {
@@ -3138,10 +3138,10 @@ body {
         {name:"Final Report",date:"2026-02-28",status:"complete"}
       ],
       activities: [
-        {id:1,name:"Campaign Setup",assignee:"Marcus Rivera",status:"done",dueDate:"2026-01-05",notes:"",category:"Execution"},
-        {id:2,name:"Ad Creative",assignee:"Jade Thompson",status:"done",dueDate:"2026-01-08",notes:"",category:"Design"},
-        {id:3,name:"Optimization Pass",assignee:"Alex Kim",status:"done",dueDate:"2026-02-01",notes:"CPL improved 40%",category:"Analytics"},
-        {id:4,name:"Final Report",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-02-28",notes:"Client thrilled",category:"Reporting"}
+        {id:1,name:"Campaign Setup",assignee:"Marcus Rivera",status:"done",dueDate:"2026-01-05",notes:"",category:"Execution",teamWork:[{name:"Marcus Rivera",phase:"Setup & Config",progress:100,lastWorked:"2026-01-05"}]},
+        {id:2,name:"Ad Creative",assignee:"Jade Thompson",status:"done",dueDate:"2026-01-08",notes:"",category:"Design",teamWork:[{name:"Jade Thompson",phase:"Design & Production",progress:100,lastWorked:"2026-01-08"}]},
+        {id:3,name:"Optimization Pass",assignee:"Alex Kim",status:"done",dueDate:"2026-02-01",notes:"CPL improved 40%",category:"Analytics",teamWork:[{name:"Alex Kim",phase:"Testing & Optimization",progress:100,lastWorked:"2026-02-01"}]},
+        {id:4,name:"Final Report",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-02-28",notes:"Client thrilled",category:"Reporting",teamWork:[{name:"Nicole Feenstra",phase:"Analysis & Reporting",progress:100,lastWorked:"2026-02-28"}]}
       ]
     }
   ];
@@ -4391,7 +4391,18 @@ body {
           if (parts.length === 1) return parts[0];
           return parts[0] + ' ' + parts[parts.length - 1].charAt(0) + '.';
         };
-        const assigneeName = formatAssigneeName(a.assignee);
+        
+        // Build team work breakdown
+        const teamWork = a.teamWork && a.teamWork.length > 0 ? a.teamWork : (a.assignee ? [{name: a.assignee, phase: '', progress: isComplete ? 100 : 50}] : []);
+        const teamHtml = teamWork.map(tw => {
+          const progressLabel = tw.progress >= 100 ? `✓ (${tw.lastWorked})` : `${tw.progress}%`;
+          const initials = formatAssigneeName(tw.name);
+          return `<div style="font-size:0.65rem;color:var(--forest-mid);margin-top:0.2rem;padding:0.15rem 0.3rem;background:#f0ede4;border-radius:2px">
+            <strong>${initials}</strong> — ${tw.phase || 'Working'} ${progressLabel}
+          </div>`;
+        }).join('');
+        
+        const assigneeName = a.assignee ? formatAssigneeName(a.assignee) : '';
         const assigneeDisplay = a.assignee ? `<span title="${a.assignee}" style="font-size:0.7rem;font-weight:600;color:var(--white);margin-left:0.3rem;padding:0.2rem 0.4rem;background:${statusColor};border-radius:2px;display:inline-block;white-space:nowrap;cursor:help">${assigneeName}</span>` : '';
         
         // For incomplete activities, show name inside/over the bar. For complete, show minimal label
@@ -4400,12 +4411,13 @@ body {
           : `<span style="font-size:0.78rem;color:var(--white);font-weight:600">${a.name}</span>${assigneeDisplay}`;
         
         return `<div class="gantt-deliverable-row">
-          <div class="gantt-deliverable-label" title="${a.name} · ${statusLabel} · Due: ${a.dueDate}${a.assignee ? ' · ' + a.assignee : ''}">${isComplete ? '<span style="color:var(--forest-mid);margin-right:0.3rem">✓</span>' : ''}${labelContent}</div>
+          <div class="gantt-deliverable-label" title="${a.name} · ${statusLabel} · Due: ${a.dueDate}${a.assignee ? ' · ' + a.assignee : ''}">${isComplete ? '<span style="color:var(--forest-mid);margin-right:0.3rem">✓</span>' : ''}${labelContent}${teamWork.length > 1 ? '<div style="font-size:0.65rem;color:var(--gold);margin-left:0.3rem;margin-top:0.1rem;font-weight:600">' + teamWork.length + ' team members</div>' : ''}</div>
           <div class="gantt-bar-area" style="position:relative">
             ${todayLine}
             <div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%;background:${isComplete ? '#2d6a4f' : statusColor};opacity:${isComplete ? '0.5' : '1'};border-bottom:2px solid ${statusColor}">
               ${!isComplete ? `<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:0.7rem;font-weight:600;color:var(--white);white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.3)">${a.name}</div>` : ''}
             </div>
+            ${teamWork.length > 0 ? `<div style="position:absolute;left:${(startP + dw/2).toFixed(2)}%;top:calc(100% + 0.3rem);transform:translateX(-50%);background:var(--white);border:1px solid var(--parchment);border-radius:3px;padding:0.4rem;z-index:10;min-width:200px;box-shadow:0 2px 6px rgba(0,0,0,0.08)">${teamHtml}</div>` : ''}
           </div>
         </div>`;
       }).join('');
