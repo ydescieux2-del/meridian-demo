@@ -1575,6 +1575,49 @@ body {
       </div>
     </div>
 
+    <!-- SECTION 1B: QB SYNC STATUS -->
+    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QB Integration Status</div>
+        <div id="fin-qb-sync-status" style="font-size:0.9rem;color:var(--forest)">Not Connected</div>
+      </div>
+      <button onclick="openQBModal()" style="padding:0.5rem 1rem;font-size:0.85rem;font-weight:700;background:var(--gold);color:var(--forest);border:none;border-radius:3px;cursor:pointer">Connect QB</button>
+    </div>
+
+    <!-- SECTION 2: BALANCE SHEET (MIRRORS QB GL STRUCTURE) -->
+    <div class="collapsible-section" style="margin-bottom:1.5rem">
+      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Balance Sheet</div>
+          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
+            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">QB Chart of Accounts (Aggregated with Bank Feeds)</div>
+            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-bs-summary">Variance: —</div>
+          </div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
+      </div>
+      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+        <div id="fin-balance-sheet-detail"></div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: BANK FEEDS & LIQUIDITY -->
+    <div class="collapsible-section" style="margin-bottom:1.5rem">
+      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Bank Feeds & Liquidity</div>
+          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
+            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">Real-Time Bank Balances (vs QB)</div>
+            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-bank-summary">Total: —</div>
+          </div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
+      </div>
+      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+        <div id="fin-bank-feeds-detail"></div>
+      </div>
+    </div>
+
     <!-- SECTION 2: P&L STATEMENT (COLLAPSIBLE) -->
     <div class="collapsible-section" style="margin-bottom:1.5rem">
       <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
@@ -5572,6 +5615,27 @@ body {
   // ── QB CONFIG ─────────────────────────────────────────
   const QB_CONFIG_SEED = { status:'not-configured', oauthToken:null, businessId:null, companyName:null, lastSync:null, syncErrors:[] };
 
+  // ── QB BALANCE SHEET (MIRRORS QB GL ACCOUNT STRUCTURE) ────────────────
+  const QB_CHART_OF_ACCOUNTS = {
+    assets: [
+      {account:'1010', name:'Cash - Operating', qbBalance:24830.50, bankBalance:24830.50, qbLastSync:'2026-04-07 14:32'},
+      {account:'1020', name:'Cash - Savings', qbBalance:45000.00, bankBalance:45000.00, qbLastSync:'2026-04-07 14:32'},
+      {account:'1030', name:'Petty Cash', qbBalance:250.00, bankBalance:250.00, qbLastSync:'2026-04-07'},
+      {account:'1200', name:'Accounts Receivable', qbBalance:12300.00, qbLastSync:'2026-04-07', notes:'3 invoices outstanding'},
+      {account:'1300', name:'Equipment & Technology', qbBalance:8450.00, qbLastSync:'2026-02-15'},
+      {account:'1310', name:'Furniture & Fixtures', qbBalance:3200.00, qbLastSync:'2026-02-15'}
+    ],
+    liabilities: [
+      {account:'2100', name:'Accounts Payable', qbBalance:-2150.00, qbLastSync:'2026-04-05', notes:'Contractor invoices pending'},
+      {account:'2200', name:'Credit Card Payable', qbBalance:-3420.18, bankBalance:-3420.18, qbLastSync:'2026-04-07 14:32'},
+      {account:'2300', name:'Accrued Payroll', qbBalance:-1200.00, qbLastSync:'2026-04-01'}
+    ],
+    equity: [
+      {account:'3100', name:'Owner Investment', qbBalance:50000.00, qbLastSync:'2026-01-01'},
+      {account:'3200', name:'Retained Earnings', qbBalance:104639.82, qbLastSync:'2026-03-31'}
+    ]
+  };
+
   function loadQBConfig() {
     try { return JSON.parse(localStorage.getItem('meridian_qb_config')) || QB_CONFIG_SEED; }
     catch(e) { return QB_CONFIG_SEED; }
@@ -5720,6 +5784,171 @@ body {
             <span style="font-size:0.86rem;color:var(--forest)">${exp.category}</span>
             <span style="font-size:0.86rem;font-weight:700;color:var(--ember)">$${exp.amount.toLocaleString()}</span>
           </div>`).join('')}
+      </div>`;
+  }
+
+  // ── BALANCE SHEET RENDERING ───────────────────────────
+  function renderBalanceSheet() {
+    const panel = document.getElementById('fin-balance-sheet-detail');
+    if (!panel) return;
+
+    const coa = QB_CHART_OF_ACCOUNTS;
+    const totalAssets = coa.assets.reduce((s, a) => s + (a.qbBalance || 0), 0);
+    const totalLiabilities = coa.liabilities.reduce((s, l) => s + (l.qbBalance || 0), 0);
+    const totalEquity = coa.equity.reduce((s, e) => s + (e.qbBalance || 0), 0);
+    
+    const fmtN = n => (n < 0 ? '−' : '') + '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:2});
+    
+    const renderAccounts = (accounts, section) => {
+      return accounts.map(acc => {
+        const variance = (acc.bankBalance || 0) - (acc.qbBalance || 0);
+        const varianceClass = Math.abs(variance) > 1 ? 'style="background:#fff3cd;padding:0.3rem"' : '';
+        return `
+          <tr ${varianceClass}>
+            <td style="padding:0.5rem 0.6rem;color:#aaa;font-size:0.8rem">${acc.account}</td>
+            <td style="padding:0.5rem 0.6rem;color:var(--forest);font-weight:500">${acc.name}</td>
+            <td style="padding:0.5rem 0.6rem;text-align:right;font-weight:600">${fmtN(acc.qbBalance)}</td>
+            <td style="padding:0.5rem 0.6rem;text-align:right;font-size:0.85rem;color:#666">${acc.bankBalance !== undefined ? fmtN(acc.bankBalance) : '—'}</td>
+            ${Math.abs(variance) > 1 ? `<td style="padding:0.5rem 0.6rem;text-align:right;color:var(--ember);font-weight:600">${fmtN(variance)}</td>` : `<td style="padding:0.5rem 0.6rem;text-align:right;color:#27AE60;font-weight:600">✓</td>`}
+            <td style="padding:0.5rem 0.6rem;font-size:0.75rem;color:#999">${acc.notes || acc.qbLastSync || '—'}</td>
+          </tr>`;
+      }).join('');
+    };
+
+    panel.innerHTML = `
+      <div style="margin-bottom:1.5rem">
+        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.8rem;display:flex;justify-content:space-between">
+          <span>ASSETS</span>
+          <span style="color:var(--forest-mid)">QB Balance | Bank Feed | Variance | Last Sync</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
+          <thead style="background:var(--cream)">
+            <tr style="border-bottom:1px solid var(--parchment)">
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);width:80px">Acct#</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account Name</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">QB Balance</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Bank Feed</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Variance</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Status</th>
+            </tr>
+          </thead>
+          <tbody>${renderAccounts(coa.assets, 'assets')}</tbody>
+        </table>
+        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right">TOTAL ASSETS: ${fmtN(totalAssets)}</div>
+      </div>
+
+      <div style="margin-bottom:1.5rem">
+        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ember);margin-bottom:0.8rem">LIABILITIES</div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
+          <thead style="background:var(--cream)">
+            <tr style="border-bottom:1px solid var(--parchment)">
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);width:80px">Acct#</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account Name</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">QB Balance</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Bank Feed</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Variance</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Status</th>
+            </tr>
+          </thead>
+          <tbody>${renderAccounts(coa.liabilities, 'liabilities')}</tbody>
+        </table>
+        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right">TOTAL LIABILITIES: ${fmtN(totalLiabilities)}</div>
+      </div>
+
+      <div style="margin-bottom:0">
+        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.8rem">EQUITY</div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
+          <thead style="background:var(--cream)">
+            <tr style="border-bottom:1px solid var(--parchment)">
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);width:80px">Acct#</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account Name</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">QB Balance</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">—</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">—</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Status</th>
+            </tr>
+          </thead>
+          <tbody>${renderAccounts(coa.equity, 'equity')}</tbody>
+        </table>
+        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right">TOTAL EQUITY: ${fmtN(totalEquity)}</div>
+        <div style="padding:0.7rem 0.6rem;background:var(--gold);color:var(--forest);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right;margin-top:1rem">TOTAL LIABILITIES + EQUITY: ${fmtN(totalLiabilities + totalEquity)}</div>
+      </div>`;
+  }
+
+  // ── BANK FEEDS RENDERING ──────────────────────────────
+  function renderBankFeeds() {
+    const panel = document.getElementById('fin-bank-feeds-detail');
+    if (!panel) return;
+
+    const banks = BANK_ACCOUNTS_DEMO;
+    let totalBalance = 0;
+    let totalAvailable = 0;
+    
+    const fmtN = n => (n < 0 ? '−' : '') + '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:2});
+    
+    const accountRows = Object.entries(banks).flatMap(([bank, accounts]) => {
+      const bankTotal = accounts.reduce((s, a) => s + (a.balance || 0), 0);
+      totalBalance += bankTotal;
+      totalAvailable += accounts.reduce((s, a) => s + (a.available || 0), 0);
+      
+      return accounts.map((acc, idx) => `
+        <tr style="border-bottom:1px solid var(--cream)">
+          ${idx === 0 ? `<td rowspan="${accounts.length}" style="padding:0.5rem 0.6rem;font-weight:700;color:var(--forest);background:var(--cream)">${bank}</td>` : ''}
+          <td style="padding:0.5rem 0.6rem;color:var(--forest);font-weight:500">${acc.name}</td>
+          <td style="padding:0.5rem 0.6rem;text-align:center;font-size:0.8rem;color:#666">${acc.mask}</td>
+          <td style="padding:0.5rem 0.6rem;text-align:center;font-size:0.8rem;color:var(--forest-mid);text-transform:capitalize">${acc.type}</td>
+          <td style="padding:0.5rem 0.6rem;text-align:right;font-weight:600;color:${acc.balance < 0 ? 'var(--ember)' : 'var(--forest)'}">${fmtN(acc.balance)}</td>
+          <td style="padding:0.5rem 0.6rem;text-align:right;font-size:0.85rem;color:#27AE60">${fmtN(acc.available)}</td>
+          ${acc.limit ? `<td style="padding:0.5rem 0.6rem;text-align:right;font-size:0.85rem;color:#666">${fmtN(acc.limit)}</td>` : '<td></td>'}
+        </tr>`);
+    }).join('');
+
+    const recentTransactions = BANK_TRANSACTIONS_DEMO.slice(0, 10).map(t => `
+      <tr style="border-bottom:1px solid var(--cream)">
+        <td style="padding:0.4rem 0.6rem;font-size:0.8rem;color:#999">${t.date}</td>
+        <td style="padding:0.4rem 0.6rem;color:var(--forest);font-weight:500">${t.description}</td>
+        <td style="padding:0.4rem 0.6rem;font-size:0.8rem;color:var(--forest-mid)">${t.category}</td>
+        <td style="padding:0.4rem 0.6rem;text-align:right;font-weight:600;color:${t.amount < 0 ? 'var(--ember)' : '#27AE60'}">${(t.amount < 0 ? '−' : '+') + '$' + Math.abs(t.amount).toLocaleString()}</td>
+        <td style="padding:0.4rem 0.6rem;font-size:0.8rem;color:#666">${t.account}</td>
+      </tr>`).join('');
+
+    panel.innerHTML = `
+      <div style="margin-bottom:1.5rem">
+        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.8rem">Bank Account Balances</div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
+          <thead style="background:var(--cream)">
+            <tr style="border-bottom:1px solid var(--parchment)">
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Bank</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account Name</th>
+              <th style="text-align:center;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Mask</th>
+              <th style="text-align:center;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Type</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Balance</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Available</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Limit</th>
+            </tr>
+          </thead>
+          <tbody>${accountRows}</tbody>
+        </table>
+        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;display:flex;justify-content:space-between">
+          <span>Total across all accounts:</span>
+          <span style="color:${totalBalance < 0 ? 'var(--ember)' : 'var(--forest)'}">${fmtN(totalBalance)}</span>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.8rem">Recent Transactions (Last 10)</div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
+          <thead style="background:var(--cream)">
+            <tr style="border-bottom:1px solid var(--parchment)">
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Date</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Description</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Category</th>
+              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Amount</th>
+              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account</th>
+            </tr>
+          </thead>
+          <tbody>${recentTransactions}</tbody>
+        </table>
       </div>`;
   }
 
