@@ -3208,7 +3208,7 @@ body {
       projectedDaysAtRate,
       dailyBurnRate,
       paceStatus,
-      paceLabel: paceStatus === 'ahead' ? '⚠ Over budget' : paceStatus === 'behind' ? '✓ Underspending' : '→ On track'
+      paceLabel: paceStatus === 'ahead' ? '⚠ Overspending (off pace)' : paceStatus === 'behind' ? '✓ Under budget (efficient spend)' : '→ On track'
     };
   }
 
@@ -3228,7 +3228,7 @@ body {
     const burn = getBurnrate(c);
     const healthHtml = `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:700;color:${health.color}">${health.label}</div>`;
     const burnHtml = `<div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--forest-mid)">
-      <span style="font-weight:700" title="Days remaining at current burn rate">${burn.projectedDaysAtRate}d runway</span>
+      <span style="font-weight:700" title="Days of budget remaining at current spending rate">${burn.projectedDaysAtRate}d remaining</span>
       <span style="font-size:0.7rem">${burn.paceLabel}</span>
     </div>`;
     
