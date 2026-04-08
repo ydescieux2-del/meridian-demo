@@ -6121,7 +6121,24 @@ Generated on ${new Date().toLocaleDateString()}
   renderBoard();
 
   // ── CAMPAIGN DRILL HANDLERS ───────────────────────────
-  function drillCampaignSpend() {
+  // ── FINANCE CATEGORY DRILL HANDLERS ───────────────────
+function drillFinanceCategory(categoryName, categoryData) {
+  const total = categoryData.reduce((s, item) => s + (item.amount || 0), 0);
+  showDrill({
+    title: categoryName,
+    subtitle: `$${total.toLocaleString()} · ${categoryData.length} items`,
+    columns: [
+      {label: 'Item',   render: item => `<strong>${item.label}</strong>`},
+      {label: 'Amount', render: item => `$${(item.amount || 0).toLocaleString()}`},
+      {label: '% of Total', render: item => `${total > 0 ? Math.round((item.amount || 0) / total * 100) : 0}%`},
+    ],
+    rows: [...categoryData].sort((a, b) => (b.amount || 0) - (a.amount || 0)),
+    footer: `Total: $${total.toLocaleString()}`
+  });
+}
+
+// ── CAMPAIGN DRILL HANDLERS ───────────────────────────
+function drillCampaignSpend() {
     const data = loadCampaigns();
     const total = data.reduce((s,c)=>s+c.spent,0);
     const budget = data.reduce((s,c)=>s+c.budget,0);
