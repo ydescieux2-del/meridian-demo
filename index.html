@@ -1493,7 +1493,7 @@ body {
   <div class="section-sub" id="fin-section-sub">Business financials — revenue, invoices &amp; integrations</div>
 
   <!-- ── ENTITY TOGGLE ── -->
-  <div style="display:flex;gap:0;margin-bottom:2rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden;width:fit-content">
+  <div style="display:flex;gap:0;margin-bottom:1rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden;width:fit-content">
     <button id="fin-toggle-dna" onclick="switchFinanceView('dna')"
       style="padding:0.6rem 1.6rem;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;background:var(--forest);color:var(--ivory);transition:all 200ms">
       DNA Agency
@@ -1502,6 +1502,38 @@ body {
       style="padding:0.6rem 1.6rem;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;background:var(--white);color:var(--forest-mid);transition:all 200ms">
       Campaigns
     </button>
+  </div>
+
+  <!-- ── METRICS LEGEND ── -->
+  <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;font-size:0.85rem">
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">CPL</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Cost per lead — total spend ÷ leads generated</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">CTR</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Click-through rate — clicks ÷ impressions</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">ROAS</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Return on ad spend — revenue ÷ spend</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;cursor:help;position:relative;group" 
+         onmouseover="this.querySelector('.tooltip').style.display='block'" 
+         onmouseout="this.querySelector('.tooltip').style.display='none'">
+      <span style="font-weight:700;color:var(--forest)">CVR</span>
+      <span style="color:#999;font-size:0.7rem">?</span>
+      <div class="tooltip" style="display:none;position:absolute;top:100%;left:0;background:var(--charcoal);color:var(--ivory);padding:0.6rem;border-radius:3px;white-space:nowrap;font-size:0.75rem;z-index:1000;margin-top:0.3rem">Conversion rate — conversions ÷ clicks</div>
+    </div>
   </div>
 
   <!-- ══════════════════════════════════════════════ -->
@@ -2952,10 +2984,12 @@ body {
       phase: "execution",
       budget: 6500,
       spent: 4200,
-      revenue: 0,
+      revenue: 18900,
       leads: 312,
       cpl: 13.46,
       ctr: 4.2,
+      roas: 4.5,
+      cvr: 42,
       startDate: "2026-02-01",
       endDate: "2026-04-30",
       deadline: "2026-04-30",
@@ -2986,10 +3020,12 @@ body {
       phase: "review",
       budget: 12000,
       spent: 1850,
-      revenue: 8500,
+      revenue: 5920,
       leads: 89,
       cpl: 20.79,
+      ctr: 3.8,
       roas: 3.2,
+      cvr: 38,
       startDate: "2026-03-01",
       endDate: "2026-04-15",
       deadline: "2026-04-15",
@@ -3023,6 +3059,8 @@ body {
       revenue: 25000,
       leads: 203,
       cpl: 32.02,
+      ctr: 2.9,
+      roas: 3.85,
       cvr: 51,
       startDate: "2026-01-15",
       endDate: "2026-05-31",
@@ -3058,6 +3096,9 @@ body {
       revenue: 28000,
       leads: 445,
       cpl: 4.72,
+      ctr: 5.1,
+      roas: 13.33,
+      cvr: 58,
       startDate: "2026-01-01",
       endDate: "2026-02-28",
       deadline: "2026-02-28",
@@ -3147,11 +3188,12 @@ body {
     const pct = Math.min(Math.round(c.spent / c.budget * 100), 100);
     const statusMap = {active:'badge-active',paused:'badge-paused',complete:'badge-warm'};
     const statusLabel = {active:'Active',paused:'Paused',complete:'Complete'};
-    let extra = '';
-    if (c.ctr !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.ctr}%</div><div class="stat-lbl">CTR</div></div>`;
-    else if (c.roas !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.roas}×</div><div class="stat-lbl">ROAS</div></div>`;
-    else if (c.cvr !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.cvr}%</div><div class="stat-lbl">Form CVR</div></div>`;
-    else if (c.revenue !== undefined && c.revenue > 0) extra = `<div class="stat-item"><div class="stat-val">$${Math.round(c.revenue/1000)}K</div><div class="stat-lbl">Revenue</div></div>`;
+    // Show consistent metrics across all campaigns: CTR, ROAS, CVR
+    const metricsHtml = `
+      <div class="stat-item"><div class="stat-val">${c.ctr || 0}%</div><div class="stat-lbl">CTR</div></div>
+      <div class="stat-item"><div class="stat-val">${c.roas || 0}×</div><div class="stat-lbl">ROAS</div></div>
+      <div class="stat-item"><div class="stat-val">${c.cvr || 0}%</div><div class="stat-lbl">CVR</div></div>
+    `;
     
     // Health & Burnrate
     const health = getCampaignHealth(c);
@@ -3194,7 +3236,7 @@ body {
       <div class="card-stats" style="margin-top:0.5rem">
         <div class="stat-item"><div class="stat-val">${c.leads.toLocaleString()}</div><div class="stat-lbl">Leads</div></div>
         <div class="stat-item"><div class="stat-val">$${c.cpl > 0 ? c.cpl.toFixed(2) : '—'}</div><div class="stat-lbl">CPL</div></div>
-        ${extra}
+        ${metricsHtml}
       </div>${renderMilestoneBar(c)}${actProgressHtml}</div>`;
   }
 
@@ -5089,7 +5131,10 @@ body {
     const rows = categories.map(cat => {
       const pct = totalSpend > 0 ? (cat.amount / totalSpend * 100).toFixed(1) : 0;
       return `
-        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;cursor:pointer;padding:0.5rem;border-radius:4px;transition:background 0.2s ease" 
+             onmouseover="this.style.background='rgba(168,144,100,0.08)'" 
+             onmouseout="this.style.background='transparent'"
+             onclick="drillFinanceCategory('${cat.name}', [{label: '${cat.name}', amount: ${cat.amount}}])">
           <div style="flex:1">
             <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem">
               <span style="font-weight:600;color:var(--forest);font-size:0.9rem">${cat.name}</span>
@@ -6062,11 +6107,12 @@ Generated on ${new Date().toLocaleDateString()}
     const pct = Math.min(Math.round(c.spent/c.budget*100),100);
     const statusMap = {active:'badge-active',paused:'badge-paused',complete:'badge-warm'};
     const flags = getFlags(c);
-    let metric = '';
-    if (c.ctr!==undefined)     metric=`<div class="cm-field"><span class="cm-field-lbl">CTR</span><span class="cm-field-val">${c.ctr}%</span></div>`;
-    else if (c.roas!==undefined) metric=`<div class="cm-field"><span class="cm-field-lbl">ROAS</span><span class="cm-field-val">${c.roas}×</span></div>`;
-    else if (c.cvr!==undefined)  metric=`<div class="cm-field"><span class="cm-field-lbl">Form CVR</span><span class="cm-field-val">${c.cvr}%</span></div>`;
-    else if (c.revenue!==undefined) metric=`<div class="cm-field"><span class="cm-field-lbl">Revenue</span><span class="cm-field-val">$${Math.round(c.revenue/1000)}K</span></div>`;
+    // Show consistent metrics across all campaigns
+    const metricsHtml = `
+      <div class="cm-field"><span class="cm-field-lbl">CTR</span><span class="cm-field-val">${c.ctr || 0}%</span></div>
+      <div class="cm-field"><span class="cm-field-lbl">ROAS</span><span class="cm-field-val">${c.roas || 0}×</span></div>
+      <div class="cm-field"><span class="cm-field-lbl">CVR</span><span class="cm-field-val">${c.cvr || 0}%</span></div>
+    `;
     openDrillOverlay(`
       <div class="drill-panel" style="max-width:560px">
         <div class="drill-header">
@@ -6079,7 +6125,7 @@ Generated on ${new Date().toLocaleDateString()}
         <div class="cm-section-lbl">Performance</div>
         <div class="cm-field"><span class="cm-field-lbl">Leads</span><span class="cm-field-val">${c.leads.toLocaleString()}</span></div>
         <div class="cm-field"><span class="cm-field-lbl">CPL</span><span class="cm-field-val">$${c.cpl>0?c.cpl.toFixed(2):'—'}</span></div>
-        ${metric}
+        ${metricsHtml}
         <div class="cm-section-lbl" style="margin-top:1.2rem">Details</div>
         <div class="cm-field"><span class="cm-field-lbl">Client</span><span class="cm-field-val">${c.client}</span></div>
         <div class="cm-field"><span class="cm-field-lbl">Platform</span><span class="cm-field-val">${c.type}</span></div>
