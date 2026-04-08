@@ -1205,13 +1205,13 @@ body {
 
 /* ── GANTT CHART ─────────────────────────────────────── */
 .gantt-row { display: flex; align-items: center; border-bottom: 1px solid var(--parchment); min-height: 44px; }
-.gantt-label { flex: 0 0 180px; font-size: 0.82rem; font-weight: 700; color: var(--forest); padding: 0.4rem 0.75rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.gantt-label { flex: 0 0 260px; font-size: 0.82rem; font-weight: 700; color: var(--forest); padding: 0.4rem 0.75rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .gantt-bar-area { flex: 1; position: relative; height: 44px; }
 .gantt-bar { position: absolute; height: 14px; top: 15px; border-radius: 2px; }
 .gantt-milestone { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--forest); top: 18px; transform: translateX(-4px); }
 .gantt-today { position: absolute; top: 0; bottom: 0; width: 2px; background: #e74c3c; opacity: 0.7; z-index: 2; }
 .gantt-deliverable-row { display: flex; align-items: center; min-height: 28px; background: var(--cream); }
-.gantt-deliverable-label { flex: 0 0 180px; font-size: 0.75rem; color: var(--forest-mid); padding: 0.2rem 0.75rem 0.2rem 1.5rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.gantt-deliverable-label { flex: 0 0 260px; font-size: 0.75rem; color: var(--forest-mid); padding: 0.2rem 0.75rem 0.2rem 1.2rem; overflow: hidden; text-overflow: ellipsis; }
 .gantt-deliverable-bar { position: absolute; height: 8px; top: 10px; border-radius: 1px; background: var(--parchment); border: 1px solid var(--forest-mid); }
 
 /* ── TEAM ROSTER ──────────────────────────────────────── */
@@ -1529,28 +1529,7 @@ body {
   <div class="section-title" id="fin-section-title">DNA Agency</div>
   <div class="section-sub" id="fin-section-sub">Business financials — revenue, invoices &amp; integrations</div>
 
-  <!-- SUBSCRIPTION STATUS BAR -->
-  <div style="background:var(--forest);color:var(--ivory);padding:0.8rem 1.2rem;border-radius:3px;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
-    <div>
-      <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-right:0.8rem">Meridian Essential</span>
-      <span style="font-size:0.95rem;font-weight:700">$500 / month</span>
-      <span style="font-size:0.85rem;color:var(--parchment);margin-left:0.6rem">· Nonprofit Rate</span>
-    </div>
-    <div style="display:flex;gap:1rem;align-items:center">
-      <div style="text-align:right">
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Next Invoice</div>
-        <div id="fin-next-invoice" style="font-size:0.9rem;font-weight:700">May 1, 2026</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Status</div>
-        <div style="font-size:0.9rem;font-weight:700;color:#4ade80">Active ✓</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--parchment)">Creative Add-Ons</div>
-        <div style="font-size:0.9rem;font-weight:700;color:var(--parchment)">None Active</div>
-      </div>
-    </div>
-  </div>
+  <!-- Subscription details moved to Phase II tab -->
 
   <!-- ── ENTITY TOGGLE ── -->
   <div style="display:flex;gap:0;margin-bottom:1rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden;width:fit-content">
@@ -2965,9 +2944,9 @@ body {
     'admin':  'apex2026'
   };
   
-  // User roles: nicole = admin (sees all tabs), others = employee (sees CRM, Campaign, Operations only)
+  // User roles: nicole & admin = admin (sees all tabs), others = employee (sees CRM, Campaign, Operations only)
   function getUserRole(username) {
-    return username === 'nicole' ? 'admin' : 'employee';
+    return (username === 'nicole' || username === 'admin') ? 'admin' : 'employee';
   }
 
   function checkAuth() {
@@ -4464,43 +4443,55 @@ body {
         const endP = pct(a.dueDate);
         const dw = Math.max(0.5, endP - startP);
         const isComplete = a.status === 'done';
-        const statusColor = isComplete ? '#2d6a4f' : a.status === 'in-progress' ? 'var(--gold)' : 'var(--forest-mid)';
-        const statusLabel = isComplete ? '✓ Done' : a.status === 'in-progress' ? 'In Progress' : 'Not Started';
-        
-        // Get initials from assignee name
-        const formatAssigneeName = (name) => {
-          if (!name) return '';
-          const parts = name.trim().split(/\s+/);
-          if (parts.length === 1) return parts[0];
-          return parts[0] + ' ' + parts[parts.length - 1].charAt(0) + '.';
-        };
-        
-        // Build team work breakdown
-        const teamWork = a.teamWork && a.teamWork.length > 0 ? a.teamWork : (a.assignee ? [{name: a.assignee, phase: '', progress: isComplete ? 100 : 50}] : []);
-        const teamHtml = teamWork.map(tw => {
-          const progressLabel = tw.progress >= 100 ? `✓ (${tw.lastWorked})` : `${tw.progress}%`;
-          const initials = formatAssigneeName(tw.name);
-          return `<div style="font-size:0.65rem;color:var(--forest-mid);margin-top:0.2rem;padding:0.15rem 0.3rem;background:#f0ede4;border-radius:2px">
-            <strong>${initials}</strong> — ${tw.phase || 'Working'} ${progressLabel}
+        const isReview = a.status === 'review';
+        const statusColor = isComplete ? '#2d6a4f' : a.status === 'in-progress' ? 'var(--gold)' : isReview ? '#3498db' : 'var(--forest-mid)';
+        const statusDot = isComplete ? '🟢' : a.status === 'in-progress' ? '🟡' : isReview ? '🔵' : '⚪';
+
+        const fmtName = (name) => { if (!name) return ''; const p = name.trim().split(/\s+/); return p.length === 1 ? p[0] : p[0] + ' ' + p[p.length-1].charAt(0) + '.'; };
+
+        const teamWork = a.teamWork && a.teamWork.length > 0 ? a.teamWork : (a.assignee ? [{name: a.assignee, phase: a.category || '', progress: isComplete ? 100 : 50}] : []);
+
+        // Build worker cards for the label column
+        const workerCards = teamWork.map(tw => {
+          const prog = tw.progress || 0;
+          const isDone = prog >= 100;
+          const progColor = isDone ? '#2d6a4f' : prog >= 60 ? 'var(--gold)' : 'var(--ember)';
+          const progW = Math.min(100, Math.max(5, prog));
+          return `<div style="display:flex;align-items:center;gap:0.4rem;margin-top:0.25rem">
+            <div style="width:6px;height:6px;border-radius:50%;background:${isDone ? '#2d6a4f' : 'var(--gold)'};flex-shrink:0"></div>
+            <span style="font-size:0.72rem;font-weight:600;color:var(--forest);white-space:nowrap">${fmtName(tw.name)}</span>
+            <span style="font-size:0.65rem;color:var(--forest-mid);white-space:nowrap">${tw.phase || ''}</span>
+            <div style="flex:1;min-width:30px;height:4px;background:var(--parchment);border-radius:2px;overflow:hidden"><div style="width:${progW}%;height:100%;background:${progColor};border-radius:2px"></div></div>
+            <span style="font-size:0.65rem;font-weight:700;color:${progColor};white-space:nowrap">${isDone ? '✓' : prog + '%'}</span>
           </div>`;
         }).join('');
-        
-        const assigneeName = a.assignee ? formatAssigneeName(a.assignee) : '';
-        const assigneeDisplay = a.assignee ? `<span title="${a.assignee}" style="font-size:0.7rem;font-weight:600;color:var(--white);margin-left:0.3rem;padding:0.2rem 0.4rem;background:${statusColor};border-radius:2px;display:inline-block;white-space:nowrap;cursor:help">${assigneeName}</span>` : '';
-        
-        // For incomplete activities, show name inside/over the bar. For complete, show minimal label
-        const labelContent = isComplete 
-          ? `<span style="font-size:0.7rem;color:${statusColor};font-weight:600">${a.name}</span>`
-          : `<span style="font-size:0.78rem;color:var(--white);font-weight:600">${a.name}</span>${assigneeDisplay}`;
-        
-        return `<div class="gantt-deliverable-row">
-          <div class="gantt-deliverable-label" title="${a.name} · ${statusLabel} · Due: ${a.dueDate}${a.assignee ? ' · ' + a.assignee : ''}">${isComplete ? '<span style="color:var(--forest-mid);margin-right:0.3rem">✓</span>' : ''}${labelContent}${teamWork.length > 1 ? '<div style="font-size:0.65rem;color:var(--gold);margin-left:0.3rem;margin-top:0.1rem;font-weight:600">' + teamWork.length + ' team members</div>' : ''}</div>
+
+        // Completed-by attribution
+        const completedBy = isComplete && teamWork.length > 0
+          ? teamWork.filter(tw => tw.progress >= 100).map(tw => fmtName(tw.name)).join(', ')
+          : '';
+
+        const labelHtml = `<div style="padding:0.4rem 0">
+          <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.15rem">
+            <span style="font-size:0.68rem">${statusDot}</span>
+            <span style="font-size:0.78rem;font-weight:600;color:${isComplete ? 'var(--forest-mid)' : 'var(--forest)'}">${a.name}</span>
+          </div>
+          ${isComplete && completedBy
+            ? `<div style="font-size:0.68rem;color:#2d6a4f;font-weight:500;margin-left:1.1rem">Completed by ${completedBy}</div>`
+            : workerCards}
+        </div>`;
+
+        return `<div class="gantt-deliverable-row" style="min-height:${Math.max(36, 28 + teamWork.length * 20)}px">
+          <div class="gantt-deliverable-label" title="${a.name} · Due: ${a.dueDate}">${labelHtml}</div>
           <div class="gantt-bar-area" style="position:relative">
             ${todayLine}
-            <div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%;background:${isComplete ? '#2d6a4f' : statusColor};opacity:${isComplete ? '0.5' : '1'};border-bottom:2px solid ${statusColor}">
-              ${!isComplete ? `<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:0.7rem;font-weight:600;color:var(--white);white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,0.3)">${a.name}</div>` : ''}
-            </div>
-            ${teamWork.length > 0 ? `<div style="position:absolute;left:${(startP + dw/2).toFixed(2)}%;top:calc(100% + 0.3rem);transform:translateX(-50%);background:var(--white);border:1px solid var(--parchment);border-radius:3px;padding:0.4rem;z-index:10;min-width:200px;box-shadow:0 2px 6px rgba(0,0,0,0.08)">${teamHtml}</div>` : ''}
+            <div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%;background:${isComplete ? '#2d6a4f' : statusColor};opacity:${isComplete ? '0.4' : '1'}"></div>
+            ${teamWork.filter(tw => !isComplete).map((tw, i) => {
+              const twProg = (tw.progress || 0) / 100;
+              const twW = dw * twProg;
+              const twColor = tw.progress >= 100 ? '#2d6a4f' : tw.progress >= 60 ? '#C9A84C' : '#c0392b';
+              return `<div style="position:absolute;left:${startP.toFixed(2)}%;width:${twW.toFixed(2)}%;top:${4 + i * 7}px;height:5px;background:${twColor};border-radius:1px;opacity:0.8" title="${tw.name}: ${tw.progress}%"></div>`;
+            }).join('')}
           </div>
         </div>`;
       }).join('');
@@ -4516,7 +4507,7 @@ body {
 
     return `<div style="background:var(--white);border:1px solid var(--parchment);overflow-x:auto">
       <div style="display:flex;border-bottom:2px solid var(--parchment);background:var(--cream)">
-        <div style="flex:0 0 180px;padding:0.5rem 0.75rem;font-size:0.75rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em">Campaign</div>
+        <div style="flex:0 0 260px;padding:0.5rem 0.75rem;font-size:0.75rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em">Campaign / Deliverable</div>
         <div style="flex:1;position:relative;height:28px;">${monthLabels.join('')}${todayLine}</div>
       </div>
       ${rows}
@@ -5869,11 +5860,13 @@ body {
     
     const rows = categories.map(cat => {
       const pct = totalSpend > 0 ? (cat.amount / totalSpend * 100).toFixed(1) : 0;
-      // Count items in this category from BANK_TRANSACTIONS_DEMO
-      const itemCount = BANK_TRANSACTIONS_DEMO.filter(t => {
-        const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' : 
+      // Count items from QB itemized data or bank transactions
+      const qbCat = QB_EXPENSES_DEMO.find(e => e.category === cat.name);
+      const itemCount = (qbCat && qbCat.items) ? qbCat.items.length : BANK_TRANSACTIONS_DEMO.filter(t => {
+        const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' :
                            t.category === 'Advertising' ? 'Advertising' :
                            t.category === 'Software' ? 'Software & Tools' :
+                           t.category === 'Rent' ? 'Office & Rent' :
                            t.category === 'Meals & Entertainment' ? 'Meals & Entertainment' :
                            t.category === 'Transport' ? 'Travel & Transport' : t.category;
         return txnCategory === cat.name && t.amount < 0;
@@ -5938,22 +5931,57 @@ body {
 
   // ── QB DEMO DATA ──────────────────────────────────────
   const QB_INVOICES_DEMO = [
-    {id:'QB-001', customer:'Momentum Fitness',        amount:6500, status:'Paid',    date:'2026-01-15', description:'Social Media Campaign Q1'},
-    {id:'QB-002', customer:'Casa Verde Restaurant',   amount:3200, status:'Paid',    date:'2026-01-22', description:'Brand Identity + Menu Design'},
-    {id:'QB-003', customer:'Pacific Legal Group',     amount:4800, status:'Open',    date:'2026-02-01', description:'Website Redesign + SEO'},
-    {id:'QB-004', customer:'Rebuilding California',   amount:2100, status:'Paid',    date:'2026-02-10', description:'Grant Writing + Reporting'},
-    {id:'QB-005', customer:'Momentum Fitness',        amount:5500, status:'Open',    date:'2026-03-01', description:'Q2 Campaign + Analytics'},
-    {id:'QB-006', customer:'Pacific Legal Group',     amount:1200, status:'Overdue', date:'2026-02-15', description:'Monthly Retainer Feb'},
-    {id:'QB-007', customer:'Momentum Fitness',        amount:3250, status:'Paid',    date:'2026-04-03', description:'April Campaign Phase 1'},
-    {id:'QB-008', customer:'Casa Verde Restaurant',   amount:2800, status:'Sent',    date:'2026-04-08', description:'Menu Redesign + Photography'}
+    {id:'QB-001', customer:'Momentum Fitness',        amount:6500,  status:'Paid',    date:'2026-01-15', description:'Social Media Campaign Q1'},
+    {id:'QB-002', customer:'Casa Verde Restaurant',   amount:3200,  status:'Paid',    date:'2026-01-22', description:'Brand Identity + Menu Design'},
+    {id:'QB-003', customer:'Pacific Legal Group',     amount:4800,  status:'Paid',    date:'2026-02-01', description:'Website Redesign Phase 1'},
+    {id:'QB-004', customer:'Rebuilding California',   amount:2100,  status:'Paid',    date:'2026-02-10', description:'Grant Writing + Reporting'},
+    {id:'QB-005', customer:'Momentum Fitness',        amount:5500,  status:'Paid',    date:'2026-03-01', description:'Q2 Campaign + Analytics'},
+    {id:'QB-006', customer:'Pacific Legal Group',     amount:1200,  status:'Paid',    date:'2026-02-15', description:'Monthly Retainer Feb'},
+    {id:'QB-007', customer:'Momentum Fitness',        amount:3250,  status:'Paid',    date:'2026-04-03', description:'April Campaign Phase 1'},
+    {id:'QB-008', customer:'Casa Verde Restaurant',   amount:2800,  status:'Sent',    date:'2026-04-08', description:'Menu Redesign + Photography'},
+    {id:'QB-009', customer:'Pacific Legal Group',     amount:1200,  status:'Paid',    date:'2026-03-15', description:'Monthly Retainer Mar'},
+    {id:'QB-010', customer:'Solara Skincare',         amount:4200,  status:'Paid',    date:'2026-01-20', description:'Launch Campaign + Influencer'},
+    {id:'QB-011', customer:'Solara Skincare',         amount:2800,  status:'Paid',    date:'2026-02-20', description:'Social Media Mgmt Feb'},
+    {id:'QB-012', customer:'Rebuilding California',   amount:3500,  status:'Paid',    date:'2026-03-05', description:'Annual Report Design'},
+    {id:'QB-013', customer:'Momentum Fitness',        amount:1800,  status:'Paid',    date:'2026-03-20', description:'Email Nurture Sequence'},
+    {id:'QB-014', customer:'Casa Verde Restaurant',   amount:1500,  status:'Paid',    date:'2026-03-28', description:'Social Media Mgmt Mar'},
+    {id:'QB-015', customer:'Pacific Legal Group',     amount:6500,  status:'Open',    date:'2026-04-01', description:'Website Redesign Phase 2'},
+    {id:'QB-016', customer:'Momentum Fitness',        amount:2200,  status:'Open',    date:'2026-04-05', description:'Video Production Sprint'},
+    {id:'QB-017', customer:'Rebuilding California',   amount:1800,  status:'Sent',    date:'2026-04-07', description:'Q1 Impact Report'},
+    {id:'QB-018', customer:'Solara Skincare',         amount:3400,  status:'Open',    date:'2026-04-02', description:'Spring Collection Creative'}
   ];
 
   const QB_EXPENSES_DEMO = [
-    {category:'Contractor Payments', amount:28500.00},
-    {category:'Advertising',         amount:12400.00},
-    {category:'Software & Tools',    amount:1847.50},
-    {category:'Meals & Entertainment', amount:892.40},
-    {category:'Travel & Transport',  amount:640.20}
+    {category:'Contractor Payments', amount:28500.00, items:[
+      {vendor:'Sarah Chen', amount:9600, description:'Development — 64 hrs @ $150/hr', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Jade Thompson', amount:8400, description:'Design — 84 hrs @ $100/hr', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Marcus Rivera', amount:5200, description:'Strategy — 40 hrs @ $130/hr', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Alex Kim', amount:5300, description:'Analytics — 53 hrs @ $100/hr', date:'2026-01-01 to 2026-04-07'}
+    ]},
+    {category:'Advertising', amount:12400.00, items:[
+      {vendor:'Meta Ads', amount:7200, description:'Facebook/Instagram campaigns', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Google Ads', amount:3800, description:'Search + Display campaigns', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'LinkedIn Ads', amount:1400, description:'Sponsored content', date:'2026-02-01 to 2026-04-07'}
+    ]},
+    {category:'Software & Tools', amount:1847.50, items:[
+      {vendor:'Adobe Creative Cloud', amount:659.88, description:'6 months @ $109.98', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Google Workspace', amount:432.00, description:'6 users @ $12/mo × 6 mo', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Figma', amount:270.00, description:'Team plan — 6 months', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Canva Pro', amount:155.88, description:'Annual plan (prorated)', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Otter.ai', amount:119.88, description:'Business plan', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Other Tools', amount:209.86, description:'Misc subscriptions', date:'2026-01-01 to 2026-04-07'}
+    ]},
+    {category:'Office & Rent', amount:11200.00, items:[
+      {vendor:'WeWork', amount:11200, description:'Shared office — 4 months @ $2,800', date:'2026-01-01 to 2026-04-07'}
+    ]},
+    {category:'Meals & Entertainment', amount:892.40, items:[
+      {vendor:'Client lunches', amount:640, description:'8 client meetings', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Team events', amount:252.40, description:'Team dinners & coffee', date:'2026-01-01 to 2026-04-07'}
+    ]},
+    {category:'Travel & Transport', amount:640.20, items:[
+      {vendor:'Uber/Lyft', amount:380.20, description:'Client site visits', date:'2026-01-01 to 2026-04-07'},
+      {vendor:'Parking', amount:260.00, description:'Downtown LA parking', date:'2026-01-01 to 2026-04-07'}
+    ]}
   ];
 
   // ── PROJECTS DEMO DATA ────────────────────────────────
@@ -5989,14 +6017,31 @@ body {
   };
 
   const BANK_TRANSACTIONS_DEMO = [
-    {date:'2026-04-05', description:'Adobe Creative Cloud',           amount:-54.99,   category:'Software',    account:'Chase ••4821'},
-    {date:'2026-04-04', description:'META ADS — DNA AGENCY',          amount:-2400.00, category:'Advertising', account:'Amex ••0001'},
-    {date:'2026-04-03', description:'CLIENT PAYMENT — Momentum Fitness', amount:3250.00, category:'Income',   account:'Chase ••4821'},
-    {date:'2026-04-03', description:'Google Workspace',               amount:-72.00,   category:'Software',    account:'Chase ••4821'},
-    {date:'2026-04-02', description:'Contractor Payment — Sarah Chen', amount:-1500.00, category:'Contractor', account:'Chase ••4821'},
-    {date:'2026-04-01', description:'Office Rent — April',            amount:-2800.00, category:'Rent',        account:'Chase ••4821'},
-    {date:'2026-03-31', description:'CLIENT PAYMENT — Pacific Legal', amount:4800.00,  category:'Income',      account:'Chase ••4821'},
-    {date:'2026-03-30', description:'Figma Teams',                    amount:-45.00,   category:'Software',    account:'Amex ••0001'}
+    {date:'2026-04-08', description:'CLIENT PAYMENT — Casa Verde',         amount:2800.00,  category:'Income',      account:'Chase ••4821'},
+    {date:'2026-04-07', description:'Contractor — Alex Kim',               amount:-1000.00, category:'Contractor',  account:'Chase ••4821'},
+    {date:'2026-04-07', description:'Rebuilding CA — Impact Report',       amount:1800.00,  category:'Income',      account:'BofA ••3344'},
+    {date:'2026-04-05', description:'Adobe Creative Cloud',                amount:-54.99,   category:'Software',    account:'Amex ••0001'},
+    {date:'2026-04-05', description:'LinkedIn Ads — Pacific Legal',        amount:-350.00,  category:'Advertising', account:'Amex ••0001'},
+    {date:'2026-04-04', description:'META ADS — Momentum Fitness',         amount:-2400.00, category:'Advertising', account:'Amex ••0001'},
+    {date:'2026-04-03', description:'CLIENT PAYMENT — Momentum Fitness',   amount:3250.00,  category:'Income',      account:'Chase ••4821'},
+    {date:'2026-04-03', description:'Google Workspace',                    amount:-72.00,   category:'Software',    account:'Chase ••4821'},
+    {date:'2026-04-02', description:'Contractor — Sarah Chen',             amount:-1500.00, category:'Contractor',  account:'Chase ••4821'},
+    {date:'2026-04-02', description:'Contractor — Jade Thompson',          amount:-1200.00, category:'Contractor',  account:'Chase ••4821'},
+    {date:'2026-04-01', description:'Office Rent — April',                 amount:-2800.00, category:'Rent',        account:'Chase ••4821'},
+    {date:'2026-03-31', description:'CLIENT PAYMENT — Pacific Legal',      amount:4800.00,  category:'Income',      account:'Chase ••4821'},
+    {date:'2026-03-30', description:'Figma Teams',                         amount:-45.00,   category:'Software',    account:'Amex ••0001'},
+    {date:'2026-03-28', description:'CLIENT PAYMENT — Casa Verde',         amount:1500.00,  category:'Income',      account:'BofA ••3344'},
+    {date:'2026-03-25', description:'Google Ads — Momentum',               amount:-950.00,  category:'Advertising', account:'Amex ••0001'},
+    {date:'2026-03-20', description:'CLIENT PAYMENT — Momentum Fitness',   amount:1800.00,  category:'Income',      account:'Chase ••4821'},
+    {date:'2026-03-15', description:'CLIENT PAYMENT — Pacific Legal',      amount:1200.00,  category:'Income',      account:'Chase ••4821'},
+    {date:'2026-03-15', description:'Contractor — Marcus Rivera',          amount:-1300.00, category:'Contractor',  account:'Chase ••4821'},
+    {date:'2026-03-10', description:'Canva Pro — Annual',                  amount:-155.88,  category:'Software',    account:'Amex ••0001'},
+    {date:'2026-03-05', description:'CLIENT PAYMENT — Rebuilding CA',      amount:3500.00,  category:'Income',      account:'BofA ••3344'},
+    {date:'2026-03-01', description:'Office Rent — March',                 amount:-2800.00, category:'Rent',        account:'Chase ••4821'},
+    {date:'2026-02-20', description:'CLIENT PAYMENT — Solara Skincare',    amount:2800.00,  category:'Income',      account:'WF ••7756'},
+    {date:'2026-02-15', description:'CLIENT PAYMENT — Pacific Legal',      amount:1200.00,  category:'Income',      account:'Chase ••4821'},
+    {date:'2026-02-10', description:'CLIENT PAYMENT — Rebuilding CA',      amount:2100.00,  category:'Income',      account:'BofA ••3344'},
+    {date:'2026-02-01', description:'CLIENT PAYMENT — Pacific Legal',      amount:4800.00,  category:'Income',      account:'Chase ••4821'}
   ];
 
   // ── QB CONFIG ─────────────────────────────────────────
@@ -6005,21 +6050,40 @@ body {
   // ── QB BALANCE SHEET (MIRRORS QB GL ACCOUNT STRUCTURE) ────────────────
   const QB_CHART_OF_ACCOUNTS = {
     assets: [
-      {account:'1010', name:'Cash - Operating', qbBalance:24830.50, bankBalance:24830.50, qbLastSync:'2026-04-07 14:32'},
-      {account:'1020', name:'Cash - Savings', qbBalance:45000.00, bankBalance:45000.00, qbLastSync:'2026-04-07 14:32'},
-      {account:'1030', name:'Petty Cash', qbBalance:250.00, bankBalance:250.00, qbLastSync:'2026-04-07'},
-      {account:'1200', name:'Accounts Receivable', qbBalance:12300.00, qbLastSync:'2026-04-07', notes:'3 invoices outstanding'},
+      {account:'1010', name:'Cash - Operating (Chase)', qbBalance:24830.50, bankBalance:24830.50, qbLastSync:'2026-04-08 09:15'},
+      {account:'1020', name:'Cash - Savings (Chase)', qbBalance:45000.00, bankBalance:45000.00, qbLastSync:'2026-04-08 09:15'},
+      {account:'1030', name:'Cash - BofA Business', qbBalance:18250.75, bankBalance:18250.75, qbLastSync:'2026-04-08 09:15'},
+      {account:'1040', name:'Cash - Wells Fargo', qbBalance:11200.00, bankBalance:11200.00, qbLastSync:'2026-04-08 09:15'},
+      {account:'1050', name:'Cash - US Bank', qbBalance:8400.00, bankBalance:8400.00, qbLastSync:'2026-04-08 09:15'},
+      {account:'1060', name:'Petty Cash', qbBalance:250.00, bankBalance:250.00, qbLastSync:'2026-04-07'},
+      {account:'1200', name:'Accounts Receivable', qbBalance:13900.00, qbLastSync:'2026-04-08', notes:'4 open invoices'},
       {account:'1300', name:'Equipment & Technology', qbBalance:8450.00, qbLastSync:'2026-02-15'},
       {account:'1310', name:'Furniture & Fixtures', qbBalance:3200.00, qbLastSync:'2026-02-15'}
     ],
     liabilities: [
-      {account:'2100', name:'Accounts Payable', qbBalance:-2150.00, qbLastSync:'2026-04-05', notes:'Contractor invoices pending'},
-      {account:'2200', name:'Credit Card Payable', qbBalance:-3420.18, bankBalance:-3420.18, qbLastSync:'2026-04-07 14:32'},
-      {account:'2300', name:'Accrued Payroll', qbBalance:-1200.00, qbLastSync:'2026-04-01'}
+      {account:'2100', name:'Accounts Payable', qbBalance:-2150.00, qbLastSync:'2026-04-05', notes:'2 contractor invoices pending'},
+      {account:'2200', name:'Credit Card - Amex', qbBalance:-3420.18, bankBalance:-3420.18, qbLastSync:'2026-04-08 09:15'},
+      {account:'2300', name:'Accrued Payroll', qbBalance:-1200.00, qbLastSync:'2026-04-01'},
+      {account:'2400', name:'Sales Tax Payable', qbBalance:-485.00, qbLastSync:'2026-03-31'}
     ],
     equity: [
       {account:'3100', name:'Owner Investment', qbBalance:50000.00, qbLastSync:'2026-01-01'},
-      {account:'3200', name:'Retained Earnings', qbBalance:104639.82, qbLastSync:'2026-03-31'}
+      {account:'3200', name:'Retained Earnings', qbBalance:38475.57, qbLastSync:'2026-03-31'}
+    ],
+    income: [
+      {account:'4010', name:'Campaign Services Revenue', qbBalance:29750.00, qbLastSync:'2026-04-08', notes:'Momentum, Casa Verde, Solara'},
+      {account:'4020', name:'Website & Development', qbBalance:13700.00, qbLastSync:'2026-04-08', notes:'Pacific Legal'},
+      {account:'4030', name:'Consulting & Strategy', qbBalance:7400.00, qbLastSync:'2026-04-08', notes:'Rebuilding CA + misc'},
+      {account:'4040', name:'Monthly Retainers', qbBalance:3900.00, qbLastSync:'2026-04-08', notes:'3 active retainers'},
+      {account:'4050', name:'Creative & Production', qbBalance:5000.00, qbLastSync:'2026-04-08', notes:'Video, photo, design'}
+    ],
+    expenses: [
+      {account:'5010', name:'Contractor Labor', qbBalance:28500.00, qbLastSync:'2026-04-08'},
+      {account:'5020', name:'Advertising & Media Buy', qbBalance:12400.00, qbLastSync:'2026-04-08'},
+      {account:'5030', name:'Software & Subscriptions', qbBalance:1847.50, qbLastSync:'2026-04-08'},
+      {account:'5040', name:'Office & Rent', qbBalance:11200.00, qbLastSync:'2026-04-08'},
+      {account:'5050', name:'Meals & Entertainment', qbBalance:892.40, qbLastSync:'2026-04-08'},
+      {account:'5060', name:'Travel & Transport', qbBalance:640.20, qbLastSync:'2026-04-08'}
     ]
   };
 
@@ -6183,83 +6247,66 @@ body {
     const totalAssets = coa.assets.reduce((s, a) => s + (a.qbBalance || 0), 0);
     const totalLiabilities = coa.liabilities.reduce((s, l) => s + (l.qbBalance || 0), 0);
     const totalEquity = coa.equity.reduce((s, e) => s + (e.qbBalance || 0), 0);
-    
+    const totalIncome = (coa.income || []).reduce((s, a) => s + (a.qbBalance || 0), 0);
+    const totalExpenses = (coa.expenses || []).reduce((s, a) => s + (a.qbBalance || 0), 0);
+    const netIncome = totalIncome - totalExpenses;
+
     const fmtN = n => (n < 0 ? '−' : '') + '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:2});
-    
-    const renderAccounts = (accounts, section) => {
+    const thStyle = 'text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)';
+    const thStyleR = 'text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)';
+
+    const renderAccounts = (accounts) => {
       return accounts.map(acc => {
-        const variance = (acc.bankBalance || 0) - (acc.qbBalance || 0);
-        const varianceClass = Math.abs(variance) > 1 ? 'style="background:#fff3cd;padding:0.3rem"' : '';
-        return `
-          <tr ${varianceClass}>
+        const hasBankFeed = acc.bankBalance !== undefined;
+        const variance = hasBankFeed ? (acc.bankBalance - acc.qbBalance) : 0;
+        const varStyle = Math.abs(variance) > 1 ? 'background:#fff3cd;' : '';
+        return `<tr style="${varStyle}">
             <td style="padding:0.5rem 0.6rem;color:#aaa;font-size:0.8rem">${acc.account}</td>
             <td style="padding:0.5rem 0.6rem;color:var(--forest);font-weight:500">${acc.name}</td>
             <td style="padding:0.5rem 0.6rem;text-align:right;font-weight:600">${fmtN(acc.qbBalance)}</td>
-            <td style="padding:0.5rem 0.6rem;text-align:right;font-size:0.85rem;color:#666">${acc.bankBalance !== undefined ? fmtN(acc.bankBalance) : '—'}</td>
-            ${Math.abs(variance) > 1 ? `<td style="padding:0.5rem 0.6rem;text-align:right;color:var(--ember);font-weight:600">${fmtN(variance)}</td>` : `<td style="padding:0.5rem 0.6rem;text-align:right;color:#27AE60;font-weight:600">✓</td>`}
+            <td style="padding:0.5rem 0.6rem;text-align:right;font-size:0.85rem;color:#666">${hasBankFeed ? fmtN(acc.bankBalance) : '—'}</td>
+            <td style="padding:0.5rem 0.6rem;text-align:right;font-weight:600;color:${Math.abs(variance) > 1 ? 'var(--ember)' : '#27AE60'}">${Math.abs(variance) > 1 ? fmtN(variance) : '✓'}</td>
             <td style="padding:0.5rem 0.6rem;font-size:0.75rem;color:#999">${acc.notes || acc.qbLastSync || '—'}</td>
           </tr>`;
       }).join('');
     };
 
-    panel.innerHTML = `
+    const makeTable = (title, color, accounts, total, totalLabel) => `
       <div style="margin-bottom:1.5rem">
-        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.8rem;display:flex;justify-content:space-between">
-          <span>ASSETS</span>
-          <span style="color:var(--forest-mid)">QB Balance | Bank Feed | Variance | Last Sync</span>
-        </div>
+        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${color};margin-bottom:0.8rem">${title}</div>
         <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
-          <thead style="background:var(--cream)">
-            <tr style="border-bottom:1px solid var(--parchment)">
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);width:80px">Acct#</th>
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account Name</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">QB Balance</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Bank Feed</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Variance</th>
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Status</th>
-            </tr>
-          </thead>
-          <tbody>${renderAccounts(coa.assets, 'assets')}</tbody>
+          <thead style="background:var(--cream)"><tr style="border-bottom:1px solid var(--parchment)">
+            <th style="${thStyle};width:70px">Acct#</th><th style="${thStyle}">Account Name</th>
+            <th style="${thStyleR}">QB Balance</th><th style="${thStyleR}">Bank Feed</th>
+            <th style="${thStyleR}">Variance</th><th style="${thStyle}">Notes</th>
+          </tr></thead>
+          <tbody>${renderAccounts(accounts)}</tbody>
         </table>
-        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right">TOTAL ASSETS: ${fmtN(totalAssets)}</div>
-      </div>
-
-      <div style="margin-bottom:1.5rem">
-        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ember);margin-bottom:0.8rem">LIABILITIES</div>
-        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
-          <thead style="background:var(--cream)">
-            <tr style="border-bottom:1px solid var(--parchment)">
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);width:80px">Acct#</th>
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account Name</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">QB Balance</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Bank Feed</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Variance</th>
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Status</th>
-            </tr>
-          </thead>
-          <tbody>${renderAccounts(coa.liabilities, 'liabilities')}</tbody>
-        </table>
-        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right">TOTAL LIABILITIES: ${fmtN(totalLiabilities)}</div>
-      </div>
-
-      <div style="margin-bottom:0">
-        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest);margin-bottom:0.8rem">EQUITY</div>
-        <table style="width:100%;border-collapse:collapse;font-size:0.9rem;border:1px solid var(--parchment)">
-          <thead style="background:var(--cream)">
-            <tr style="border-bottom:1px solid var(--parchment)">
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);width:80px">Acct#</th>
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Account Name</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">QB Balance</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">—</th>
-              <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">—</th>
-              <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Status</th>
-            </tr>
-          </thead>
-          <tbody>${renderAccounts(coa.equity, 'equity')}</tbody>
-        </table>
-        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right">TOTAL EQUITY: ${fmtN(totalEquity)}</div>
-        <div style="padding:0.7rem 0.6rem;background:var(--gold);color:var(--forest);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right;margin-top:1rem">TOTAL LIABILITIES + EQUITY: ${fmtN(totalLiabilities + totalEquity)}</div>
+        <div style="padding:0.7rem 0.6rem;background:var(--cream);border:1px solid var(--parchment);border-top:none;font-weight:700;text-align:right">${totalLabel}: ${fmtN(total)}</div>
       </div>`;
+
+    // Update summary KPI
+    const summaryEl = document.getElementById('kpi-bs-summary');
+    if (summaryEl) summaryEl.textContent = `YTD Revenue: ${fmtN(totalIncome)} · Net Income: ${fmtN(netIncome)}`;
+
+    panel.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:2px solid var(--parchment)">
+        <div style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid)">QB Balance | Bank Feed | Variance | Notes</div>
+        <div style="font-size:0.75rem;color:var(--forest-mid)">Last Sync: Apr 8, 2026 · 09:15 AM</div>
+      </div>
+      ${makeTable('INCOME (YTD Revenue)', '#27AE60', coa.income || [], totalIncome, 'TOTAL REVENUE')}
+      ${makeTable('EXPENSES (YTD Costs)', 'var(--ember)', coa.expenses || [], totalExpenses, 'TOTAL EXPENSES')}
+      <div style="padding:0.8rem;background:${netIncome >= 0 ? '#e8f5e9' : '#fce4ec'};border:2px solid ${netIncome >= 0 ? '#27AE60' : 'var(--ember)'};border-radius:3px;margin-bottom:2rem;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">Net Income (Revenue − Expenses)</span>
+        <span style="font-size:1.2rem;font-weight:700;color:${netIncome >= 0 ? '#27AE60' : 'var(--ember)'}">${fmtN(netIncome)}</span>
+      </div>
+      <div style="border-top:3px solid var(--forest);padding-top:1.5rem">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:1rem">BALANCE SHEET</div>
+      </div>
+      ${makeTable('ASSETS', 'var(--forest)', coa.assets, totalAssets, 'TOTAL ASSETS')}
+      ${makeTable('LIABILITIES', 'var(--ember)', coa.liabilities, totalLiabilities, 'TOTAL LIABILITIES')}
+      ${makeTable('EQUITY', 'var(--forest)', coa.equity, totalEquity, 'TOTAL EQUITY')}
+      <div style="padding:0.7rem 0.6rem;background:var(--gold);color:var(--forest);border:1px solid var(--parchment);font-weight:700;text-align:right;border-radius:3px">TOTAL LIABILITIES + EQUITY: ${fmtN(totalLiabilities + totalEquity)}</div>`;
   }
 
   // ── BANK FEEDS RENDERING ──────────────────────────────
@@ -7491,22 +7538,31 @@ function drillCampaignSpend() {
   }
 
   function drillSpendingCategory(categoryName) {
-    // Show detailed items for a spending category
+    // First try QB itemized data, fall back to bank transactions
+    const qbCat = QB_EXPENSES_DEMO.find(e => e.category === categoryName);
+    if (qbCat && qbCat.items && qbCat.items.length > 0) {
+      const items = qbCat.items.map(it => ({
+        label: it.vendor + ' — ' + it.description,
+        amount: it.amount,
+        detail: it.date
+      }));
+      showDrill(categoryName, items, 'Expense Detail (QB + Bank)');
+      return;
+    }
     const categoryTxns = BANK_TRANSACTIONS_DEMO.filter(t => {
-      const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' : 
+      const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' :
                          t.category === 'Advertising' ? 'Advertising' :
                          t.category === 'Software' ? 'Software & Tools' :
+                         t.category === 'Rent' ? 'Office & Rent' :
                          t.category === 'Meals & Entertainment' ? 'Meals & Entertainment' :
                          t.category === 'Transport' ? 'Travel & Transport' : t.category;
       return txnCategory === categoryName && t.amount < 0;
     });
-    
     const items = categoryTxns.map(t => ({
-      label: t.description, 
+      label: t.description,
       amount: Math.abs(t.amount),
       detail: t.date
     }));
-    
     showDrill(categoryName, items, 'Expense Detail');
   }
 </script>
