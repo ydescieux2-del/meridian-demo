@@ -1591,15 +1591,15 @@ body {
         <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
           <tr style="border-bottom:1px solid var(--parchment)">
             <td style="padding:0.7rem 0;font-weight:700;color:var(--forest)">Revenue (QB Invoices)</td>
-            <td style="padding:0.7rem 0;text-align:right;font-weight:700;color:#27AE60" id="fin-pl-revenue">$0</td>
+            <td style="padding:0.7rem 0;text-align:right;font-weight:700;color:#27AE60;cursor:pointer" id="fin-pl-revenue" onclick="drillPLRevenue()" title="Click to see details">$0</td>
           </tr>
           <tr style="border-bottom:1px solid var(--parchment)">
             <td style="padding:0.7rem 0;color:var(--forest-mid)">— Expenses (QB)</td>
-            <td style="padding:0.7rem 0;text-align:right;color:var(--ember)" id="fin-pl-expenses">($0)</td>
+            <td style="padding:0.7rem 0;text-align:right;color:var(--ember);cursor:pointer" id="fin-pl-expenses" onclick="drillPLExpenses()" title="Click to see details">($0)</td>
           </tr>
           <tr style="border-bottom:2px solid var(--parchment);background:var(--cream)">
             <td style="padding:0.9rem 0;font-weight:700;font-size:1.05rem;color:var(--forest)">Net Income (YTD)</td>
-            <td style="padding:0.9rem 0;text-align:right;font-weight:700;font-size:1.05rem;" id="fin-pl-net">$0</td>
+            <td style="padding:0.9rem 0;text-align:right;font-weight:700;font-size:1.05rem;cursor:pointer" id="fin-pl-net" onclick="drillPLNet()" title="Click to see details">$0</td>
           </tr>
           <tr>
             <td style="padding:0.7rem 0;font-size:0.9rem;color:var(--forest-mid)">Gross Margin</td>
@@ -5234,14 +5234,27 @@ body {
     
     const rows = categories.map(cat => {
       const pct = totalSpend > 0 ? (cat.amount / totalSpend * 100).toFixed(1) : 0;
+      // Count items in this category from BANK_TRANSACTIONS_DEMO
+      const itemCount = BANK_TRANSACTIONS_DEMO.filter(t => {
+        const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' : 
+                           t.category === 'Advertising' ? 'Advertising' :
+                           t.category === 'Software' ? 'Software & Tools' :
+                           t.category === 'Meals & Entertainment' ? 'Meals & Entertainment' :
+                           t.category === 'Transport' ? 'Travel & Transport' : t.category;
+        return txnCategory === cat.name && t.amount < 0;
+      }).length || 1;
+      
       return `
         <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;cursor:pointer;padding:0.5rem;border-radius:4px;transition:background 0.2s ease" 
              onmouseover="this.style.background='rgba(168,144,100,0.08)'" 
              onmouseout="this.style.background='transparent'"
-             onclick="drillFinanceCategory('${cat.name}', [{label: '${cat.name}', amount: ${cat.amount}}])">
+             onclick="drillSpendingCategory('${cat.name}')">
           <div style="flex:1">
             <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem">
-              <span style="font-weight:600;color:var(--forest);font-size:0.9rem">${cat.name}</span>
+              <div>
+                <span style="font-weight:600;color:var(--forest);font-size:0.9rem">${cat.name}</span>
+                <span style="color:#999;font-size:0.8rem"> · ${itemCount} item${itemCount !== 1 ? 's' : ''}</span>
+              </div>
               <span style="font-weight:700;color:var(--forest)">${cat.amount.toLocaleString('en-US', {style:'currency', currency:'USD'})}</span>
             </div>
             <div style="height:6px;background:var(--parchment);border-radius:3px;overflow:hidden">
@@ -6691,6 +6704,52 @@ function drillCampaignSpend() {
         }).join('')}
       </div>
     </div>`;
+  }
+
+  // ── P&L DRILL-DOWN FUNCTIONS ──────────────────────────
+  function drillPLRevenue() {
+    // Show all "Paid" invoices
+    const paidInvoices = QB_INVOICES_DEMO.filter(inv => inv.status === 'Paid');
+    const items = paidInvoices.map(inv => ({label: inv.customer, amount: inv.amount, detail: inv.description}));
+    showDrill('YTD Revenue', items, 'Income');
+  }
+
+  function drillPLExpenses() {
+    // Show all expense categories with item counts
+    const expenseItems = QB_EXPENSES_DEMO.map(exp => ({label: exp.category, amount: exp.amount}));
+    showDrill('YTD Expenses', expenseItems, 'Expense');
+  }
+
+  function drillPLNet() {
+    // Show net income breakdown (Revenue - Expenses)
+    const paidInvoices = QB_INVOICES_DEMO.filter(inv => inv.status === 'Paid');
+    const totalRevenue = paidInvoices.reduce((sum, inv) => sum + inv.amount, 0);
+    const totalExpenses = QB_EXPENSES_DEMO.reduce((sum, exp) => sum + exp.amount, 0);
+    const items = [
+      {label: 'Total Revenue', amount: totalRevenue},
+      {label: 'Total Expenses', amount: -totalExpenses}
+    ];
+    showDrill('Net Income', items, 'Calculation');
+  }
+
+  function drillSpendingCategory(categoryName) {
+    // Show detailed items for a spending category
+    const categoryTxns = BANK_TRANSACTIONS_DEMO.filter(t => {
+      const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' : 
+                         t.category === 'Advertising' ? 'Advertising' :
+                         t.category === 'Software' ? 'Software & Tools' :
+                         t.category === 'Meals & Entertainment' ? 'Meals & Entertainment' :
+                         t.category === 'Transport' ? 'Travel & Transport' : t.category;
+      return txnCategory === categoryName && t.amount < 0;
+    });
+    
+    const items = categoryTxns.map(t => ({
+      label: t.description, 
+      amount: Math.abs(t.amount),
+      detail: t.date
+    }));
+    
+    showDrill(categoryName, items, 'Expense Detail');
   }
 </script>
 </body>
