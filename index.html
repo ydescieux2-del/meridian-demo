@@ -1354,6 +1354,398 @@ body {
   color: var(--ivory);
   border-color: var(--forest);
 }
+
+/* ── FINANCE DASHBOARD ──────────────────────────────── */
+:root {
+  --ember: #C0392B;
+  --green: #27AE60;
+  --blue: #2980B9;
+}
+
+.fin-dash {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.fin-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.fin-kpi-card {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-radius: 6px;
+  padding: 1.4rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 200ms var(--ease), transform 100ms var(--ease);
+  cursor: pointer;
+}
+.fin-kpi-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+}
+.fin-kpi-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+}
+.fin-kpi-card.kpi-revenue::before { background: var(--green); }
+.fin-kpi-card.kpi-expenses::before { background: var(--ember); }
+.fin-kpi-card.kpi-net::before { background: var(--forest); }
+.fin-kpi-card.kpi-cash::before { background: var(--gold); }
+
+.fin-kpi-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--forest-mid);
+  margin-bottom: 0.4rem;
+}
+.fin-kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+.fin-kpi-sub {
+  font-size: 0.8rem;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.fin-kpi-trend {
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.fin-kpi-trend.up { background: #e8f5e9; color: #2e7d32; }
+.fin-kpi-trend.down { background: #fce4ec; color: #c62828; }
+
+.fin-panel {
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+.fin-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.fin-panel-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.fin-panel-action {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--forest-mid);
+  cursor: pointer;
+  border: none;
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.fin-panel-action:hover { color: var(--forest); }
+
+.fin-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+@media (max-width: 820px) {
+  .fin-two-col { grid-template-columns: 1fr; }
+}
+
+/* Bar chart */
+.fin-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+  cursor: pointer;
+  padding: 0.3rem 0.4rem;
+  border-radius: 4px;
+  transition: background 150ms;
+}
+.fin-bar-row:hover { background: var(--cream); }
+.fin-bar-label {
+  width: 120px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--forest);
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fin-bar-track {
+  flex: 1;
+  height: 22px;
+  background: var(--cream);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.fin-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 600ms var(--ease);
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: white;
+  white-space: nowrap;
+}
+.fin-bar-amount {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--forest);
+  width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Donut chart (pure CSS) */
+.fin-donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.fin-donut {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+.fin-donut-center {
+  position: absolute;
+  width: 76px; height: 76px;
+  background: var(--white);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.fin-donut-center-val {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--forest);
+  line-height: 1;
+}
+.fin-donut-center-lbl {
+  font-size: 0.6rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.fin-legend {
+  flex: 1;
+}
+.fin-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.3rem;
+  border-radius: 3px;
+  transition: background 150ms;
+}
+.fin-legend-item:hover { background: var(--cream); }
+.fin-legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.fin-legend-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--forest);
+  flex: 1;
+}
+.fin-legend-val {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+/* Cash flow bars */
+.fin-cf-grid {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 160px;
+  padding-top: 0.5rem;
+}
+.fin-cf-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  height: 100%;
+  justify-content: flex-end;
+}
+.fin-cf-bars {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  width: 100%;
+  justify-content: center;
+}
+.fin-cf-bar {
+  width: 16px;
+  border-radius: 2px 2px 0 0;
+  transition: height 600ms var(--ease);
+  min-height: 2px;
+}
+.fin-cf-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--forest-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Invoice pipeline */
+.fin-pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+@media (max-width: 600px) {
+  .fin-pipeline { grid-template-columns: repeat(2, 1fr); }
+}
+.fin-pipe-stage {
+  text-align: center;
+  padding: 1rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 100ms, box-shadow 200ms;
+}
+.fin-pipe-stage:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.fin-pipe-count {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+.fin-pipe-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.fin-pipe-amt {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Bank account cards */
+.fin-bank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.8rem;
+}
+.fin-bank-card {
+  background: var(--cream);
+  border: 1px solid var(--parchment);
+  border-radius: 6px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: box-shadow 200ms, transform 100ms;
+}
+.fin-bank-card:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+.fin-bank-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--forest-mid);
+  margin-bottom: 0.5rem;
+}
+.fin-bank-bal {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--forest);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+.fin-bank-type {
+  font-size: 0.72rem;
+  color: #999;
+}
+
+/* Transaction list */
+.fin-txn-row {
+  display: grid;
+  grid-template-columns: 70px 1fr auto 90px;
+  gap: 0.5rem;
+  padding: 0.55rem 0.4rem;
+  border-bottom: 1px solid var(--cream);
+  align-items: center;
+  font-size: 0.85rem;
+  transition: background 150ms;
+}
+.fin-txn-row:hover { background: var(--cream); }
+.fin-txn-date { color: #999; font-size: 0.78rem; }
+.fin-txn-desc { color: var(--forest); font-weight: 500; }
+.fin-txn-amt { text-align: right; font-weight: 700; }
+.fin-txn-src { font-size: 0.72rem; color: #999; text-align: right; }
+
+/* QB status strip */
+.fin-qb-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--cream);
+  border: 1px solid var(--parchment);
+  border-radius: 6px;
+  padding: 0.7rem 1.2rem;
+}
+.fin-sources-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+}
+.fin-source-card {
+  background: var(--cream);
+  border: 1px solid var(--parchment);
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.fin-source-card:hover { background: var(--white); }
 </style>
 </head>
 <body>
@@ -1549,188 +1941,124 @@ body {
   <!-- VIEW A: DNA AGENCY — UNIFIED FINANCIAL DASHBOARD -->
   <!-- ══════════════════════════════════════════════ -->
   <div id="fin-view-dna">
+    <div class="fin-dash">
 
-    <!-- SECTION 1: SUMMARY KPIs (ALWAYS EXPANDED) -->
-    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1.5rem;border-radius:3px;margin-bottom:1.5rem">
-      <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Financial Summary</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
-        <div>
-          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Total Cash on Hand</div>
-          <div style="font-size:1.8rem;font-weight:700;color:var(--forest)" id="fin-cash-total">$0</div>
-          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">All accounts + CC balances</div>
+      <!-- ROW 1: HERO KPI CARDS -->
+      <div class="fin-kpi-row">
+        <div class="fin-kpi-card kpi-revenue" onclick="drillPLRevenue()">
+          <div class="fin-kpi-label">YTD Revenue</div>
+          <div class="fin-kpi-value" style="color:var(--green)" id="dash-revenue">$0</div>
+          <div class="fin-kpi-sub"><span class="fin-kpi-trend up" id="dash-revenue-trend">--</span> <span id="dash-revenue-sub">from paid invoices</span></div>
         </div>
-        <div>
-          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Monthly Revenue (MTD)</div>
-          <div style="font-size:1.8rem;font-weight:700;color:#27AE60" id="fin-revenue-mtd">$0</div>
-          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">Invoices this month</div>
+        <div class="fin-kpi-card kpi-expenses" onclick="drillPLExpenses()">
+          <div class="fin-kpi-label">YTD Expenses</div>
+          <div class="fin-kpi-value" style="color:var(--ember)" id="dash-expenses">$0</div>
+          <div class="fin-kpi-sub"><span class="fin-kpi-trend down" id="dash-expenses-trend">--</span> <span>6 categories</span></div>
         </div>
-        <div>
-          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Monthly Spend (MTD)</div>
-          <div style="font-size:1.8rem;font-weight:700;color:var(--ember)" id="fin-spend-mtd">$0</div>
-          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">Expenses this month</div>
+        <div class="fin-kpi-card kpi-net" onclick="drillPLNet()">
+          <div class="fin-kpi-label">Net Income</div>
+          <div class="fin-kpi-value" style="color:var(--forest)" id="dash-net">$0</div>
+          <div class="fin-kpi-sub"><span id="dash-margin-badge" class="fin-kpi-trend up">--</span> <span>gross margin</span></div>
         </div>
-        <div>
-          <div style="font-size:0.85rem;font-weight:700;color:var(--forest-mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem">Cash Burn Rate</div>
-          <div style="font-size:1.8rem;font-weight:700;" id="fin-burn-rate">—</div>
-          <div style="font-size:0.78rem;color:#999;margin-top:0.2rem">Monthly cash position</div>
+        <div class="fin-kpi-card kpi-cash">
+          <div class="fin-kpi-label">Cash on Hand</div>
+          <div class="fin-kpi-value" style="color:var(--forest)" id="dash-cash">$0</div>
+          <div class="fin-kpi-sub"><span id="dash-accounts-count">0</span> accounts connected</div>
         </div>
       </div>
-    </div>
 
-    <!-- SECTION 1B: QB SYNC STATUS -->
-    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QB Integration Status</div>
-        <div id="fin-qb-sync-status" style="font-size:0.9rem;color:var(--forest)">Not Connected</div>
+      <!-- ROW 2: REVENUE BY CLIENT + EXPENSE DONUT -->
+      <div class="fin-two-col">
+        <div class="fin-panel">
+          <div class="fin-panel-header">
+            <div class="fin-panel-title">Revenue by Client</div>
+            <button class="fin-panel-action" onclick="drillPLRevenue()">View All</button>
+          </div>
+          <div id="dash-revenue-bars"></div>
+        </div>
+        <div class="fin-panel">
+          <div class="fin-panel-header">
+            <div class="fin-panel-title">Expense Breakdown</div>
+            <button class="fin-panel-action" onclick="drillPLExpenses()">View All</button>
+          </div>
+          <div id="dash-expense-donut"></div>
+        </div>
       </div>
-      <button onclick="openQBModal()" style="padding:0.5rem 1rem;font-size:0.85rem;font-weight:700;background:var(--gold);color:var(--forest);border:none;border-radius:3px;cursor:pointer">Connect QB</button>
-    </div>
 
-    <!-- SECTION 2: BALANCE SHEET (MIRRORS QB GL STRUCTURE) -->
-    <div class="collapsible-section" style="margin-bottom:1.5rem">
-      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Balance Sheet</div>
-          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
-            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">QB Chart of Accounts (Aggregated with Bank Feeds)</div>
-            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-bs-summary">Variance: —</div>
+      <!-- ROW 3: CASH FLOW + INVOICE PIPELINE -->
+      <div class="fin-two-col">
+        <div class="fin-panel">
+          <div class="fin-panel-header">
+            <div class="fin-panel-title">Monthly Cash Flow</div>
+            <div style="font-size:0.72rem;color:#999">Income vs Expenses</div>
+          </div>
+          <div id="dash-cashflow-chart"></div>
+          <div id="dash-cashflow-legend" style="display:flex;gap:1.5rem;margin-top:0.8rem;justify-content:center">
+            <div style="display:flex;align-items:center;gap:0.3rem"><div style="width:10px;height:10px;border-radius:2px;background:var(--green)"></div><span style="font-size:0.72rem;color:var(--forest-mid);font-weight:600">Income</span></div>
+            <div style="display:flex;align-items:center;gap:0.3rem"><div style="width:10px;height:10px;border-radius:2px;background:var(--ember)"></div><span style="font-size:0.72rem;color:var(--forest-mid);font-weight:600">Expenses</span></div>
           </div>
         </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
-      </div>
-      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
-        <div id="fin-balance-sheet-detail"></div>
-      </div>
-    </div>
-
-    <!-- SECTION 3: BANK FEEDS & LIQUIDITY -->
-    <div class="collapsible-section" style="margin-bottom:1.5rem">
-      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Bank Feeds & Liquidity</div>
-          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
-            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">Real-Time Bank Balances (vs QB)</div>
-            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-bank-summary">Total: —</div>
+        <div class="fin-panel">
+          <div class="fin-panel-header">
+            <div class="fin-panel-title">Invoice Pipeline</div>
+            <div style="font-size:0.72rem;color:#999" id="dash-invoice-total">0 invoices</div>
           </div>
+          <div id="dash-invoice-pipeline"></div>
         </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
       </div>
-      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
-        <div id="fin-bank-feeds-detail"></div>
-      </div>
-    </div>
 
-    <!-- SECTION 2: P&L STATEMENT (COLLAPSIBLE) -->
-    <div class="collapsible-section" style="margin-bottom:1.5rem">
-      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Financial Statement</div>
-          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
-            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">Profit & Loss (YTD)</div>
-            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-pl-summary">Gross Margin: —</div>
+      <!-- ROW 4: BANK ACCOUNTS -->
+      <div class="fin-panel">
+        <div class="fin-panel-header">
+          <div class="fin-panel-title">Bank Accounts & Cards</div>
+          <button class="fin-panel-action" onclick="openBankModal()">Manage</button>
+        </div>
+        <div class="fin-bank-grid" id="dash-bank-cards"></div>
+      </div>
+
+      <!-- ROW 5: RECENT TRANSACTIONS -->
+      <div class="fin-panel">
+        <div class="fin-panel-header">
+          <div class="fin-panel-title">Recent Transactions</div>
+          <div style="font-size:0.72rem;color:#999" id="dash-txn-count">--</div>
+        </div>
+        <div id="dash-transactions" style="max-height:400px;overflow-y:auto"></div>
+      </div>
+
+      <!-- ROW 6: BALANCE SHEET (COLLAPSIBLE — DETAIL DRILLDOWN) -->
+      <div class="collapsible-section">
+        <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Balance Sheet & GL Detail</div>
+            <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
+              <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">QB Chart of Accounts</div>
+              <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-bs-summary">--</div>
+            </div>
           </div>
+          <div style="font-size:1.2rem;color:var(--forest-mid)">&#9662;</div>
         </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
+        <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 6px 6px">
+          <div id="fin-balance-sheet-detail"></div>
+        </div>
       </div>
-      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
-        <table style="width:100%;border-collapse:collapse;font-size:0.95rem">
-          <tr style="border-bottom:1px solid var(--parchment)">
-            <td style="padding:0.7rem 0;font-weight:700;color:var(--forest)">Revenue (QB Invoices)</td>
-            <td style="padding:0.7rem 0;text-align:right;font-weight:700;color:#27AE60;cursor:pointer" id="fin-pl-revenue" onclick="drillPLRevenue()" title="Click to see details">$0</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--parchment)">
-            <td style="padding:0.7rem 0;color:var(--forest-mid)">— Expenses (QB)</td>
-            <td style="padding:0.7rem 0;text-align:right;color:var(--ember);cursor:pointer" id="fin-pl-expenses" onclick="drillPLExpenses()" title="Click to see details">($0)</td>
-          </tr>
-          <tr style="border-bottom:2px solid var(--parchment);background:var(--cream)">
-            <td style="padding:0.9rem 0;font-weight:700;font-size:1.05rem;color:var(--forest)">Net Income (YTD)</td>
-            <td style="padding:0.9rem 0;text-align:right;font-weight:700;font-size:1.05rem;cursor:pointer" id="fin-pl-net" onclick="drillPLNet()" title="Click to see details">$0</td>
-          </tr>
-          <tr>
-            <td style="padding:0.7rem 0;font-size:0.9rem;color:var(--forest-mid)">Gross Margin</td>
-            <td style="padding:0.7rem 0;text-align:right;font-weight:600" id="fin-pl-margin">—</td>
-          </tr>
-        </table>
-      </div>
-    </div>
 
-    <!-- SECTION 3: CASH POSITION (COLLAPSIBLE) -->
-    <div class="collapsible-section" style="margin-bottom:1.5rem">
-      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Liquidity</div>
-          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
-            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">Bank Accounts & Cash</div>
-            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-cash-summary">Total: —</div>
-          </div>
-        </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
-      </div>
-      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
-        <div id="fin-cash-position-detail"></div>
-      </div>
-    </div>
-
-    <!-- SECTION 4: RECENT ACTIVITY (COLLAPSIBLE) -->
-    <div class="collapsible-section" style="margin-bottom:1.5rem">
-      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Activity Feed</div>
-          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
-            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">Recent Transactions</div>
-            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-activity-summary">Count: —</div>
-          </div>
-        </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
-      </div>
-      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
-        <div style="max-height:600px;overflow-y:auto">
-          <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
-            <thead style="border-bottom:2px solid var(--parchment);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;color:var(--forest-mid)">
-              <tr><th style="text-align:left;padding:0.5rem 0">Date</th><th style="text-align:left;padding:0.5rem 0">Description</th><th style="text-align:right;padding:0.5rem 0">Amount</th><th style="text-align:left;padding:0.5rem 0">Source</th></tr>
-            </thead>
-            <tbody id="fin-activity-list"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 5: SPENDING BREAKDOWN (COLLAPSIBLE) -->
-    <div class="collapsible-section" style="margin-bottom:1.5rem">
-      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Expense Analysis</div>
-          <div style="display:flex;align-items:center;gap:1rem;transform:none !important">
-            <div style="font-size:1rem;font-weight:700;color:var(--forest);transform:none !important">Spending by Category</div>
-            <div style="font-size:0.85rem;color:var(--forest-mid);font-weight:600;transform:none !important" id="kpi-spending-summary">Total: —</div>
-          </div>
-        </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
-      </div>
-      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
-        <div id="fin-spending-breakdown"></div>
-      </div>
-    </div>
-
-    <!-- INTEGRATIONS STATUS (ALWAYS VISIBLE, COMPACT) -->
-    <div style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;margin-top:1.5rem">
-      <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Data Sources</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.8rem">
-        <button onclick="openQBModal()" style="padding:0.6rem;text-align:left;background:var(--white);border:1px solid var(--parchment);border-radius:3px;cursor:pointer">
+      <!-- ROW 7: DATA SOURCES -->
+      <div class="fin-sources-row">
+        <div class="fin-source-card" onclick="openQBModal()">
           <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QuickBooks</div>
-          <div id="fin-qb-status" style="font-size:0.9rem;font-weight:700;color:#2CA01C">Not Connected</div>
-        </button>
-        <button onclick="openBankModal()" style="padding:0.6rem;text-align:left;background:var(--white);border:1px solid var(--parchment);border-radius:3px;cursor:pointer">
+          <div id="fin-qb-status" style="font-size:0.88rem;font-weight:700;color:#2CA01C">Demo Mode</div>
+        </div>
+        <div class="fin-source-card" onclick="openBankModal()">
           <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">Bank & Cards</div>
-          <div id="fin-bank-status" style="font-size:0.9rem;font-weight:700;color:#999">Not Connected</div>
-        </button>
-        <button onclick="openReceiptModal()" style="padding:0.6rem;text-align:left;background:var(--white);border:1px solid var(--parchment);border-radius:3px;cursor:pointer">
+          <div id="fin-bank-status" style="font-size:0.88rem;font-weight:700;color:#999">Not Connected</div>
+        </div>
+        <div class="fin-source-card" onclick="openReceiptModal()">
           <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">Receipt Capture</div>
-          <div id="fin-receipt-status" style="font-size:0.9rem;font-weight:700;color:#999" id="receipt-count-status">0 captured</div>
-        </button>
+          <div id="fin-receipt-status" style="font-size:0.88rem;font-weight:700;color:#999">0 captured</div>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div><!-- /fin-view-dna -->
 
   <!-- ══════════════════════════════════════════════ -->
@@ -5402,60 +5730,15 @@ body {
   }
 
   function renderBusinessKPIs() {
-    // Calculate financial KPIs for DNA Agency (business) view
-    const today = new Date();
-    const currentMonth = today.getMonth() + 1;
-    const currentYear = today.getFullYear();
-    
-    // Total Cash on Hand: sum all bank balances
-    const totalCash = Object.values(BANK_ACCOUNTS_DEMO).flat().reduce((sum, account) => {
-      return sum + (account.balance || 0);
-    }, 0);
-    
-    // Monthly Revenue (MTD): sum invoices with 'Paid' status in current month
-    const monthlyRevenue = QB_INVOICES_DEMO
-      .filter(inv => inv.status === 'Paid')
-      .filter(inv => {
-        const invDate = new Date(inv.date);
-        return invDate.getMonth() + 1 === currentMonth && invDate.getFullYear() === currentYear;
-      })
-      .reduce((sum, inv) => sum + inv.amount, 0);
-    
-    // Monthly Spend (MTD): sum expenses for current month
-    const monthlySpend = QB_EXPENSES_DEMO.reduce((sum, exp) => sum + exp.amount, 0);
-    
-    // Cash Burn Rate: monthly spend
-    const burnRate = monthlySpend;
-    
-    // Format and populate elements
-    const fmt = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + Math.round(n);
-    
-    document.getElementById('fin-cash-total').textContent = fmt(totalCash);
-    document.getElementById('fin-revenue-mtd').textContent = fmt(monthlyRevenue);
-    document.getElementById('fin-spend-mtd').textContent = fmt(monthlySpend);
-    document.getElementById('fin-burn-rate').textContent = fmt(burnRate);
-    
-    // Calculate YTD metrics for collapsible header KPI summaries
-    const ytdRevenue = QB_INVOICES_DEMO
-      .filter(inv => inv.status === 'Paid')
-      .reduce((sum, inv) => sum + inv.amount, 0);
-    const ytdExpenses = QB_EXPENSES_DEMO
-      .reduce((sum, exp) => sum + exp.amount, 0);
-    const ytdNetIncome = ytdRevenue - ytdExpenses;
-    const grossMargin = ytdRevenue > 0 ? Math.round((ytdNetIncome / ytdRevenue) * 100) : 0;
-    const transactionCount = QB_INVOICES_DEMO.length + QB_EXPENSES_DEMO.length;
-    
-    // Update collapsible header KPI summaries
-    document.getElementById('kpi-pl-summary').textContent = `Gross Margin: ${grossMargin}%`;
-    document.getElementById('kpi-cash-summary').textContent = `Total: ${fmt(totalCash)}`;
-    document.getElementById('kpi-activity-summary').textContent = `${transactionCount} transactions`;
-    document.getElementById('kpi-spending-summary').textContent = `Total: ${fmt(ytdExpenses)}`;
-    
-    // Render all sections of the DNA Agency view
-    renderDashboardPL();
-    renderDashboardCashPosition();
-    renderDashboardActivity();
-    renderDashboardSpending();
+    renderDashboardHeroKPIs();
+    renderDashboardRevenueByClient();
+    renderDashboardExpenseDonut();
+    renderDashboardCashFlow();
+    renderDashboardInvoicePipeline();
+    renderDashboardBankCards();
+    renderDashboardTransactions();
+    renderBalanceSheet();
+    renderBankFeeds();
   }
 
   function renderFinanceKPIs() {
@@ -5695,214 +5978,316 @@ body {
   function renderConsolidatedDashboard() {
     const qbConfig = loadQBConfig();
     const bankConnected = localStorage.getItem('meridian_bank_connected') === 'true';
-    
-    // Update collapsible header KPI summaries
-    const fmt = (n) => n >= 1000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + Math.round(n);
-    const totalCash = Object.values(BANK_ACCOUNTS_DEMO).flat().reduce((sum, account) => {
-      return sum + (account.balance || 0);
-    }, 0);
-    const ytdRevenue = QB_INVOICES_DEMO.filter(inv => inv.status === 'Paid').reduce((sum, inv) => sum + inv.amount, 0);
-    const ytdExpenses = QB_EXPENSES_DEMO.reduce((sum, exp) => sum + exp.amount, 0);
-    const ytdNetIncome = ytdRevenue - ytdExpenses;
-    const grossMargin = ytdRevenue > 0 ? Math.round((ytdNetIncome / ytdRevenue) * 100) : 0;
-    const transactionCount = QB_INVOICES_DEMO.length + QB_EXPENSES_DEMO.length;
-    
-    document.getElementById('kpi-pl-summary').textContent = `Gross Margin: ${grossMargin}%`;
-    document.getElementById('kpi-cash-summary').textContent = `Total: ${fmt(totalCash)}`;
-    document.getElementById('kpi-activity-summary').textContent = `${transactionCount} transactions`;
-    document.getElementById('kpi-spending-summary').textContent = `Total: ${fmt(ytdExpenses)}`;
-    
-    renderDashboardSummaryKPIs();
-    renderDashboardPL();
-    renderDashboardCashPosition();
-    renderDashboardActivity();
-    renderDashboardSpending();
+    renderBusinessKPIs();
     updateIntegrationStatusBadges(qbConfig.status === 'configured', bankConnected);
   }
 
-  function renderDashboardSummaryKPIs() {
-    // Calculate total cash from all bank accounts
-    let totalCash = 0;
-    for (const bank in BANK_ACCOUNTS_DEMO) {
-      for (const acct of BANK_ACCOUNTS_DEMO[bank]) {
-        totalCash += acct.available || acct.balance || 0;
-      }
-    }
-    
-    // Calculate MTD revenue and spend
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-    
-    const qbInvoices = QB_INVOICES_DEMO.filter(i => {
-      const invDate = new Date(i.date);
-      return invDate.getMonth() === currentMonth && invDate.getFullYear() === currentYear && i.status === 'Paid';
-    }).reduce((s, i) => s + i.amount, 0);
-    
-    const bankTransactions = BANK_TRANSACTIONS_DEMO.filter(t => {
-      const txDate = new Date(t.date);
-      return txDate.getMonth() === currentMonth && txDate.getFullYear() === currentYear && t.amount < 0;
-    }).reduce((s, t) => s + Math.abs(t.amount), 0);
-    
-    const mtdRevenue = qbInvoices;
-    const mtdSpend = bankTransactions;
-    const burnRate = mtdRevenue > 0 ? ((mtdRevenue - mtdSpend) / mtdRevenue * 100).toFixed(1) : 0;
-    
-    document.getElementById('fin-cash-total').textContent = '$' + totalCash.toLocaleString('en-US', {minimumFractionDigits: 0});
-    document.getElementById('fin-revenue-mtd').textContent = '$' + mtdRevenue.toLocaleString('en-US', {minimumFractionDigits: 0});
-    document.getElementById('fin-spend-mtd').textContent = '$' + mtdSpend.toLocaleString('en-US', {minimumFractionDigits: 0});
-    document.getElementById('fin-burn-rate').textContent = mtdRevenue > 0 ? burnRate + '%' : '—';
-  }
+  // ── NEW DASHBOARD RENDERERS ─────────────────────────────
 
-  function renderDashboardPL() {
-    const revenue = QB_INVOICES_DEMO.filter(i => i.status === 'Paid').reduce((s, i) => s + i.amount, 0);
-    const expenses = QB_EXPENSES_DEMO.reduce((s, e) => s + e.amount, 0);
+  const DASH_FMT = n => '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:0});
+  const DASH_FMT_K = n => n >= 10000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + n.toLocaleString('en-US', {minimumFractionDigits:0});
+
+  const DONUT_COLORS = ['#2C4A3E','#C9A84C','#C0392B','#2980B9','#8E44AD','#E67E22'];
+
+  function renderDashboardHeroKPIs() {
+    const revenue = QB_INVOICES_DEMO.filter(i => i.status === 'Paid').reduce((s,i) => s + i.amount, 0);
+    const expenses = QB_EXPENSES_DEMO.reduce((s,e) => s + e.amount, 0);
     const net = revenue - expenses;
-    const margin = revenue > 0 ? ((revenue - expenses) / revenue * 100).toFixed(1) : 0;
-    
-    const fmt = (n) => '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits: 0});
-    
-    document.getElementById('fin-pl-revenue').textContent = fmt(revenue);
-    document.getElementById('fin-pl-expenses').textContent = '(' + fmt(expenses) + ')';
-    const netEl = document.getElementById('fin-pl-net');
-    netEl.textContent = (net >= 0 ? '+' : '-') + fmt(net);
+    const margin = revenue > 0 ? ((net / revenue) * 100).toFixed(1) : 0;
+    const totalCash = Object.values(BANK_ACCOUNTS_DEMO).flat().reduce((s,a) => s + (a.balance || 0), 0);
+    const accountCount = Object.values(BANK_ACCOUNTS_DEMO).flat().length;
+
+    document.getElementById('dash-revenue').textContent = DASH_FMT(revenue);
+    document.getElementById('dash-expenses').textContent = DASH_FMT(expenses);
+
+    const netEl = document.getElementById('dash-net');
+    netEl.textContent = (net >= 0 ? '+' : '-') + DASH_FMT(net);
     netEl.style.color = net >= 0 ? 'var(--forest)' : 'var(--ember)';
-    document.getElementById('fin-pl-margin').textContent = revenue > 0 ? margin + '%' : '—';
+
+    document.getElementById('dash-cash').textContent = DASH_FMT(totalCash);
+    document.getElementById('dash-accounts-count').textContent = accountCount;
+
+    // Trend badges
+    const paidCount = QB_INVOICES_DEMO.filter(i => i.status === 'Paid').length;
+    document.getElementById('dash-revenue-trend').textContent = paidCount + ' paid';
+    document.getElementById('dash-revenue-trend').className = 'fin-kpi-trend up';
+    document.getElementById('dash-expenses-trend').textContent = QB_EXPENSES_DEMO.length + ' cats';
+    document.getElementById('dash-expenses-trend').className = 'fin-kpi-trend down';
+
+    const marginBadge = document.getElementById('dash-margin-badge');
+    marginBadge.textContent = margin + '%';
+    marginBadge.className = 'fin-kpi-trend ' + (net >= 0 ? 'up' : 'down');
+
+    // Update BS summary
+    const bsEl = document.getElementById('kpi-bs-summary');
+    if (bsEl) bsEl.textContent = 'Revenue: ' + DASH_FMT(revenue) + ' · Net: ' + (net >= 0 ? '+' : '-') + DASH_FMT(net);
   }
 
-  function renderDashboardCashPosition() {
-    const detail = document.getElementById('fin-cash-position-detail');
-    let html = '';
-    
-    for (const [bank, accounts] of Object.entries(BANK_ACCOUNTS_DEMO)) {
-      const bankTotal = accounts.reduce((s, a) => s + (a.available || a.balance || 0), 0);
-      html += `
-        <div style="margin-bottom:1rem;border-bottom:1px solid var(--parchment);padding-bottom:1rem">
-          <div style="font-weight:700;color:var(--forest);margin-bottom:0.5rem">${bank}</div>
-      `;
-      
-      for (const acct of accounts) {
-        const balance = acct.balance || 0;
-        const available = acct.available || balance;
-        html += `
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.6rem;background:var(--cream);margin-bottom:0.4rem;border-radius:2px;font-size:0.9rem">
-            <div>
-              <div style="font-weight:600;color:var(--forest)">${acct.name}</div>
-              <div style="font-size:0.8rem;color:#999">${acct.type}</div>
-            </div>
-            <div style="text-align:right">
-              <div style="font-weight:700;color:var(--forest)">${balance.toLocaleString('en-US', {style:'currency', currency:'USD'})}</div>
-              <div style="font-size:0.8rem;color:#999">Available: ${available.toLocaleString('en-US', {style:'currency', currency:'USD'})}</div>
-            </div>
+  function renderDashboardRevenueByClient() {
+    const container = document.getElementById('dash-revenue-bars');
+    if (!container) return;
+
+    // Aggregate revenue by client
+    const byClient = {};
+    QB_INVOICES_DEMO.filter(i => i.status === 'Paid').forEach(inv => {
+      byClient[inv.customer] = (byClient[inv.customer] || 0) + inv.amount;
+    });
+
+    const sorted = Object.entries(byClient).sort((a,b) => b[1] - a[1]);
+    const maxVal = sorted.length > 0 ? sorted[0][1] : 1;
+
+    const barColors = ['var(--forest)','var(--green)','var(--gold)','var(--blue)','#8E44AD','#E67E22'];
+
+    container.innerHTML = sorted.map(([client, amount], i) => {
+      const pct = (amount / maxVal * 100).toFixed(0);
+      const color = barColors[i % barColors.length];
+      return `
+        <div class="fin-bar-row" onclick="drillRevenueClient('${client.replace(/'/g, "\\'")}')">
+          <div class="fin-bar-label" title="${client}">${client}</div>
+          <div class="fin-bar-track">
+            <div class="fin-bar-fill" style="width:${pct}%;background:${color}">${pct > 30 ? DASH_FMT_K(amount) : ''}</div>
           </div>
-        `;
-      }
-      html += '</div>';
+          <div class="fin-bar-amount">${DASH_FMT_K(amount)}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderDashboardExpenseDonut() {
+    const container = document.getElementById('dash-expense-donut');
+    if (!container) return;
+
+    const totalExpenses = QB_EXPENSES_DEMO.reduce((s,e) => s + e.amount, 0);
+
+    // Build conic-gradient segments
+    let gradientParts = [];
+    let cumPct = 0;
+    QB_EXPENSES_DEMO.forEach((exp, i) => {
+      const pct = (exp.amount / totalExpenses) * 100;
+      gradientParts.push(`${DONUT_COLORS[i % DONUT_COLORS.length]} ${cumPct}% ${cumPct + pct}%`);
+      cumPct += pct;
+    });
+
+    const legendItems = QB_EXPENSES_DEMO.map((exp, i) => {
+      const pct = ((exp.amount / totalExpenses) * 100).toFixed(0);
+      return `
+        <div class="fin-legend-item" onclick="drillSpendingCategory('${exp.category.replace(/'/g, "\\'")}')">
+          <div class="fin-legend-dot" style="background:${DONUT_COLORS[i % DONUT_COLORS.length]}"></div>
+          <div class="fin-legend-label">${exp.category} <span style="color:#999;font-size:0.7rem">${pct}%</span></div>
+          <div class="fin-legend-val">${DASH_FMT_K(exp.amount)}</div>
+        </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="fin-donut-wrap">
+        <div class="fin-donut" style="background:conic-gradient(${gradientParts.join(',')})">
+          <div class="fin-donut-center">
+            <div class="fin-donut-center-val">${DASH_FMT_K(totalExpenses)}</div>
+            <div class="fin-donut-center-lbl">Total</div>
+          </div>
+        </div>
+        <div class="fin-legend">${legendItems}</div>
+      </div>`;
+  }
+
+  function renderDashboardCashFlow() {
+    const container = document.getElementById('dash-cashflow-chart');
+    if (!container) return;
+
+    // Aggregate by month from invoices and expenses
+    const months = ['Jan','Feb','Mar','Apr'];
+    const monthlyIncome = [0,0,0,0];
+    const monthlyExpense = [0,0,0,0];
+
+    QB_INVOICES_DEMO.filter(i => i.status === 'Paid').forEach(inv => {
+      const m = new Date(inv.date).getMonth(); // 0=Jan
+      if (m >= 0 && m <= 3) monthlyIncome[m] += inv.amount;
+    });
+
+    // Distribute expenses roughly by month (QB data is YTD aggregated)
+    const totalExp = QB_EXPENSES_DEMO.reduce((s,e) => s + e.amount, 0);
+    // Use bank transactions to approximate monthly expense distribution
+    BANK_TRANSACTIONS_DEMO.filter(t => t.amount < 0).forEach(t => {
+      const m = new Date(t.date).getMonth();
+      if (m >= 0 && m <= 3) monthlyExpense[m] += Math.abs(t.amount);
+    });
+    // If bank txns undercount, scale to match QB total
+    const bankExpTotal = monthlyExpense.reduce((s,v) => s+v, 0);
+    if (bankExpTotal > 0 && bankExpTotal < totalExp) {
+      const scale = totalExp / bankExpTotal;
+      for (let i = 0; i < 4; i++) monthlyExpense[i] *= scale;
     }
-    
-    detail.innerHTML = html;
-  }
 
-  function renderDashboardActivity() {
-    const list = document.getElementById('fin-activity-list');
-    const allTxns = [];
-    
-    // QB Invoices
-    QB_INVOICES_DEMO.forEach(inv => {
-      allTxns.push({
-        date: inv.date,
-        description: inv.customer + ' — ' + inv.description,
-        amount: inv.amount,
-        source: 'QuickBooks',
-        type: 'invoice'
-      });
-    });
-    
-    // Bank Transactions
-    BANK_TRANSACTIONS_DEMO.forEach(txn => {
-      allTxns.push({
-        date: txn.date,
-        description: txn.description,
-        amount: txn.amount,
-        source: 'Bank',
-        type: txn.amount > 0 ? 'income' : 'expense'
-      });
-    });
-    
-    // Sort by date (most recent first)
-    allTxns.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    const rows = allTxns.slice(0, 15).map(t => {
-      const amtColor = t.amount > 0 ? '#27AE60' : 'var(--ember)';
-      const amtSign = t.amount > 0 ? '+' : '';
-      return `
-        <tr style="border-bottom:1px solid var(--parchment)">
-          <td style="padding:0.5rem 0;font-size:0.85rem;color:#999">${new Date(t.date).toLocaleDateString('en-US', {month:'short', day:'numeric'})}</td>
-          <td style="padding:0.5rem 0.5rem;font-size:0.9rem;color:var(--forest)">${t.description}</td>
-          <td style="padding:0.5rem 0;text-align:right;font-weight:600;color:${amtColor}">${amtSign}${Math.abs(t.amount).toLocaleString('en-US', {style:'currency', currency:'USD'})}</td>
-          <td style="padding:0.5rem 0;text-align:left;font-size:0.8rem;color:#999">${t.source}</td>
-        </tr>
-      `;
-    }).join('');
-    
-    list.innerHTML = rows || '<tr><td colspan="4" style="padding:1rem;text-align:center;color:#999">No transactions</td></tr>';
-  }
+    const maxBar = Math.max(...monthlyIncome, ...monthlyExpense, 1);
 
-  function renderDashboardSpending() {
-    const breakdown = document.getElementById('fin-spending-breakdown');
-    let totalSpend = 0;
-    const categories = [];
-    
-    QB_EXPENSES_DEMO.forEach(exp => {
-      categories.push({ name: exp.category, amount: exp.amount });
-      totalSpend += exp.amount;
-    });
-    
-    const rows = categories.map(cat => {
-      const pct = totalSpend > 0 ? (cat.amount / totalSpend * 100).toFixed(1) : 0;
-      // Count items from QB itemized data or bank transactions
-      const qbCat = QB_EXPENSES_DEMO.find(e => e.category === cat.name);
-      const itemCount = (qbCat && qbCat.items) ? qbCat.items.length : BANK_TRANSACTIONS_DEMO.filter(t => {
-        const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' :
-                           t.category === 'Advertising' ? 'Advertising' :
-                           t.category === 'Software' ? 'Software & Tools' :
-                           t.category === 'Rent' ? 'Office & Rent' :
-                           t.category === 'Meals & Entertainment' ? 'Meals & Entertainment' :
-                           t.category === 'Transport' ? 'Travel & Transport' : t.category;
-        return txnCategory === cat.name && t.amount < 0;
-      }).length || 1;
-      
-      return `
-        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;cursor:pointer;padding:0.5rem;border-radius:4px;transition:background 0.2s ease" 
-             onmouseover="this.style.background='rgba(168,144,100,0.08)'" 
-             onmouseout="this.style.background='transparent'"
-             onclick="drillSpendingCategory('${cat.name}')">
-          <div style="flex:1">
-            <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem">
-              <div>
-                <span style="font-weight:600;color:var(--forest);font-size:0.9rem">${cat.name}</span>
-                <span style="color:#999;font-size:0.8rem"> · ${itemCount} item${itemCount !== 1 ? 's' : ''}</span>
+    container.innerHTML = `
+      <div class="fin-cf-grid">
+        ${months.map((m, i) => {
+          const incH = Math.max((monthlyIncome[i] / maxBar) * 130, 2);
+          const expH = Math.max((monthlyExpense[i] / maxBar) * 130, 2);
+          return `
+            <div class="fin-cf-col">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:0.15rem;margin-bottom:0.3rem">
+                <div style="font-size:0.62rem;font-weight:700;color:var(--green)">${DASH_FMT_K(monthlyIncome[i])}</div>
+                <div style="font-size:0.62rem;font-weight:700;color:var(--ember)">${DASH_FMT_K(monthlyExpense[i])}</div>
               </div>
-              <span style="font-weight:700;color:var(--forest)">${cat.amount.toLocaleString('en-US', {style:'currency', currency:'USD'})}</span>
-            </div>
-            <div style="height:6px;background:var(--parchment);border-radius:3px;overflow:hidden">
-              <div style="height:100%;width:${pct}%;background:var(--gold);border-radius:3px"></div>
-            </div>
-            <div style="font-size:0.75rem;color:#999;margin-top:0.2rem">${pct}% of total</div>
+              <div class="fin-cf-bars">
+                <div class="fin-cf-bar" style="height:${incH}px;background:var(--green)"></div>
+                <div class="fin-cf-bar" style="height:${expH}px;background:var(--ember)"></div>
+              </div>
+              <div class="fin-cf-label">${m}</div>
+            </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  function renderDashboardInvoicePipeline() {
+    const container = document.getElementById('dash-invoice-pipeline');
+    if (!container) return;
+
+    const stages = [
+      {key:'Open', label:'OPEN', bg:'#fff8e1', color:'#F39C12', border:'#F39C12'},
+      {key:'Sent', label:'SENT', bg:'#e3f2fd', color:'#2980B9', border:'#2980B9'},
+      {key:'Paid', label:'PAID', bg:'#e8f5e9', color:'#27AE60', border:'#27AE60'},
+      {key:'Overdue', label:'OVERDUE', bg:'#fce4ec', color:'#C0392B', border:'#C0392B'}
+    ];
+
+    const counts = {};
+    const amounts = {};
+    stages.forEach(s => { counts[s.key] = 0; amounts[s.key] = 0; });
+
+    QB_INVOICES_DEMO.forEach(inv => {
+      const status = inv.status === 'Paid' ? 'Paid' : inv.status;
+      if (counts[status] !== undefined) {
+        counts[status]++;
+        amounts[status] += inv.amount;
+      }
+    });
+
+    document.getElementById('dash-invoice-total').textContent = QB_INVOICES_DEMO.length + ' invoices';
+
+    container.innerHTML = `
+      <div class="fin-pipeline">
+        ${stages.map(s => `
+          <div class="fin-pipe-stage" style="background:${s.bg};border:1px solid ${s.border}30" onclick="drillInvoiceStage('${s.key}')">
+            <div class="fin-pipe-count" style="color:${s.color}">${counts[s.key]}</div>
+            <div class="fin-pipe-label" style="color:${s.color}">${s.label}</div>
+            <div class="fin-pipe-amt" style="color:${s.color}">${DASH_FMT_K(amounts[s.key])}</div>
           </div>
-        </div>
-      `;
+        `).join('')}
+      </div>`;
+  }
+
+  function renderDashboardBankCards() {
+    const container = document.getElementById('dash-bank-cards');
+    if (!container) return;
+
+    const cards = [];
+    for (const [bank, accounts] of Object.entries(BANK_ACCOUNTS_DEMO)) {
+      accounts.forEach(acct => {
+        cards.push({
+          bank,
+          name: acct.name,
+          mask: acct.mask,
+          type: acct.type,
+          balance: acct.balance,
+          available: acct.available
+        });
+      });
+    }
+
+    container.innerHTML = cards.map(c => {
+      const isCredit = c.type === 'credit';
+      const balColor = c.balance < 0 ? 'var(--ember)' : 'var(--forest)';
+      return `
+        <div class="fin-bank-card">
+          <div class="fin-bank-name">${c.bank} ••${c.mask}</div>
+          <div class="fin-bank-bal" style="color:${balColor}">${(c.balance < 0 ? '-' : '') + DASH_FMT(c.balance)}</div>
+          <div class="fin-bank-type">${c.type}${isCredit ? ' · Avail: ' + DASH_FMT(c.available) : ''}</div>
+        </div>`;
     }).join('');
-    
-    breakdown.innerHTML = `
-      ${rows}
-      <div style="border-top:2px solid var(--parchment);padding-top:0.8rem;margin-top:0.8rem">
-        <div style="display:flex;justify-content:space-between">
-          <span style="font-weight:700;color:var(--forest)">Total YTD Expenses</span>
-          <span style="font-weight:700;font-size:1.1rem;color:var(--ember)">${totalSpend.toLocaleString('en-US', {style:'currency', currency:'USD'})}</span>
+  }
+
+  function renderDashboardTransactions() {
+    const container = document.getElementById('dash-transactions');
+    if (!container) return;
+
+    const allTxns = [];
+    QB_INVOICES_DEMO.forEach(inv => {
+      allTxns.push({ date: inv.date, description: inv.customer + ' — ' + inv.description, amount: inv.amount, source: 'QB' });
+    });
+    BANK_TRANSACTIONS_DEMO.forEach(txn => {
+      allTxns.push({ date: txn.date, description: txn.description, amount: txn.amount, source: 'Bank' });
+    });
+    allTxns.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    document.getElementById('dash-txn-count').textContent = allTxns.length + ' total';
+
+    container.innerHTML = allTxns.slice(0, 15).map(t => {
+      const amtColor = t.amount > 0 ? 'var(--green)' : 'var(--ember)';
+      const sign = t.amount > 0 ? '+' : '-';
+      return `
+        <div class="fin-txn-row">
+          <div class="fin-txn-date">${new Date(t.date).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+          <div class="fin-txn-desc">${t.description}</div>
+          <div class="fin-txn-amt" style="color:${amtColor}">${sign}${DASH_FMT(t.amount)}</div>
+          <div class="fin-txn-src">${t.source}</div>
+        </div>`;
+    }).join('') || '<div style="padding:1rem;text-align:center;color:#999">No transactions</div>';
+  }
+
+  // Drill-down for revenue by client
+  function drillRevenueClient(clientName) {
+    const invoices = QB_INVOICES_DEMO.filter(i => i.customer === clientName && i.status === 'Paid');
+    const total = invoices.reduce((s,i) => s + i.amount, 0);
+    const rows = invoices.map(i => `
+      <tr style="border-bottom:1px solid var(--parchment)">
+        <td style="padding:0.5rem;font-size:0.85rem;color:#999">${i.id}</td>
+        <td style="padding:0.5rem;color:var(--forest)">${i.description}</td>
+        <td style="padding:0.5rem;font-size:0.85rem;color:#999">${new Date(i.date).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</td>
+        <td style="padding:0.5rem;text-align:right;font-weight:700;color:var(--green)">${DASH_FMT(i.amount)}</td>
+      </tr>`).join('');
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">Revenue: ${clientName}</div>
+            <div class="drill-sub">${invoices.length} paid invoices · Total: ${DASH_FMT(total)}</div>
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button>
         </div>
-      </div>
-    `;
+        <table class="drill-table">
+          <thead><tr><th>Invoice</th><th>Description</th><th>Date</th><th style="text-align:right">Amount</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`);
+  }
+
+  // Drill-down for invoice stage
+  function drillInvoiceStage(stage) {
+    const invoices = QB_INVOICES_DEMO.filter(i => i.status === stage);
+    const total = invoices.reduce((s,i) => s + i.amount, 0);
+    const rows = invoices.map(i => `
+      <tr style="border-bottom:1px solid var(--parchment)">
+        <td style="padding:0.5rem;font-size:0.85rem;color:#999">${i.id}</td>
+        <td style="padding:0.5rem;color:var(--forest)">${i.customer}</td>
+        <td style="padding:0.5rem;color:var(--forest-mid)">${i.description}</td>
+        <td style="padding:0.5rem;font-size:0.85rem;color:#999">${new Date(i.date).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</td>
+        <td style="padding:0.5rem;text-align:right;font-weight:700">${DASH_FMT(i.amount)}</td>
+      </tr>`).join('');
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">${stage} Invoices</div>
+            <div class="drill-sub">${invoices.length} invoices · Total: ${DASH_FMT(total)}</div>
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button>
+        </div>
+        <table class="drill-table">
+          <thead><tr><th>ID</th><th>Client</th><th>Description</th><th>Date</th><th style="text-align:right">Amount</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`);
   }
 
   function updateIntegrationStatusBadges(qbConnected, bankConnected) {
@@ -5910,13 +6295,13 @@ body {
     const bankStatusEl = document.getElementById('fin-bank-status');
     const receiptStatusEl = document.getElementById('fin-receipt-status');
     const receiptCount = JSON.parse(localStorage.getItem('meridian_receipts') || '[]').length;
-    
+
     if (qbStatusEl) {
-      qbStatusEl.textContent = qbConnected ? '✓ Connected' : 'Not Connected';
-      qbStatusEl.style.color = qbConnected ? '#27AE60' : '#999';
+      qbStatusEl.textContent = qbConnected ? 'Connected' : 'Demo Mode';
+      qbStatusEl.style.color = qbConnected ? '#27AE60' : '#2CA01C';
     }
     if (bankStatusEl) {
-      bankStatusEl.textContent = bankConnected ? '✓ Connected' : 'Not Connected';
+      bankStatusEl.textContent = bankConnected ? 'Connected' : 'Not Connected';
       bankStatusEl.style.color = bankConnected ? '#27AE60' : '#999';
     }
     if (receiptStatusEl) {
@@ -7540,30 +7925,48 @@ function drillCampaignSpend() {
   function drillSpendingCategory(categoryName) {
     // First try QB itemized data, fall back to bank transactions
     const qbCat = QB_EXPENSES_DEMO.find(e => e.category === categoryName);
+    let items = [];
+    let source = 'Expense Detail';
     if (qbCat && qbCat.items && qbCat.items.length > 0) {
-      const items = qbCat.items.map(it => ({
-        label: it.vendor + ' — ' + it.description,
-        amount: it.amount,
-        detail: it.date
-      }));
-      showDrill(categoryName, items, 'Expense Detail (QB + Bank)');
-      return;
+      items = qbCat.items;
+      source = 'QB + Bank Data';
+    } else {
+      const categoryTxns = BANK_TRANSACTIONS_DEMO.filter(t => {
+        const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' :
+                           t.category === 'Advertising' ? 'Advertising' :
+                           t.category === 'Software' ? 'Software & Tools' :
+                           t.category === 'Rent' ? 'Office & Rent' :
+                           t.category === 'Meals & Entertainment' ? 'Meals & Entertainment' :
+                           t.category === 'Transport' ? 'Travel & Transport' : t.category;
+        return txnCategory === categoryName && t.amount < 0;
+      });
+      items = categoryTxns.map(t => ({vendor: t.description, amount: Math.abs(t.amount), description: t.category, date: t.date}));
+      source = 'Bank Transactions';
     }
-    const categoryTxns = BANK_TRANSACTIONS_DEMO.filter(t => {
-      const txnCategory = t.category === 'Contractor' ? 'Contractor Payments' :
-                         t.category === 'Advertising' ? 'Advertising' :
-                         t.category === 'Software' ? 'Software & Tools' :
-                         t.category === 'Rent' ? 'Office & Rent' :
-                         t.category === 'Meals & Entertainment' ? 'Meals & Entertainment' :
-                         t.category === 'Transport' ? 'Travel & Transport' : t.category;
-      return txnCategory === categoryName && t.amount < 0;
-    });
-    const items = categoryTxns.map(t => ({
-      label: t.description,
-      amount: Math.abs(t.amount),
-      detail: t.date
-    }));
-    showDrill(categoryName, items, 'Expense Detail');
+    const total = items.reduce((s,it) => s + it.amount, 0);
+    const rows = items.map(it => `
+      <tr style="border-bottom:1px solid var(--parchment)">
+        <td style="padding:0.5rem;color:var(--forest);font-weight:600">${it.vendor}</td>
+        <td style="padding:0.5rem;color:var(--forest-mid)">${it.description}</td>
+        <td style="padding:0.5rem;font-size:0.82rem;color:#999">${it.date}</td>
+        <td style="padding:0.5rem;text-align:right;font-weight:700;color:var(--ember)">${DASH_FMT(it.amount)}</td>
+      </tr>`).join('');
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">${categoryName}</div>
+            <div class="drill-sub">${items.length} items · Total: ${DASH_FMT(total)} · Source: ${source}</div>
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button>
+        </div>
+        <table class="drill-table">
+          <thead><tr>
+            <th>Vendor</th><th>Description</th><th>Period</th><th style="text-align:right">Amount</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`);
   }
 </script>
 </body>
