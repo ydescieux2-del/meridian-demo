@@ -1678,20 +1678,38 @@ body {
     <div id="labor-table"></div>
   </div>
 
-  <!-- ── PROJECTS ── -->
+  <!-- ── CAMPAIGN ACTIVITIES ── -->
   <div style="margin-bottom:2.5rem">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Active Projects</div>
+      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Campaign Activities</div>
       <div style="display:flex;gap:0.5rem;align-items:center">
+        <select class="crm-filter" id="ops-campaign-filter" onchange="renderOperations()" style="min-width:180px">
+          <option value="">All Campaigns</option>
+        </select>
         <div style="display:flex;border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
-          <button id="proj-view-table-btn" class="proj-view-btn active" onclick="toggleProjectsView('table')">Table</button>
-          <button id="proj-view-board-btn" class="proj-view-btn" onclick="toggleProjectsView('board')">Board</button>
-          <button id="proj-view-gantt-btn" class="proj-view-btn" onclick="toggleProjectsView('gantt')">Gantt</button>
+          <button id="ops-view-list-btn" class="proj-view-btn active" onclick="switchOpsView('list')">List</button>
+          <button id="ops-view-kanban-btn" class="proj-view-btn" onclick="switchOpsView('kanban')">Board</button>
+          <button id="ops-view-gantt-btn" class="proj-view-btn" onclick="switchOpsView('gantt')">Gantt</button>
         </div>
-        <button class="btn-add-contact" onclick="openAddProjectModal()">+ New Project</button>
       </div>
     </div>
-    <div id="projects-table"></div>
+    <div id="ops-activities-panel"></div>
+  </div>
+
+  <!-- ── PAYROLL SUMMARY ── -->
+  <div style="margin-bottom:2.5rem" id="payroll-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Payroll Summary</div>
+      <div style="display:flex;gap:0.5rem;align-items:center">
+        <select class="crm-filter" id="payroll-period" onchange="renderPayroll()">
+          <option value="current">Current Period (Apr 1–15)</option>
+          <option value="previous">Previous Period (Mar 16–31)</option>
+          <option value="march-1">Mar 1–15</option>
+        </select>
+        <button class="btn-add-contact" onclick="exportPayroll()">Export CSV</button>
+      </div>
+    </div>
+    <div id="payroll-table"></div>
   </div>
 
 </div>
@@ -2241,6 +2259,7 @@ body {
         <label class="form-label">Milestones (one per line)</label>
         <textarea class="form-input" name="milestones" placeholder="Kickoff&#10;Creative Due&#10;Launch&#10;Report" style="min-height:80px;resize:vertical"></textarea>
       </div>
+      <input type="hidden" id="add-campaign-contactId" name="contactId" value="">
       <div class="modal-actions">
         <button type="submit" class="btn-generate" style="flex:1">Add Campaign →</button>
         <button type="button" class="btn-cancel" onclick="closeAddModal()">Cancel</button>
@@ -2312,32 +2331,6 @@ body {
 </div>
 
 <!-- ── ADD PROJECT MODAL ─────────────────────────────── -->
-<div class="modal-overlay" id="add-project-modal" onclick="if(event.target===this)closeAddProjectModal()">
-  <div class="modal" style="max-width:680px">
-    <div class="modal-title">New Project</div>
-    <div class="modal-sub">Operations</div>
-    <form id="add-project-form" onsubmit="submitProject(event)">
-      <div class="modal-row">
-        <div><label class="form-label">Project Name</label><input class="form-input" name="name" required placeholder="Campaign Phase 2"></div>
-        <div><label class="form-label">Client</label><select class="form-input" name="clientId" required></select></div>
-      </div>
-      <div class="modal-row">
-        <div><label class="form-label">Start Date</label><input class="form-input" name="startDate" type="date" required></div>
-        <div><label class="form-label">End Date</label><input class="form-input" name="endDate" type="date" required></div>
-      </div>
-      <div class="modal-row">
-        <div><label class="form-label">Budget ($)</label><input class="form-input" name="budget" type="number" min="0" step="0.01" required placeholder="50000"></div>
-        <div><label class="form-label">Owner</label><input class="form-input" name="owner" value="Nicole Feenstra" placeholder="Nicole Feenstra"></div>
-      </div>
-      <div style="margin-bottom:1rem"><label class="form-label">Deliverables (one per line)</label><textarea class="form-input" name="deliverables" placeholder="Design mockups&#10;Copy + assets&#10;Launch campaign" style="min-height:80px;resize:vertical"></textarea></div>
-      <div class="modal-actions">
-        <button type="submit" class="btn-generate" style="flex:1">Create Project →</button>
-        <button type="button" class="btn-cancel" onclick="closeAddProjectModal()">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>
-
 <!-- ══════════════════════════════════════════════════ -->
 <!-- 05 — PHASE II ROADMAP                              -->
 <!-- ══════════════════════════════════════════════════ -->
@@ -2669,16 +2662,148 @@ body {
 
   // ── CAMPAIGN DATA ──────────────────────────────────────
   const CAMPAIGNS_KEY = 'meridian_campaigns';
-  const SEED = [
-    {id:1,name:"Momentum Fitness",client:"Momentum Fitness",type:"Meta Ads",label:"Summer Campaign",status:"active",budget:6500,spent:4200,leads:312,cpl:13.46,ctr:4.2,deadline:"2026-03-31",lastActivity:"2026-03-27",milestones:[{name:'Kickoff',date:'2026-02-01',status:'complete'},{name:'Creative Due',date:'2026-02-15',status:'complete'},{name:'Launch',date:'2026-03-01',status:'in-progress'},{name:'Mid-Campaign Review',date:'2026-03-15',status:'pending'},{name:'Wrap & Report',date:'2026-03-31',status:'pending'}]},
-    {id:2,name:"Casa Verde Restaurant",client:"Casa Verde",type:"Meta Ads + Google",label:"Soft Launch",status:"active",budget:4000,spent:1850,leads:89,cpl:20.79,roas:3.2,deadline:"2026-04-15",lastActivity:"2026-03-26",milestones:[{name:'Kickoff',date:'2026-02-01',status:'complete'},{name:'Creative Due',date:'2026-02-15',status:'complete'},{name:'Launch',date:'2026-03-01',status:'in-progress'},{name:'Mid-Campaign Review',date:'2026-03-15',status:'pending'},{name:'Wrap & Report',date:'2026-04-15',status:'pending'}]},
-    {id:3,name:"Pacific Legal Group",client:"Pacific Legal Group",type:"Meta Ads",label:"Lead Generation",status:"active",budget:8000,spent:6500,leads:203,cpl:32.02,cvr:51,deadline:"2026-03-25",lastActivity:"2026-03-20",milestones:[{name:'Kickoff',date:'2026-01-15',status:'complete'},{name:'Creative Due',date:'2026-02-01',status:'complete'},{name:'Launch',date:'2026-02-15',status:'complete'},{name:'Mid-Campaign Review',date:'2026-03-01',status:'in-progress'},{name:'Wrap & Report',date:'2026-03-25',status:'pending'}]},
-    {id:4,name:"Solara Skincare",client:"Solara Skincare",type:"Meta Ads",label:"Reactivation",status:"complete",budget:2100,spent:2100,leads:445,cpl:4.72,revenue:28000,deadline:"2026-02-28",lastActivity:"2026-02-28",milestones:[{name:'Kickoff',date:'2026-01-05',status:'complete'},{name:'Creative Due',date:'2026-01-15',status:'complete'},{name:'Launch',date:'2026-01-25',status:'complete'},{name:'Mid-Campaign Review',date:'2026-02-10',status:'complete'},{name:'Wrap & Report',date:'2026-02-28',status:'complete'}]}
+  const CAMPAIGNS_SEED = [
+    {
+      id: 1,
+      name: "Momentum Fitness — Summer Drive",
+      client: "Momentum Fitness",
+      contactId: null,
+      type: "Meta Ads",
+      label: "Summer Campaign",
+      status: "active",
+      phase: "execution",
+      budget: 6500,
+      spent: 4200,
+      revenue: 0,
+      leads: 312,
+      cpl: 13.46,
+      ctr: 4.2,
+      startDate: "2026-02-01",
+      endDate: "2026-04-30",
+      deadline: "2026-04-30",
+      lastActivity: "2026-03-27",
+      milestones: [
+        {name:"Kickoff",date:"2026-02-01",status:"complete"},
+        {name:"Creative Due",date:"2026-02-15",status:"complete"},
+        {name:"Launch",date:"2026-03-01",status:"complete"},
+        {name:"Mid-Campaign Review",date:"2026-03-20",status:"in-progress"},
+        {name:"Final Report",date:"2026-04-30",status:"pending"}
+      ],
+      activities: [
+        {id:1,name:"Campaign Strategy",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-02-05",notes:"Q2 strategy finalized",category:"Strategy"},
+        {id:2,name:"Ad Creative Production",assignee:"Jade Thompson",status:"done",dueDate:"2026-02-15",notes:"3 ad sets completed",category:"Design"},
+        {id:3,name:"Campaign Launch",assignee:"Marcus Rivera",status:"done",dueDate:"2026-03-01",notes:"All ads live",category:"Execution"},
+        {id:4,name:"Weekly Performance Review",assignee:"Alex Kim",status:"in-progress",dueDate:"2026-04-01",notes:"Ongoing weekly cadence",category:"Analytics"},
+        {id:5,name:"Final Report & Wrap",assignee:"Nicole Feenstra",status:"not-started",dueDate:"2026-04-30",notes:"",category:"Reporting"}
+      ]
+    },
+    {
+      id: 2,
+      name: "Brand Identity Refresh",
+      client: "Casa Verde Restaurant",
+      contactId: null,
+      type: "Meta Ads + Google",
+      label: "Soft Launch",
+      status: "active",
+      phase: "review",
+      budget: 12000,
+      spent: 1850,
+      revenue: 8500,
+      leads: 89,
+      cpl: 20.79,
+      roas: 3.2,
+      startDate: "2026-03-01",
+      endDate: "2026-04-15",
+      deadline: "2026-04-15",
+      lastActivity: "2026-03-26",
+      milestones: [
+        {name:"Discovery",date:"2026-03-01",status:"complete"},
+        {name:"Concepts",date:"2026-03-10",status:"complete"},
+        {name:"Client Review",date:"2026-03-20",status:"complete"},
+        {name:"Revisions",date:"2026-04-01",status:"in-progress"},
+        {name:"Final Delivery",date:"2026-04-15",status:"pending"}
+      ],
+      activities: [
+        {id:1,name:"Discovery & Brand Audit",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-03-05",notes:"Brand audit complete",category:"Strategy"},
+        {id:2,name:"Logo Design",assignee:"Jade Thompson",status:"done",dueDate:"2026-03-15",notes:"3 concepts delivered",category:"Design"},
+        {id:3,name:"Color Palette & Typography",assignee:"Jade Thompson",status:"done",dueDate:"2026-03-20",notes:"",category:"Design"},
+        {id:4,name:"Brand Guidelines Doc",assignee:"Jade Thompson",status:"in-progress",dueDate:"2026-04-05",notes:"Draft in progress",category:"Design"},
+        {id:5,name:"Final Assets Package",assignee:"Sarah Chen",status:"not-started",dueDate:"2026-04-15",notes:"",category:"Development"}
+      ]
+    },
+    {
+      id: 3,
+      name: "Website Redesign & Migration",
+      client: "Pacific Legal Group",
+      contactId: null,
+      type: "Meta Ads",
+      label: "Lead Generation",
+      status: "active",
+      phase: "execution",
+      budget: 35000,
+      spent: 6500,
+      revenue: 25000,
+      leads: 203,
+      cpl: 32.02,
+      cvr: 51,
+      startDate: "2026-01-15",
+      endDate: "2026-05-31",
+      deadline: "2026-05-31",
+      lastActivity: "2026-03-28",
+      milestones: [
+        {name:"Audit",date:"2026-01-20",status:"complete"},
+        {name:"Design Comps",date:"2026-03-15",status:"complete"},
+        {name:"Development",date:"2026-04-30",status:"in-progress"},
+        {name:"Migration & QA",date:"2026-05-15",status:"pending"},
+        {name:"Launch",date:"2026-05-31",status:"pending"}
+      ],
+      activities: [
+        {id:1,name:"Site Audit & Architecture",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-01-25",notes:"Existing site documented",category:"Strategy"},
+        {id:2,name:"UX Wireframes",assignee:"Jade Thompson",status:"done",dueDate:"2026-02-15",notes:"",category:"Design"},
+        {id:3,name:"Design Comps",assignee:"Jade Thompson",status:"done",dueDate:"2026-03-15",notes:"Client approved",category:"Design"},
+        {id:4,name:"Frontend Development",assignee:"Sarah Chen",status:"in-progress",dueDate:"2026-04-30",notes:"Sprint 2 of 3",category:"Development"},
+        {id:5,name:"Content Migration",assignee:"Sarah Chen",status:"not-started",dueDate:"2026-05-15",notes:"",category:"Development"},
+        {id:6,name:"QA & Launch",assignee:"Marcus Rivera",status:"not-started",dueDate:"2026-05-31",notes:"",category:"Execution"}
+      ]
+    },
+    {
+      id: 4,
+      name: "Solara Skincare Reactivation",
+      client: "Solara Skincare",
+      contactId: null,
+      type: "Meta Ads",
+      label: "Reactivation",
+      status: "complete",
+      phase: "complete",
+      budget: 2100,
+      spent: 2100,
+      revenue: 28000,
+      leads: 445,
+      cpl: 4.72,
+      startDate: "2026-01-01",
+      endDate: "2026-02-28",
+      deadline: "2026-02-28",
+      lastActivity: "2026-02-28",
+      milestones: [
+        {name:"Kickoff",date:"2026-01-01",status:"complete"},
+        {name:"Launch",date:"2026-01-10",status:"complete"},
+        {name:"Optimization",date:"2026-02-01",status:"complete"},
+        {name:"Final Report",date:"2026-02-28",status:"complete"}
+      ],
+      activities: [
+        {id:1,name:"Campaign Setup",assignee:"Marcus Rivera",status:"done",dueDate:"2026-01-05",notes:"",category:"Execution"},
+        {id:2,name:"Ad Creative",assignee:"Jade Thompson",status:"done",dueDate:"2026-01-08",notes:"",category:"Design"},
+        {id:3,name:"Optimization Pass",assignee:"Alex Kim",status:"done",dueDate:"2026-02-01",notes:"CPL improved 40%",category:"Analytics"},
+        {id:4,name:"Final Report",assignee:"Nicole Feenstra",status:"done",dueDate:"2026-02-28",notes:"Client thrilled",category:"Reporting"}
+      ]
+    }
   ];
+  // Keep SEED as alias for backward compat
+  const SEED = CAMPAIGNS_SEED;
 
   function loadCampaigns() {
-    try { return JSON.parse(localStorage.getItem(CAMPAIGNS_KEY)) || [...SEED]; }
-    catch(e) { return [...SEED]; }
+    try { return JSON.parse(localStorage.getItem(CAMPAIGNS_KEY)) || [...CAMPAIGNS_SEED]; }
+    catch(e) { return [...CAMPAIGNS_SEED]; }
   }
   function saveCampaigns(data) { localStorage.setItem(CAMPAIGNS_KEY, JSON.stringify(data)); }
 
@@ -2700,7 +2825,22 @@ body {
     if (c.ctr !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.ctr}%</div><div class="stat-lbl">CTR</div></div>`;
     else if (c.roas !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.roas}×</div><div class="stat-lbl">ROAS</div></div>`;
     else if (c.cvr !== undefined) extra = `<div class="stat-item"><div class="stat-val">${c.cvr}%</div><div class="stat-lbl">Form CVR</div></div>`;
-    else if (c.revenue !== undefined) extra = `<div class="stat-item"><div class="stat-val">$${Math.round(c.revenue/1000)}K</div><div class="stat-lbl">Revenue</div></div>`;
+    else if (c.revenue !== undefined && c.revenue > 0) extra = `<div class="stat-item"><div class="stat-val">$${Math.round(c.revenue/1000)}K</div><div class="stat-lbl">Revenue</div></div>`;
+    // Activity progress
+    const acts = c.activities || [];
+    const actsDone = acts.filter(a => a.status === 'done').length;
+    const actsTotal = acts.length;
+    const actsPct = actsTotal ? Math.round((actsDone / actsTotal) * 100) : 0;
+    const phaseColors = {kickoff:'var(--forest-mid)',strategy:'#7a8f6b',execution:'var(--gold)',review:'#c4932a',complete:'#2d6a4f'};
+    const phaseColor = phaseColors[c.phase || 'execution'] || 'var(--forest-mid)';
+    const phaseHtml = c.phase ? `<span style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${phaseColor};margin-left:0.5rem">${c.phase}</span>` : '';
+    const actProgressHtml = actsTotal > 0 ? `<div style="margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--parchment)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem">
+        <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Activities</span>
+        <span style="font-size:0.72rem;color:var(--forest-mid)">${actsDone}/${actsTotal} done${phaseHtml}</span>
+      </div>
+      <div style="height:3px;background:var(--parchment);border-radius:1px"><div style="height:3px;width:${actsPct}%;background:var(--forest);border-radius:1px"></div></div>
+    </div>` : '';
     return `<div class="card" onclick="openCampaign(${c.id})">
       <div class="card-info">
         <div class="card-title">${c.name}</div>
@@ -2715,7 +2855,7 @@ body {
         <div class="stat-item"><div class="stat-val">${c.leads.toLocaleString()}</div><div class="stat-lbl">Leads</div></div>
         <div class="stat-item"><div class="stat-val">$${c.cpl > 0 ? c.cpl.toFixed(2) : '—'}</div><div class="stat-lbl">CPL</div></div>
         ${extra}
-      </div>${renderMilestoneBar(c)}</div>`;
+      </div>${renderMilestoneBar(c)}${actProgressHtml}</div>`;
   }
 
   function renderKPIs(data) {
@@ -2749,6 +2889,8 @@ body {
   function closeAddModal() {
     document.getElementById('campaign-modal').style.display = 'none';
     document.getElementById('add-campaign-form').reset();
+    const cid = document.getElementById('add-campaign-contactId');
+    if (cid) cid.value = '';
   }
   function submitCampaign(e) {
     e.preventDefault();
@@ -2759,42 +2901,26 @@ body {
     const milestonesRaw = (f.milestones?.value || '').trim();
     const milestones = milestonesRaw ? milestonesRaw.split('\n').filter(l=>l.trim()).map(l=>({name:l.trim(),date:'',status:'pending'})) : [];
     const campaignId = Math.max(0, ...data.map(c=>c.id)) + 1;
+    const contactId = document.getElementById('add-campaign-contactId')?.value ? parseInt(document.getElementById('add-campaign-contactId').value) : null;
     data.push({
       id: campaignId,
       name: f.name.value,
       client: f.client.value,
+      contactId: contactId,
       type: f.type.value,
       label: f.label.value || 'Campaign',
       status: 'active',
-      budget: parseFloat(f.budget.value) || 0,
-      spent: 0, leads: 0, cpl: 0,
-      deadline: f.deadline.value,
-      lastActivity: today,
-      milestones: milestones
-    });
-    saveCampaigns(data);
-    // Auto-create corresponding project in Operations
-    const projects = loadProjects();
-    projects.push({
-      id: Math.max(0, ...projects.map(p=>p.id)) + 1,
-      campaignId: campaignId,
-      name: f.name.value,
-      client: f.client.value,
       phase: 'kickoff',
-      status: 'Active',
+      budget: parseFloat(f.budget.value) || 0,
+      spent: 0, revenue: 0, leads: 0, cpl: 0,
       startDate: today,
       endDate: f.deadline.value,
-      budget: parseFloat(f.budget.value) || 0,
-      owner: 'Nicole',
-      deliverables: [],
-      timeline: {items:[]},
-      laborCost: 0,
-      expenseCost: 0,
-      totalCost: 0,
-      createdAt: today,
-      updatedAt: today
+      deadline: f.deadline.value,
+      lastActivity: today,
+      milestones: milestones,
+      activities: []
     });
-    saveProjects(projects);
+    saveCampaigns(data);
     renderBoard();
     closeAddModal();
   }
@@ -3024,6 +3150,7 @@ body {
           <div class="cm-actions">
             <button type="button" class="btn-cm-secondary" onclick="openAddTranscriptModal(${c.id})">+ Add Transcript</button>
             <button type="button" class="btn-cm-secondary" onclick="openAddInvoiceModal(${c.id})">+ Invoice</button>
+            <button type="button" class="btn-cm-secondary" onclick="createCampaignFromContact(${c.id})">+ Campaign</button>
             <button class="btn-cm-secondary" onclick="editContact(${c.id})">Edit</button>
             <button class="btn-cm-secondary" onclick="cycleContactStage(${c.id})">Move Stage →</button>
             <button class="btn-cm-secondary" onclick="deleteContact(${c.id})">Remove</button>
@@ -3298,11 +3425,11 @@ body {
     clientSelect.innerHTML = `<option value="${contactId}">${contact?.firstName} ${contact?.lastName}</option>`;
     clientSelect.value = contactId;
 
-    // Populate project dropdown
-    const projects = loadProjects();
+    // Populate project/campaign dropdown
+    const campaigns = loadCampaigns();
     const projectSelect = form.projectId;
-    projectSelect.innerHTML = '<option value="">— No Project</option>' +
-      projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+    projectSelect.innerHTML = '<option value="">— No Campaign</option>' +
+      campaigns.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
 
     document.getElementById('add-invoice-modal').style.display = 'flex';
   }
@@ -3398,14 +3525,13 @@ body {
     form.category.value = 'Billable';
     form.activity.value = 'Strategy';
 
-    // Populate project dropdown
-    const projects = loadProjects();
+    // Populate project dropdown with campaigns (campaigns are the projects now)
+    const campaigns = loadCampaigns();
     const projectSelect = form.projectId;
-    projectSelect.innerHTML = '<option value="">— Select Project</option>' +
-      projects.map(p => `<option value="${p.id}">${p.client} — ${p.name}</option>`).join('');
+    projectSelect.innerHTML = '<option value="">— Select Campaign</option>' +
+      campaigns.map(c => `<option value="${c.id}">${c.client} — ${c.name}</option>`).join('');
 
     // Populate campaign dropdown
-    const campaigns = loadCampaigns();
     const campaignSelect = form.campaignId;
     campaignSelect.innerHTML = '<option value="">— No Campaign</option>' +
       campaigns.map(c => `<option value="${c.id}">${c.client} — ${c.name}</option>`).join('');
@@ -3442,88 +3568,56 @@ body {
     renderOperations();
   }
 
-  // ── PROJECT FUNCTIONS (Operations) ───────────────────────
-  function openAddProjectModal() {
-    const form = document.getElementById('add-project-form');
-    form.name.value = '';
-    form.startDate.valueAsDate = new Date();
-    form.endDate.valueAsDate = new Date(Date.now() + 30*24*60*60*1000);
-    form.budget.value = '';
-    form.owner.value = 'Nicole Feenstra';
-    form.deliverables.value = '';
-
-    // Populate client dropdown
-    const contacts = loadContacts();
-    const clientSelect = form.clientId;
-    clientSelect.innerHTML = '<option value="">— Select Client</option>' +
-      contacts.map(c => `<option value="${c.id}">${c.firstName} ${c.lastName} — ${c.organization}</option>`).join('');
-
-    document.getElementById('add-project-modal').style.display = 'flex';
-  }
-
-  function closeAddProjectModal() {
-    document.getElementById('add-project-modal').style.display = 'none';
-  }
-
-  function submitProject(e) {
-    e.preventDefault();
-    const f = e.target;
-    const projects = loadProjects();
-    const deliverables = f.deliverables.value.split('\n').filter(d => d.trim()).map(d => ({
-      name: d.trim(),
-      completed: false,
-      dueDate: null,
-      assignee: '',
-      status: 'not-started',
-      notes: ''
-    }));
-
-    const contact = loadContacts().find(c => c.id === parseInt(f.clientId.value));
-    projects.push({
-      id: Math.max(0, ...projects.map(p=>p.id)) + 1,
-      leadId: parseInt(f.clientId.value),
-      name: f.name.value,
-      client: contact ? `${contact.firstName} ${contact.lastName}` : '',
-      phase: 'kickoff',
-      startDate: f.startDate.value,
-      endDate: f.endDate.value,
-      budget: parseFloat(f.budget.value),
-      owner: f.owner.value,
-      deliverables: deliverables,
-      status: 'Active',
-      timeline: { items: [] },
-      laborCost: 0,
-      expenseCost: 0,
-      totalCost: 0,
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0]
-    });
-    saveProjects(projects);
-    closeAddProjectModal();
-    renderOperations();
-  }
+  // Project modal stubs removed — Projects are now Campaign Activities
 
   // ── RENDER OPERATIONS TAB ────────────────────────────────
+  let opsView = 'list'; // 'list' | 'kanban' | 'gantt'
+
+  function switchOpsView(view) {
+    opsView = view;
+    const btnList = document.getElementById('ops-view-list-btn');
+    const btnKanban = document.getElementById('ops-view-kanban-btn');
+    const btnGantt = document.getElementById('ops-view-gantt-btn');
+    if (btnList) btnList.classList.toggle('active', view === 'list');
+    if (btnKanban) btnKanban.classList.toggle('active', view === 'kanban');
+    if (btnGantt) btnGantt.classList.toggle('active', view === 'gantt');
+    renderCampaignActivities();
+  }
+
   function renderOperations() {
+    renderRoster();
+    renderLaborTracking();
+    renderCampaignActivities();
+    renderPayroll();
+  }
+
+  function renderLaborTracking() {
     const laborTable = document.getElementById('labor-table');
-    const projectsTable = document.getElementById('projects-table');
     const monthHoursDiv = document.getElementById('labor-month-hours');
     const periodLabel = document.getElementById('labor-period-label');
 
-    if (!laborTable || !projectsTable) return;
+    if (!laborTable) return;
 
     const labor = loadLaborTracking();
-    const projects = loadProjects();
     const campaigns = loadCampaigns();
     const now = new Date();
 
-    // Populate campaign filter dropdown (always refresh to catch newly added campaigns)
+    // Populate campaign filter dropdown
     const campaignFilter = document.getElementById('labor-campaign-filter');
     if (campaignFilter) {
       const prevVal = campaignFilter.value;
       campaignFilter.innerHTML = '<option value="">All Campaigns</option>' +
         campaigns.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
       campaignFilter.value = prevVal;
+    }
+
+    // Populate ops-campaign-filter
+    const opsCampFilter = document.getElementById('ops-campaign-filter');
+    if (opsCampFilter) {
+      const prevVal = opsCampFilter.value;
+      opsCampFilter.innerHTML = '<option value="">All Campaigns</option>' +
+        campaigns.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      opsCampFilter.value = prevVal;
     }
 
     // Filter by time period
@@ -3543,20 +3637,15 @@ body {
       filtered = filtered.filter(l => l.date === today);
     }
 
-    // Apply campaign filter
     const campVal = document.getElementById('labor-campaign-filter')?.value;
     if (campVal) filtered = filtered.filter(l => l.campaignId === parseInt(campVal));
 
-    // Apply activity filter
     const actVal = document.getElementById('labor-activity-filter')?.value;
     if (actVal) filtered = filtered.filter(l => l.activity === actVal);
 
-    // Update hours display
     const totalHours = filtered.reduce((sum, l) => sum + l.hours, 0);
-    const totalCost = filtered.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
     if (monthHoursDiv) monthHoursDiv.textContent = totalHours;
 
-    // Contractor summary cards (built from full filtered set, before contractor filter)
     const byContractor = {};
     filtered.forEach(l => {
       const name = l.contractor || 'Unassigned';
@@ -3571,36 +3660,31 @@ body {
       const bg = isSelected ? 'var(--forest)' : 'var(--white)';
       const textColor = isSelected ? 'var(--ivory)' : 'var(--forest)';
       const subColor = isSelected ? 'var(--parchment)' : 'var(--forest-mid)';
-      const costColor = isSelected ? 'var(--gold)' : 'var(--gold)';
       const borderColor = isSelected ? 'var(--forest)' : 'var(--parchment)';
       return `<div onclick="filterByContractor('${name.replace(/'/g, "\\'")}')" style="background:${bg};border:1px solid ${borderColor};padding:0.8rem 1rem;border-radius:3px;cursor:pointer;transition:all 200ms ease">
         <div style="font-size:0.9rem;color:${subColor};margin-bottom:0.2rem">${name}</div>
         <div style="font-size:1.1rem;font-weight:700;color:${textColor}">${d.hours}h</div>
-        <div style="font-size:0.92rem;color:${costColor}">$${d.cost.toLocaleString()} · ${d.entries} entries</div>
+        <div style="font-size:0.92rem;color:var(--gold)">$${d.cost.toLocaleString()} · ${d.entries} entries</div>
       </div>`;
     }).join('');
 
-    // Apply contractor drill-down filter to table (cards stay unfiltered)
     let tableFiltered = selectedContractor
       ? filtered.filter(l => (l.contractor || 'Unassigned') === selectedContractor)
       : filtered;
 
-    // Labor table rows
     const thStyle = 'text-align:left;padding:8px;color:var(--forest-mid);font-weight:700;font-size:0.9rem;text-transform:uppercase;letter-spacing:0.05em';
     const tdStyle = 'padding:8px;border-bottom:1px solid var(--parchment);font-size:0.85rem';
-
     const tableHours = tableFiltered.reduce((sum, l) => sum + l.hours, 0);
     const tableCost = tableFiltered.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
 
     const laborHTML = tableFiltered.length > 0
       ? tableFiltered.sort((a, b) => b.date.localeCompare(a.date)).map(l => {
-          const proj = projects.find(p => p.id === l.projectId);
           const camp = campaigns.find(c => c.id === l.campaignId);
           return `<tr>
             <td style="${tdStyle}">${l.contractor || '—'}</td>
             <td style="${tdStyle}">${l.date}</td>
             <td style="${tdStyle};font-weight:700">${l.hours}h</td>
-            <td style="${tdStyle}">${proj ? proj.client : '—'}</td>
+            <td style="${tdStyle}">${camp ? camp.client : '—'}</td>
             <td style="${tdStyle}">${camp ? camp.name : '—'}</td>
             <td style="${tdStyle}"><span style="font-size:0.92rem;padding:2px 8px;background:var(--ivory);border-radius:2px">${l.activity || '—'}</span></td>
             <td style="${tdStyle};color:var(--gold);font-weight:700">$${(l.hours * l.hourlyRate).toLocaleString()}</td>
@@ -3635,101 +3719,425 @@ body {
       </table>
       </div>
     `;
+  }
 
-    // Roster
-    renderRoster();
+  // ── CAMPAIGN ACTIVITIES RENDERER ────────────────────────
+  function renderCampaignActivities() {
+    const panel = document.getElementById('ops-activities-panel');
+    if (!panel) return;
 
-    // Projects rendering — handled below via view toggle
+    const allCampaigns = loadCampaigns();
+    const filterVal = document.getElementById('ops-campaign-filter')?.value || '';
+    const campaigns = filterVal
+      ? allCampaigns.filter(c => String(c.id) === filterVal)
+      : allCampaigns;
 
-    if (projectsView === 'board') {
-      projectsTable.innerHTML = renderKanbanBoard(projects, labor);
-    } else if (projectsView === 'gantt') {
-      projectsTable.innerHTML = renderGanttChart(projects, labor);
+    if (opsView === 'kanban') {
+      panel.innerHTML = renderActivitiesKanban(campaigns);
+    } else if (opsView === 'gantt') {
+      panel.innerHTML = renderActivitiesGantt(campaigns);
     } else {
-      const DELIVERABLE_STATUS_LABELS = {'not-started':'Not Started','in-progress':'In Progress','review':'Review','done':'Done'};
-      const DELIVERABLE_STATUS_COLORS = {'not-started':'#aaa','in-progress':'var(--gold)','review':'#c4932a','done':'#2d6a4f'};
-      const CONTRACTORS = ['','Nicole Feenstra','Sarah Chen','Marcus Rivera','Jade Thompson','Alex Kim'];
-
-      projectsTable.innerHTML = `
-        <table style="width:100%;font-size:0.85rem;border-collapse:collapse">
-          <tr style="border-bottom:2px solid var(--parchment);background:var(--cream)">
-            <th style="${thStyle}"></th>
-            <th style="${thStyle}">Project</th>
-            <th style="${thStyle}">Client</th>
-            <th style="${thStyle}">Phase</th>
-            <th style="${thStyle}">Status</th>
-            <th style="${thStyle}">Start</th>
-            <th style="${thStyle}">End</th>
-            <th style="${thStyle}">Budget</th>
-            <th style="${thStyle}">Labor Cost</th>
-          </tr>
-          ${projects.length > 0 ? projects.map(p => {
-            const labForProject = labor.filter(l => l.projectId === p.id);
-            const laborCost = labForProject.reduce((sum, l) => sum + (l.hours * l.hourlyRate), 0);
-            const phaseLabel = {kickoff:'Kickoff',strategy:'Strategy',execution:'Execution',review:'Review',complete:'Complete'}[p.phase||'kickoff'] || '—';
-            const delivs = (p.deliverables || []);
-            const doneCount = delivs.filter(d => d.completed || d.status === 'done').length;
-            const delivRows = delivs.length > 0 ? delivs.map((d, di) => `
-              <tr class="deliv-row-${p.id}" style="display:none;background:var(--ivory)">
-                <td style="${tdStyle}"></td>
-                <td style="${tdStyle};padding-left:2rem;font-size:0.82rem">${d.name}</td>
-                <td style="${tdStyle}">
-                  <select style="font-size:0.78rem;padding:2px 4px;border:1px solid var(--parchment);border-radius:2px;background:var(--white)" onchange="updateDeliverable(${p.id},${di},'assignee',this.value)">
-                    ${CONTRACTORS.map(c => '<option value="'+c+'"'+(d.assignee===c?' selected':'')+'>'+( c || '— Assign')+'</option>').join('')}
-                  </select>
-                </td>
-                <td style="${tdStyle}" colspan="2">
-                  <select style="font-size:0.78rem;padding:2px 4px;border:1px solid var(--parchment);border-radius:2px;background:var(--white)" onchange="updateDeliverable(${p.id},${di},'status',this.value)">
-                    ${Object.keys(DELIVERABLE_STATUS_LABELS).map(s => '<option value="'+s+'"'+((d.status||'not-started')===s?' selected':'')+'>'+DELIVERABLE_STATUS_LABELS[s]+'</option>').join('')}
-                  </select>
-                </td>
-                <td style="${tdStyle};font-size:0.8rem">${d.dueDate || '—'}</td>
-                <td style="${tdStyle}" colspan="3">
-                  <input type="text" value="${(d.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." style="font-size:0.78rem;width:100%;padding:2px 4px;border:1px solid var(--parchment);border-radius:2px;background:var(--white)" onchange="updateDeliverable(${p.id},${di},'notes',this.value)">
-                </td>
-              </tr>
-            `).join('') : '';
-            return `<tr style="cursor:pointer" onclick="toggleDeliverables(${p.id})">
-              <td style="${tdStyle};width:30px;text-align:center"><span id="deliv-arrow-${p.id}" style="font-size:0.7rem;color:var(--forest-mid)">&#9654;</span></td>
-              <td style="${tdStyle}"><strong>${p.name}</strong> <span style="font-size:0.75rem;color:var(--forest-mid)">(${doneCount}/${delivs.length})</span></td>
-              <td style="${tdStyle}">${p.client}</td>
-              <td style="${tdStyle}"><span style="font-size:0.82rem;padding:3px 8px;background:var(--cream);border-radius:3px;color:var(--forest-mid);font-weight:700">${phaseLabel}</span></td>
-              <td style="${tdStyle}"><span style="font-size:0.82rem;padding:3px 8px;background:var(--ivory);border-radius:3px">${p.status}</span></td>
-              <td style="${tdStyle}">${p.startDate}</td>
-              <td style="${tdStyle}">${p.endDate}</td>
-              <td style="${tdStyle}">$${p.budget.toLocaleString()}</td>
-              <td style="${tdStyle};color:var(--gold);font-weight:700">$${laborCost.toLocaleString()}</td>
-            </tr>
-            ${delivs.length > 0 ? '<tr class="deliv-row-'+p.id+'" style="display:none;background:var(--cream)"><td style="'+tdStyle+'"></td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem;padding-left:2rem">Deliverable</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem">Assignee</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem" colspan="2">Status</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem">Due</td><td style="'+tdStyle+';font-weight:700;font-size:0.8rem" colspan="3">Notes</td></tr>' : ''}
-            ${delivRows}`;
-          }).join('') : `<tr><td colspan="9" style="text-align:center;color:#aaa;padding:20px">No projects yet.</td></tr>`}
-        </table>
-      `;
+      panel.innerHTML = renderActivitiesList(campaigns);
     }
+  }
+
+  function activityStatusBadge(status) {
+    const map = {
+      'not-started': {bg:'var(--parchment)',color:'var(--charcoal)',label:'Not Started'},
+      'in-progress':  {bg:'var(--gold)',color:'var(--white)',label:'In Progress'},
+      'review':       {bg:'var(--forest-mid)',color:'var(--ivory)',label:'Review'},
+      'done':         {bg:'#2d6a4f',color:'var(--ivory)',label:'Done'}
+    };
+    const s = map[status] || map['not-started'];
+    return `<span style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;background:${s.bg};color:${s.color};padding:2px 7px;border-radius:2px">${s.label}</span>`;
+  }
+
+  function phaseBadge(phase) {
+    const colors = {kickoff:'var(--forest-mid)',strategy:'#7a8f6b',execution:'var(--gold)',review:'#c4932a',complete:'#2d6a4f'};
+    const color = colors[phase] || 'var(--forest-mid)';
+    return `<span style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${color};background:var(--cream);border:1px solid ${color};padding:2px 8px;border-radius:2px">${(phase||'kickoff').charAt(0).toUpperCase()+(phase||'kickoff').slice(1)}</span>`;
+  }
+
+  function renderActivitiesList(campaigns) {
+    if (!campaigns.length) return '<div style="padding:2rem;text-align:center;color:var(--forest-mid);font-style:italic">No campaigns found.</div>';
+    const thStyle = 'text-align:left;padding:7px 10px;color:var(--forest-mid);font-weight:700;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.05em;background:var(--cream)';
+    const tdStyle = 'padding:7px 10px;border-bottom:0.5px solid var(--parchment);font-size:0.85rem';
+
+    return campaigns.map(c => {
+      const acts = c.activities || [];
+      const done = acts.filter(a => a.status === 'done').length;
+      const ms = c.milestones || [];
+      const msDoneCount = ms.filter(m => m.status === 'complete').length;
+      const msBar = ms.length
+        ? `<div style="display:flex;gap:2px;margin-left:0.8rem">${ms.map(m => {
+            const col = m.status === 'complete' ? 'var(--forest)' : m.status === 'in-progress' ? 'var(--gold)' : 'var(--parchment)';
+            return `<div title="${m.name}" style="width:22px;height:5px;background:${col};border-radius:1px"></div>`;
+          }).join('')}</div>`
+        : '';
+
+      return `<div style="margin-bottom:1rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden">
+        <div onclick="toggleActivitiesSection(${c.id})" style="display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;background:var(--white);cursor:pointer;border-bottom:1px solid var(--parchment)">
+          <div style="display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap">
+            <span id="acts-arrow-${c.id}" style="font-size:0.7rem;color:var(--forest-mid)">&#9654;</span>
+            <span style="font-size:0.95rem;font-weight:700;color:var(--forest)">${c.name}</span>
+            <span style="font-size:0.85rem;color:var(--forest-mid)">${c.client}</span>
+            ${phaseBadge(c.phase)}
+            ${msBar}
+          </div>
+          <div style="display:flex;align-items:center;gap:0.8rem">
+            <span style="font-size:0.82rem;color:var(--forest-mid)">${done}/${acts.length} done</span>
+          </div>
+        </div>
+        <div id="acts-body-${c.id}" style="display:none">
+          <table style="width:100%;border-collapse:collapse">
+            <tr>
+              <th style="${thStyle}">Activity</th>
+              <th style="${thStyle}">Assignee</th>
+              <th style="${thStyle}">Category</th>
+              <th style="${thStyle}">Status</th>
+              <th style="${thStyle}">Due Date</th>
+              <th style="${thStyle}">Notes</th>
+            </tr>
+            ${acts.length ? acts.map(a => `<tr>
+              <td style="${tdStyle};font-weight:700;color:var(--forest)">${a.name}</td>
+              <td style="${tdStyle}">${a.assignee||'—'}</td>
+              <td style="${tdStyle}"><span style="font-size:0.8rem;background:var(--ivory);padding:2px 6px;border-radius:2px">${a.category||'—'}</span></td>
+              <td style="${tdStyle}">${activityStatusBadge(a.status)}</td>
+              <td style="${tdStyle}">${a.dueDate||'—'}</td>
+              <td style="${tdStyle};color:var(--forest-mid);font-style:italic">${a.notes||''}</td>
+            </tr>`).join('') : `<tr><td colspan="6" style="text-align:center;padding:1rem;color:#aaa">No activities yet.</td></tr>`}
+          </table>
+          <div style="padding:0.6rem 1rem;background:var(--ivory);border-top:1px solid var(--parchment)">
+            <button onclick="addActivityInline(${c.id})" style="font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:transparent;color:var(--forest);border:1px solid var(--parchment);padding:0.3rem 0.8rem;cursor:pointer;transition:border-color 0.15s" onmouseover="this.style.borderColor='var(--forest)'" onmouseout="this.style.borderColor='var(--parchment)'">+ Add Activity</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleActivitiesSection(campaignId) {
+    const body = document.getElementById('acts-body-' + campaignId);
+    const arrow = document.getElementById('acts-arrow-' + campaignId);
+    if (!body) return;
+    const open = body.style.display !== 'none';
+    body.style.display = open ? 'none' : '';
+    if (arrow) arrow.innerHTML = open ? '&#9654;' : '&#9660;';
+  }
+
+  function addActivityInline(campaignId) {
+    const name = prompt('Activity name:');
+    if (!name) return;
+    const assignee = prompt('Assignee (e.g. Nicole Feenstra):') || '';
+    const category = prompt('Category (Strategy / Design / Development / Execution / Analytics / Reporting):') || 'Strategy';
+    const dueDate = prompt('Due date (YYYY-MM-DD):') || '';
+    const campaigns = loadCampaigns();
+    const c = campaigns.find(x => x.id === campaignId);
+    if (!c) return;
+    if (!c.activities) c.activities = [];
+    c.activities.push({
+      id: Math.max(0, ...c.activities.map(a => a.id)) + 1,
+      name, assignee, status: 'not-started', dueDate,
+      notes: '', category
+    });
+    saveCampaigns(campaigns);
+    renderCampaignActivities();
+    // Re-open the section
+    setTimeout(() => {
+      const body = document.getElementById('acts-body-' + campaignId);
+      if (body) body.style.display = '';
+      const arrow = document.getElementById('acts-arrow-' + campaignId);
+      if (arrow) arrow.innerHTML = '&#9660;';
+    }, 50);
+  }
+
+  function renderActivitiesKanban(campaigns) {
+    const phases = ['kickoff','strategy','execution','review','complete'];
+    const phaseLabels = {kickoff:'Kickoff',strategy:'Strategy',execution:'Execution',review:'Review',complete:'Complete'};
+    const phaseAccent = {kickoff:'var(--forest-mid)',strategy:'#7a8f6b',execution:'var(--gold)',review:'#c4932a',complete:'#2d6a4f'};
+
+    const cols = phases.map(phase => {
+      const cards = campaigns.filter(c => (c.phase || 'kickoff') === phase);
+      const cardHTML = cards.length
+        ? cards.map(c => {
+            const acts = c.activities || [];
+            const done = acts.filter(a => a.status === 'done').length;
+            const total = acts.length;
+            const pct = total ? Math.round((done/total)*100) : 0;
+            const assignees = [...new Set(acts.map(a => a.assignee).filter(Boolean))];
+            const chips = assignees.map(a => {
+              const parts = a.trim().split(' ');
+              const abbr = parts.length > 1 ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase() : a.substring(0,2).toUpperCase();
+              return `<span class="kanban-chip" title="${a}">${abbr}</span>`;
+            }).join('');
+            const isFirst = phase === phases[0];
+            const isLast = phase === phases[phases.length-1];
+            return `<div class="kanban-card">
+              <div class="kanban-card-name">${c.name}</div>
+              <div class="kanban-card-client">${c.client}</div>
+              ${chips ? `<div style="margin-bottom:0.3rem">${chips}</div>` : ''}
+              <div class="kanban-progress-bar"><div class="kanban-progress-fill" style="width:${pct}%"></div></div>
+              <div style="font-size:0.75rem;color:var(--forest-mid)">${done}/${total} activities done · $${c.budget.toLocaleString()}</div>
+              ${phaseBadge(c.phase)}
+              <div class="kanban-move-btns">
+                ${!isFirst ? `<button class="kanban-move-btn" onclick="moveCampaignPhase(${c.id},-1)">← Back</button>` : ''}
+                ${!isLast ? `<button class="kanban-move-btn" onclick="moveCampaignPhase(${c.id},1)">Advance →</button>` : ''}
+              </div>
+            </div>`;
+          }).join('')
+        : `<div class="kanban-empty">No campaigns</div>`;
+      return `<div class="kanban-col">
+        <div class="kanban-col-header" style="border-bottom-color:${phaseAccent[phase]}">
+          <span>${phaseLabels[phase]}</span>
+          ${cards.length ? `<span class="kanban-col-count">${cards.length}</span>` : ''}
+        </div>
+        ${cardHTML}
+      </div>`;
+    }).join('');
+
+    return `<div class="kanban-board">${cols}</div>`;
+  }
+
+  function moveCampaignPhase(campaignId, dir) {
+    const phases = ['kickoff','strategy','execution','review','complete'];
+    const campaigns = loadCampaigns();
+    const c = campaigns.find(x => x.id === campaignId);
+    if (!c) return;
+    const idx = phases.indexOf(c.phase || 'kickoff');
+    c.phase = phases[Math.max(0, Math.min(phases.length - 1, idx + dir))];
+    saveCampaigns(campaigns);
+    renderCampaignActivities();
+  }
+
+  function renderActivitiesGantt(campaigns) {
+    if (!campaigns.length) return '<div style="color:#aaa;padding:20px;text-align:center">No campaigns to display.</div>';
+    const phaseColors = {kickoff:'#4a6741',strategy:'#7a8f6b',execution:'#c4932a',review:'#a07320',complete:'#2d6a4f'};
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+
+    let minDate = null, maxDate = null;
+    campaigns.forEach(c => {
+      const s = c.startDate ? new Date(c.startDate) : null;
+      const e = c.endDate ? new Date(c.endDate) : null;
+      if (s && (!minDate || s < minDate)) minDate = s;
+      if (e && (!maxDate || e > maxDate)) maxDate = e;
+    });
+    if (!minDate) minDate = new Date(today);
+    if (!maxDate) maxDate = new Date(today);
+    minDate = new Date(minDate); maxDate = new Date(maxDate);
+    minDate.setDate(minDate.getDate() - 7);
+    maxDate.setDate(maxDate.getDate() + 7);
+
+    const totalMs = maxDate - minDate;
+    if (totalMs <= 0) return '<div style="color:#aaa;padding:20px;text-align:center">Invalid date range.</div>';
+
+    function pct(d) {
+      const date = typeof d === 'string' ? new Date(d) : d;
+      return Math.max(0, Math.min(100, ((date - minDate) / totalMs) * 100));
+    }
+
+    const monthLabels = [];
+    const cur = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+    while (cur <= maxDate) {
+      const left = pct(cur);
+      const label = cur.toLocaleDateString('en-US', {month:'short', year:'2-digit'});
+      monthLabels.push(`<div style="position:absolute;left:${left.toFixed(2)}%;font-size:0.72rem;color:var(--forest-mid);font-weight:700;white-space:nowrap;top:4px">${label}</div>`);
+      cur.setMonth(cur.getMonth() + 1);
+    }
+    const todayPct = pct(today);
+    const todayLine = `<div class="gantt-today" style="left:${todayPct.toFixed(2)}%"></div>`;
+
+    const rows = campaigns.map(c => {
+      const leftPct = pct(c.startDate || todayStr);
+      const rightPct = pct(c.endDate || todayStr);
+      const widthPct = Math.max(0.5, rightPct - leftPct);
+      const barColor = phaseColors[c.phase || 'kickoff'] || '#4a6741';
+      const milestones = (c.milestones || []).filter(m => m.date).map(m => {
+        const mp = pct(m.date);
+        if (mp < 0 || mp > 100) return '';
+        return `<div class="gantt-milestone" style="left:${mp.toFixed(2)}%" title="${m.name} — ${m.status}"></div>`;
+      }).join('');
+      const actRows = (c.activities || []).filter(a => a.dueDate).map(a => {
+        const startP = pct(c.startDate || todayStr);
+        const endP = pct(a.dueDate);
+        const dw = Math.max(0.5, endP - startP);
+        return `<div class="gantt-deliverable-row">
+          <div class="gantt-deliverable-label" title="${a.name}">${a.name}</div>
+          <div class="gantt-bar-area">${todayLine}<div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%"></div></div>
+        </div>`;
+      }).join('');
+      return `<div class="gantt-row">
+        <div class="gantt-label" title="${c.name} · ${c.client}">${c.name}</div>
+        <div class="gantt-bar-area">
+          ${todayLine}
+          <div class="gantt-bar" style="left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;background:${barColor}"></div>
+          ${milestones}
+        </div>
+      </div>${actRows}`;
+    }).join('');
+
+    return `<div style="background:var(--white);border:1px solid var(--parchment);overflow-x:auto">
+      <div style="display:flex;border-bottom:2px solid var(--parchment);background:var(--cream)">
+        <div style="flex:0 0 180px;padding:0.5rem 0.75rem;font-size:0.75rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em">Campaign</div>
+        <div style="flex:1;position:relative;height:28px;">${monthLabels.join('')}${todayLine}</div>
+      </div>
+      ${rows}
+      <div style="display:flex;align-items:center;gap:1.2rem;padding:0.6rem 0.75rem;border-top:1px solid var(--parchment);background:var(--cream);flex-wrap:wrap">
+        ${Object.entries(phaseColors).map(([ph, col]) => `<div style="display:flex;align-items:center;gap:0.4rem"><div style="width:14px;height:8px;background:${col};border-radius:1px"></div><span style="font-size:0.75rem;color:var(--forest-mid);text-transform:capitalize">${ph}</span></div>`).join('')}
+        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:2px;height:14px;background:#e74c3c;opacity:0.7"></div><span style="font-size:0.75rem;color:var(--forest-mid)">Today</span></div>
+      </div>
+    </div>`;
+  }
+
+  // ── PAYROLL FUNCTIONS ─────────────────────────────────
+  function renderPayroll() {
+    const el = document.getElementById('payroll-table');
+    if (!el) return;
+
+    const period = document.getElementById('payroll-period')?.value || 'current';
+    const labor = loadLaborTracking();
+
+    // Date range by period
+    let startDate, endDate;
+    if (period === 'current') { startDate = '2026-04-01'; endDate = '2026-04-15'; }
+    else if (period === 'previous') { startDate = '2026-03-16'; endDate = '2026-03-31'; }
+    else { startDate = '2026-03-01'; endDate = '2026-03-15'; }
+
+    const filtered = labor.filter(l => l.date >= startDate && l.date <= endDate);
+
+    // Group by contractor
+    const byContractor = {};
+    const campaigns = loadCampaigns();
+    filtered.forEach(l => {
+      const name = l.contractor || 'Unassigned';
+      if (!byContractor[name]) byContractor[name] = { hours: 0, cost: 0, campaignIds: new Set(), paid: l.paid || false };
+      byContractor[name].hours += l.hours;
+      byContractor[name].cost += l.hours * l.hourlyRate;
+      if (l.campaignId) byContractor[name].campaignIds.add(l.campaignId);
+    });
+
+    const thStyle = 'text-align:left;padding:8px 10px;color:var(--forest-mid);font-weight:700;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.05em;background:var(--cream)';
+    const tdStyle = 'padding:8px 10px;border-bottom:0.5px solid var(--parchment);font-size:0.85rem';
+
+    const entries = Object.entries(byContractor);
+    const totalCost = entries.reduce((s, [, d]) => s + d.cost, 0);
+
+    if (!entries.length) {
+      el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--forest-mid);font-style:italic">No labor logged for this period.</div>';
+      return;
+    }
+
+    const rows = entries.map(([name, d]) => {
+      const campNames = [...d.campaignIds].map(id => {
+        const c = campaigns.find(x => x.id === id);
+        return c ? c.name : '—';
+      }).join(', ') || '—';
+      const isPaid = d.paid;
+      return `<tr>
+        <td style="${tdStyle};font-weight:700;color:var(--forest)">${name}</td>
+        <td style="${tdStyle}">${d.hours}h</td>
+        <td style="${tdStyle}">$${(d.cost / (d.hours || 1)).toFixed(0)}/hr avg</td>
+        <td style="${tdStyle};font-weight:700;color:var(--gold)">$${d.cost.toLocaleString()}</td>
+        <td style="${tdStyle};font-size:0.82rem;color:var(--forest-mid)">${campNames}</td>
+        <td style="${tdStyle}">
+          <button onclick="markPayrollPaid('${name}','${startDate}','${endDate}')" style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:${isPaid?'#2d6a4f':'transparent'};color:${isPaid?'var(--ivory)':'var(--forest)'};border:1px solid ${isPaid?'#2d6a4f':'var(--parchment)'};padding:3px 8px;cursor:pointer;border-radius:2px">${isPaid?'Paid':'Mark Paid'}</button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    el.innerHTML = `<div style="overflow-x:auto">
+      <table style="width:100%;font-size:0.85rem;border-collapse:collapse;background:var(--white);border:1px solid var(--parchment)">
+        <tr>
+          <th style="${thStyle}">Contractor</th>
+          <th style="${thStyle}">Hours</th>
+          <th style="${thStyle}">Rate</th>
+          <th style="${thStyle}">Amount</th>
+          <th style="${thStyle}">Campaigns Worked</th>
+          <th style="${thStyle}">Export to QB</th>
+        </tr>
+        ${rows}
+        <tr style="background:var(--cream)">
+          <td style="${tdStyle};font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--forest)" colspan="3">Total</td>
+          <td style="${tdStyle};font-weight:700;color:var(--forest);font-size:1rem">$${totalCost.toLocaleString()}</td>
+          <td style="${tdStyle}" colspan="2"></td>
+        </tr>
+      </table>
+    </div>`;
+  }
+
+  function markPayrollPaid(contractorName, startDate, endDate) {
+    const labor = loadLaborTracking();
+    labor.forEach(l => {
+      if ((l.contractor || 'Unassigned') === contractorName && l.date >= startDate && l.date <= endDate) {
+        l.paid = !l.paid;
+      }
+    });
+    saveLaborTracking(labor);
+    renderPayroll();
+  }
+
+  function exportPayroll() {
+    const period = document.getElementById('payroll-period')?.value || 'current';
+    let startDate, endDate, periodLabel;
+    if (period === 'current') { startDate = '2026-04-01'; endDate = '2026-04-15'; periodLabel = 'Apr 1-15 2026'; }
+    else if (period === 'previous') { startDate = '2026-03-16'; endDate = '2026-03-31'; periodLabel = 'Mar 16-31 2026'; }
+    else { startDate = '2026-03-01'; endDate = '2026-03-15'; periodLabel = 'Mar 1-15 2026'; }
+
+    const labor = loadLaborTracking();
+    const campaigns = loadCampaigns();
+    const filtered = labor.filter(l => l.date >= startDate && l.date <= endDate);
+
+    const byContractor = {};
+    filtered.forEach(l => {
+      const name = l.contractor || 'Unassigned';
+      if (!byContractor[name]) byContractor[name] = { hours: 0, cost: 0, campaignIds: new Set() };
+      byContractor[name].hours += l.hours;
+      byContractor[name].cost += l.hours * l.hourlyRate;
+      if (l.campaignId) byContractor[name].campaignIds.add(l.campaignId);
+    });
+
+    const header = 'Contractor,Hours,Amount,Campaigns Worked,Period';
+    const rows = Object.entries(byContractor).map(([name, d]) => {
+      const campNames = [...d.campaignIds].map(id => {
+        const c = campaigns.find(x => x.id === id);
+        return c ? c.name : '';
+      }).join(' | ');
+      return `"${name}",${d.hours},$${d.cost.toFixed(2)},"${campNames}","${periodLabel}"`;
+    });
+
+    const csv = [header, ...rows].join('\n');
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = `payroll-${period}.csv`;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // ── CRM → CAMPAIGN LINK ─────────────────────────────────
+  function createCampaignFromContact(contactId) {
+    const contacts = loadContacts();
+    const c = contacts.find(x => x.id === contactId);
+    if (!c) return;
+    closeContact();
+    const form = document.getElementById('add-campaign-form');
+    if (form) {
+      form.client.value = c.organization || (c.firstName + ' ' + c.lastName);
+      form.name.value = c.organization || (c.firstName + ' ' + c.lastName);
+    }
+    const cidInput = document.getElementById('add-campaign-contactId');
+    if (cidInput) cidInput.value = contactId;
+    // Switch to campaign tab
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(ct => ct.classList.remove('active'));
+    const campTab = document.querySelector('[data-tab="campaign"]');
+    if (campTab) campTab.classList.add('active');
+    const campContent = document.getElementById('campaign');
+    if (campContent) campContent.classList.add('active');
+    openAddModal();
   }
 
   renderCRM();
-
-  function toggleDeliverables(projectId) {
-    const rows = document.querySelectorAll('.deliv-row-' + projectId);
-    const arrow = document.getElementById('deliv-arrow-' + projectId);
-    const visible = rows.length > 0 && rows[0].style.display !== 'none';
-    rows.forEach(r => r.style.display = visible ? 'none' : 'table-row');
-    if (arrow) arrow.innerHTML = visible ? '&#9654;' : '&#9660;';
-  }
-
-  function updateDeliverable(projectId, delivIndex, field, value) {
-    const projects = loadProjects();
-    const p = projects.find(x => x.id === projectId);
-    if (!p || !p.deliverables || !p.deliverables[delivIndex]) return;
-    p.deliverables[delivIndex][field] = value;
-    if (field === 'status' && value === 'done') {
-      p.deliverables[delivIndex].completed = true;
-    } else if (field === 'status' && value !== 'done') {
-      p.deliverables[delivIndex].completed = false;
-    }
-    saveProjects(projects);
-  }
 
   // ── FINANCE DATA ──────────────────────────────────────
   const DONORS_KEY = 'meridian_donors';
@@ -3792,193 +4200,7 @@ body {
   }
   function saveInvoices(data) { localStorage.setItem(INVOICES_KEY, JSON.stringify(data)); }
 
-  // ── PROJECTS DATA (Operations) ────────────────────────
-  const PROJECTS_KEY = 'meridian_projects';
-  const PROJECTS_SEED = [
-    {id:1,leadId:1,phase:"execution",name:"Campaign Command Platform Build",client:"DNA Agency",startDate:"2026-02-01",endDate:"2026-04-30",budget:45000,owner:"Nicole",deliverables:[{name:"Platform architecture",completed:true,dueDate:"2026-02-15"},{name:"Dashboard mockups",completed:true,dueDate:"2026-02-28"},{name:"API integration",completed:false,dueDate:"2026-04-15"},{name:"Testing & QA",completed:false,dueDate:"2026-04-30"}],status:"Active",timeline:{items:[{task:"Kickoff",dueDate:"2026-02-01",owner:"Nicole",status:"complete"},{task:"Design review",dueDate:"2026-02-15",owner:"Team",status:"complete"},{task:"Dev sprints 1-3",dueDate:"2026-03-31",owner:"Dev",status:"in-progress"},{task:"Client feedback",dueDate:"2026-04-15",owner:"Nicole",status:"pending"},{task:"Launch",dueDate:"2026-04-30",owner:"Team",status:"pending"}]},laborCost:0,expenseCost:2500,totalCost:2500,createdAt:"2026-02-01",updatedAt:"2026-03-28"},
-    {id:2,leadId:2,phase:"review",name:"Brand Identity Refresh",client:"Casa Verde Restaurant",startDate:"2026-03-01",endDate:"2026-04-15",budget:12000,owner:"Creative Lead",deliverables:[{name:"Logo variations",completed:true,dueDate:"2026-03-15"},{name:"Color palette",completed:true,dueDate:"2026-03-20"},{name:"Brand guidelines",completed:false,dueDate:"2026-04-05"},{name:"Assets package",completed:false,dueDate:"2026-04-15"}],status:"Active",timeline:{items:[{task:"Discovery call",dueDate:"2026-03-01",owner:"Creative Lead",status:"complete"},{task:"Initial concepts",dueDate:"2026-03-10",owner:"Designer",status:"complete"},{task:"Client review 1",dueDate:"2026-03-15",owner:"Creative Lead",status:"complete"},{task:"Revisions",dueDate:"2026-03-25",owner:"Designer",status:"in-progress"},{task:"Finalization",dueDate:"2026-04-10",owner:"Designer",status:"pending"}]},laborCost:0,expenseCost:0,totalCost:0,createdAt:"2026-03-01",updatedAt:"2026-03-27"},
-    {id:3,leadId:3,phase:"execution",name:"Website Redesign & Migration",client:"Pacific Legal Group",startDate:"2026-01-15",endDate:"2026-05-31",budget:35000,owner:"Nicole",deliverables:[{name:"Architecture & wireframes",completed:true,dueDate:"2026-02-15"},{name:"Design comps",completed:true,dueDate:"2026-03-15"},{name:"Development",completed:false,dueDate:"2026-05-01"},{name:"Content migration",completed:false,dueDate:"2026-05-15"},{name:"Testing & launch",completed:false,dueDate:"2026-05-31"}],status:"Active",timeline:{items:[{task:"Audit existing site",dueDate:"2026-01-20",owner:"Nicole",status:"complete"},{task:"Strategy session",dueDate:"2026-02-01",owner:"Team",status:"complete"},{task:"Design phase",dueDate:"2026-03-15",owner:"Designer",status:"complete"},{task:"Development sprint",dueDate:"2026-04-30",owner:"Dev",status:"in-progress"},{task:"Migration & QA",dueDate:"2026-05-15",owner:"Team",status:"pending"},{task:"Launch",dueDate:"2026-05-31",owner:"Nicole",status:"pending"}]},laborCost:0,expenseCost:5800,totalCost:5800,createdAt:"2026-01-15",updatedAt:"2026-03-25"}
-  ];
-  function loadProjects() {
-    try { return JSON.parse(localStorage.getItem(PROJECTS_KEY)) || [...PROJECTS_SEED]; }
-    catch(e) { return [...PROJECTS_SEED]; }
-  }
-  function saveProjects(data) { localStorage.setItem(PROJECTS_KEY, JSON.stringify(data)); }
-
-  let projectsView = 'table';
-
-  function toggleProjectsView(view) {
-    projectsView = view;
-    const tBtn = document.getElementById('proj-view-table-btn');
-    const bBtn = document.getElementById('proj-view-board-btn');
-    const gBtn = document.getElementById('proj-view-gantt-btn');
-    if (tBtn) { tBtn.classList.toggle('active', view === 'table'); }
-    if (bBtn) { bBtn.classList.toggle('active', view === 'board'); }
-    if (gBtn) { gBtn.classList.toggle('active', view === 'gantt'); }
-    renderOperations();
-  }
-
-  function moveProjectPhase(projectId, dir) {
-    const phases = ['kickoff','strategy','execution','review','complete'];
-    const projects = loadProjects();
-    const p = projects.find(x => x.id === projectId);
-    if (!p) return;
-    const idx = phases.indexOf(p.phase || 'kickoff');
-    p.phase = phases[Math.max(0, Math.min(phases.length - 1, idx + dir))];
-    saveProjects(projects);
-    renderOperations();
-  }
-
-  function renderKanbanBoard(projects, labor) {
-    const phases = ['kickoff','strategy','execution','review','complete'];
-    const phaseLabels = {kickoff:'Kickoff',strategy:'Strategy',execution:'Execution',review:'Review',complete:'Complete'};
-    const phaseAccent = {kickoff:'var(--forest-mid)',strategy:'#7a8f6b',execution:'var(--gold)',review:'#c4932a',complete:'#2d6a4f'};
-
-    const cols = phases.map(phase => {
-      const cards = projects.filter(p => (p.phase || 'kickoff') === phase);
-      const cardHTML = cards.length
-        ? cards.map(p => {
-            const projectLabor = labor.filter(l => l.projectId === p.id);
-            const assignees = [...new Set(projectLabor.map(l => l.contractor))];
-            const chips = assignees.map(a => {
-              const parts = a.trim().split(' ');
-              const abbr = parts.length > 1 ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase() : a.substring(0,2).toUpperCase();
-              return `<span class="kanban-chip" title="${a}">${abbr}</span>`;
-            }).join('');
-            const done = (p.deliverables||[]).filter(d=>d.completed).length;
-            const total = (p.deliverables||[]).length;
-            const pct = total ? Math.round((done/total)*100) : 0;
-            const isFirst = phase === phases[0];
-            const isLast = phase === phases[phases.length-1];
-            return `<div class="kanban-card">
-              <div class="kanban-card-name">${p.name}</div>
-              <div class="kanban-card-client">${p.client}</div>
-              ${chips ? `<div style="margin-bottom:0.3rem">${chips}</div>` : ''}
-              <div class="kanban-progress-bar"><div class="kanban-progress-fill" style="width:${pct}%"></div></div>
-              <div style="font-size:0.75rem;color:var(--forest-mid)">${done}/${total} done &middot; $${p.budget.toLocaleString()}</div>
-              <div class="kanban-move-btns">
-                ${!isFirst ? `<button class="kanban-move-btn" onclick="moveProjectPhase(${p.id},-1)">← Back</button>` : ''}
-                ${!isLast ? `<button class="kanban-move-btn" onclick="moveProjectPhase(${p.id},1)">Advance →</button>` : ''}
-              </div>
-            </div>`;
-          }).join('')
-        : `<div class="kanban-empty">No projects</div>`;
-
-      return `<div class="kanban-col">
-        <div class="kanban-col-header" style="border-bottom-color:${phaseAccent[phase]}">
-          <span>${phaseLabels[phase]}</span>
-          ${cards.length ? `<span class="kanban-col-count">${cards.length}</span>` : ''}
-        </div>
-        ${cardHTML}
-      </div>`;
-    }).join('');
-
-    return `<div class="kanban-board">${cols}</div>`;
-  }
-
-  // ── GANTT CHART (Operations) ──────────────────────────
-  function renderGanttChart(projects, labor) {
-    if (!projects.length) return '<div style="color:#aaa;padding:20px;text-align:center">No projects to display.</div>';
-
-    const phaseColors = {kickoff:'#4a6741',strategy:'#7a8f6b',execution:'#c4932a',review:'#a07320',complete:'#2d6a4f'};
-
-    // Calculate date range
-    const today = new Date();
-    const todayStr = today.toISOString().split('T')[0];
-
-    let minDate = null, maxDate = null;
-    projects.forEach(p => {
-      const s = p.startDate ? new Date(p.startDate) : null;
-      const e = p.endDate ? new Date(p.endDate) : null;
-      if (s && (!minDate || s < minDate)) minDate = s;
-      if (e && (!maxDate || e > maxDate)) maxDate = e;
-    });
-    if (!minDate) minDate = new Date(today); minDate = new Date(minDate);
-    if (!maxDate) maxDate = new Date(today); maxDate = new Date(maxDate);
-
-    // Add 7-day padding
-    minDate.setDate(minDate.getDate() - 7);
-    maxDate.setDate(maxDate.getDate() + 7);
-
-    const totalMs = maxDate - minDate;
-    if (totalMs <= 0) return '<div style="color:#aaa;padding:20px;text-align:center">Invalid date range.</div>';
-
-    function pct(d) {
-      const date = typeof d === 'string' ? new Date(d) : d;
-      return Math.max(0, Math.min(100, ((date - minDate) / totalMs) * 100));
-    }
-
-    // Build month header labels
-    const monthLabels = [];
-    const cur = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
-    while (cur <= maxDate) {
-      const left = pct(cur);
-      const label = cur.toLocaleDateString('en-US', {month:'short', year:'2-digit'});
-      monthLabels.push(`<div style="position:absolute;left:${left.toFixed(2)}%;font-size:0.72rem;color:var(--forest-mid);font-weight:700;white-space:nowrap;top:4px">${label}</div>`);
-      cur.setMonth(cur.getMonth() + 1);
-    }
-
-    const todayPct = pct(today);
-    const todayLine = `<div class="gantt-today" style="left:${todayPct.toFixed(2)}%"></div>`;
-
-    // Build rows
-    const campaigns = loadCampaigns();
-    const rows = projects.map(p => {
-      const leftPct = pct(p.startDate || todayStr);
-      const rightPct = pct(p.endDate || todayStr);
-      const widthPct = Math.max(0.5, rightPct - leftPct);
-      const barColor = phaseColors[p.phase || 'kickoff'] || '#4a6741';
-
-      // Milestone dots: from linked campaign or from deliverable due dates
-      const linkedCampaign = campaigns.find(c => c.id === p.campaignId);
-      const milestones = linkedCampaign && linkedCampaign.milestones && linkedCampaign.milestones.length
-        ? linkedCampaign.milestones.filter(m => m.date)
-        : (p.deliverables || []).filter(d => d.dueDate).map(d => ({name: d.name, date: d.dueDate}));
-
-      const milestoneDots = milestones.map(m => {
-        const mp = pct(m.date);
-        if (mp < 0 || mp > 100) return '';
-        return `<div class="gantt-milestone" style="left:${mp.toFixed(2)}%" title="${m.name}"></div>`;
-      }).join('');
-
-      // Deliverable sub-rows
-      const delivs = (p.deliverables || []).filter(d => d.dueDate);
-      const delivRows = delivs.map(d => {
-        const startP = pct(p.startDate || todayStr);
-        const endP = pct(d.dueDate);
-        const dw = Math.max(0.5, endP - startP);
-        return `<div class="gantt-deliverable-row">
-          <div class="gantt-deliverable-label" title="${d.name}">${d.name}</div>
-          <div class="gantt-bar-area">
-            ${todayLine}
-            <div class="gantt-deliverable-bar" style="left:${startP.toFixed(2)}%;width:${dw.toFixed(2)}%"></div>
-          </div>
-        </div>`;
-      }).join('');
-
-      return `<div class="gantt-row">
-        <div class="gantt-label" title="${p.name} · ${p.client}">${p.name}</div>
-        <div class="gantt-bar-area">
-          ${todayLine}
-          <div class="gantt-bar" style="left:${leftPct.toFixed(2)}%;width:${widthPct.toFixed(2)}%;background:${barColor}" title="${p.name}: ${p.startDate||'?'} – ${p.endDate||'?'}"></div>
-          ${milestoneDots}
-        </div>
-      </div>${delivRows}`;
-    }).join('');
-
-    return `<div style="background:var(--white);border:1px solid var(--parchment);overflow-x:auto">
-      <div style="display:flex;border-bottom:2px solid var(--parchment);background:var(--cream)">
-        <div style="flex:0 0 180px;padding:0.5rem 0.75rem;font-size:0.75rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em">Project</div>
-        <div style="flex:1;position:relative;height:28px;">${monthLabels.join('')}${todayLine}</div>
-      </div>
-      ${rows}
-      <div style="display:flex;align-items:center;gap:1.2rem;padding:0.6rem 0.75rem;border-top:1px solid var(--parchment);background:var(--cream);flex-wrap:wrap">
-        ${Object.entries(phaseColors).map(([ph, col]) => `<div style="display:flex;align-items:center;gap:0.4rem"><div style="width:14px;height:8px;background:${col};border-radius:1px"></div><span style="font-size:0.75rem;color:var(--forest-mid);text-transform:capitalize">${ph}</span></div>`).join('')}
-        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:2px;height:14px;background:#e74c3c;opacity:0.7"></div><span style="font-size:0.75rem;color:var(--forest-mid)">Today</span></div>
-        <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:8px;height:8px;border-radius:50%;background:var(--forest)"></div><span style="font-size:0.75rem;color:var(--forest-mid)">Milestone</span></div>
-      </div>
-    </div>`;
-  }
+  // Projects data structure removed — campaigns now carry activities directly
 
   // ── TEAM ROSTER (Operations) ──────────────────────────
   let rosterView = 'active';
@@ -3997,7 +4219,7 @@ body {
     if (!grid) return;
 
     const labor = loadLaborTracking();
-    const projects = loadProjects();
+    const campaigns = loadCampaigns();
     const now = new Date();
     const todayStr = now.toISOString().split('T')[0];
 
@@ -4037,15 +4259,15 @@ body {
 
       const isActive = lastActiveDate && lastActiveDate >= thirtyDaysAgo;
 
-      // Projects in last 30 days
-      const recentProjectIds = [...new Set(
-        laborEntries.filter(l => l.date && new Date(l.date) >= thirtyDaysAgo).map(l => l.projectId).filter(Boolean)
+      // Campaigns in last 30 days
+      const recentCampaignIds = [...new Set(
+        laborEntries.filter(l => l.date && new Date(l.date) >= thirtyDaysAgo).map(l => l.campaignId || l.projectId).filter(Boolean)
       )];
-      const assignedProjects = recentProjectIds.map(pid => {
-        const proj = projects.find(p => p.id === pid);
-        if (!proj) return null;
-        const ownedDelivs = (proj.deliverables || []).filter(d => d.assignee === name);
-        return {proj, ownedDelivs};
+      const assignedProjects = recentCampaignIds.map(cid => {
+        const camp = campaigns.find(c => c.id === cid);
+        if (!camp) return null;
+        const ownedActs = (camp.activities || []).filter(a => a.assignee === name);
+        return {proj: camp, ownedDelivs: ownedActs};
       }).filter(Boolean);
 
       // Utilization
@@ -4077,7 +4299,7 @@ body {
               ${tags ? `<div style="margin-top:2px">${tags}</div>` : ''}
             </div>`;
           }).join('')
-        : '<div style="font-size:0.8rem;color:#bbb;font-style:italic">No active projects this month</div>';
+        : '<div style="font-size:0.8rem;color:#bbb;font-style:italic">No active campaigns this month</div>';
 
       return `<div class="roster-card">
         <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
@@ -4425,33 +4647,33 @@ body {
 
   // ── PROPOSAL GENERATOR (Claude AI) ─────────────────────
   function initProposalProjectSelect() {
-    const projects = loadProjects();
+    const campaigns = loadCampaigns();
     const select = document.getElementById('proposal-project');
     if (!select) return;
 
-    select.innerHTML = '<option value="">— Choose a project</option>' +
-      projects.map(p => `<option value="${p.id}">${p.name} (${p.client})</option>`).join('');
+    select.innerHTML = '<option value="">— Choose a campaign</option>' +
+      campaigns.map(p => `<option value="${p.id}">${p.name} (${p.client})</option>`).join('');
   }
 
   function loadProposalContext() {
-    const projectId = parseInt(document.getElementById('proposal-project').value);
-    if (!projectId) {
+    const campaignId = parseInt(document.getElementById('proposal-project').value);
+    if (!campaignId) {
       document.getElementById('proposal-output').style.display = 'none';
       document.getElementById('proposal-placeholder').style.display = 'block';
       return;
     }
 
-    const projects = loadProjects();
-    const project = projects.find(p => p.id === projectId);
+    const campaigns = loadCampaigns();
+    const project = campaigns.find(p => p.id === campaignId);
     if (!project) return;
 
-    // Pre-fill context with project details
-    const deliverables = project.deliverables.map(d => d.name).join(', ');
-    const context = `Project: ${project.name}
+    // Pre-fill context with campaign details
+    const activities = (project.activities || []).map(a => a.name).join(', ') || 'No activities yet';
+    const context = `Campaign: ${project.name}
 Client: ${project.client}
 Budget: $${project.budget.toLocaleString()}
 Timeline: ${project.startDate} to ${project.endDate}
-Deliverables: ${deliverables}`;
+Activities: ${activities}`;
 
     document.getElementById('proposal-context').value = context;
   }
@@ -4534,9 +4756,9 @@ Write a compelling, professional proposal that shows why this project will deliv
   }
 
   function exportProposalPDF() {
-    const projectId = parseInt(document.getElementById('proposal-project').value);
-    const projects = loadProjects();
-    const project = projects.find(p => p.id === projectId);
+    const campaignId = parseInt(document.getElementById('proposal-project').value);
+    const campaigns = loadCampaigns();
+    const project = campaigns.find(p => p.id === campaignId);
     const proposalText = document.getElementById('proposal-text').innerText;
 
     if (!proposalText) {
@@ -4547,8 +4769,8 @@ Write a compelling, professional proposal that shows why this project will deliv
     // Simple PDF export using data URL (Phase 2 will use jsPDF)
     const pdfContent = `
 PROPOSAL
-${project.name}
-${project.client}
+${project ? project.name : 'Campaign'}
+${project ? project.client : ''}
 Generated on ${new Date().toLocaleDateString()}
 
 ${proposalText}
@@ -4556,7 +4778,7 @@ ${proposalText}
 
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(pdfContent));
-    element.setAttribute('download', `${project.name}-Proposal.txt`);
+    element.setAttribute('download', `${project ? project.name : 'Campaign'}-Proposal.txt`);
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
@@ -4564,44 +4786,44 @@ ${proposalText}
   }
 
   // ── CLIENT REPORT EXPORT ──────────────────────────────
-  function exportProjectReport(projectId) {
-    const projects = loadProjects();
+  function exportProjectReport(campaignId) {
+    const campaigns = loadCampaigns();
     const labor = loadLaborTracking();
     const invoices = loadInvoices();
-    const project = projects.find(p => p.id === projectId);
+    const project = campaigns.find(c => c.id === campaignId);
 
     if (!project) {
-      alert('Project not found');
+      alert('Campaign not found');
       return;
     }
 
-    // Calculate project metrics
-    const projectLabor = labor.filter(l => l.projectId === projectId);
+    // Calculate campaign metrics
+    const projectLabor = labor.filter(l => (l.campaignId || l.projectId) === campaignId);
     const laborCost = projectLabor.reduce((s, l) => s + (l.hours * l.hourlyRate), 0);
-    const projectInvoices = invoices.filter(i => i.projectId === projectId);
+    const projectInvoices = invoices.filter(i => i.projectId === campaignId || i.campaignId === campaignId);
     const revenue = projectInvoices.filter(i => i.status === 'Funded').reduce((s, i) => s + i.amount, 0);
     const margin = revenue > 0 ? ((revenue - laborCost) / revenue * 100).toFixed(1) : 'N/A';
     const totalHours = projectLabor.reduce((s, l) => s + l.hours, 0);
 
     // Build report
-    const deliverablesList = project.deliverables
-      .map(d => `[${d.completed ? '✓' : ' '}] ${d.name}`)
-      .join('\n');
+    const activitiesList = (project.activities || [])
+      .map(a => `[${a.status === 'done' ? '✓' : ' '}] ${a.name} — ${a.status}`)
+      .join('\n') || 'No activities logged';
 
-    const report = `PROJECT REPORT
+    const report = `CAMPAIGN REPORT
 ================================================================================
 
-Project:              ${project.name}
+Campaign:            ${project.name}
 Client:              ${project.client}
-Owner:               ${project.owner}
 Status:              ${project.status}
+Phase:               ${project.phase || 'N/A'}
 
 Period:              ${project.startDate} to ${project.endDate}
 Budget:              $${project.budget.toLocaleString()}
 
-DELIVERABLES
+ACTIVITIES
 ================================================================================
-${deliverablesList}
+${activitiesList}
 
 PERFORMANCE METRICS
 ================================================================================
@@ -4639,7 +4861,7 @@ Generated on ${new Date().toLocaleDateString()}
 
     const invoices = loadInvoices();
     const contacts = loadContacts();
-    const projects = loadProjects();
+    const campaigns = loadCampaigns();
 
     const statusColors = {
       'Pending': '#FFA500',
@@ -4650,14 +4872,14 @@ Generated on ${new Date().toLocaleDateString()}
 
     const rows = invoices.map(inv => {
       const contact = contacts.find(c => c.id === inv.clientId);
-      const project = inv.projectId ? projects.find(p => p.id === inv.projectId) : null;
+      const campaign = inv.projectId ? campaigns.find(c => c.id === inv.projectId) : null;
       const clientName = contact ? `${contact.firstName} ${contact.lastName}` : `Client #${inv.clientId}`;
 
       return `
         <tr>
           <td style="padding:10px;border-bottom:1px solid #eee">${inv.date}</td>
           <td style="padding:10px;border-bottom:1px solid #eee">${clientName}</td>
-          <td style="padding:10px;border-bottom:1px solid #eee;font-size:0.9rem">${project ? project.name : '—'}</td>
+          <td style="padding:10px;border-bottom:1px solid #eee;font-size:0.9rem">${campaign ? campaign.name : '—'}</td>
           <td style="padding:10px;border-bottom:1px solid #eee;text-align:right">$${inv.amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
           <td style="padding:10px;border-bottom:1px solid #eee">
             <span class="status-badge" onclick="cycleInvoiceStatus(${inv.id})" style="background:${statusColors[inv.status]};color:white;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:0.85rem;font-weight:700">
