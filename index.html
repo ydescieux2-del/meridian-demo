@@ -2354,9 +2354,9 @@ body {
           <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Labor Costs</div>
           <div style="font-size:1rem;font-weight:700;color:var(--forest)">Contractor Labor Cost by Campaign</div>
         </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid)">▾</div>
+        <div style="font-size:1.2rem;color:var(--forest-mid);transform:rotate(180deg)">▾</div>
       </div>
-      <div class="collapsible-content" style="display:none;background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+      <div class="collapsible-content" style="background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
         <div id="campaign-labor-cost-table"></div>
       </div>
     </div>
@@ -3677,12 +3677,14 @@ body {
 
   // ── CAMPAIGN DATA ──────────────────────────────────────
   const CAMPAIGNS_KEY = 'meridian_campaigns';
-  const CAMPAIGNS_DATA_VERSION = 4; // Bumped: added source/nextAction/nextActionDue to contacts, deals pipeline, QB invoice #1137
+  const CAMPAIGNS_DATA_VERSION = 5; // Bumped: clear labor data to fix missing category field
   // Auto-clear stale localStorage when data version changes
   (function() {
     const storedVer = parseInt(localStorage.getItem('meridian_data_version') || '0');
     if (storedVer < CAMPAIGNS_DATA_VERSION) {
       localStorage.removeItem('meridian_campaigns');
+      localStorage.removeItem('meridian_labor');
+      localStorage.removeItem('meridian_contacts');
       localStorage.setItem('meridian_data_version', String(CAMPAIGNS_DATA_VERSION));
     }
   })();
@@ -6303,7 +6305,7 @@ body {
     if (!el) return;
     const labor = loadLaborTracking();
     const campaigns = loadCampaigns();
-    const billable = labor.filter(l => l.category === 'Billable');
+    const billable = labor.filter(l => !l.category || l.category !== 'Internal');
 
     const byCampaign = {};
     billable.forEach(l => {
