@@ -115,7 +115,7 @@
 
   // ── CAMPAIGN DATA ──────────────────────────────────────
   const CAMPAIGNS_KEY = 'meridian_campaigns';
-  const CAMPAIGNS_DATA_VERSION = 7; // Bumped: remove collapsible from labor section
+  const CAMPAIGNS_DATA_VERSION = 8; // Bumped: 15-contact CRM seed with nextAction fields
   // Auto-clear stale localStorage when data version changes
   (function() {
     const storedVer = parseInt(localStorage.getItem('meridian_data_version') || '0');
