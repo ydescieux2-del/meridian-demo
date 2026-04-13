@@ -1188,6 +1188,12 @@
             ${noteCard ? `<div title="Note Card" style="width:50px;height:32px;background:var(--gold);border-radius:2px;overflow:hidden;background-image:url(${noteCard});background-size:cover;background-position:center;cursor:pointer" onclick="alert('Note Card image')"></div>` : ''}
           </div>
           ` : ''}
+          ${(c.nextAction) ? `
+          <div style="margin-top:1rem;padding:0.7rem 0.8rem;background:#FFFBF0;border:1px solid #E8D87A;border-left:3px solid var(--gold);border-radius:2px">
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.3rem">Next Action</div>
+            <div style="font-size:0.84rem;color:var(--charcoal);font-weight:600;line-height:1.4">${c.nextAction}</div>
+            ${c.nextActionDue ? `<div style="font-size:0.75rem;color:var(--forest-mid);margin-top:0.2rem">Due ${c.nextActionDue}${daysSince(c.nextActionDue) < 0 ? '' : daysSince(c.nextActionDue) <= 2 ? ' <span style="color:#c0392b;font-weight:700">— Overdue</span>' : ''}</div>` : ''}
+          </div>` : ''}
           <div class="cm-meta-foot">
             Last contacted<br>${c.lastContacted || '—'}<br><br>
             Added<br>${c.createdAt || '—'}
@@ -1333,6 +1339,12 @@
               <div><label class="form-label">Facebook</label><input class="form-input" name="facebook" value="${v(c.facebook)}"></div>
             </div>
 
+            <div class="cm-section-lbl" style="margin-top:1.4rem">Next Action</div>
+            <div class="modal-row">
+              <div><label class="form-label">Next Action</label><input class="form-input" name="nextAction" value="${v(c.nextAction)}"></div>
+              <div><label class="form-label">Due Date</label><input class="form-input" name="nextActionDue" type="date" value="${v(c.nextActionDue)}"></div>
+            </div>
+
             <div class="cm-section-lbl" style="margin-top:1.4rem">Tags & Notes</div>
             <label class="form-label">Tags <span style="font-weight:700;text-transform:none;letter-spacing:0;color:var(--forest-mid);font-size:0.85rem">(comma-separated)</span></label>
             <input class="form-input" name="tags" value="${v((c.tags||[]).join(', '))}">
@@ -1390,7 +1402,9 @@
       instagram:    f.instagram.value,
       facebook:     f.facebook.value,
       tags:         f.tags.value.split(',').map(t=>t.trim()).filter(Boolean),
-      notes:        f.notes.value
+      notes:        f.notes.value,
+      nextAction:   f.nextAction.value,
+      nextActionDue: f.nextActionDue.value
     });
     saveContacts(data);
     renderCRM();
