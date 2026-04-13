@@ -115,7 +115,7 @@
 
   // ── CAMPAIGN DATA ──────────────────────────────────────
   const CAMPAIGNS_KEY = 'meridian_campaigns';
-  const CAMPAIGNS_DATA_VERSION = 6; // Bumped: force-clear all meridian keys
+  const CAMPAIGNS_DATA_VERSION = 7; // Bumped: remove collapsible from labor section
   // Auto-clear stale localStorage when data version changes
   (function() {
     const storedVer = parseInt(localStorage.getItem('meridian_data_version') || '0');
@@ -4868,6 +4868,7 @@ Generated on ${new Date().toLocaleDateString()}
   }
 
   renderBoard();
+  renderCampaignLaborCosts(); // populate on page load — don't wait for Finance tab click
 
   // ── CAMPAIGN DRILL HANDLERS ───────────────────────────
   // ── FINANCE CATEGORY DRILL HANDLERS ───────────────────
