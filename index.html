@@ -258,6 +258,24 @@
   <!-- VIEW A: DNA AGENCY — UNIFIED FINANCIAL DASHBOARD -->
   <!-- ══════════════════════════════════════════════ -->
   <div id="fin-view-dna">
+
+    <!-- QB DEMO MODE BANNER -->
+    <div id="qb-demo-banner" style="display:flex;align-items:flex-start;gap:1rem;padding:0.9rem 1.2rem;margin-bottom:1.5rem;background:#FFFBF0;border:1px solid #E8D87A;border-left:4px solid var(--gold)">
+      <div style="font-size:1.1rem;flex-shrink:0;margin-top:0.1rem">📊</div>
+      <div style="flex:1">
+        <div style="font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.25rem">QuickBooks — Demo Mode</div>
+        <div style="font-size:0.88rem;color:var(--charcoal);line-height:1.6;margin-bottom:0.5rem">You're viewing <strong>sample financial data</strong>, not your live QuickBooks account. Invoices, expenses, P&amp;L, and cash position shown here are illustrative only. When you connect your real QB account, this dashboard will reflect your actual numbers — invoices matched to campaigns, real expense categories, and live cash position.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.6rem">
+          <span style="font-size:0.78rem;background:var(--cream);border:1px solid var(--parchment);padding:0.2rem 0.6rem;color:var(--forest)">✓ Live invoices &amp; payments</span>
+          <span style="font-size:0.78rem;background:var(--cream);border:1px solid var(--parchment);padding:0.2rem 0.6rem;color:var(--forest)">✓ Real expense categories</span>
+          <span style="font-size:0.78rem;background:var(--cream);border:1px solid var(--parchment);padding:0.2rem 0.6rem;color:var(--forest)">✓ Actual cash on hand</span>
+          <span style="font-size:0.78rem;background:var(--cream);border:1px solid var(--parchment);padding:0.2rem 0.6rem;color:var(--forest)">✓ Customer &amp; vendor list</span>
+        </div>
+        <button onclick="openQBModal()" style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--forest);color:var(--ivory);border:none;padding:0.45rem 1.1rem;cursor:pointer;border-radius:2px">Connect QuickBooks Online →</button>
+      </div>
+      <button onclick="document.getElementById('qb-demo-banner').style.display='none'" style="background:none;border:none;font-size:1rem;color:#aaa;cursor:pointer;flex-shrink:0;padding:0;line-height:1" title="Dismiss">✕</button>
+    </div>
+
     <div class="fin-dash">
 
       <!-- ROW 1: HERO KPI CARDS -->
@@ -361,9 +379,10 @@
 
       <!-- ROW 7: DATA SOURCES -->
       <div class="fin-sources-row">
-        <div class="fin-source-card" onclick="openQBModal()">
-          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QuickBooks</div>
-          <div id="fin-qb-status" style="font-size:0.88rem;font-weight:700;color:#2CA01C">Demo Mode</div>
+        <div class="fin-source-card" onclick="openQBModal()" style="border-left:3px solid var(--gold)">
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">QuickBooks Online</div>
+          <div id="fin-qb-status" style="font-size:0.88rem;font-weight:700;color:var(--gold-deep)">Demo Mode — Sample Data</div>
+          <div style="font-size:0.72rem;color:var(--forest-mid);margin-top:0.25rem">Click to connect live account</div>
         </div>
         <div class="fin-source-card" onclick="openBankModal()">
           <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.3rem">Bank & Cards</div>
