@@ -230,7 +230,7 @@
   <!-- Subscription details moved to Phase II tab -->
 
   <!-- ── ENTITY TOGGLE ── -->
-  <div style="display:flex;gap:0;margin-bottom:1rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden;width:fit-content">
+  <div style="display:flex;gap:0;margin-bottom:1.5rem;border:1px solid var(--parchment);border-radius:3px;overflow:hidden;width:fit-content">
     <button id="fin-toggle-dna" onclick="switchFinanceView('dna')"
       style="padding:0.6rem 1.6rem;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;background:var(--forest);color:var(--ivory);transition:all 200ms">
       DNA Agency
@@ -239,6 +239,20 @@
       style="padding:0.6rem 1.6rem;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;background:var(--white);color:var(--forest-mid);transition:all 200ms">
       Campaigns
     </button>
+  </div>
+
+  <!-- ── CONTRACTOR LABOR — always visible regardless of toggle ── -->
+  <div class="collapsible-section" style="margin-bottom:1.5rem">
+    <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Labor Costs</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--forest)">Contractor Labor Cost by Campaign</div>
+      </div>
+      <div style="font-size:1.2rem;color:var(--forest-mid);transform:rotate(180deg)">▾</div>
+    </div>
+    <div class="collapsible-content" style="background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
+      <div id="campaign-labor-cost-table"></div>
+    </div>
   </div>
 
 
@@ -386,20 +400,6 @@
 
     <!-- Campaign P&L Summary cards -->
     <div id="campaign-pl-summary" style="margin-bottom:2rem"></div>
-
-    <!-- CONTRACTOR LABOR COST BY CAMPAIGN (COLLAPSIBLE) -->
-    <div class="collapsible-section" style="margin-bottom:1.5rem">
-      <div class="collapsible-header" onclick="toggleCollapse(this)" style="background:var(--cream);border:1px solid var(--parchment);padding:1rem;border-radius:3px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Labor Costs</div>
-          <div style="font-size:1rem;font-weight:700;color:var(--forest)">Contractor Labor Cost by Campaign</div>
-        </div>
-        <div style="font-size:1.2rem;color:var(--forest-mid);transform:rotate(180deg)">▾</div>
-      </div>
-      <div class="collapsible-content" style="background:var(--white);border:1px solid var(--parchment);border-top:none;padding:1.5rem;border-radius:0 0 3px 3px">
-        <div id="campaign-labor-cost-table"></div>
-      </div>
-    </div>
 
     <!-- Nonprofit tools — only visible when a nonprofit campaign is selected -->
     <div id="fin-nonprofit-section" style="display:none">

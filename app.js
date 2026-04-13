@@ -3265,12 +3265,12 @@
   }
 
   function renderFinance() {
+    renderCampaignLaborCosts(); // always render — section is above the toggle
     if (FINANCE_VIEW === 'dna') {
       renderConsolidatedDashboard();
     } else {
       renderFinanceKPIs();
       renderCampaignPL();
-      renderCampaignLaborCosts();
       renderDonorPipeline(getFilteredDonors());
       renderGrantTracker();
     }
