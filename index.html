@@ -1621,6 +1621,16 @@ body {
   border-radius: 2px 2px 0 0;
   transition: height 600ms var(--ease);
   min-height: 2px;
+  position: relative;
+}
+.fin-cf-val {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 .fin-cf-label {
   font-size: 0.7rem;
@@ -1747,6 +1757,215 @@ body {
   transition: background 150ms;
 }
 .fin-source-card:hover { background: var(--white); }
+
+/* ── NOTIFICATION BELL ──────────────────────────────── */
+.notif-bell {
+  position: relative;
+  background: none;
+  border: 1px solid var(--parchment);
+  border-radius: 3px;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--forest);
+  transition: background 150ms;
+  line-height: 1;
+}
+.notif-bell:hover { background: var(--cream); }
+.notif-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #c0392b;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 50%;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.digest-panel {
+  position: fixed;
+  top: 68px;
+  right: clamp(1rem, 5vw, 3rem);
+  width: 360px;
+  max-width: calc(100vw - 2rem);
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  box-shadow: 0 8px 32px rgba(44,74,62,0.12);
+  z-index: 200;
+  overflow: hidden;
+}
+.digest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--parchment);
+}
+.digest-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+.digest-date {
+  font-size: 0.78rem;
+  color: var(--forest-mid);
+  font-style: italic;
+}
+.digest-section {
+  padding: 0.75rem 1.25rem 0.5rem;
+  border-bottom: 1px solid var(--parchment);
+}
+.digest-section:last-child { border-bottom: none; }
+.digest-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin-bottom: 0.4rem;
+}
+.digest-item {
+  font-size: 0.84rem;
+  color: var(--charcoal);
+  padding: 0.3rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  line-height: 1.4;
+}
+.digest-dot { font-size: 0.65rem; color: var(--gold); flex-shrink: 0; margin-top: 0.15rem; }
+.digest-empty { font-size: 0.84rem; color: var(--forest-mid); font-style: italic; padding: 0.75rem 1.25rem; }
+
+/* ── DEALS PIPELINE ─────────────────────────────────── */
+.deals-pipeline {
+  display: flex;
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+  overflow-x: auto;
+}
+.deal-col {
+  flex: 1;
+  min-width: 180px;
+  background: var(--white);
+}
+.deal-col-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--parchment);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.deal-col-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+.deal-col-value {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-deep);
+}
+.deal-cards { padding: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.deal-card {
+  background: var(--cream);
+  border: 1px solid var(--parchment);
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.deal-card:hover { background: var(--ivory); }
+.deal-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 0.2rem;
+  line-height: 1.3;
+}
+.deal-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 0.35rem;
+}
+.deal-meta {
+  font-size: 0.78rem;
+  color: var(--forest-mid);
+  margin-bottom: 0.25rem;
+}
+.deal-next-action {
+  font-size: 0.78rem;
+  color: var(--forest);
+  background: var(--white);
+  border: 1px solid var(--parchment);
+  padding: 0.25rem 0.5rem;
+  margin-top: 0.4rem;
+  line-height: 1.3;
+}
+.deal-next-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  display: block;
+  margin-bottom: 0.1rem;
+}
+.stale-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+  margin-top: 0.35rem;
+}
+.stale-warn { background: #FFF3CD; color: #856404; border: 1px solid #FFECB5; }
+.stale-danger { background: #FDE8E8; color: #c0392b; border: 1px solid #FACACA; }
+
+/* ── CRM VIEW TOGGLE (contacts / deals) ─────────────── */
+.crm-mode-toggle {
+  display: flex;
+  gap: 1px;
+  background: var(--parchment);
+  border: 1px solid var(--parchment);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  width: fit-content;
+}
+.crm-mode-btn {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.4rem;
+  background: var(--white);
+  color: var(--forest-mid);
+  border: none;
+  cursor: pointer;
+  transition: all 150ms;
+}
+.crm-mode-btn.active {
+  background: var(--forest);
+  color: var(--ivory);
+}
 </style>
 </head>
 <body>
@@ -1779,7 +1998,21 @@ body {
       <div class="wordmark">Meridian<span></span></div>
       <div class="orgs">DNA Agency</div>
     </div>
-    <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
+    <div class="header-actions">
+      <button class="notif-bell" id="notif-bell-btn" onclick="toggleDigest()" title="Daily Digest">
+        &#9881;
+        <span class="notif-badge" id="notif-count" style="display:none">0</span>
+      </button>
+      <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
+    </div>
+  </div>
+  <!-- ── DAILY DIGEST PANEL ── -->
+  <div class="digest-panel" id="digest-panel" style="display:none">
+    <div class="digest-header">
+      <span class="digest-title">Daily Digest</span>
+      <span class="digest-date" id="digest-date"></span>
+    </div>
+    <div id="digest-content"></div>
   </div>
   <nav class="tabs">
     <button class="tab active" data-tab="campaign">Campaign</button>
@@ -1867,7 +2100,10 @@ body {
 
   <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;margin-bottom:1rem">
     <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">All Campaigns</div>
-    <button class="btn-add-campaign" onclick="openAddModal()">+ Add Campaign</button>
+    <div style="display:flex;gap:0.6rem;align-items:center">
+      <button class="btn-add-campaign" onclick="switchToGantt()" style="background:var(--forest-mid);color:var(--ivory)">View Gantt</button>
+      <button class="btn-add-campaign" onclick="openAddModal()">+ Add Campaign</button>
+    </div>
   </div>
 
   <div class="card-grid" id="campaign-board"></div>
@@ -1892,31 +2128,51 @@ body {
     <div class="kpi kpi-drill" onclick="drillCRMRanking()"><div class="kpi-value" id="crm-kpi-rank">—</div><div class="kpi-label">Avg Ranking</div></div>
   </div>
 
-  <div class="crm-toolbar">
-    <input type="text" class="crm-search" id="crm-search" placeholder="Search name, company, email, tags…" oninput="renderCRM()">
-    <select class="crm-filter" id="crm-stage-filter" onchange="renderCRM()">
-      <option value="">All Stages</option>
-      <option value="new">New</option>
-      <option value="warm">Warm</option>
-      <option value="active">Active</option>
-      <option value="closed">Closed</option>
-    </select>
-    <select class="crm-filter" id="crm-rank-filter" onchange="renderCRM()">
-      <option value="">Any Rank</option>
-      <option value="5">★★★★★ only</option>
-      <option value="4">★★★★+</option>
-      <option value="3">★★★+</option>
-    </select>
-    <div class="crm-view-toggle">
-      <button class="crm-view-btn active" id="btn-view-kanban" onclick="setCRMView('kanban')">Kanban</button>
-      <button class="crm-view-btn" id="btn-view-list" onclick="setCRMView('list')">List</button>
-    </div>
-    <button class="btn-add-contact" onclick="openAddContact()">+ Add Contact</button>
-    <button class="btn-add-contact" onclick="openImportContacts()" style="background:var(--gold);color:var(--white)">Import Contacts</button>
+  <!-- MODE TOGGLE: Contacts vs Deals -->
+  <div class="crm-mode-toggle">
+    <button class="crm-mode-btn active" id="crm-mode-contacts" onclick="setCRMMode('contacts')">Contacts</button>
+    <button class="crm-mode-btn" id="crm-mode-deals" onclick="setCRMMode('deals')">Deals Pipeline</button>
   </div>
 
-  <div id="crm-kanban"></div>
-  <div id="crm-list" style="display:none"></div>
+  <!-- CONTACTS VIEW -->
+  <div id="crm-contacts-view">
+    <div class="crm-toolbar">
+      <input type="text" class="crm-search" id="crm-search" placeholder="Search name, company, email, tags…" oninput="renderCRM()">
+      <select class="crm-filter" id="crm-stage-filter" onchange="renderCRM()">
+        <option value="">All Stages</option>
+        <option value="new">New</option>
+        <option value="warm">Warm</option>
+        <option value="active">Active</option>
+        <option value="closed">Closed</option>
+      </select>
+      <select class="crm-filter" id="crm-source-filter" onchange="renderCRM()">
+        <option value="">All Sources</option>
+        <option value="client">Clients</option>
+        <option value="prospect">Prospects</option>
+        <option value="apollo-cte">Apollo / CTE</option>
+        <option value="event">Event Crew</option>
+      </select>
+      <select class="crm-filter" id="crm-rank-filter" onchange="renderCRM()">
+        <option value="">Any Rank</option>
+        <option value="5">★★★★★ only</option>
+        <option value="4">★★★★+</option>
+        <option value="3">★★★+</option>
+      </select>
+      <div class="crm-view-toggle">
+        <button class="crm-view-btn active" id="btn-view-kanban" onclick="setCRMView('kanban')">Kanban</button>
+        <button class="crm-view-btn" id="btn-view-list" onclick="setCRMView('list')">List</button>
+      </div>
+      <button class="btn-add-contact" onclick="openAddContact()">+ Add Contact</button>
+      <button class="btn-add-contact" onclick="openImportContacts()" style="background:var(--gold);color:var(--white)">Import Contacts</button>
+    </div>
+    <div id="crm-kanban"></div>
+    <div id="crm-list" style="display:none"></div>
+  </div>
+
+  <!-- DEALS PIPELINE VIEW -->
+  <div id="crm-deals-view" style="display:none">
+    <div id="deals-pipeline-container"></div>
+  </div>
 
 </div>
 </div>
@@ -1970,7 +2226,7 @@ body {
           <div class="fin-kpi-value" style="color:var(--forest)" id="dash-net">$0</div>
           <div class="fin-kpi-sub"><span id="dash-margin-badge" class="fin-kpi-trend up">--</span> <span>gross margin</span></div>
         </div>
-        <div class="fin-kpi-card kpi-cash">
+        <div class="fin-kpi-card kpi-cash" onclick="drillCashOnHand()">
           <div class="fin-kpi-label">Cash on Hand</div>
           <div class="fin-kpi-value" style="color:var(--forest)" id="dash-cash">$0</div>
           <div class="fin-kpi-sub"><span id="dash-accounts-count">0</span> accounts connected</div>
@@ -2241,6 +2497,48 @@ body {
       <button class="btn-add-contact" onclick="toggleAvailabilityDetail()" style="font-size:0.82rem">Show Details</button>
     </div>
     <div id="team-availability-panel"></div>
+  </div>
+
+  <!-- ── NOTIFICATIONS & TEAM MESSAGING ── -->
+  <div style="margin-bottom:2.5rem" id="notifications-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <div>
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem">Communications</div>
+        <div style="font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest)">Notifications & Team Messaging</div>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn-add-contact" onclick="openNotifyModal()" style="font-size:0.82rem">Notify Team</button>
+        <button class="btn-add-contact" onclick="openWebhookConfig()" style="font-size:0.82rem;background:transparent;color:var(--forest-mid);border:1px solid var(--parchment)">Configure</button>
+      </div>
+    </div>
+
+    <!-- Webhook status bar -->
+    <div class="fin-qb-strip" style="margin-bottom:1rem">
+      <div style="display:flex;gap:1.5rem;align-items:center">
+        <div>
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Slack</div>
+          <div id="notif-slack-status" style="font-size:0.82rem;font-weight:700;color:#999">Not Connected</div>
+        </div>
+        <div>
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Google Chat</div>
+          <div id="notif-gchat-status" style="font-size:0.82rem;font-weight:700;color:#999">Not Connected</div>
+        </div>
+        <div>
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest-mid)">Auto-Notify</div>
+          <div id="notif-auto-status" style="font-size:0.82rem;font-weight:700;color:var(--green)">On</div>
+        </div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--forest-mid)" id="notif-last-sent">No messages sent</div>
+    </div>
+
+    <!-- Notification feed -->
+    <div class="fin-panel" style="max-height:400px;overflow-y:auto">
+      <div class="fin-panel-header">
+        <div class="fin-panel-title">Activity Feed</div>
+        <div style="font-size:0.72rem;color:#999" id="notif-feed-count">--</div>
+      </div>
+      <div id="notif-feed"></div>
+    </div>
   </div>
 
   <!-- ── PAYROLL SUMMARY ── -->
@@ -3026,150 +3324,139 @@ body {
 
   <div class="section-eyebrow">05 — Phase II Roadmap</div>
   <div class="section-title">What Your Retainer Builds Next</div>
-  <div class="section-sub">$1,500 / month · Dedicated development + strategic consulting</div>
+  <div class="section-sub">$500 / month · Dedicated development + strategic consulting</div>
+
+  <!-- ── PHASE I SUMMARY ── -->
+  <div style="background:var(--white);border:1px solid var(--parchment);padding:2rem 2.4rem;margin-bottom:2.5rem">
+    <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">What Phase I Delivered</div>
+    <div style="font-size:1.05rem;color:var(--charcoal);line-height:1.7;max-width:680px;margin-bottom:1.2rem">
+      Phase I built the operating system for DNA Agency — campaign management, CRM pipeline, financial dashboards with QuickBooks integration, contractor billable hours, and project operations. Everything you need to run campaigns, track money, and manage your team in one place.
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
+      <div style="background:var(--ivory);padding:0.8rem 1rem;text-align:center">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid)">Campaign Command</div>
+        <div style="font-size:0.8rem;color:var(--green);font-weight:700;margin-top:0.2rem">Delivered</div>
+      </div>
+      <div style="background:var(--ivory);padding:0.8rem 1rem;text-align:center">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid)">CRM Pipeline</div>
+        <div style="font-size:0.8rem;color:var(--green);font-weight:700;margin-top:0.2rem">Delivered</div>
+      </div>
+      <div style="background:var(--ivory);padding:0.8rem 1rem;text-align:center">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid)">Finance + QB</div>
+        <div style="font-size:0.8rem;color:var(--green);font-weight:700;margin-top:0.2rem">Delivered</div>
+      </div>
+      <div style="background:var(--ivory);padding:0.8rem 1rem;text-align:center">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid)">Operations + Hours</div>
+        <div style="font-size:0.8rem;color:var(--green);font-weight:700;margin-top:0.2rem">Delivered</div>
+      </div>
+    </div>
+  </div>
 
   <!-- ── VALUE PROPOSITION ── -->
   <div style="background:var(--white);border:1px solid var(--parchment);padding:2rem 2.4rem;margin-bottom:2.5rem">
     <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">Why Phase II</div>
     <div style="font-size:1.15rem;font-weight:700;color:var(--charcoal);line-height:1.7;max-width:680px">
-      Phase I gave you campaign command, CRM, donor finance, and a creative studio — the operating system for DNA Agency + Rebuilding California.
-      <span style="display:block;margin-top:0.6rem;font-weight:700;color:var(--forest)">Phase II turns Meridian into your financial nerve center.</span>
-      Real-time visibility into where every dollar goes — across vendors, contractors, campaigns, and accounts — so you can make faster decisions with full confidence.
+      Phase I gave you the operating system.
+      <span style="display:block;margin-top:0.6rem;font-weight:700;color:var(--forest)">Phase II makes it intelligent.</span>
+      Live integrations that sync automatically, AI-powered proposals, client-facing reports, and team collaboration tools — so Meridian runs your business instead of just tracking it.
     </div>
   </div>
 
-  <!-- ── FEATURE 1: BUSINESS FINANCE ── -->
+  <!-- ── FEATURE 1: LIVE QUICKBOOKS SYNC ── -->
   <div style="display:grid;grid-template-columns:3px 1fr;gap:1.8rem;margin-bottom:3rem">
     <div style="background:var(--gold);border-radius:1px"></div>
     <div>
       <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 01</div>
-      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Business Finance Tab</div>
-      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Full financial visibility — no more spreadsheet juggling</div>
+      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Live QuickBooks + Bank Sync</div>
+      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Real-time financial data — no manual entry, no switching tools</div>
 
-      <div style="display:grid;grid-template-columns:2fr 1.2fr;gap:1.5rem;margin-bottom:1.2rem;align-items:start">
-        <!-- Features List -->
-        <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">QuickBooks Integration</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Sign in to your QuickBooks account with one click. Transactions auto-sync daily — invoices, payments, expenses — all visible inside Meridian without switching tools.</div>
-          </div>
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Bank & Credit Card Linking</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Secure bank account and credit card linking via Plaid. Transactions auto-categorized. See every charge, transfer, and deposit in one place — real-time.</div>
-          </div>
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Spend Dashboards</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Monthly burn rate, category breakdowns, trend lines. Know exactly where money is going across both DNA Agency and Rebuilding California — at a glance.</div>
-          </div>
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Exportable Reports</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">One-click PDF and CSV exports for your bookkeeper, accountant, or grant reporting. Formatted, branded, ready to send — no reformatting required.</div>
-          </div>
+      <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">QuickBooks OAuth</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">One-click sign-in to your QuickBooks account. Invoices, payments, and expenses auto-sync daily into Meridian's Finance tab — no manual entry, always current.</div>
         </div>
-
-        <!-- UI Preview -->
-        <div style="background:var(--cream);border:1px solid var(--parchment);border-radius:2px;padding:1.2rem;font-size:0.9rem">
-          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Real Dashboard</div>
-          <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.8rem;margin-bottom:0.6rem;border-radius:1px;text-align:center">
-            <div style="color:var(--gold);font-weight:700;font-size:1rem">$47,283</div>
-            <div style="font-size:0.92rem;color:var(--forest-mid);margin-top:0.2rem">Month Burn</div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4px;background:var(--parchment);margin-bottom:0.6rem;border-radius:1px">
-            <div style="background:var(--white);padding:0.6rem;text-align:center;border-radius:0.5px">
-              <div style="font-size:0.8rem;color:var(--forest-mid)">Operating</div>
-              <div style="font-weight:700;color:var(--forest);font-size:0.9rem">$28.9K</div>
-            </div>
-            <div style="background:var(--white);padding:0.6rem;text-align:center;border-radius:0.5px">
-              <div style="font-size:0.8rem;color:var(--forest-mid)">Contractors</div>
-              <div style="font-weight:700;color:var(--forest);font-size:0.9rem">$18.4K</div>
-            </div>
-          </div>
-          <div style="background:var(--white);border:0.5px solid var(--parchment);padding:0.6rem;border-radius:1px;font-size:0.92rem;color:var(--forest-mid)">
-            <div style="margin-bottom:0.3rem">↑ 12% vs last mo</div>
-            <div>On track: $567K/yr</div>
-          </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Plaid Bank Linking</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Secure bank and credit card connections via Plaid. Every transaction auto-categorized and visible in your dashboard — checking, savings, and credit cards in one view.</div>
+        </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Auto-Reconciliation</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">QB invoices matched to bank deposits automatically. Meridian flags discrepancies and unmatched transactions so nothing slips through the cracks.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── FEATURE 2: CONTRACTOR HOURS ── -->
+  <!-- ── FEATURE 2: AI PROPOSALS ── -->
   <div style="display:grid;grid-template-columns:3px 1fr;gap:1.8rem;margin-bottom:3rem">
     <div style="background:var(--gold);border-radius:1px"></div>
     <div>
       <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 02</div>
-      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Contractor Billable Hours</div>
-      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Know exactly what every contractor costs per campaign</div>
+      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">AI-Powered Proposals</div>
+      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Generate client proposals in your brand voice in under 60 seconds</div>
 
-      <div style="display:grid;grid-template-columns:2fr 1.2fr;gap:1.5rem;margin-bottom:1.2rem;align-items:start">
-        <!-- Features List -->
-        <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Time Tracking</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Per-contractor, per-campaign time logging. Configurable hourly rates. Weekly and monthly summaries with simple approval workflow — no third-party tool needed.</div>
-          </div>
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Cost Efficiency Reporting</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Hours vs. campaign ROI analysis. See which contractors deliver the most value, which campaigns are over-budget on labor, and where to reallocate resources.</div>
-          </div>
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Invoice-Ready Export</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Generate contractor payment summaries with hours, rates, and totals — ready to attach to invoices or send directly. Eliminates manual hour reconciliation.</div>
-          </div>
-          <div style="background:var(--white);padding:1.4rem 1.6rem">
-            <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Team Overview</div>
-            <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">See all active contractors, their campaign assignments, hours this period, and total cost — one dashboard view. No more chasing timesheets across email and Slack.</div>
-          </div>
+      <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Brand Voice AI</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Trained on your past proposals and DNA Agency's tone. Select a project, pick the tone (witty, sharp, professional, warm), and generate a polished proposal draft instantly.</div>
         </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Auto-Populate from Projects</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Pulls deliverables, timelines, and team assignments directly from your Operations tab. No copy-pasting scope details — the proposal builds itself from your project data.</div>
+        </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">PDF Export + Version History</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Export branded PDFs ready to send. Edit before exporting. Every version saved so you can track what was sent to whom and when.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- UI Preview: Weekly/Monthly Hours Table -->
-        <div style="background:var(--cream);border:1px solid var(--parchment);border-radius:2px;padding:1.2rem;font-size:0.92rem">
-          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--forest-mid);margin-bottom:0.8rem">Weekly / Monthly Hours</div>
-          <table style="width:100%;border-collapse:collapse;background:var(--white);border:0.5px solid var(--parchment);font-size:0.92rem">
-            <thead>
-              <tr style="border-bottom:2px solid var(--parchment)">
-                <th style="text-align:left;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Contractor</th>
-                <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Week</th>
-                <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Month</th>
-                <th style="text-align:right;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.06em">Cost</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid var(--parchment)">
-                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Sarah Chen</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">32h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">142.5h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$5,700</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--parchment)">
-                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Marcus Rivera</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">44h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">187h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$9,350</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--parchment)">
-                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Jade Thompson</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">28h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">118h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$5,900</td>
-              </tr>
-              <tr>
-                <td style="padding:0.5rem 0.6rem;font-weight:600;color:var(--forest)">Alex Kim</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal)">18h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--charcoal);font-weight:700">76h</td>
-                <td style="padding:0.5rem 0.6rem;text-align:right;color:var(--gold-deep);font-weight:700">$6,840</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr style="border-top:2px solid var(--forest);background:var(--ivory)">
-                <td style="padding:0.6rem;font-weight:700;color:var(--forest);text-transform:uppercase;font-size:0.85rem;letter-spacing:0.06em">Total</td>
-                <td style="padding:0.6rem;text-align:right;font-weight:700;color:var(--forest)">122h</td>
-                <td style="padding:0.6rem;text-align:right;font-weight:700;color:var(--forest)">523.5h</td>
-                <td style="padding:0.6rem;text-align:right;font-weight:700;color:var(--forest)">$27,790</td>
-              </tr>
-            </tfoot>
-          </table>
-          <div style="margin-top:0.6rem;font-size:0.85rem;color:var(--forest-mid);font-style:italic;text-align:center">April 2026 · Week of Mar 31</div>
+  <!-- ── FEATURE 3: CLIENT REPORTS ── -->
+  <div style="display:grid;grid-template-columns:3px 1fr;gap:1.8rem;margin-bottom:3rem">
+    <div style="background:var(--gold);border-radius:1px"></div>
+    <div>
+      <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 03</div>
+      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Client Reporting + Exports</div>
+      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Professional reports your clients actually want to read</div>
+
+      <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Campaign Performance Reports</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">One-click PDF reports showing campaign KPIs, deliverables completed, spend vs. budget, and ROI — branded with DNA Agency's look. Send to clients in seconds.</div>
+        </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Financial Exports</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">PDF and CSV exports of P&L, expense breakdowns, and contractor cost summaries — formatted for your bookkeeper or accountant. No more reformatting spreadsheets.</div>
+        </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Scheduled Delivery</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Set it and forget it. Auto-generate and email monthly reports to clients on a schedule. Keeps clients informed without manual effort.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FEATURE 4: TEAM COLLABORATION ── -->
+  <div style="display:grid;grid-template-columns:3px 1fr;gap:1.8rem;margin-bottom:3rem">
+    <div style="background:var(--gold);border-radius:1px"></div>
+    <div>
+      <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Feature 04</div>
+      <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);line-height:1.2;margin-bottom:0.3rem">Team Notifications + Slack Integration</div>
+      <div style="font-size:0.92rem;font-weight:700;color:var(--forest-mid);font-style:italic;margin-bottom:1.5rem">Keep your team in sync without chasing people</div>
+
+      <div style="display:grid;grid-template-columns:1fr;gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Slack / Google Chat Webhooks</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Connect Meridian to Slack or Google Chat. Campaign status changes, assignment updates, and deadline alerts automatically post to your team channel.</div>
+        </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">In-App Notifications</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Activity feed inside Meridian showing who changed what, when. Campaign reassignments, status updates, new time entries — all visible at a glance in Operations.</div>
+        </div>
+        <div style="background:var(--white);padding:1.4rem 1.6rem">
+          <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--forest);margin-bottom:0.6rem">Multi-User Access</div>
+          <div style="font-size:1rem;color:var(--charcoal);line-height:1.6">Role-based logins for your team. Contractors see their hours and assignments. You see everything. Each person gets the view they need — nothing more, nothing less.</div>
         </div>
       </div>
     </div>
@@ -3185,23 +3472,23 @@ body {
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--parchment);border:1px solid var(--parchment)">
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 1–2</div>
-        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Foundation</div>
-        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">QuickBooks sign-in setup<br>Bank &amp; card linking<br>Transaction sync engine</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Live Integrations</div>
+        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">QuickBooks OAuth setup<br>Plaid bank linking<br>Auto-sync engine</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 3–4</div>
-        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Finance Dashboard</div>
-        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Spend dashboards<br>Category breakdowns<br>Trend visualizations</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">AI Proposals</div>
+        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Brand voice training<br>Proposal generator<br>PDF export engine</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 5–6</div>
-        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Contractor Module</div>
-        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Time tracking UI<br>Rate configuration<br>Approval workflow</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Reporting + Exports</div>
+        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Client report templates<br>Financial exports<br>Scheduled delivery</div>
       </div>
       <div style="background:var(--white);padding:1.4rem 1.6rem">
         <div style="font-size:2rem;font-weight:700;color:var(--forest);line-height:1">Wk 7–8</div>
-        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Reports & Polish</div>
-        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Cost efficiency reports<br>PDF/CSV exports<br>QA + Nicole review</div>
+        <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin:0.3rem 0 0.6rem">Team + Polish</div>
+        <div style="font-size:0.85rem;color:var(--charcoal);line-height:1.6">Slack/GChat webhooks<br>Multi-user access<br>QA + Nicole review</div>
       </div>
     </div>
   </div>
@@ -3209,16 +3496,16 @@ body {
   <!-- ── COST BREAKDOWN ── -->
   <div style="margin-bottom:3rem">
     <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem">Investment</div>
-    <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);margin-bottom:1.5rem">What $1,500 / Month Covers</div>
+    <div style="font-size:clamp(1.4rem,2.5vw,1.8rem);font-weight:700;color:var(--forest);margin-bottom:1.5rem">What $500 / Month Covers</div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--parchment);border:1px solid var(--parchment);margin-bottom:1.5rem">
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
-        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">40</div>
+        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">20</div>
         <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Dev Hours / Month</div>
         <div style="font-size:0.92rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Full-stack engineering</div>
       </div>
       <div style="background:var(--white);padding:1.8rem 2rem;text-align:left">
-        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">4</div>
+        <div style="font-size:clamp(2rem,3.5vw,2.6rem);font-weight:700;color:var(--forest);line-height:1">2</div>
         <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--forest-mid);margin-top:0.3rem">Strategy Sessions</div>
         <div style="font-size:0.92rem;color:var(--gold-deep);font-style:italic;margin-top:0.25rem">Monthly consulting calls</div>
       </div>
@@ -3237,18 +3524,20 @@ body {
     <div style="background:var(--white);border:1px solid var(--parchment);padding:1.8rem 2.2rem">
       <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest);margin-bottom:1rem">Comparable Market Pricing</div>
       <div style="display:grid;grid-template-columns:1fr auto;gap:0.4rem 2rem;font-size:0.92rem;line-height:2">
-        <div style="color:var(--charcoal)">QuickBooks integration (custom dev)</div>
+        <div style="color:var(--charcoal)">QuickBooks OAuth + auto-sync</div>
         <div style="color:var(--forest-mid);text-align:right;font-weight:700">$8,000–15,000</div>
         <div style="color:var(--charcoal)">Plaid bank linking module</div>
         <div style="color:var(--forest-mid);text-align:right;font-weight:700">$5,000–10,000</div>
-        <div style="color:var(--charcoal)">Contractor time-tracking system</div>
+        <div style="color:var(--charcoal)">AI proposal generator</div>
         <div style="color:var(--forest-mid);text-align:right;font-weight:700">$6,000–12,000</div>
-        <div style="color:var(--charcoal)">Spend dashboards + reporting</div>
+        <div style="color:var(--charcoal)">Client reporting + exports</div>
         <div style="color:var(--forest-mid);text-align:right;font-weight:700">$4,000–8,000</div>
+        <div style="color:var(--charcoal)">Slack integration + multi-user</div>
+        <div style="color:var(--forest-mid);text-align:right;font-weight:700">$5,000–10,000</div>
         <div style="border-top:0.5px solid var(--gold);padding-top:0.5rem;color:var(--forest);font-weight:700">Total at agency rates</div>
-        <div style="border-top:0.5px solid var(--gold);padding-top:0.5rem;text-align:right;color:var(--forest);font-weight:700">$23,000–45,000</div>
+        <div style="border-top:0.5px solid var(--gold);padding-top:0.5rem;text-align:right;color:var(--forest);font-weight:700">$28,000–55,000</div>
         <div style="color:var(--forest);font-weight:700">Your Phase II investment</div>
-        <div style="text-align:right;color:var(--gold-deep);font-weight:700;font-size:1.05rem">$1,500/month</div>
+        <div style="text-align:right;color:var(--gold-deep);font-weight:700;font-size:1.05rem">$500/month</div>
       </div>
     </div>
   </div>
@@ -3263,7 +3552,7 @@ body {
 
   <div style="text-align:center;padding:2rem 0 1rem">
     <div style="font-size:0.92rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest-mid)">Ready to start Phase II?</div>
-    <div style="font-size:clamp(1.3rem,2.5vw,1.6rem);font-weight:700;color:var(--forest);margin-top:0.4rem">Let's build your financial command center.</div>
+    <div style="font-size:clamp(1.3rem,2.5vw,1.6rem);font-weight:700;color:var(--forest);margin-top:0.4rem">Let's make Meridian intelligent.</div>
     <div style="width:40px;height:0.5px;background:var(--gold);margin:1rem auto 0"></div>
   </div>
 
@@ -3388,6 +3677,15 @@ body {
 
   // ── CAMPAIGN DATA ──────────────────────────────────────
   const CAMPAIGNS_KEY = 'meridian_campaigns';
+  const CAMPAIGNS_DATA_VERSION = 4; // Bumped: added source/nextAction/nextActionDue to contacts, deals pipeline, QB invoice #1137
+  // Auto-clear stale localStorage when data version changes
+  (function() {
+    const storedVer = parseInt(localStorage.getItem('meridian_data_version') || '0');
+    if (storedVer < CAMPAIGNS_DATA_VERSION) {
+      localStorage.removeItem('meridian_campaigns');
+      localStorage.setItem('meridian_data_version', String(CAMPAIGNS_DATA_VERSION));
+    }
+  })();
   const CAMPAIGNS_SEED = [
     {
       id: 1,
@@ -3610,7 +3908,37 @@ body {
   const SEED = CAMPAIGNS_SEED;
 
   function loadCampaigns() {
-    try { return JSON.parse(localStorage.getItem(CAMPAIGNS_KEY)) || [...CAMPAIGNS_SEED]; }
+    try {
+      const stored = JSON.parse(localStorage.getItem(CAMPAIGNS_KEY));
+      if (!stored) return [...CAMPAIGNS_SEED];
+      // Merge seed fields into stored campaigns (backfill startDate, endDate, activities, teamWork, etc.)
+      return stored.map(c => {
+        const seed = CAMPAIGNS_SEED.find(s => s.id === c.id);
+        if (!seed) return c;
+        if (!c.startDate && seed.startDate) c.startDate = seed.startDate;
+        if (!c.endDate && seed.endDate) c.endDate = seed.endDate;
+        if ((!c.activities || c.activities.length === 0) && seed.activities) c.activities = seed.activities;
+        if (c.activities && seed.activities) {
+          c.activities = c.activities.map((a, i) => {
+            const sa = seed.activities[i];
+            if (!sa) return a;
+            if (!a.dueDate && sa.dueDate) a.dueDate = sa.dueDate;
+            if (!a.teamWork && sa.teamWork) a.teamWork = sa.teamWork;
+            return a;
+          });
+        }
+        if (!c.phase && seed.phase) c.phase = seed.phase;
+        if (!c.milestones && seed.milestones) c.milestones = seed.milestones;
+        return c;
+      });
+      // Append any seed campaigns not in stored data (new campaigns added after initial save)
+      CAMPAIGNS_SEED.forEach(seed => {
+        if (!stored.find(c => c.id === seed.id)) {
+          stored.push({...seed});
+        }
+      });
+      return stored;
+    }
     catch(e) { return [...CAMPAIGNS_SEED]; }
   }
   function saveCampaigns(data) { localStorage.setItem(CAMPAIGNS_KEY, JSON.stringify(data)); }
@@ -3965,18 +4293,21 @@ body {
   // ── CRM DATA ──────────────────────────────────────────
   const CRM_KEY = 'meridian_contacts';
   const CRM_SEED = [
-    {id:1,firstName:"Sarah",lastName:"Kim",email:"sarah.kim@apexrealty.com",phone:"(310) 555-0182",address:"1234 Wilshire Blvd",city:"Los Angeles",state:"CA",zip:"90025",organization:"Apex Realty Group",title:"Principal Broker",stage:"new",value:8000,ranking:4,media:{headshot:"",businessCard:"",noteCard:""},otterTranscripts:[],notes:"Interested in full digital marketing package. Met at LA Real Estate Summit. Follow up after Q1 closes.",website:"https://apexrealty.com",linkedin:"https://linkedin.com/in/sarahkim",twitter:"",instagram:"@apexrealtyla",facebook:"",lastContacted:"2026-03-20",tags:["real estate","high value"],createdAt:"2026-01-15"},
-    {id:2,firstName:"Marcus",lastName:"Webb",email:"marcus@westcoastboxing.com",phone:"(213) 555-0394",address:"890 S Grand Ave",city:"Los Angeles",state:"CA",zip:"90015",organization:"WestCoast Boxing",title:"Owner & Head Coach",stage:"new",value:5000,ranking:3,headshot:"",notes:"Wants social media management + local Meta ads. Budget is flexible if we show results.",website:"https://westcoastboxing.com",linkedin:"",twitter:"@wcboxing",instagram:"@westcoastboxingla",facebook:"",lastContacted:"2026-03-18",tags:["fitness","local"],createdAt:"2026-02-01"},
-    {id:3,firstName:"Jordan",lastName:"Elias",email:"jordan@thevaultgym.com",phone:"(323) 555-0271",address:"4501 Hollywood Blvd",city:"Los Angeles",state:"CA",zip:"90027",organization:"The Vault Gym",title:"CEO",stage:"warm",value:12000,ranking:5,headshot:"",notes:"Had second call on 3/15. Very interested in full funnel — Meta ads, email, landing pages. Wants proposal by April 1.",website:"https://thevaultgym.com",linkedin:"https://linkedin.com/in/jordanelias",twitter:"",instagram:"@thevaultgym",facebook:"https://facebook.com/thevaultgym",lastContacted:"2026-03-15",tags:["fitness","proposal ready","hot"],createdAt:"2026-01-20"},
-    {id:4,firstName:"Priya",lastName:"Mehta",email:"priya@bloomwellness.co",phone:"(818) 555-0047",address:"2200 Ventura Blvd",city:"Studio City",state:"CA",zip:"91604",organization:"Bloom Wellness",title:"Founder",stage:"warm",value:7000,ranking:4,headshot:"",notes:"Wellness spa — wants Google Ads + Instagram growth. Discussed brand voice. Needs price sheet.",website:"https://bloomwellness.co",linkedin:"",twitter:"",instagram:"@bloomwellnessla",facebook:"",lastContacted:"2026-03-12",tags:["wellness","instagram"],createdAt:"2026-02-10"},
-    {id:5,firstName:"David",lastName:"Chen",email:"d.chen@pacificlegalgroup.com",phone:"(213) 555-0819",address:"633 W 5th St, Suite 2800",city:"Los Angeles",state:"CA",zip:"90071",organization:"Pacific Legal Group",title:"Managing Partner",stage:"active",value:18000,ranking:5,headshot:"",notes:"Running Meta lead gen campaign. High intent leads coming in. Monthly reporting call scheduled for Apr 3.",website:"https://pacificlegalgroup.com",linkedin:"https://linkedin.com/in/davidchenlaw",twitter:"",instagram:"",facebook:"",lastContacted:"2026-03-27",tags:["legal","active campaign","high value"],createdAt:"2025-11-01"},
-    {id:6,firstName:"Monica",lastName:"Torres",email:"monica@casaverdeLA.com",phone:"(323) 555-0562",address:"1456 Sunset Blvd",city:"Los Angeles",state:"CA",zip:"90026",organization:"Casa Verde Restaurant",title:"Owner",stage:"active",value:4500,ranking:3,headshot:"",notes:"Soft launch Meta + Google campaign live. ROAS tracking well. Monthly budget review next week.",website:"https://casaverdela.com",linkedin:"",twitter:"",instagram:"@casaverdeLA",facebook:"https://facebook.com/casaverdeLA",lastContacted:"2026-03-26",tags:["restaurant","food & bev"],createdAt:"2026-01-05"},
-    {id:7,firstName:"Alex",lastName:"Rodriguez",email:"alex@sunsetauto.com",phone:"(310) 555-0334",address:"9200 Sepulveda Blvd",city:"Los Angeles",state:"CA",zip:"90045",organization:"Sunset Auto Group",title:"General Manager",stage:"closed",value:3000,ranking:2,headshot:"",notes:"Went cold after initial quote. Follow up in Q2. May respond to a case study from a similar business.",website:"",linkedin:"",twitter:"",instagram:"",facebook:"https://facebook.com/sunsetautogroup",lastContacted:"2026-02-01",tags:["auto","re-engage Q2"],createdAt:"2025-12-10"},
-    {id:8,firstName:"Kezia",lastName:"Okafor",email:"kezia@okaforbrands.com",phone:"(323) 555-0701",address:"800 W Olympic Blvd",city:"Los Angeles",state:"CA",zip:"90015",organization:"Okafor Brands",title:"Brand Director",stage:"new",value:9500,ranking:4,headshot:"",notes:"Brand strategy + paid media inquiry. Came in via referral from David Chen. First call scheduled Apr 5.",website:"https://okaforbrands.com",linkedin:"https://linkedin.com/in/keziaokafor",twitter:"@keziaokafor",instagram:"@okaforbrands",facebook:"",lastContacted:"2026-03-25",tags:["brand","referral"],createdAt:"2026-03-20"},
-    {id:9,firstName:"Tariq",lastName:"Hasan",email:"tariq@labrickcoffee.com",phone:"(213) 555-0129",address:"1100 S Hope St",city:"Los Angeles",state:"CA",zip:"90015",organization:"LA Brick Coffee",title:"Co-Founder",stage:"warm",value:5500,ranking:3,headshot:"",notes:"Multi-location coffee brand. Wants full content strategy + Meta Ads for grand opening of 3rd location.",website:"https://labrickcoffee.com",linkedin:"",twitter:"",instagram:"@labrickcoffee",facebook:"https://facebook.com/labrickcoffee",lastContacted:"2026-03-10",tags:["food & bev","growth"],createdAt:"2026-02-25"},
-    {id:10,firstName:"Simone",lastName:"Beaumont",email:"simone@beaumontatelier.com",phone:"(310) 555-0255",address:"434 N Rodeo Dr",city:"Beverly Hills",state:"CA",zip:"90210",organization:"Beaumont Atelier",title:"Creative Director",stage:"warm",value:22000,ranking:5,headshot:"",notes:"Luxury fashion atelier. Wants luxury-tier digital ads and editorial-style content. Very brand-conscious — match the aesthetic.",website:"https://beaumontatelier.com",linkedin:"https://linkedin.com/in/simonebeaumont",twitter:"",instagram:"@beaumontatelier",facebook:"",lastContacted:"2026-03-22",tags:["luxury","fashion","editorial","high value"],createdAt:"2026-03-01"},
-    {id:11,firstName:"DeShawn",lastName:"Watkins",email:"deshawn@elevateagency.co",phone:"(323) 555-0943",address:"3535 Cahuenga Blvd W",city:"Los Angeles",state:"CA",zip:"90068",organization:"Elevate Agency",title:"Founder",stage:"closed",value:6000,ranking:2,headshot:"",notes:"Competing agency — had conversation about white-labeling. Gone quiet. Worth revisiting in Q3.",website:"https://elevateagency.co",linkedin:"https://linkedin.com/in/deshawnwatkins",twitter:"",instagram:"",facebook:"",lastContacted:"2026-01-20",tags:["agency","white-label","Q3"],createdAt:"2025-11-15"},
-    {id:12,firstName:"Nadia",lastName:"Petrov",email:"nadia@solarpeak.energy",phone:"(213) 555-0476",address:"444 S Flower St",city:"Los Angeles",state:"CA",zip:"90071",organization:"Solar Peak Energy",title:"VP Marketing",stage:"active",value:14000,ranking:4,headshot:"",notes:"Running lead gen for residential solar. Strong CPL improvements over 60 days. Wants to expand to 3 new markets.",website:"https://solarpeak.energy",linkedin:"https://linkedin.com/in/nadiapetrov",twitter:"@solarpeak",instagram:"@solarpeak.energy",facebook:"",lastContacted:"2026-03-28",tags:["energy","active campaign","expansion"],createdAt:"2025-10-01"}
+    {id:1,firstName:"Sarah",lastName:"Kim",email:"sarah.kim@apexrealty.com",phone:"(310) 555-0182",address:"1234 Wilshire Blvd",city:"Los Angeles",state:"CA",zip:"90025",organization:"Apex Realty Group",title:"Principal Broker",stage:"new",value:8000,ranking:4,source:"prospect",nextAction:"Send capability deck",nextActionDue:"2026-04-18",media:{headshot:"",businessCard:"",noteCard:""},otterTranscripts:[],notes:"Interested in full digital marketing package. Met at LA Real Estate Summit. Follow up after Q1 closes.",website:"https://apexrealty.com",linkedin:"https://linkedin.com/in/sarahkim",twitter:"",instagram:"@apexrealtyla",facebook:"",lastContacted:"2026-03-20",tags:["real estate","high value"],createdAt:"2026-01-15"},
+    {id:2,firstName:"Marcus",lastName:"Webb",email:"marcus@westcoastboxing.com",phone:"(213) 555-0394",address:"890 S Grand Ave",city:"Los Angeles",state:"CA",zip:"90015",organization:"WestCoast Boxing",title:"Owner & Head Coach",stage:"new",value:5000,ranking:3,source:"prospect",nextAction:"Follow up on quote",nextActionDue:"2026-04-20",headshot:"",notes:"Wants social media management + local Meta ads. Budget is flexible if we show results.",website:"https://westcoastboxing.com",linkedin:"",twitter:"@wcboxing",instagram:"@westcoastboxingla",facebook:"",lastContacted:"2026-03-18",tags:["fitness","local"],createdAt:"2026-02-01"},
+    {id:3,firstName:"Jordan",lastName:"Elias",email:"jordan@thevaultgym.com",phone:"(323) 555-0271",address:"4501 Hollywood Blvd",city:"Los Angeles",state:"CA",zip:"90027",organization:"The Vault Gym",title:"CEO",stage:"warm",value:12000,ranking:5,source:"prospect",nextAction:"Deliver proposal",nextActionDue:"2026-04-14",headshot:"",notes:"Had second call on 3/15. Very interested in full funnel — Meta ads, email, landing pages. Wants proposal by April 1.",website:"https://thevaultgym.com",linkedin:"https://linkedin.com/in/jordanelias",twitter:"",instagram:"@thevaultgym",facebook:"https://facebook.com/thevaultgym",lastContacted:"2026-03-15",tags:["fitness","proposal ready","hot"],createdAt:"2026-01-20"},
+    {id:4,firstName:"Priya",lastName:"Mehta",email:"priya@bloomwellness.co",phone:"(818) 555-0047",address:"2200 Ventura Blvd",city:"Studio City",state:"CA",zip:"91604",organization:"Bloom Wellness",title:"Founder",stage:"warm",value:7000,ranking:4,source:"prospect",nextAction:"Send price sheet",nextActionDue:"2026-04-16",headshot:"",notes:"Wellness spa — wants Google Ads + Instagram growth. Discussed brand voice. Needs price sheet.",website:"https://bloomwellness.co",linkedin:"",twitter:"",instagram:"@bloomwellnessla",facebook:"",lastContacted:"2026-03-12",tags:["wellness","instagram"],createdAt:"2026-02-10"},
+    {id:5,firstName:"David",lastName:"Chen",email:"d.chen@pacificlegalgroup.com",phone:"(213) 555-0819",address:"633 W 5th St, Suite 2800",city:"Los Angeles",state:"CA",zip:"90071",organization:"Pacific Legal Group",title:"Managing Partner",stage:"active",value:18000,ranking:5,source:"client",nextAction:"Monthly reporting call",nextActionDue:"2026-04-15",headshot:"",notes:"Running Meta lead gen campaign. High intent leads coming in. Monthly reporting call scheduled for Apr 3.",website:"https://pacificlegalgroup.com",linkedin:"https://linkedin.com/in/davidchenlaw",twitter:"",instagram:"",facebook:"",lastContacted:"2026-04-07",tags:["legal","active campaign","high value"],createdAt:"2025-11-01"},
+    {id:6,firstName:"Monica",lastName:"Torres",email:"monica@casaverdeLA.com",phone:"(323) 555-0562",address:"1456 Sunset Blvd",city:"Los Angeles",state:"CA",zip:"90026",organization:"Casa Verde Restaurant",title:"Owner",stage:"active",value:4500,ranking:3,source:"client",nextAction:"Budget review meeting",nextActionDue:"2026-04-17",headshot:"",notes:"Soft launch Meta + Google campaign live. ROAS tracking well. Monthly budget review next week.",website:"https://casaverdela.com",linkedin:"",twitter:"",instagram:"@casaverdeLA",facebook:"https://facebook.com/casaverdeLA",lastContacted:"2026-04-06",tags:["restaurant","food & bev"],createdAt:"2026-01-05"},
+    {id:7,firstName:"Alex",lastName:"Rodriguez",email:"alex@sunsetauto.com",phone:"(310) 555-0334",address:"9200 Sepulveda Blvd",city:"Los Angeles",state:"CA",zip:"90045",organization:"Sunset Auto Group",title:"General Manager",stage:"closed",value:3000,ranking:2,source:"prospect",nextAction:"Re-engage with case study",nextActionDue:"2026-05-01",headshot:"",notes:"Went cold after initial quote. Follow up in Q2. May respond to a case study from a similar business.",website:"",linkedin:"",twitter:"",instagram:"",facebook:"https://facebook.com/sunsetautogroup",lastContacted:"2026-02-01",tags:["auto","re-engage Q2"],createdAt:"2025-12-10"},
+    {id:8,firstName:"Kezia",lastName:"Okafor",email:"kezia@okaforbrands.com",phone:"(323) 555-0701",address:"800 W Olympic Blvd",city:"Los Angeles",state:"CA",zip:"90015",organization:"Okafor Brands",title:"Brand Director",stage:"new",value:9500,ranking:4,source:"prospect",nextAction:"Discovery call",nextActionDue:"2026-04-15",headshot:"",notes:"Brand strategy + paid media inquiry. Came in via referral from David Chen. First call scheduled Apr 5.",website:"https://okaforbrands.com",linkedin:"https://linkedin.com/in/keziaokafor",twitter:"@keziaokafor",instagram:"@okaforbrands",facebook:"",lastContacted:"2026-04-05",tags:["brand","referral"],createdAt:"2026-03-20"},
+    {id:9,firstName:"Tariq",lastName:"Hasan",email:"tariq@labrickcoffee.com",phone:"(213) 555-0129",address:"1100 S Hope St",city:"Los Angeles",state:"CA",zip:"90015",organization:"LA Brick Coffee",title:"Co-Founder",stage:"warm",value:5500,ranking:3,source:"prospect",nextAction:"Follow up on content proposal",nextActionDue:"2026-04-19",headshot:"",notes:"Multi-location coffee brand. Wants full content strategy + Meta Ads for grand opening of 3rd location.",website:"https://labrickcoffee.com",linkedin:"",twitter:"",instagram:"@labrickcoffee",facebook:"https://facebook.com/labrickcoffee",lastContacted:"2026-03-10",tags:["food & bev","growth"],createdAt:"2026-02-25"},
+    {id:10,firstName:"Simone",lastName:"Beaumont",email:"simone@beaumontatelier.com",phone:"(310) 555-0255",address:"434 N Rodeo Dr",city:"Beverly Hills",state:"CA",zip:"90210",organization:"Beaumont Atelier",title:"Creative Director",stage:"warm",value:22000,ranking:5,source:"prospect",nextAction:"Present editorial proposal",nextActionDue:"2026-04-20",headshot:"",notes:"Luxury fashion atelier. Wants luxury-tier digital ads and editorial-style content. Very brand-conscious — match the aesthetic.",website:"https://beaumontatelier.com",linkedin:"https://linkedin.com/in/simonebeaumont",twitter:"",instagram:"@beaumontatelier",facebook:"",lastContacted:"2026-03-22",tags:["luxury","fashion","editorial","high value"],createdAt:"2026-03-01"},
+    {id:11,firstName:"DeShawn",lastName:"Watkins",email:"deshawn@elevateagency.co",phone:"(323) 555-0943",address:"3535 Cahuenga Blvd W",city:"Los Angeles",state:"CA",zip:"90068",organization:"Elevate Agency",title:"Founder",stage:"closed",value:6000,ranking:2,source:"prospect",nextAction:"White-label conversation Q3",nextActionDue:"2026-07-01",headshot:"",notes:"Competing agency — had conversation about white-labeling. Gone quiet. Worth revisiting in Q3.",website:"https://elevateagency.co",linkedin:"https://linkedin.com/in/deshawnwatkins",twitter:"",instagram:"",facebook:"",lastContacted:"2026-01-20",tags:["agency","white-label","Q3"],createdAt:"2025-11-15"},
+    {id:12,firstName:"Nadia",lastName:"Petrov",email:"nadia@solarpeak.energy",phone:"(213) 555-0476",address:"444 S Flower St",city:"Los Angeles",state:"CA",zip:"90071",organization:"Solar Peak Energy",title:"VP Marketing",stage:"active",value:14000,ranking:4,source:"client",nextAction:"Expansion market briefing",nextActionDue:"2026-04-18",headshot:"",notes:"Running lead gen for residential solar. Strong CPL improvements over 60 days. Wants to expand to 3 new markets.",website:"https://solarpeak.energy",linkedin:"https://linkedin.com/in/nadiapetrov",twitter:"@solarpeak",instagram:"@solarpeak.energy",facebook:"",lastContacted:"2026-04-08",tags:["energy","active campaign","expansion"],createdAt:"2025-10-01"},
+    {id:13,firstName:"Marcus",lastName:"Jensen",email:"m.jensen@elcamino.edu",phone:"(310) 660-3100",address:"16007 Crenshaw Blvd",city:"Torrance",state:"CA",zip:"90506",organization:"El Camino College",title:"Dean of Career Education",stage:"new",value:0,ranking:3,source:"apollo-cte",nextAction:"Initial outreach email",nextActionDue:"2026-04-22",headshot:"",notes:"CTE-tagged contact from Apollo export. Community college with active workforce programs.",website:"https://elcamino.edu",linkedin:"",twitter:"",instagram:"",facebook:"",lastContacted:"",tags:["higher-ed","CTE","apollo"],createdAt:"2026-04-13"},
+    {id:14,firstName:"Rita",lastName:"Okonkwo",email:"r.okonkwo@riohondo.edu",phone:"(562) 908-3400",address:"3600 Workman Mill Rd",city:"Whittier",state:"CA",zip:"90601",organization:"Rio Hondo College",title:"VP of Workforce Development",stage:"new",value:0,ranking:3,source:"apollo-cte",nextAction:"Initial outreach email",nextActionDue:"2026-04-22",headshot:"",notes:"CTE-tagged contact from Apollo export. Strong WFD focus, potential enrollment marketing partner.",website:"https://riohondo.edu",linkedin:"",twitter:"",instagram:"",facebook:"",lastContacted:"",tags:["higher-ed","CTE","apollo"],createdAt:"2026-04-13"},
+    {id:15,firstName:"Emilie",lastName:"Becker",email:"emilie@rebuildingrelay.org",phone:"",address:"",city:"Los Angeles",state:"CA",zip:"",organization:"Rebuilding California",title:"Producer",stage:"active",value:0,ranking:4,source:"event",nextAction:"Post-summit debrief",nextActionDue:"2026-04-21",headshot:"",notes:"Solution Summit producer. Key crew contact for future Rebuilding CA events.",website:"",linkedin:"",twitter:"",instagram:"",facebook:"",lastContacted:"2026-02-21",tags:["event","rebuilding-ca"],createdAt:"2026-01-10"}
   ];
 
   function loadContacts() {
@@ -3996,11 +4327,26 @@ body {
   function getFilteredContacts() {
     const q = (document.getElementById('crm-search')?.value || '').toLowerCase();
     const stage = document.getElementById('crm-stage-filter')?.value || '';
+    const source = document.getElementById('crm-source-filter')?.value || '';
     const rank = parseInt(document.getElementById('crm-rank-filter')?.value) || 0;
     return loadContacts().filter(c => {
       const hay = `${c.firstName} ${c.lastName} ${c.organization} ${c.email} ${(c.tags||[]).join(' ')}`.toLowerCase();
-      return (!q || hay.includes(q)) && (!stage || c.stage === stage) && (!rank || c.ranking >= rank);
+      return (!q || hay.includes(q)) && (!stage || c.stage === stage) && (!source || c.source === source) && (!rank || c.ranking >= rank);
     });
+  }
+
+  function daysSince(dateStr) {
+    if (!dateStr) return 999;
+    const last = new Date(dateStr);
+    const now = new Date();
+    return Math.floor((now - last) / (1000 * 60 * 60 * 24));
+  }
+
+  function staleBadge(lastContacted) {
+    const d = daysSince(lastContacted);
+    if (d >= 30) return `<span class="stale-badge stale-danger">&#9888; ${d}d no contact</span>`;
+    if (d >= 14) return `<span class="stale-badge stale-warn">&#9679; ${d}d since contact</span>`;
+    return '';
   }
 
   function stars(n, empty=false) {
@@ -4035,6 +4381,252 @@ body {
 
   const STAGE_BADGE = {new:'badge-new',warm:'badge-warm',active:'badge-active',closed:'badge-closed'};
   const STAGE_LABEL = {new:'New',warm:'Warm',active:'Active',closed:'Closed'};
+
+  // ── CRM MODE (contacts / deals) ───────────────────────
+  let crmMode = 'contacts';
+  function setCRMMode(mode) {
+    crmMode = mode;
+    document.getElementById('crm-mode-contacts').classList.toggle('active', mode === 'contacts');
+    document.getElementById('crm-mode-deals').classList.toggle('active', mode === 'deals');
+    document.getElementById('crm-contacts-view').style.display = mode === 'contacts' ? '' : 'none';
+    document.getElementById('crm-deals-view').style.display = mode === 'deals' ? '' : 'none';
+    if (mode === 'deals') renderDeals();
+  }
+
+  // ── DEALS PIPELINE DATA ───────────────────────────────
+  const DEALS_KEY = 'meridian_deals';
+  const DEALS_SEED = [
+    {id:'D001', name:'McGuire Law / CalFireLawyers.com', client:'McGuire Law', value:30000, stage:'proposal-sent',
+     sentDate:'2026-03-01', lastActivity:'2026-03-20', nextAction:'Follow up on Phase 1 approval', nextActionDue:'2026-04-15',
+     description:'Phase 1 landing page + booking ($7K), Phase 2 paid media ($15.5K), Phase 3 event-day ($7.5K)',
+     notes:'Proposal covers 3 phases over 90 days. Awaiting signature.'},
+    {id:'D002', name:'Gold Coast Co — Fire Recovery Campaign', client:'Gold Coast Co', value:49000, stage:'negotiating',
+     sentDate:'2026-02-15', lastActivity:'2026-04-01', nextAction:'Confirm Phase 1 brand foundation scope', nextActionDue:'2026-04-17',
+     description:'3-phase fire recovery campaign: brand foundation ($5K), content/video ($12.5K), ad campaign ($12.5K) + $10K media + $9K mgmt',
+     notes:'Client wants to reduce Phase 2 budget. Hold firm on media min.'},
+    {id:'D003', name:'CA Community Foundation — Stronger Together', client:'CA Community Foundation', value:25000, stage:'proposal-sent',
+     sentDate:'2026-01-20', lastActivity:'2026-02-25', nextAction:'Post-event close conversation', nextActionDue:'2026-04-20',
+     description:'Lead sponsor package for Stronger Together wildfire recovery event, Feb 21 Pasadena Convention Center',
+     notes:'Event has passed. Following up on sponsorship conversion and next engagement.'},
+    {id:'D004', name:'Flagstaff Academy — Enrollment Marketing', client:'Flagstaff Academy Charter School', value:99000, stage:'active',
+     sentDate:'2026-01-10', lastActivity:'2026-04-08', nextAction:'Phase 2 milestone review', nextActionDue:'2026-04-22',
+     description:'11-month enrollment marketing program: 3 phases, full-funnel lead→tour→enroll system, SmartSuite CRM integration',
+     notes:'Largest active engagement. Running well — Phase 1 complete, Phase 2 underway.'},
+    {id:'D005', name:'SDSU RFP #7060 — Recruitment Advertising', client:'San Diego State University', value:130000, stage:'proposal-sent',
+     sentDate:'2026-03-15', lastActivity:'2026-03-15', nextAction:'RFP follow-up with procurement contact', nextActionDue:'2026-04-16',
+     description:'Recruitment advertising services: Sports MBA program ($130K) + Global Campus option ($700K). 49-page response submitted.',
+     notes:'Major RFP. DNA Agency qualified as woman-owned LLC. Needs persistent follow-through — procurement offices move slowly.'},
+    {id:'D006', name:'Sierra Joint CCD — Digital Marketing', client:'Sierra Joint Community College District', value:46000, stage:'won',
+     sentDate:'2025-10-01', lastActivity:'2026-04-01', nextAction:'Invoice #1138 — next billing cycle', nextActionDue:'2026-05-01',
+     description:'BI/Mech/IT site management + BI/Mech/IT/ADVM media push. Invoice #1137 paid ($46K).',
+     notes:'Ongoing retainer. Invoice #1137 paid. Active client.'}
+  ];
+
+  function loadDeals() {
+    try { return JSON.parse(localStorage.getItem(DEALS_KEY)) || [...DEALS_SEED]; }
+    catch(e) { return [...DEALS_SEED]; }
+  }
+  function saveDeals(d) { localStorage.setItem(DEALS_KEY, JSON.stringify(d)); }
+
+  const DEAL_STAGES = [
+    {key:'prospect',    label:'Prospect',      color:'#9B8EC4'},
+    {key:'proposal-sent', label:'Proposal Sent', color:'#C9A84C'},
+    {key:'negotiating', label:'Negotiating',   color:'#E07B39'},
+    {key:'active',      label:'Active',        color:'#2C4A3E'},
+    {key:'won',         label:'Won',           color:'#27AE60'},
+    {key:'lost',        label:'Lost',          color:'#c0392b'}
+  ];
+
+  function renderDeals() {
+    const deals = loadDeals();
+    const today = new Date();
+    const container = document.getElementById('deals-pipeline-container');
+    if (!container) return;
+
+    // KPI bar
+    const totalVal = deals.filter(d => d.stage !== 'lost').reduce((s,d) => s+d.value, 0);
+    const activeCount = deals.filter(d => ['proposal-sent','negotiating','active'].includes(d.stage)).length;
+    const wonVal = deals.filter(d => d.stage === 'won').reduce((s,d) => s+d.value, 0);
+    const staleDeals = deals.filter(d => d.stage !== 'won' && d.stage !== 'lost' && daysSince(d.lastActivity) >= 14);
+
+    const fmt = (n) => '$' + (n >= 1000 ? Math.round(n/1000) + 'K' : n.toLocaleString());
+
+    container.innerHTML = `
+      <div class="kpi-bar" style="margin-bottom:1.5rem">
+        <div class="kpi"><div class="kpi-value">${fmt(totalVal)}</div><div class="kpi-label">Pipeline Value</div></div>
+        <div class="kpi"><div class="kpi-value">${activeCount}</div><div class="kpi-label">Open Deals</div></div>
+        <div class="kpi"><div class="kpi-value">${fmt(wonVal)}</div><div class="kpi-label">Closed Won</div></div>
+        <div class="kpi"><div class="kpi-value" style="color:${staleDeals.length > 0 ? '#c0392b' : 'var(--forest)'}">${staleDeals.length}</div><div class="kpi-label">Stale Deals</div></div>
+      </div>
+      <div class="deals-pipeline">
+        ${DEAL_STAGES.map(s => {
+          const stageDealsList = deals.filter(d => d.stage === s.key);
+          const stageVal = stageDealsList.reduce((sum,d) => sum+d.value, 0);
+          return `<div class="deal-col">
+            <div class="deal-col-header" style="border-top:3px solid ${s.color}">
+              <div class="deal-col-label">${s.label} <span style="font-size:0.72rem;color:var(--forest-mid);font-weight:400">(${stageDealsList.length})</span></div>
+              ${stageVal > 0 ? `<div class="deal-col-value">${fmt(stageVal)}</div>` : ''}
+            </div>
+            <div class="deal-cards">
+              ${stageDealsList.length ? stageDealsList.map(d => {
+                const d_since = daysSince(d.lastActivity);
+                const isStale = d_since >= 14 && !['won','lost'].includes(d.stage);
+                return `<div class="deal-card" onclick="openDealDetail('${d.id}')">
+                  <div class="deal-name">${d.name}</div>
+                  <div class="deal-value">${fmt(d.value)}</div>
+                  <div class="deal-meta">${d.client}</div>
+                  ${d.nextAction ? `<div class="deal-next-action">
+                    <span class="deal-next-label">Next Action</span>
+                    ${d.nextAction}${d.nextActionDue ? ` <span style="color:var(--gold-deep);font-weight:700"> · ${d.nextActionDue}</span>` : ''}
+                  </div>` : ''}
+                  ${isStale ? `<span class="stale-badge ${d_since >= 30 ? 'stale-danger' : 'stale-warn'}">&#9888; ${d_since}d no activity</span>` : ''}
+                </div>`;
+              }).join('') : `<div style="padding:0.75rem;font-size:0.82rem;color:var(--forest-mid);font-style:italic">No deals</div>`}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  function openDealDetail(dealId) {
+    const deals = loadDeals();
+    const d = deals.find(x => x.id === dealId);
+    if (!d) return;
+    const fmt = (n) => '$' + (n >= 1000 ? Math.round(n/1000) + 'K' : n.toLocaleString());
+    const stageLabel = DEAL_STAGES.find(s => s.key === d.stage)?.label || d.stage;
+    openDrillOverlay(`
+      <h2 style="font-family:'DM Serif Display',serif;color:var(--forest);margin-bottom:0.25rem">${d.name}</h2>
+      <div style="font-size:0.85rem;color:var(--forest-mid);margin-bottom:1.5rem">${d.client} &nbsp;·&nbsp; ${stageLabel}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+        <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep)">Deal Value</div><div style="font-size:1.8rem;font-weight:700;color:var(--forest)">${fmt(d.value)}</div></div>
+        <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep)">Last Activity</div><div style="font-size:1rem;font-weight:600;color:var(--forest)">${d.lastActivity || '—'}</div></div>
+      </div>
+      <div style="margin-bottom:1rem"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.4rem">Scope</div><div style="font-size:0.9rem;color:var(--charcoal);line-height:1.5">${d.description}</div></div>
+      ${d.nextAction ? `<div style="background:var(--cream);border:1px solid var(--parchment);padding:0.75rem 1rem;margin-bottom:1rem"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.3rem">Next Action</div><div style="font-size:0.9rem;color:var(--charcoal)">${d.nextAction}${d.nextActionDue ? ` <span style="color:var(--gold-deep);font-weight:700">· Due ${d.nextActionDue}</span>` : ''}</div></div>` : ''}
+      ${d.notes ? `<div style="font-size:0.85rem;color:var(--forest-mid);font-style:italic;line-height:1.5">${d.notes}</div>` : ''}
+    `);
+  }
+
+  // ── NOTIFICATION DIGEST ───────────────────────────────
+  let digestOpen = false;
+  function toggleDigest() {
+    digestOpen = !digestOpen;
+    const panel = document.getElementById('digest-panel');
+    if (digestOpen) {
+      buildDigest();
+      panel.style.display = '';
+    } else {
+      panel.style.display = 'none';
+    }
+    // close on outside click
+    if (digestOpen) {
+      setTimeout(() => {
+        document.addEventListener('click', closeDigestOutside, {once:true});
+      }, 50);
+    }
+  }
+  function closeDigestOutside(e) {
+    const panel = document.getElementById('digest-panel');
+    const bell = document.getElementById('notif-bell-btn');
+    if (panel && !panel.contains(e.target) && !bell.contains(e.target)) {
+      panel.style.display = 'none';
+      digestOpen = false;
+    }
+  }
+
+  function buildDigest() {
+    const today = new Date();
+    const dateLabel = today.toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
+    document.getElementById('digest-date').textContent = dateLabel;
+
+    // Stale deals
+    const deals = loadDeals();
+    const staleDeals = deals.filter(d => !['won','lost'].includes(d.stage) && daysSince(d.lastActivity) >= 14);
+
+    // Upcoming task deadlines (next 7 days)
+    const campaigns = loadCampaigns();
+    const soonTasks = [];
+    campaigns.forEach(c => {
+      (c.activities || []).forEach(a => {
+        if (a.status !== 'done' && a.dueDate) {
+          const diff = Math.ceil((new Date(a.dueDate) - today) / (1000 * 60 * 60 * 24));
+          if (diff >= 0 && diff <= 7) soonTasks.push({campaign:c.name, task:a.name, dueDate:a.dueDate, diff});
+        }
+      });
+    });
+    soonTasks.sort((a,b) => a.diff - b.diff);
+
+    // Grant deadlines (next 30 days)
+    const grants = loadGrants ? loadGrants() : [];
+    const urgentGrants = grants.filter(g => {
+      if (!g.deadline || g.status === 'awarded' || g.status === 'declined') return false;
+      const diff = Math.ceil((new Date(g.deadline) - today) / (1000 * 60 * 60 * 24));
+      return diff >= 0 && diff <= 30;
+    });
+    urgentGrants.sort((a,b) => new Date(a.deadline) - new Date(b.deadline));
+
+    // Stale contacts (not deals) no contact in 30+ days, non-closed
+    const contacts = loadContacts();
+    const staleContacts = contacts.filter(c => c.stage !== 'closed' && daysSince(c.lastContacted) >= 21);
+
+    // Update badge
+    const totalAlerts = staleDeals.length + soonTasks.length + urgentGrants.length;
+    const badge = document.getElementById('notif-count');
+    badge.textContent = totalAlerts;
+    badge.style.display = totalAlerts > 0 ? 'flex' : 'none';
+
+    let html = '';
+
+    if (staleDeals.length) {
+      html += `<div class="digest-section">
+        <div class="digest-section-label">&#9888; Stale Deals (${staleDeals.length})</div>
+        ${staleDeals.map(d => `<div class="digest-item"><span class="digest-dot">&#9679;</span><span><strong>${d.name}</strong><br><span style="font-size:0.78rem;color:var(--forest-mid)">${daysSince(d.lastActivity)}d no activity · Next: ${d.nextAction || 'Not set'}</span></span></div>`).join('')}
+      </div>`;
+    }
+
+    if (soonTasks.length) {
+      html += `<div class="digest-section">
+        <div class="digest-section-label">&#9200; Due This Week (${soonTasks.length})</div>
+        ${soonTasks.map(t => `<div class="digest-item"><span class="digest-dot">&#9679;</span><span><strong>${t.task}</strong> &mdash; ${t.campaign}<br><span style="font-size:0.78rem;color:var(--forest-mid)">Due ${t.dueDate}${t.diff === 0 ? ' &mdash; <strong style="color:#c0392b">Today</strong>' : t.diff === 1 ? ' &mdash; Tomorrow' : ''}</span></span></div>`).join('')}
+      </div>`;
+    }
+
+    if (urgentGrants.length) {
+      html += `<div class="digest-section">
+        <div class="digest-section-label">&#128196; Grant Deadlines (${urgentGrants.length})</div>
+        ${urgentGrants.map(g => {
+          const diff = Math.ceil((new Date(g.deadline) - today) / (1000 * 60 * 60 * 24));
+          return `<div class="digest-item"><span class="digest-dot">&#9679;</span><span><strong>${g.name}</strong><br><span style="font-size:0.78rem;color:var(--forest-mid)">Due ${g.deadline} &mdash; ${diff}d remaining</span></span></div>`;
+        }).join('')}
+      </div>`;
+    }
+
+    if (staleContacts.length) {
+      html += `<div class="digest-section">
+        <div class="digest-section-label">&#128100; Contacts to Reconnect (${staleContacts.length})</div>
+        ${staleContacts.slice(0,3).map(c => `<div class="digest-item"><span class="digest-dot">&#9679;</span><span><strong>${c.firstName} ${c.lastName}</strong> &mdash; ${c.organization}<br><span style="font-size:0.78rem;color:var(--forest-mid)">${daysSince(c.lastContacted)}d since last contact${c.nextAction ? ' · ' + c.nextAction : ''}</span></span></div>`).join('')}
+        ${staleContacts.length > 3 ? `<div style="font-size:0.78rem;color:var(--forest-mid);padding:0.2rem 0">+${staleContacts.length - 3} more</div>` : ''}
+      </div>`;
+    }
+
+    if (!html) {
+      html = `<div class="digest-empty">All caught up. No urgent items today.</div>`;
+    }
+
+    document.getElementById('digest-content').innerHTML = html;
+  }
+
+  // ── GANTT SHORTCUT ────────────────────────────────────
+  function switchToGantt() {
+    // Switch to Operations tab and set gantt view
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const opsTab = document.querySelector('[data-tab="operations"]');
+    if (opsTab) opsTab.classList.add('active');
+    const opsContent = document.getElementById('operations');
+    if (opsContent) opsContent.classList.add('active');
+    switchOpsView('gantt');
+  }
 
   function renderCRMKPIs() {
     const all = loadContacts();
@@ -4075,9 +4667,11 @@ body {
               <div class="contact-card" onclick="openContact(${c.id})">
                 <div class="contact-name">${c.firstName} ${c.lastName}</div>
                 <div class="contact-co">${c.organization}</div>
-                <div style="font-size:0.92rem;color:var(--gold);margin:0.25rem 0 0.5rem">${stars(c.ranking)}</div>
-                <div class="contact-footer">
-                  <div class="contact-value">$${c.value.toLocaleString()}</div>
+                <div style="font-size:0.92rem;color:var(--gold);margin:0.25rem 0 0.3rem">${stars(c.ranking)}</div>
+                ${c.nextAction ? `<div style="font-size:0.76rem;color:var(--forest-mid);margin-bottom:0.2rem;line-height:1.3"><span style="font-weight:700;color:var(--gold-deep);text-transform:uppercase;font-size:0.65rem;letter-spacing:0.08em">Next: </span>${c.nextAction}${c.nextActionDue ? ' <span style="color:var(--forest-mid)">· '+c.nextActionDue+'</span>' : ''}</div>` : ''}
+                ${staleBadge(c.lastContacted)}
+                <div class="contact-footer" style="margin-top:0.4rem">
+                  ${c.value > 0 ? `<div class="contact-value">$${c.value.toLocaleString()}</div>` : '<div></div>'}
                   <span class="badge ${STAGE_BADGE[stage]}">${STAGE_LABEL[stage]}</span>
                 </div>
               </div>`).join('')
@@ -4991,12 +5585,27 @@ body {
       const e = c.endDate ? parseDate(c.endDate) : null;
       if (s && (!minDate || s < minDate)) minDate = s;
       if (e && (!maxDate || e > maxDate)) maxDate = e;
+      // Also scan activity dueDates for range
+      (c.activities || []).forEach(a => {
+        const ad = a.dueDate ? parseDate(a.dueDate) : null;
+        if (ad && (!minDate || ad < minDate)) minDate = ad;
+        if (ad && (!maxDate || ad > maxDate)) maxDate = ad;
+      });
     });
-    if (!minDate) minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    if (!maxDate) maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    
-    minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate() - 7);
-    maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate() + 7);
+    if (!minDate) minDate = new Date(today.getFullYear(), today.getMonth() - 2, 1);
+    if (!maxDate) maxDate = new Date(today.getFullYear(), today.getMonth() + 3, 0);
+
+    // Pad by 14 days on each side
+    minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate() - 14);
+    maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate() + 14);
+
+    // Enforce minimum 3-month span so bars aren't compressed
+    const minSpanMs = 90 * 24 * 60 * 60 * 1000;
+    if ((maxDate - minDate) < minSpanMs) {
+      const mid = new Date((minDate.getTime() + maxDate.getTime()) / 2);
+      minDate = new Date(mid.getTime() - minSpanMs / 2);
+      maxDate = new Date(mid.getTime() + minSpanMs / 2);
+    }
 
     const totalMs = maxDate - minDate;
     if (totalMs <= 0) return '<div style="color:#aaa;padding:20px;text-align:center">Invalid date range.</div>';
@@ -5095,7 +5704,13 @@ body {
       </div>${actRows}`;
     }).join('');
 
+    // Calculate min-width: ~120px per month shown
+    const monthsSpan = Math.max(3, Math.ceil(totalMs / (30 * 24 * 60 * 60 * 1000)));
+    const barAreaMinW = Math.max(500, monthsSpan * 120);
+    const totalMinW = 260 + barAreaMinW;
+
     return `<div style="background:var(--white);border:1px solid var(--parchment);overflow-x:auto">
+      <div style="min-width:${totalMinW}px">
       <div style="display:flex;border-bottom:2px solid var(--parchment);background:var(--cream)">
         <div style="flex:0 0 260px;padding:0.5rem 0.75rem;font-size:0.75rem;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:0.08em">Campaign / Deliverable</div>
         <div style="flex:1;position:relative;height:28px;">${monthLabels.join('')}${todayLine}</div>
@@ -5104,6 +5719,7 @@ body {
       <div style="display:flex;align-items:center;gap:1.2rem;padding:0.6rem 0.75rem;border-top:1px solid var(--parchment);background:var(--cream);flex-wrap:wrap">
         ${Object.entries(phaseColors).map(([ph, col]) => `<div style="display:flex;align-items:center;gap:0.4rem"><div style="width:14px;height:8px;background:${col};border-radius:1px"></div><span style="font-size:0.75rem;color:var(--forest-mid);text-transform:capitalize">${ph}</span></div>`).join('')}
         <div style="display:flex;align-items:center;gap:0.4rem"><div style="width:2px;height:14px;background:#e74c3c;opacity:0.7"></div><span style="font-size:0.75rem;color:var(--forest-mid)">Today</span></div>
+      </div>
       </div>
     </div>`;
   }
@@ -6246,8 +6862,8 @@ body {
 
   // ── NEW DASHBOARD RENDERERS ─────────────────────────────
 
-  const DASH_FMT = n => '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:0});
-  const DASH_FMT_K = n => n >= 10000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + n.toLocaleString('en-US', {minimumFractionDigits:0});
+  const DASH_FMT = n => '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
+  const DASH_FMT_K = n => n >= 10000 ? '$' + (n/1000).toFixed(1) + 'K' : '$' + n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
 
   const DONUT_COLORS = ['#2C4A3E','#C9A84C','#C0392B','#2980B9','#8E44AD','#E67E22'];
 
@@ -6388,13 +7004,13 @@ body {
           const expH = Math.max((monthlyExpense[i] / maxBar) * 130, 2);
           return `
             <div class="fin-cf-col">
-              <div style="display:flex;flex-direction:column;align-items:center;gap:0.15rem;margin-bottom:0.3rem">
-                <div style="font-size:0.62rem;font-weight:700;color:var(--green)">${DASH_FMT_K(monthlyIncome[i])}</div>
-                <div style="font-size:0.62rem;font-weight:700;color:var(--ember)">${DASH_FMT_K(monthlyExpense[i])}</div>
-              </div>
               <div class="fin-cf-bars">
-                <div class="fin-cf-bar" style="height:${incH}px;background:var(--green)"></div>
-                <div class="fin-cf-bar" style="height:${expH}px;background:var(--ember)"></div>
+                <div class="fin-cf-bar" style="height:${incH}px;background:var(--green)">
+                  <span class="fin-cf-val" style="color:var(--green)">${DASH_FMT_K(monthlyIncome[i])}</span>
+                </div>
+                <div class="fin-cf-bar" style="height:${expH}px;background:var(--ember)">
+                  <span class="fin-cf-val" style="color:var(--ember)">${DASH_FMT_K(monthlyExpense[i])}</span>
+                </div>
               </div>
               <div class="fin-cf-label">${m}</div>
             </div>`;
@@ -6595,7 +7211,8 @@ body {
     {id:'QB-015', customer:'Pacific Legal Group',     amount:6500,  status:'Open',    date:'2026-04-01', description:'Website Redesign Phase 2'},
     {id:'QB-016', customer:'Momentum Fitness',        amount:2200,  status:'Open',    date:'2026-04-05', description:'Video Production Sprint'},
     {id:'QB-017', customer:'Rebuilding California',   amount:1800,  status:'Sent',    date:'2026-04-07', description:'Q1 Impact Report'},
-    {id:'QB-018', customer:'Solara Skincare',         amount:3400,  status:'Open',    date:'2026-04-02', description:'Spring Collection Creative'}
+    {id:'QB-018', customer:'Solara Skincare',         amount:3400,  status:'Open',    date:'2026-04-02', description:'Spring Collection Creative'},
+    {id:'QB-019', customer:'Sierra Joint CCD',        amount:46000, status:'Paid',    date:'2026-02-28', description:'Invoice #1137 — BI/Mech/IT Site Mgmt + BI/Mech/IT/ADVM Media Push (6 line items)'}
   ];
 
   const QB_EXPENSES_DEMO = [
@@ -8160,28 +8777,131 @@ function drillCampaignSpend() {
 
   // ── P&L DRILL-DOWN FUNCTIONS ──────────────────────────
   function drillPLRevenue() {
-    // Show all "Paid" invoices
     const paidInvoices = QB_INVOICES_DEMO.filter(inv => inv.status === 'Paid');
-    const items = paidInvoices.map(inv => ({label: inv.customer, amount: inv.amount, detail: inv.description}));
-    showDrill('YTD Revenue', items, 'Income');
+    const total = paidInvoices.reduce((s,i) => s + i.amount, 0);
+    const rows = paidInvoices.map(inv => `
+      <tr style="border-bottom:1px solid var(--parchment)">
+        <td style="padding:0.5rem;color:var(--forest);font-weight:600">${inv.customer}</td>
+        <td style="padding:0.5rem;color:var(--forest-mid)">${inv.description}</td>
+        <td style="padding:0.5rem;font-size:0.82rem;color:#999">${inv.date}</td>
+        <td style="padding:0.5rem;text-align:right;font-weight:700;color:var(--green)">${DASH_FMT(inv.amount)}</td>
+      </tr>`).join('');
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">YTD Revenue</div>
+            <div class="drill-sub">${paidInvoices.length} paid invoices · Total: ${DASH_FMT(total)}</div>
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button>
+        </div>
+        <table class="drill-table">
+          <thead><tr><th>Client</th><th>Description</th><th>Date</th><th style="text-align:right">Amount</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`);
   }
 
   function drillPLExpenses() {
-    // Show all expense categories with item counts
-    const expenseItems = QB_EXPENSES_DEMO.map(exp => ({label: exp.category, amount: exp.amount}));
-    showDrill('YTD Expenses', expenseItems, 'Expense');
+    const total = QB_EXPENSES_DEMO.reduce((s,e) => s + e.amount, 0);
+    const rows = QB_EXPENSES_DEMO.map((exp, i) => `
+      <tr style="border-bottom:1px solid var(--parchment);cursor:pointer" onclick="drillSpendingCategory('${exp.category.replace(/'/g, "\\'")}')">
+        <td style="padding:0.5rem">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${DONUT_COLORS[i % DONUT_COLORS.length]};margin-right:0.4rem;vertical-align:middle"></span>
+          <span style="color:var(--forest);font-weight:600">${exp.category}</span>
+        </td>
+        <td style="padding:0.5rem;text-align:center;color:var(--forest-mid)">${exp.items ? exp.items.length : '—'} items</td>
+        <td style="padding:0.5rem;text-align:right;font-weight:700;color:var(--ember)">${DASH_FMT(exp.amount)}</td>
+        <td style="padding:0.5rem;text-align:right;color:#999;font-size:0.8rem">${((exp.amount/total)*100).toFixed(0)}%</td>
+      </tr>`).join('');
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">YTD Expenses</div>
+            <div class="drill-sub">${QB_EXPENSES_DEMO.length} categories · Total: ${DASH_FMT(total)} · Click a category for details</div>
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button>
+        </div>
+        <table class="drill-table">
+          <thead><tr><th>Category</th><th style="text-align:center">Items</th><th style="text-align:right">Amount</th><th style="text-align:right">%</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`);
   }
 
   function drillPLNet() {
-    // Show net income breakdown (Revenue - Expenses)
     const paidInvoices = QB_INVOICES_DEMO.filter(inv => inv.status === 'Paid');
-    const totalRevenue = paidInvoices.reduce((sum, inv) => sum + inv.amount, 0);
-    const totalExpenses = QB_EXPENSES_DEMO.reduce((sum, exp) => sum + exp.amount, 0);
-    const items = [
-      {label: 'Total Revenue', amount: totalRevenue},
-      {label: 'Total Expenses', amount: -totalExpenses}
-    ];
-    showDrill('Net Income', items, 'Calculation');
+    const totalRevenue = paidInvoices.reduce((s,i) => s + i.amount, 0);
+    const totalExpenses = QB_EXPENSES_DEMO.reduce((s,e) => s + e.amount, 0);
+    const net = totalRevenue - totalExpenses;
+    const margin = totalRevenue > 0 ? ((net / totalRevenue) * 100).toFixed(1) : 0;
+    // Revenue by client
+    const byClient = {};
+    paidInvoices.forEach(inv => { byClient[inv.customer] = (byClient[inv.customer] || 0) + inv.amount; });
+    const clientRows = Object.entries(byClient).sort((a,b) => b[1]-a[1]).map(([c,a]) => `
+      <tr style="border-bottom:1px solid var(--parchment)">
+        <td style="padding:0.4rem 0.5rem;color:var(--forest)">${c}</td>
+        <td style="padding:0.4rem 0.5rem;text-align:right;color:var(--green);font-weight:600">+${DASH_FMT(a)}</td>
+      </tr>`).join('');
+    const expRows = QB_EXPENSES_DEMO.map(e => `
+      <tr style="border-bottom:1px solid var(--parchment)">
+        <td style="padding:0.4rem 0.5rem;color:var(--forest)">${e.category}</td>
+        <td style="padding:0.4rem 0.5rem;text-align:right;color:var(--ember);font-weight:600">-${DASH_FMT(e.amount)}</td>
+      </tr>`).join('');
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">Net Income: ${(net >= 0 ? '+' : '-') + DASH_FMT(net)}</div>
+            <div class="drill-sub">Margin: ${margin}% · Revenue: ${DASH_FMT(totalRevenue)} · Expenses: ${DASH_FMT(totalExpenses)}</div>
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div>
+            <div style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:0.5rem">Revenue by Client</div>
+            <table class="drill-table"><tbody>${clientRows}</tbody></table>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ember);margin-bottom:0.5rem">Expenses by Category</div>
+            <table class="drill-table"><tbody>${expRows}</tbody></table>
+          </div>
+        </div>
+      </div>`);
+  }
+
+  function drillCashOnHand() {
+    const cards = [];
+    for (const [bank, accounts] of Object.entries(BANK_ACCOUNTS_DEMO)) {
+      accounts.forEach(acct => cards.push({ bank, ...acct }));
+    }
+    const totalCash = cards.reduce((s,c) => s + c.balance, 0);
+    const rows = cards.map(c => {
+      const balColor = c.balance < 0 ? 'var(--ember)' : 'var(--green)';
+      return `
+      <tr style="border-bottom:1px solid var(--parchment)">
+        <td style="padding:0.5rem;color:var(--forest);font-weight:600">${c.bank}</td>
+        <td style="padding:0.5rem;color:var(--forest-mid)">${c.name} ••${c.mask}</td>
+        <td style="padding:0.5rem;color:var(--forest-mid)">${c.type}</td>
+        <td style="padding:0.5rem;text-align:right;font-weight:700;color:${balColor}">${(c.balance < 0 ? '-' : '') + DASH_FMT(c.balance)}</td>
+        ${c.available !== undefined ? `<td style="padding:0.5rem;text-align:right;color:#999">${DASH_FMT(c.available)}</td>` : '<td></td>'}
+      </tr>`;
+    }).join('');
+    openDrillOverlay(`
+      <div class="drill-panel">
+        <div class="drill-header">
+          <div>
+            <div class="drill-title">Cash on Hand: ${DASH_FMT(totalCash)}</div>
+            <div class="drill-sub">${cards.length} accounts across ${Object.keys(BANK_ACCOUNTS_DEMO).length} institutions</div>
+          </div>
+          <button class="btn-drill-close" onclick="closeDrill()">Close &times;</button>
+        </div>
+        <table class="drill-table">
+          <thead><tr><th>Bank</th><th>Account</th><th>Type</th><th style="text-align:right">Balance</th><th style="text-align:right">Available</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`);
   }
 
   function drillSpendingCategory(categoryName) {
