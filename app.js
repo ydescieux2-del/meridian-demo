@@ -115,14 +115,15 @@
 
   // ── CAMPAIGN DATA ──────────────────────────────────────
   const CAMPAIGNS_KEY = 'meridian_campaigns';
-  const CAMPAIGNS_DATA_VERSION = 5; // Bumped: clear labor data to fix missing category field
+  const CAMPAIGNS_DATA_VERSION = 6; // Bumped: force-clear all meridian keys
   // Auto-clear stale localStorage when data version changes
   (function() {
     const storedVer = parseInt(localStorage.getItem('meridian_data_version') || '0');
     if (storedVer < CAMPAIGNS_DATA_VERSION) {
-      localStorage.removeItem('meridian_campaigns');
-      localStorage.removeItem('meridian_labor');
-      localStorage.removeItem('meridian_contacts');
+      // Clear all meridian keys to ensure clean seed data on every version bump
+      Object.keys(localStorage)
+        .filter(k => k.startsWith('meridian_') && k !== 'meridian_auth' && k !== 'meridian_user')
+        .forEach(k => localStorage.removeItem(k));
       localStorage.setItem('meridian_data_version', String(CAMPAIGNS_DATA_VERSION));
     }
   })();
@@ -2741,7 +2742,9 @@
   function renderCampaignLaborCosts() {
     const el = document.getElementById('campaign-labor-cost-table');
     if (!el) return;
-    const labor = loadLaborTracking();
+    let labor = loadLaborTracking();
+    // Explicit seed fallback — if localStorage returns nothing useful, use seed directly
+    if (!labor || !labor.length) labor = [...LABOR_TRACKING_SEED];
     const campaigns = loadCampaigns();
     const billable = labor.filter(l => !l.category || l.category !== 'Internal');
 
